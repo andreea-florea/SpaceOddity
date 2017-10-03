@@ -15,8 +15,8 @@ namespace Game.Tests
         [TestInitialize]
         public void Init()
         {
-            mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            mockObserver = new Mock<IBlueprintBuilderObserver>();
+            mockBlueprintBuilder = new Mock<IBlueprintBuilder>(MockBehavior.Loose);
+            mockObserver = new Mock<IBlueprintBuilderObserver>(MockBehavior.Loose);
             observableBlueprintBuilder = new ObservableBlueprintBuilder(mockBlueprintBuilder.Object);
             observableBlueprintBuilder.AttachObserver(mockObserver.Object);
         }
@@ -33,8 +33,6 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObservableBlueprintBuilderReturnsCorrectBlock()
         {
-            //FLORIN, CE NAIBA, E BINE???
-
             MockBlock mockBlock = new MockBlock();
             mockBlueprintBuilder.Setup(x => x.GetBlock(3, 2)).Returns(mockBlock);
             Assert.AreEqual(mockBlock, observableBlueprintBuilder.GetBlock(3, 2));
@@ -46,35 +44,36 @@ namespace Game.Tests
         public void CheckIfObserverIsInformedOfCreatedBlock()
         {
             mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(true);
+            mockObserver.Setup(mock => mock.BlockCreated(mockBlueprintBuilder.Object, 5, 6));
             observableBlueprintBuilder.CreateBlock(5, 6);
-            mockObserver.Verify(x => x.BlockCreated(mockBlueprintBuilder.Object, 5, 6)); //??? habar nu am
+            mockObserver.Verify(x => x.BlockCreated(observableBlueprintBuilder, 5, 6), Times.Once());
         }
 
-        //[TestMethod]
-        //public void ObserverShouldNotBeInformedIfNoBlockIsCreated()
-        //{
-        //    mockBlueprintBuilder.CanCreateBlock = false;
-        //    observableBlueprintBuilder.CreateBlock(5, 6);
-        //    Assert.AreEqual(0, mockObserver.X);
-        //    Assert.AreEqual(0, mockObserver.Y);
-        //}
+        [TestMethod]
+        public void ObserverShouldNotBeInformedIfNoBlockIsCreated()
+        {
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(false);
+            mockObserver.Setup(mock => mock.BlockCreated(mockBlueprintBuilder.Object, 5, 6));
+            observableBlueprintBuilder.CreateBlock(5, 6);
+            mockObserver.Verify(x => x.BlockCreated(observableBlueprintBuilder, 5, 6), Times.Never());
+        }
 
-        //[TestMethod]
-        //public void CheckIfObserverIsInformedOfDeletedBlock()
-        //{
-        //    mockBlueprintBuilder.CanDeleteBlock = true;
-        //    observableBlueprintBuilder.DeleteBlock(5, 6);
-        //    Assert.AreEqual(6, mockObserver.X);
-        //    Assert.AreEqual(5, mockObserver.Y);
-        //}
+        [TestMethod]
+        public void CheckIfObserverIsInformedOfDeletedBlock()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(true);
+            mockObserver.Setup(mock => mock.BlockDeleted(mockBlueprintBuilder.Object, 5, 6));
+            observableBlueprintBuilder.DeleteBlock(5, 6);
+            mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
+        }
 
-        //[TestMethod]
-        //public void ObserverShouldNotBeInformedIfNoBlockIsDeleted()
-        //{
-        //    mockBlueprintBuilder.CanDeleteBlock = false;
-        //    observableBlueprintBuilder.DeleteBlock(5, 6);
-        //    Assert.AreEqual(0, mockObserver.X);
-        //    Assert.AreEqual(0, mockObserver.Y);
-        //}
+        [TestMethod]
+        public void ObserverShouldNotBeInformedIfNoBlockIsDeleted()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(false);
+            mockObserver.Setup(mock => mock.BlockDeleted(mockBlueprintBuilder.Object, 5, 6));
+            observableBlueprintBuilder.DeleteBlock(5, 6);
+            mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, 5, 6), Times.Never());
+        }
     }
 }
