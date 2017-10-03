@@ -63,10 +63,6 @@
   <ItemGroup>
     <Compile Include="BlockFactoryTest.cs" />
     <Compile Include="BlueprintBuilderTest.cs" />
-    <Compile Include="Mocks\MockBlock.cs" />
-    <Compile Include="Mocks\MockBlockFactory.cs" />
-    <Compile Include="Mocks\MockBlueprintBuilder.cs" />
-    <Compile Include="Mocks\MockBlueprintBuilderObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ObservableBlueprintBuilderTest.cs" />
   </ItemGroup>

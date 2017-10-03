@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Game.Tests.Mocks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Game.Tests
@@ -33,18 +31,16 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObservableBlueprintBuilderReturnsCorrectBlock()
         {
-            MockBlock mockBlock = new MockBlock();
-            mockBlueprintBuilder.Setup(x => x.GetBlock(3, 2)).Returns(mockBlock);
-            Assert.AreEqual(mockBlock, observableBlueprintBuilder.GetBlock(3, 2));
-            mockBlueprintBuilder.Verify(x => x.GetBlock(3, 2));
-            
+            var mockBlock = new Mock<IBlock>();
+            mockBlueprintBuilder.Setup(x => x.GetBlock(3, 2)).Returns(mockBlock.Object);
+            Assert.AreEqual(mockBlock.Object, observableBlueprintBuilder.GetBlock(3, 2));
+            mockBlueprintBuilder.Verify(x => x.GetBlock(3, 2), Times.Once());       
         }
 
         [TestMethod]
         public void CheckIfObserverIsInformedOfCreatedBlock()
         {
             mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(true);
-            mockObserver.Setup(mock => mock.BlockCreated(mockBlueprintBuilder.Object, 5, 6));
             observableBlueprintBuilder.CreateBlock(5, 6);
             mockObserver.Verify(x => x.BlockCreated(observableBlueprintBuilder, 5, 6), Times.Once());
         }
@@ -53,16 +49,14 @@ namespace Game.Tests
         public void ObserverShouldNotBeInformedIfNoBlockIsCreated()
         {
             mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(false);
-            mockObserver.Setup(mock => mock.BlockCreated(mockBlueprintBuilder.Object, 5, 6));
             observableBlueprintBuilder.CreateBlock(5, 6);
-            mockObserver.Verify(x => x.BlockCreated(observableBlueprintBuilder, 5, 6), Times.Never());
+            mockObserver.Verify(x => x.BlockCreated(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
 
         [TestMethod]
         public void CheckIfObserverIsInformedOfDeletedBlock()
         {
             mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(true);
-            mockObserver.Setup(mock => mock.BlockDeleted(mockBlueprintBuilder.Object, 5, 6));
             observableBlueprintBuilder.DeleteBlock(5, 6);
             mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
         }
@@ -71,9 +65,8 @@ namespace Game.Tests
         public void ObserverShouldNotBeInformedIfNoBlockIsDeleted()
         {
             mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(false);
-            mockObserver.Setup(mock => mock.BlockDeleted(mockBlueprintBuilder.Object, 5, 6));
             observableBlueprintBuilder.DeleteBlock(5, 6);
-            mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, 5, 6), Times.Never());
+            mockObserver.Verify(x => x.BlockDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
     }
 }
