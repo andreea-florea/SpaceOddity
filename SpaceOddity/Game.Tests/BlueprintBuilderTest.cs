@@ -49,5 +49,21 @@ namespace Game.Tests
             Assert.IsTrue(blueprintBuilder.CreateBlock(4, 5));
             Assert.AreEqual(mockBlockFactory.Block, blueprintBuilder.GetBlock(4, 5));
         }
+
+        [TestMethod]
+        public void CheckIfExistentBlockIsDeletedSuccessfully()
+        {
+            Assert.IsTrue(blueprintBuilder.CreateBlock(4, 5));
+            Assert.AreNotEqual(null, blueprint[4, 5]);
+            Assert.IsTrue(blueprintBuilder.DeleteBlock(4, 5));
+            Assert.AreEqual(null, blueprint[4, 5]);
+        }
+
+        [TestMethod]
+        public void CheckThatInexistentBlockCannotBeDeleted()
+        {
+            Assert.AreEqual(null, blueprint[4, 5]);
+            Assert.IsFalse(blueprintBuilder.DeleteBlock(4, 5));
+        }
     }
 }

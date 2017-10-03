@@ -16,5 +16,11 @@ namespace Game.Tests.Mocks
             X = x;
             Y = y;
         }
+
+        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

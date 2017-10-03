@@ -14,6 +14,8 @@ namespace Game.Tests.Mocks
 
         public bool CanCreateBlock { get; set; }
 
+        public bool CanDeleteBlock { get; set; }
+
         public MockBlock Block { get; private set; }
 
         public int GetBlockY { get; private set; }
@@ -31,11 +33,16 @@ namespace Game.Tests.Mocks
             return CanCreateBlock;
         }
 
+        public bool DeleteBlock(int y, int x)
+        {
+            return CanDeleteBlock;
+        }
+
         public IBlock GetBlock(int y, int x)
         {
             GetBlockY = y;
             GetBlockX = x;
             return Block;
-        }
+        } 
     }
 }

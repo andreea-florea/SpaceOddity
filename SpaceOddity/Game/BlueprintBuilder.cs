@@ -32,7 +32,6 @@ namespace Game
             this.blockFactory = blockFactory;
         }
 
-
         public IBlock GetBlock(int y, int x)
         {
             return blueprint[y, x];
@@ -46,6 +45,17 @@ namespace Game
                 return true;
             }
             return false;
+        }
+
+        public bool DeleteBlock(int y, int x)
+        {
+            if (blueprint[y, x] == null)
+            {
+                return false;
+            }
+
+            blueprint[y, x] = null;
+            return true;
         }
     }
 }

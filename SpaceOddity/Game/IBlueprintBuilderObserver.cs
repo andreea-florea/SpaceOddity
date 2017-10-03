@@ -9,5 +9,6 @@ namespace Game
     public interface IBlueprintBuilderObserver
     {
         void BlockCreated(IBlueprintBuilder blueprintBuilder, int y, int x);
+        void BlockDeleted(IBlueprintBuilder blueprintBuilder, int y, int x);
     }
 }

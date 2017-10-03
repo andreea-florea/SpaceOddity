@@ -12,5 +12,6 @@ namespace Game
         int Height { get; }
         IBlock GetBlock(int y, int x);
         bool CreateBlock(int y, int x);
+        bool DeleteBlock(int y, int x);
     }
 }

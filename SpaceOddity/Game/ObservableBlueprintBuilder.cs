@@ -40,6 +40,18 @@ namespace Game
             {
                 NotifyObserverOfBlockCreated(y, x);
             }
+
+            return success;
+        }
+
+        public bool DeleteBlock(int y, int x)
+        {
+            var success = baseBuilder.DeleteBlock(y, x);
+            if (success)
+            {
+                NotifyObserverOfBlockDeleted(y, x);
+            }
+
             return success;
         }
 
@@ -51,6 +63,14 @@ namespace Game
             }
         }
 
+        private void NotifyObserverOfBlockDeleted(int y, int x)
+        {
+            foreach (var observer in observers)
+            {
+                observer.BlockDeleted(this, y, x);
+            }
+        }
+
         public void AttachObserver(IBlueprintBuilderObserver observer)
         {
             observers.Add(observer);
@@ -59,6 +79,6 @@ namespace Game
         public IBlock GetBlock(int y, int x)
         {
             return baseBuilder.GetBlock(y, x);
-        }
+        }    
     }
 }

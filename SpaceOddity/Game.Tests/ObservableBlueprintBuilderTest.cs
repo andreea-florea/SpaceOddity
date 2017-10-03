@@ -28,7 +28,7 @@ namespace Game.Tests
         }
 
         [TestMethod]
-        public void CheckIfObserverbaleBlueprintBuilderCorrectBlock()
+        public void CheckIfObservableBlueprintBuilderReturnsCorrectBlock()
         {
             Assert.AreEqual(mockBlueprintBuilder.Block, observableBlueprintBuilder.GetBlock(3, 2));
             Assert.AreEqual(2, mockBlueprintBuilder.GetBlockX);
@@ -49,6 +49,24 @@ namespace Game.Tests
         {
             mockBlueprintBuilder.CanCreateBlock = false;
             observableBlueprintBuilder.CreateBlock(5, 6);
+            Assert.AreEqual(0, mockObserver.X);
+            Assert.AreEqual(0, mockObserver.Y);
+        }
+
+        [TestMethod]
+        public void CheckIfObserverIsInformedOfDeletedBlock()
+        {
+            mockBlueprintBuilder.CanDeleteBlock = true;
+            observableBlueprintBuilder.DeleteBlock(5, 6);
+            Assert.AreEqual(6, mockObserver.X);
+            Assert.AreEqual(5, mockObserver.Y);
+        }
+
+        [TestMethod]
+        public void ObserverShouldNotBeInformedIfNoBlockIsDeleted()
+        {
+            mockBlueprintBuilder.CanDeleteBlock = false;
+            observableBlueprintBuilder.DeleteBlock(5, 6);
             Assert.AreEqual(0, mockObserver.X);
             Assert.AreEqual(0, mockObserver.Y);
         }
