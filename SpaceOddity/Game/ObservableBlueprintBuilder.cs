@@ -40,16 +40,24 @@ namespace Game
             {
                 NotifyObserverOfBlockCreated(y, x);
             }
+            else
+            {
+                NotifyObserverOfErrorWhenCreatingBlock(y, x);
+            }
 
             return success;
         }
-
+    
         public bool DeleteBlock(int y, int x)
         {
             var success = baseBuilder.DeleteBlock(y, x);
             if (success)
             {
                 NotifyObserverOfBlockDeleted(y, x);
+            }
+            else
+            {
+                NotifyObserverOfErrorWhenDeletingBlock(y, x);
             }
 
             return success;
@@ -60,6 +68,22 @@ namespace Game
             foreach (var observer in observers)
             {
                 observer.BlockCreated(this, y, x);
+            }
+        }
+
+        private void NotifyObserverOfErrorWhenCreatingBlock(int y, int x)
+        {
+            foreach (var observer in observers)
+            {
+                observer.ErrorBlockNotCreated(this, y, x);
+            }
+        }
+
+        private void NotifyObserverOfErrorWhenDeletingBlock(int y, int x)
+        {
+            foreach (var observer in observers)
+            {
+                observer.ErrorBlockNotDeleted(this, y, x);
             }
         }
 

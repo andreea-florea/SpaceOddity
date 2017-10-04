@@ -68,5 +68,37 @@ namespace Game.Tests
             observableBlueprintBuilder.DeleteBlock(5, 6);
             mockObserver.Verify(x => x.BlockDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
+
+        [TestMethod]
+        public void CheckThatObserverSendsErrorMessageWhenCannotCreateBlock()
+        {
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(false);
+            observableBlueprintBuilder.CreateBlock(5, 6);
+            mockObserver.Verify(x => x.ErrorBlockNotCreated(observableBlueprintBuilder, 5, 6), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatObserverDoesntSendErrorMessageWhenBlockCreated()
+        {
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(true);
+            observableBlueprintBuilder.CreateBlock(5, 6);
+            mockObserver.Verify(x => x.ErrorBlockNotCreated(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckThatObserverSendsErrorMessageWhenCannotDeleteBlock()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(false);
+            observableBlueprintBuilder.DeleteBlock(5, 6);
+            mockObserver.Verify(x => x.ErrorBlockNotDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatObserverDoesntSendErrorMessageWhenBlockDeleted()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(true);
+            observableBlueprintBuilder.DeleteBlock(5, 6);
+            mockObserver.Verify(x => x.ErrorBlockNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+        }
     }
 }
