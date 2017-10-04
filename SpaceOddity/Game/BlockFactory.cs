@@ -10,17 +10,15 @@ namespace Game
     public class BlockFactory : IBlockFactory
     {
         private double weight;
-        private IShipComponent shipComponent;
 
-        public BlockFactory(double weight, IShipComponent shipComponent)
+        public BlockFactory(double weight)
         {
             this.weight = weight;
-            this.shipComponent = shipComponent;
         }
 
         public IBlock CreateBlock()
         {
-            return new Block(weight, shipComponent);
+            return new Block(weight);
         }
     }
 }

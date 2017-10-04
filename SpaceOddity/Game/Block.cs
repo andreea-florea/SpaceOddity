@@ -13,10 +13,9 @@ namespace Game
 
         public IShipComponent ShipComponent { get; private set; }
 
-        public Block(double weight, IShipComponent shipComponent)
+        public Block(double weight)
         {
             Weight = weight;
-            ShipComponent = shipComponent;
         }
 
         public bool AddShipComponent(IShipComponent component)

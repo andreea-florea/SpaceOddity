@@ -10,23 +10,13 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfBlockFactoryCreatesBlocksWithCorrectWeight()
         {
-            var blockFactory = new BlockFactory(5.2, null);
+            var blockFactory = new BlockFactory(5.2);
             var block = blockFactory.CreateBlock();
             Assert.AreEqual(block.Weight, 5.2);
 
-            blockFactory = new BlockFactory(5, null);
+            blockFactory = new BlockFactory(5);
             block = blockFactory.CreateBlock();
             Assert.AreEqual(block.Weight, 5);
-        }
-
-        [TestMethod]
-        public void CheckIfBlockFactoryCreatesBlocksWithCorrectShipComponent()
-        {
-            var mockShipComponent = new Mock<IShipComponent>();
-
-            var blockFactory = new BlockFactory(5.2, mockShipComponent.Object);
-            var block = blockFactory.CreateBlock();
-            Assert.AreEqual(mockShipComponent.Object, block.ShipComponent);
         }
     }
 }
