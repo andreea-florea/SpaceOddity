@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace ViewModel.Interfaces
 {
     public interface IRectangle
     {
-        double Width { get; }
-        double Height { get; }
+        Vector2 TopLeftCorner { get; }
+        Vector2 BottomRightCorner { get; }
+        IRectangle[,] Split(int width, int height);
     }
 }

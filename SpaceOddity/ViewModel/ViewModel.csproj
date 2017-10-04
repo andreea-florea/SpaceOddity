@@ -44,6 +44,12 @@
     <Compile Include="Rectangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.csproj">
+      <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
+      <Name>Geometry</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
