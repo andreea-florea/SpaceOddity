@@ -47,13 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battery.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockFactory.cs" />
     <Compile Include="BlueprintBuilder.cs" />
-    <Compile Include="IBlock.cs" />
-    <Compile Include="IBlockFactory.cs" />
-    <Compile Include="IBlueprintBuilder.cs" />
-    <Compile Include="IBlueprintBuilderObserver.cs" />
+    <Compile Include="Interfaces\IBlock.cs" />
+    <Compile Include="Interfaces\IBlockFactory.cs" />
+    <Compile Include="Interfaces\IBlueprintBuilder.cs" />
+    <Compile Include="Interfaces\IBlueprintBuilderObserver.cs" />
+    <Compile Include="Interfaces\IShipComponent.cs" />
     <Compile Include="ObservableBlueprintBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Interfaces;
 
 namespace Game
 {
@@ -56,6 +57,11 @@ namespace Game
 
             blueprint[y, x] = null;
             return true;
+        }
+
+        public bool AddShipComponent(IShipComponent component)
+        {
+            return false;
         }
     }
 }
