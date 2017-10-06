@@ -11,12 +11,14 @@ namespace Game.Tests
         private BlueprintBuilder blueprintBuilder;
         private Mock<IBlockFactory> mockBlockFactory;
         private Mock<IBlock> mockBlock;
+        private Mock<IShipComponent> mockShipComponent;
 
         [TestInitialize]
         public void Init()
         {
             blueprint = new IBlock[9, 10];
             mockBlock = new Mock<IBlock>();
+            mockShipComponent = new Mock<IShipComponent>();
             mockBlockFactory = new Mock<IBlockFactory>();
             blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object);
         }
@@ -66,6 +68,23 @@ namespace Game.Tests
         {
             Assert.AreEqual(null, blueprint[4, 5]);
             Assert.IsFalse(blueprintBuilder.DeleteBlock(4, 5));
+        }
+
+        [TestMethod]
+        public void CheckIfShipComponentIsAddedCorrectlyOnBlockOnBlueprint()
+        {
+            mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            blueprint[4, 5] = mockBlock.Object;
+            Assert.IsTrue(blueprintBuilder.AddShipComponent(4, 5, mockShipComponent.Object));
+            Assert.AreEqual(mockShipComponent.Object, blueprint[4, 5].ShipComponent);
+            mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatShipComponentCannotBeAddedOnInexistentBlock()
+        {
+            Assert.IsFalse(blueprintBuilder.AddShipComponent(4, 5, mockShipComponent.Object));
+            mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Never());
         }
     }
 }

@@ -13,5 +13,8 @@ namespace Game.Interfaces
 
         void BlockDeleted(IBlueprintBuilder blueprintBuilder, int y, int x);
         void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, int y, int x);
+
+        void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, int y, int x);
+        void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, int y, int x);
     }
 }

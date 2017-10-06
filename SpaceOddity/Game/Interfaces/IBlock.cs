@@ -11,5 +11,7 @@ namespace Game.Interfaces
         double Weight { get; }
 
         IShipComponent ShipComponent { get; }
+
+        void AddShipComponent(IShipComponent component);
     }
 }

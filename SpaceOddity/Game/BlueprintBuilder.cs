@@ -59,8 +59,14 @@ namespace Game
             return true;
         }
 
-        public bool AddShipComponent(IShipComponent component)
+        public bool AddShipComponent(int y, int x, IShipComponent component)
         {
+            if (blueprint[y, x] != null)
+            {
+                blueprint[y, x].AddShipComponent(component);
+                return true;
+            }
+
             return false;
         }
     }

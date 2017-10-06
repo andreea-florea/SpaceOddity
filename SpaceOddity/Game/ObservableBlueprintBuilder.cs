@@ -64,6 +64,22 @@ namespace Game
             return success;
         }
 
+        public bool AddShipComponent(int y, int x, IShipComponent shipComponent)
+        {
+            var success = baseBuilder.AddShipComponent(y, x, shipComponent);
+
+            if (success)
+            {
+                NotifyObserverOfShipComponentAdded(y, x);
+            }
+            else
+            {
+                NotifyObserverOfErrorWhenAddingShipComponent(y, x);
+            }
+
+            return success;
+        }
+
         private void NotifyObserverOfBlockCreated(int y, int x)
         {
             foreach (var observer in observers)
@@ -93,6 +109,22 @@ namespace Game
             foreach (var observer in observers)
             {
                 observer.BlockDeleted(this, y, x);
+            }
+        }
+
+        private void NotifyObserverOfShipComponentAdded(int y, int x)
+        {
+            foreach (var observer in observers)
+            {
+                observer.ShipComponentAdded(this, y, x);
+            }
+        }
+
+        private void NotifyObserverOfErrorWhenAddingShipComponent(int y, int x)
+        {
+            foreach (var observer in observers)
+            {
+                observer.ErrorShipComponentNotAdded(this, y, x);
             }
         }
 

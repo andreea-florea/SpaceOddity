@@ -18,9 +18,9 @@ namespace Game
             Weight = weight;
         }
 
-        public bool AddShipComponent(IShipComponent component)
+        public void AddShipComponent(IShipComponent shipComponent)
         {
-            return false;
+            ShipComponent = shipComponent;
         }
     }
 }
