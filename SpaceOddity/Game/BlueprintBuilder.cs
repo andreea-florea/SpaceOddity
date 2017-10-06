@@ -69,5 +69,16 @@ namespace Game
 
             return false;
         }
+
+        public bool DeleteShipComponent(int y, int x)
+        {
+            if (blueprint[y, x] != null && blueprint[y, x].ShipComponent != null)
+            {
+                blueprint[y, x].DeleteShipComponent();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -22,5 +22,10 @@ namespace Game
         {
             ShipComponent = shipComponent;
         }
+
+        public void DeleteShipComponent()
+        {
+            ShipComponent = null;
+        }
     }
 }

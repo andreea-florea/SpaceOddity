@@ -14,5 +14,6 @@ namespace Game.Interfaces
         bool CreateBlock(int y, int x);
         bool DeleteBlock(int y, int x);
         bool AddShipComponent(int y, int x, IShipComponent component);
+        bool DeleteShipComponent(int y, int x);
     }
 }

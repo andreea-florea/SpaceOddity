@@ -141,5 +141,39 @@ namespace Game.Tests
             mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
         #endregion
+
+        #region Delete Ship Component
+        [TestMethod]
+        public void CheckIfObserverIsInformedOfDeletedShipComponent()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(true);
+            observableBlueprintBuilder.DeleteShipComponent(5, 6);
+            mockObserver.Verify(x => x.ShipComponentDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
+        }
+
+        [TestMethod]
+        public void ObserverShouldNotBeInformedIfNoShipComponentIsDeleted()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(false);
+            observableBlueprintBuilder.DeleteShipComponent(5, 6);
+            mockObserver.Verify(x => x.ShipComponentDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckThatObserverSendsErrorMessageWhenCannotDeleteShipComponent()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(false);
+            observableBlueprintBuilder.DeleteShipComponent(5, 6);
+            mockObserver.Verify(x => x.ErrorShipComponentNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatObserverDoesntSendErrorMessageWhenDeletingShipComponent()
+        {
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(true);
+            observableBlueprintBuilder.DeleteShipComponent(5, 6);
+            mockObserver.Verify(x => x.ErrorShipComponentNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+        }
+        #endregion
     }
 }

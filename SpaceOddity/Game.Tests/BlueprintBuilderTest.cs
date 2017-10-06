@@ -86,5 +86,34 @@ namespace Game.Tests
             Assert.IsFalse(blueprintBuilder.AddShipComponent(4, 5, mockShipComponent.Object));
             mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Never());
         }
+
+        [TestMethod]
+        public void CheckIfShipComponentIsDeletedFromBlockOnBlueprint()
+        {
+            mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(x => x.DeleteShipComponent()).Callback(() => mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null));
+            blueprint[4, 5] = mockBlock.Object;
+            Assert.IsTrue(blueprintBuilder.AddShipComponent(4, 5, mockShipComponent.Object));            
+            Assert.IsTrue(blueprintBuilder.DeleteShipComponent(4, 5));
+            Assert.AreEqual(null, blueprint[4, 5].ShipComponent);
+            mockBlock.Verify(x => x.DeleteShipComponent(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatShipComponentCannotBeDeletedIfInexistent()
+        {
+            blueprint[4, 5] = mockBlock.Object;
+            mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null);
+            Assert.IsFalse(blueprintBuilder.DeleteShipComponent(4, 5));
+            mockBlock.Verify(x => x.DeleteShipComponent(), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckThatShipComponentCannotBeDeletedFromInexistentBlock()
+        {
+            mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null);
+            Assert.IsFalse(blueprintBuilder.DeleteShipComponent(4, 5));
+            mockBlock.Verify(x => x.DeleteShipComponent(), Times.Never());
+        }
     }
 }
