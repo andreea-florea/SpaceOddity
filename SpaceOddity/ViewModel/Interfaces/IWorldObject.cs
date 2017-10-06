@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ViewModel.Interfaces
 {
-    public interface IRectangle
+    public interface IWorldObject
     {
-        Vector2 TopLeftCorner { get; }
-        Vector2 BottomRightCorner { get; }
-        IRectangle[,] Split(int width, int height);
+        Vector2 Position { get; set; }
     }
 }

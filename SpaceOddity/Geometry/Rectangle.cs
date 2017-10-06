@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ViewModel.Interfaces;
 
-namespace ViewModel
+namespace Geometry
 {
-    public class Rectangle : IRectangle
+    public class Rectangle
     {
         public Vector2 TopLeftCorner { get; private set; }
         public Vector2 BottomRightCorner { get; private set; }
@@ -21,15 +20,23 @@ namespace ViewModel
             }
         }
 
+        public Vector2 Center
+        {
+            get
+            {
+                return TopLeftCorner + Dimensions * 0.5;
+            }
+        }
+
         public Rectangle(Vector2 topLeftCorner, Vector2 bottomRightCorner)
         {
             this.TopLeftCorner = topLeftCorner;
             this.BottomRightCorner = bottomRightCorner;
         }
 
-        public IRectangle[,] Split(int width, int height)
+        public Rectangle[,] Split(int width, int height)
         {
-            var splits = new IRectangle[height, width];
+            var splits = new Rectangle[height, width];
             var corners = CreateSplitCorners(width, height);
             for (var i = 0; i < height; ++i)
             {

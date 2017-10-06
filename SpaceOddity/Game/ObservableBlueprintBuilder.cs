@@ -7,7 +7,7 @@ using Game.Interfaces;
 
 namespace Game
 {
-    public class ObservableBlueprintBuilder : IBlueprintBuilder
+    public class ObservableBlueprintBuilder : IObservableBlueprintBuilder
     {
         private IBlueprintBuilder baseBuilder;
         private List<IBlueprintBuilderObserver> observers;
