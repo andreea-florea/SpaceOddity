@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ViewModel.Interfaces;
 using Moq;
+using ViewInterface;
 
 namespace ViewModel.Tests
 {

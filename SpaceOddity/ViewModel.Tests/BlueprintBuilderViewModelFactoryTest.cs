@@ -4,28 +4,44 @@ using Game.Interfaces;
 using Moq;
 using ViewModel.Interfaces;
 using Geometry;
+using System.Collections.Generic;
+using ViewInterface;
 
 namespace ViewModel.Tests
 {
     [TestClass]
     public class BlueprintBuilderViewModelFactoryTest
     {
+        private Mock<IWorldObjectFactory> mockSlotFactory;
+        private Mock<IWorldObject> mockObject;
+        private Mock<IObservableBlueprintBuilder> mockblueprintBuilder;
+        private BlueprintBuilderViewModelFactory viewModelFactory;
+
+        [TestInitialize]
+        public void Init()
+        {
+            mockSlotFactory = new Mock<IWorldObjectFactory>();
+            mockObject = new Mock<IWorldObject>();
+            mockblueprintBuilder = new Mock<IObservableBlueprintBuilder>();
+
+            viewModelFactory = new BlueprintBuilderViewModelFactory(mockSlotFactory.Object);
+
+            mockObject.SetupAllProperties();
+        }
 
         [TestMethod]
         public void BlueprintBuilderViewModelIsCreatedWithCorrectEmptySlots()
         {
-            var slotFactory = new Mock<IWorldObjectFactory>();
-            var mockObject = new Mock<IWorldObject>();
-            slotFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
-
-            var rectangle = new Rectangle(new Vector2(1, 2), new Vector2(5, 8));
-
-            var mockblueprintBuilder = new Mock<IObservableBlueprintBuilder>();
-            var viewModelFactory = new BlueprintBuilderViewModelFactory(slotFactory.Object);
+            mockSlotFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
 
             mockblueprintBuilder.Setup(builder => builder.Width).Returns(3);
             mockblueprintBuilder.Setup(builder => builder.Height).Returns(5);
-            var blueprintBuilderViewModel = viewModelFactory.CreateViewModel(mockblueprintBuilder.Object, rectangle);
+
+            var rectangle = new Mock<IRectangleSection>();
+            rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(), new Vector2()));
+
+            var blueprintBuilderViewModel =
+                viewModelFactory.CreateViewModel(mockblueprintBuilder.Object, rectangle.Object);
 
             Assert.AreEqual(3, blueprintBuilderViewModel.Width);
             Assert.AreEqual(5, blueprintBuilderViewModel.Height);
@@ -35,21 +51,44 @@ namespace ViewModel.Tests
         [TestMethod]
         public void ViewModelObjectsAreCreatedAtCorrectPositions()
         {
-            var slotFactory = new Mock<IWorldObjectFactory>();
-            var mockObject = new Mock<IWorldObject>();
-            slotFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
+            var testMockObject = new Mock<IWorldObject>();
+            testMockObject.SetupAllProperties();
 
-            var rectangle = new Rectangle(new Vector2(1, 2), new Vector2(5, 8));
+            mockSlotFactory.SetupSequence(factory => factory.CreateObject())
+                .Returns(mockObject.Object)
+                .Returns(mockObject.Object)
+                .Returns(mockObject.Object)
+                .Returns(testMockObject.Object)
+                .Returns(mockObject.Object)
+                .Returns(mockObject.Object);
 
-            var mockblueprintBuilder = new Mock<IObservableBlueprintBuilder>();
-            var viewModelFactory = new BlueprintBuilderViewModelFactory(slotFactory.Object);
+            var rectangle = new Mock<IRectangleSection>();
+            rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
 
-            mockblueprintBuilder.Setup(builder => builder.Width).Returns(3);
+            mockblueprintBuilder.Setup(builder => builder.Width).Returns(2);
+            mockblueprintBuilder.Setup(builder => builder.Height).Returns(3);
+            var blueprintBuilderViewModel = 
+                viewModelFactory.CreateViewModel(mockblueprintBuilder.Object, rectangle.Object);
+
+            Assert.AreEqual(4, testMockObject.Object.Position.X);
+            Assert.AreEqual(5, testMockObject.Object.Position.Y);
+        }
+
+        [TestMethod]
+        public void ViewModelObjectsAreCreatedWithCorrectScale()
+        {
+            mockSlotFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
+
+            var rectangle = new Mock<IRectangleSection>();
+            rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
+
+            mockblueprintBuilder.Setup(builder => builder.Width).Returns(2);
             mockblueprintBuilder.Setup(builder => builder.Height).Returns(2);
-            var blueprintBuilderViewModel = viewModelFactory.CreateViewModel(mockblueprintBuilder.Object, rectangle);
+            var blueprintBuilderViewModel = 
+                viewModelFactory.CreateViewModel(mockblueprintBuilder.Object, rectangle.Object);
 
-            //Assert.AreEqual(4, blueprintBuilderViewModel.GetSlot(1, 1).Position.X);
-            //Assert.AreEqual(6.5, blueprintBuilderViewModel.GetSlot(1, 1).Position.Y);
+            Assert.AreEqual(2, mockObject.Object.Scale.X);
+            Assert.AreEqual(3, mockObject.Object.Scale.Y);
         }
     }
 }

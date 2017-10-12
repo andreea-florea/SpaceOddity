@@ -80,5 +80,12 @@ namespace Geometry.Tests
             Assert.AreEqual(4, dividedVector.X);
             Assert.AreEqual(2, dividedVector.Y);
         }
+
+        [TestMethod]
+        public void CheckIfMagnitudeIsCalculatedDirectly()
+        {
+            var vector = new Vector2(3, 4);
+            Assert.AreEqual(5, vector.Magnitude);
+        }
     }
 }

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F1DDDC95-4C2C-4C6B-AE17-5285C621BF58}</ProjectGuid>
+    <ProjectGuid>{BD9FAAB7-8E55-43F4-B81F-8781DB1CD609}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ViewModel.Tests</RootNamespace>
-    <AssemblyName>ViewModel.Tests</AssemblyName>
+    <RootNamespace>WpfView.Tests</RootNamespace>
+    <AssemblyName>WpfView.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,12 +37,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.4.1.1\lib\net45\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.7.127\lib\net45\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -57,19 +62,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="RectangleTest.cs" />
+    <Compile Include="RectangleFrameworkElementFactoryTest.cs" />
+    <Compile Include="WpfWorldObjectFactoryTest.cs" />
+    <Compile Include="WpfWorldObjectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BlueprintBuilderViewModelFactoryTest.cs" />
-    <Compile Include="BlueprintBuilderViewModelTest.cs" />
-    <Compile Include="MarginRectangleSectionTest.cs" />
-    <Compile Include="AspectRatioRectangleSectionTest.cs" />
-    <Compile Include="FullRectangleSectionTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Game\Game.csproj">
-      <Project>{017cbef2-ad71-4d14-a04f-ddd57c27a98f}</Project>
-      <Name>Game</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Geometry\Geometry.csproj">
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
       <Name>Geometry</Name>
@@ -78,9 +76,9 @@
       <Project>{04a45286-6a72-47fc-a4fe-4b74a2553bd4}</Project>
       <Name>ViewInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
-      <Project>{dfc05f7a-3688-40e3-b417-1584a062bbb1}</Project>
-      <Name>ViewModel</Name>
+    <ProjectReference Include="..\WpfView\WpfView.csproj">
+      <Project>{3758a60e-e71f-4b21-9542-9904040ebe48}</Project>
+      <Name>WpfView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

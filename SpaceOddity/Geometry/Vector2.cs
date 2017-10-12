@@ -27,6 +27,14 @@ namespace Geometry
             }
         }
 
+        public double Magnitude
+        {
+            get
+            {
+                return Math.Sqrt(X * X + Y * Y);
+            }
+        }
+
         public Vector2(double x, double y) : this()
         {
             this.X = x;

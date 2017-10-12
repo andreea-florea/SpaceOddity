@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewInterface;
 using ViewModel.Interfaces;
 
 namespace ViewModel
@@ -18,10 +19,13 @@ namespace ViewModel
             this.slotFactory = slotFactory;
         }
 
-        public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, Rectangle fittingRectangle)
+        public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
             var slots = new IWorldObject[builder.Height, builder.Width];
-            var slotRects = fittingRectangle.Split(builder.Width, builder.Height);
+            var slotRects = fittingRectangle.Section.Split(builder.Width, builder.Height);
+
+            var size = new Vector2(builder.Width, builder.Height);
+            var scale = fittingRectangle.Section.Dimensions.Divide(size);
 
             for (var i = 0; i < builder.Height; ++i)
             {
@@ -29,6 +33,7 @@ namespace ViewModel
                 {
                     slots[i, j] = slotFactory.CreateObject();
                     slots[i, j].Position = slotRects[i, j].Center;
+                    slots[i, j].Scale = scale;
                 }
             }
 

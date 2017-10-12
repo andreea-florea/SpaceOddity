@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModel.Interfaces
+namespace ViewInterface
 {
     public interface IWorldObject
     {
         Vector2 Position { get; set; }
+        Vector2 Scale { get; set; }
     }
 }

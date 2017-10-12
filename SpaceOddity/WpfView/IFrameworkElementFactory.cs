@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace ViewModel.Interfaces
+namespace WpfView
 {
-    public interface IWorldObjectFactory
+    public interface IFrameworkElementFactory
     {
-        IWorldObject CreateObject();
+        FrameworkElement CreateElement();
     }
 }
