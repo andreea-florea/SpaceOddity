@@ -64,6 +64,8 @@
     <Compile Include="MarginRectangleSectionTest.cs" />
     <Compile Include="AspectRatioRectangleSectionTest.cs" />
     <Compile Include="FullRectangleSectionTest.cs" />
+    <Compile Include="BlueprintBuilderControllerTest.cs" />
+    <Compile Include="CreateBlockActionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Game\Game.csproj">

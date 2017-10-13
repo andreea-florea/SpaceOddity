@@ -26,7 +26,7 @@ namespace WpfView
         {
             var frameworkElement = frameworkElementFactory.CreateElement();
             canvas.Children.Add(frameworkElement);
-            return new WpfWorldObject(frameworkElement, new Vector2(), new Vector2());
+            return new WpfWorldObject(frameworkElement, new Vector2(), new Vector2(), new NoAction());
         }
     }
 }

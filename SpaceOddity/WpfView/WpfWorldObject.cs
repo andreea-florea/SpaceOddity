@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Shapes;
 using ViewInterface;
 
@@ -43,6 +44,19 @@ namespace WpfView
             }
         }
 
+        private IAction leftClickAction;
+        public IAction LeftClickAction 
+        {
+            get
+            {
+                return leftClickAction;
+            }
+            set
+            {
+                leftClickAction = value;
+            }
+        }
+
         private void UpdateElement()
         {
             var topLeftPosition = position - scale * 0.5;
@@ -52,11 +66,19 @@ namespace WpfView
             element.Width = scale.X;
         }
 
-        public WpfWorldObject(FrameworkElement element, Vector2 position, Vector2 scale)
+        public WpfWorldObject(FrameworkElement element, Vector2 position, Vector2 scale, IAction leftClickAction)
         {
             this.element = element;
             Position = position;
             Scale = scale;
+            LeftClickAction = leftClickAction;
+
+            element.MouseLeftButtonDown += ElementMouseLeftButtonDown;
+        }
+
+        private void ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            LeftClickAction.Execute();
         }
     }
 }

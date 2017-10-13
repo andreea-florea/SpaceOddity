@@ -11,5 +11,6 @@ namespace ViewInterface
     {
         Vector2 Position { get; set; }
         Vector2 Scale { get; set; }
+        IAction LeftClickAction { get; set; }
     }
 }

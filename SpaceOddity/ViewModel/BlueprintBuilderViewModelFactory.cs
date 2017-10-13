@@ -12,17 +12,24 @@ namespace ViewModel
 {
     public class BlueprintBuilderViewModelFactory
     {
-        private IWorldObjectFactory slotFactory;
+        private IWorldObjectFactory tileFactory;
+        private IWorldObjectFactory blockFactory;
+        private IBlueprintBuilderController controller;
 
-        public BlueprintBuilderViewModelFactory(IWorldObjectFactory slotFactory)
+        public BlueprintBuilderViewModelFactory(IWorldObjectFactory tileFactory, 
+            IWorldObjectFactory blockFactory,
+            IBlueprintBuilderController controller)
         {
-            this.slotFactory = slotFactory;
+            this.tileFactory = tileFactory;
+            this.blockFactory = blockFactory;
+            this.controller = controller;
         }
 
         public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var slots = new IWorldObject[builder.Height, builder.Width];
-            var slotRects = fittingRectangle.Section.Split(builder.Width, builder.Height);
+            var tiles = new IWorldObject[builder.Height, builder.Width];
+            var blocks = new IWorldObject[builder.Height, builder.Width];
+            var tileRects = fittingRectangle.Section.Split(builder.Width, builder.Height);
 
             var size = new Vector2(builder.Width, builder.Height);
             var scale = fittingRectangle.Section.Dimensions.Divide(size);
@@ -31,13 +38,16 @@ namespace ViewModel
             {
                 for (var j = 0; j < builder.Width; ++j)
                 {
-                    slots[i, j] = slotFactory.CreateObject();
-                    slots[i, j].Position = slotRects[i, j].Center;
-                    slots[i, j].Scale = scale;
+                    tiles[i, j] = tileFactory.CreateObject();
+                    tiles[i, j].Position = tileRects[i, j].Center;
+                    tiles[i, j].Scale = scale;
+                    controller.AssignTileControl(builder, tiles[i, j], j, i);
                 }
             }
 
-            return new BlueprintBuilderViewModel(slots);
+            var viewModel = new BlueprintBuilderViewModel(tiles, blocks, blockFactory);
+            builder.AttachObserver(viewModel);
+            return viewModel;
         }
     }
 }

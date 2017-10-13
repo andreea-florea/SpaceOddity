@@ -41,9 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspectRatioRectangleSection.cs" />
+    <Compile Include="BlueprintBuilderController.cs" />
     <Compile Include="BlueprintBuilderViewModel.cs" />
     <Compile Include="BlueprintBuilderViewModelFactory.cs" />
+    <Compile Include="CreateBlockAction.cs" />
     <Compile Include="FullRectangleSection.cs" />
+    <Compile Include="Interfaces\IBlueprintBuilderController.cs" />
     <Compile Include="Interfaces\IRectangleSection.cs" />
     <Compile Include="MarginRectangleSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

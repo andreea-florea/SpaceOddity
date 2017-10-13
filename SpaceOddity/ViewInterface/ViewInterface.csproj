@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAction.cs" />
     <Compile Include="IWorldObject.cs" />
     <Compile Include="IWorldObjectFactory.cs" />
+    <Compile Include="NoAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
