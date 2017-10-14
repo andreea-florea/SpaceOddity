@@ -1,11 +1,11 @@
-﻿using Game;
+﻿using ConstructedGame;
+using Game;
 using Game.Interfaces;
 using Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ViewInterface;
 using ViewModel;
+using ViewModel.Interfaces;
 using WpfView;
 
 namespace WpfGameView
@@ -36,40 +37,12 @@ namespace WpfGameView
             var frameworkBlockFactory = new RectangleFrameworkElementFactory(Brushes.Blue, Brushes.LightBlue);
             var blockObjectFactory = new WpfWorldObjectFactory(mainCanvas, frameworkBlockFactory);
 
-            CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory);
-        }
+            var rectangle = new MarginRectangleSection(new Vector2(20, 20), 
+                new FullRectangleSection(new Geometry.Rectangle(
+                        new Vector2(0, 0), new Vector2(mainCanvas.ActualWidth, mainCanvas.ActualHeight))));
 
-        private void CreateBlueprintBuilderView(IWorldObjectFactory tileObjectFactory, IWorldObjectFactory blockObjectFactory)
-        {
-            var observableBlueprintBuilder = CreateBlueprintBuilder();
-
-            var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder,
-                new Geometry.Rectangle(new Vector2(0, 0), new Vector2(mainCanvas.ActualWidth, mainCanvas.ActualHeight)));
-
-            var controller = new BlueprintBuilderController();
-
-            var blueprintViewModelFactory =
-                new BlueprintBuilderViewModelFactory(tileObjectFactory, blockObjectFactory, controller);
-            blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
-        }
-
-        private AspectRatioRectangleSection CreateViewRectangle(
-            IObservableBlueprintBuilder observableBlueprintBuilder, Geometry.Rectangle containingRectangle)
-        {
-            return new AspectRatioRectangleSection(
-                new Vector2(observableBlueprintBuilder.Width, observableBlueprintBuilder.Height),
-                new MarginRectangleSection(new Vector2(20, 20), new FullRectangleSection(containingRectangle)));
-        }
-
-        private IObservableBlueprintBuilder CreateBlueprintBuilder()
-        {
-            var width = 10;
-            var height = 10;
-
-            var blueprint = new IBlock[height, width];
-            var blockFactory = new BlockFactory(1);
-            var blueprintBuilder = new BlueprintBuilder(blueprint, blockFactory);
-            return new ObservableBlueprintBuilder(blueprintBuilder);
+            var blueprintBuilderView = new GameViewFactory();
+            blueprintBuilderView.CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory, rectangle);
         }
     }
 }

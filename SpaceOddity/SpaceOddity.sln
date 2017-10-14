@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfView.Tests", "WpfView.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfGameView", "WpfGameView\WpfGameView.csproj", "{2DCC440A-10BD-4C37-A820-5DC345314330}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructedGame", "ConstructedGame\ConstructedGame.csproj", "{135A28B7-E741-4D9D-92BE-A93488400456}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{2DCC440A-10BD-4C37-A820-5DC345314330}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DCC440A-10BD-4C37-A820-5DC345314330}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DCC440A-10BD-4C37-A820-5DC345314330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135A28B7-E741-4D9D-92BE-A93488400456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135A28B7-E741-4D9D-92BE-A93488400456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135A28B7-E741-4D9D-92BE-A93488400456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135A28B7-E741-4D9D-92BE-A93488400456}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
