@@ -15,14 +15,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViewInterface;
 using ViewModel;
 using WpfView;
 
 namespace WpfGameView
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -32,30 +30,46 @@ namespace WpfGameView
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var width = 10;
-            var height = 10;
-
-            var blueprint = new IBlock[height, width];
-            var blockFactory = new BlockFactory(1);
-            var blueprintBuilder = new BlueprintBuilder(blueprint, blockFactory);
-            var observableBlueprintBuilder = new ObservableBlueprintBuilder(blueprintBuilder);
-
-            var fittingRectangle = new AspectRatioRectangleSection(
-                new Vector2(width, height), new MarginRectangleSection(new Vector2(10, 10),
-                    new FullRectangleSection(
-                        new Geometry.Rectangle(new Vector2(0, 0), 
-                            new Vector2(mainCanvas.ActualWidth, mainCanvas.ActualHeight)))));
-
             var frameworkElementFactory = new RectangleFrameworkElementFactory(Brushes.LightGray, Brushes.Gray);
             var tileObjectFactory = new WpfWorldObjectFactory(mainCanvas, frameworkElementFactory);
 
             var frameworkBlockFactory = new RectangleFrameworkElementFactory(Brushes.Blue, Brushes.LightBlue);
             var blockObjectFactory = new WpfWorldObjectFactory(mainCanvas, frameworkBlockFactory);
 
+            CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory);
+        }
+
+        private void CreateBlueprintBuilderView(IWorldObjectFactory tileObjectFactory, IWorldObjectFactory blockObjectFactory)
+        {
+            var observableBlueprintBuilder = CreateBlueprintBuilder();
+
+            var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder,
+                new Geometry.Rectangle(new Vector2(0, 0), new Vector2(mainCanvas.ActualWidth, mainCanvas.ActualHeight)));
+
             var controller = new BlueprintBuilderController();
 
-            var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(tileObjectFactory, blockObjectFactory, controller);
+            var blueprintViewModelFactory =
+                new BlueprintBuilderViewModelFactory(tileObjectFactory, blockObjectFactory, controller);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
+        }
+
+        private AspectRatioRectangleSection CreateViewRectangle(
+            IObservableBlueprintBuilder observableBlueprintBuilder, Geometry.Rectangle containingRectangle)
+        {
+            return new AspectRatioRectangleSection(
+                new Vector2(observableBlueprintBuilder.Width, observableBlueprintBuilder.Height),
+                new MarginRectangleSection(new Vector2(20, 20), new FullRectangleSection(containingRectangle)));
+        }
+
+        private IObservableBlueprintBuilder CreateBlueprintBuilder()
+        {
+            var width = 10;
+            var height = 10;
+
+            var blueprint = new IBlock[height, width];
+            var blockFactory = new BlockFactory(1);
+            var blueprintBuilder = new BlueprintBuilder(blueprint, blockFactory);
+            return new ObservableBlueprintBuilder(blueprintBuilder);
         }
     }
 }
