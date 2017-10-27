@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ViewInterface;
 using Game.Interfaces;
+using ViewModel.Actions;
 
 namespace ViewModel.Tests
 {
@@ -18,7 +19,9 @@ namespace ViewModel.Tests
 
             var blueprintBuilderController = new BlueprintBuilderController();
             blueprintBuilderController.AssignTileControl(mockBlueprintBuilder.Object, tile.Object, 2, 3);
-            Assert.IsTrue(tile.Object.LeftClickAction is CreateBlockAction);
+
+            tile.Object.LeftClickAction.Execute();
+            mockBlueprintBuilder.Verify(builder => builder.CreateBlock(3, 2));
         }
     }
 }

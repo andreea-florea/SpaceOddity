@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ViewInterface;
 using ViewModel;
+using ViewModel.Fancy;
 using ViewModel.Interfaces;
 using WpfView;
 
@@ -44,5 +45,6 @@ namespace WpfGameView
             var blueprintBuilderView = new GameViewFactory();
             blueprintBuilderView.CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory, rectangle);
         }
+
     }
 }

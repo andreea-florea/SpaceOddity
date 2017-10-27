@@ -36,8 +36,24 @@ public class UnityWorldObject : IWorldObject
 		}
 	}
 
-	public IAction LeftClickAction { get; set; }
+	public Geometry.Vector2 rotation;
+	public Geometry.Vector2 Rotation
+	{
+		get 
+		{
+			return rotation;
+		}
+		set 
+		{
+			this.rotation = value;
+			gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, 
+				180 - (float)rotation.Angle * 180 / Mathf.PI, 
+				gameObject.transform.eulerAngles.z);
+		}
+	}
 
+	public IAction LeftClickAction { get; set; }
+	public IAction RightClickAction { get; set; }
 
 	public UnityWorldObject(GameObject gameObject, float topPosition, 
 		Geometry.Vector2 position, Geometry.Vector2 scale, IAction leftClickAction)
@@ -47,5 +63,10 @@ public class UnityWorldObject : IWorldObject
 		Position = position;
 		Scale = scale;
 		LeftClickAction = leftClickAction;
+	}
+
+	public void Delete()
+	{
+		GameObject.Destroy (gameObject);
 	}
 }

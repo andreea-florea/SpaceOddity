@@ -2,8 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Game.Interfaces;
 using Moq;
+using ViewModel.Actions;
 
-namespace ViewModel.Tests
+namespace ViewModel.Tests.Actions
 {
     [TestClass]
     public class CreateBlockActionTest
@@ -16,6 +17,5 @@ namespace ViewModel.Tests
             action.Execute();
             mockBlueprintBuilder.Verify(builder => builder.CreateBlock(3, 4), Times.Once());
         }
-
     }
 }

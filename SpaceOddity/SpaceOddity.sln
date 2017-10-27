@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfGameView", "WpfGameView\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructedGame", "ConstructedGame\ConstructedGame.csproj", "{135A28B7-E741-4D9D-92BE-A93488400456}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalNumbersMath", "NaturalNumbersMath\NaturalNumbersMath.csproj", "{8B91D960-85E6-4737-85EC-301E494FCB5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalNumbersMath.Tests", "NaturalNumbersMath.Tests\NaturalNumbersMath.Tests.csproj", "{CD937CBF-B5CC-49E5-BFAC-A48B7BE5BA75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{135A28B7-E741-4D9D-92BE-A93488400456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{135A28B7-E741-4D9D-92BE-A93488400456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{135A28B7-E741-4D9D-92BE-A93488400456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B91D960-85E6-4737-85EC-301E494FCB5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B91D960-85E6-4737-85EC-301E494FCB5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B91D960-85E6-4737-85EC-301E494FCB5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B91D960-85E6-4737-85EC-301E494FCB5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD937CBF-B5CC-49E5-BFAC-A48B7BE5BA75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD937CBF-B5CC-49E5-BFAC-A48B7BE5BA75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD937CBF-B5CC-49E5-BFAC-A48B7BE5BA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD937CBF-B5CC-49E5-BFAC-A48B7BE5BA75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

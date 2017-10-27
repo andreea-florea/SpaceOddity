@@ -37,6 +37,7 @@ namespace WpfView.Tests
             var worldObject = worldObjectFactory.CreateObject();
 
             Assert.IsTrue(worldObject.LeftClickAction is NoAction);
+            Assert.IsTrue(worldObject.RightClickAction is NoAction);
         }
     }
 }

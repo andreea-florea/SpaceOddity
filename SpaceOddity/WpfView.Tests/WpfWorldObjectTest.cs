@@ -18,7 +18,7 @@ namespace WpfView.Tests
             var frameworkElement = new System.Windows.Shapes.Rectangle();
             canvas.Children.Add(frameworkElement);
 
-            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null);
+            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null, null);
 
             Assert.AreEqual(5, Canvas.GetLeft(frameworkElement));
             Assert.AreEqual(3, Canvas.GetTop(frameworkElement));
@@ -31,7 +31,7 @@ namespace WpfView.Tests
             var frameworkElement = new System.Windows.Shapes.Rectangle();
             canvas.Children.Add(frameworkElement);
 
-            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null);
+            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null, null);
 
             Assert.AreEqual(2, frameworkElement.Width);
             Assert.AreEqual(4, frameworkElement.Height);
@@ -44,7 +44,7 @@ namespace WpfView.Tests
             var frameworkElement = new System.Windows.Shapes.Rectangle();
             canvas.Children.Add(frameworkElement);
 
-            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null);
+            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null, null);
             wpfWorldObject.Position = new Vector2(0, -1);
 
             Assert.AreEqual(-1, Canvas.GetLeft(frameworkElement));
@@ -58,7 +58,7 @@ namespace WpfView.Tests
             var frameworkElement = new System.Windows.Shapes.Rectangle();
             canvas.Children.Add(frameworkElement);
 
-            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null);
+            var wpfWorldObject = new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null, null);
 
             wpfWorldObject.Scale = new Vector2(1, 3);
 
@@ -74,10 +74,24 @@ namespace WpfView.Tests
             canvas.Children.Add(frameworkElement);
             var mockAction = new Mock<IAction>();
 
-            var wpfWorldObject = 
-                new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), mockAction.Object);
+            var wpfWorldObject =
+                new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), mockAction.Object, null);
 
             Assert.AreEqual(mockAction.Object, wpfWorldObject.LeftClickAction);
+        }
+
+        [TestMethod]
+        public void CheckIfRightClickActionIsAssignedCorrectly()
+        {
+            var canvas = new Canvas();
+            var frameworkElement = new System.Windows.Shapes.Rectangle();
+            canvas.Children.Add(frameworkElement);
+            var mockAction = new Mock<IAction>();
+
+            var wpfWorldObject =
+                new WpfWorldObject(frameworkElement, new Vector2(6, 5), new Vector2(2, 4), null, mockAction.Object);
+
+            Assert.AreEqual(mockAction.Object, wpfWorldObject.RightClickAction);
         }
     }
 }

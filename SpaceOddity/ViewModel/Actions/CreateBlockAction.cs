@@ -6,7 +6,7 @@ using System.Text;
 
 using ViewInterface;
 
-namespace ViewModel
+namespace ViewModel.Actions
 {
     public class CreateBlockAction : IAction
     {

@@ -87,5 +87,25 @@ namespace Geometry.Tests
             var vector = new Vector2(3, 4);
             Assert.AreEqual(5, vector.Magnitude);
         }
+
+        [TestMethod]
+        public void CheckIfTwoVector2sEqual()
+        {
+            var vector = new Vector2(1, 2);
+            var otherVector = new Vector2(1, 2);
+            var differentVector = new Vector2(3, 3);
+            Assert.IsTrue(vector == otherVector);
+            Assert.IsFalse(vector == differentVector);
+            Assert.IsFalse(vector != otherVector);
+            Assert.IsTrue(vector != differentVector);
+        }
+
+        [TestMethod]
+        public void CheckIfAngleIsRetrivedCorrectlyFromVector2()
+        {
+            var vector = new Vector2(-1, -1);
+            var otherVector = new Vector2(1, 0);
+            Assert.AreEqual(-Math.PI * 0.75, vector.Angle);
+        }
     }
 }

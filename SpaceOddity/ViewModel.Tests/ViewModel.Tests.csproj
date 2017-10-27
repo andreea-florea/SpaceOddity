@@ -59,6 +59,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Actions\DeleteBlockActionTest.cs" />
+    <Compile Include="Fancy\EdgeBlocksNumberGeneratorTest.cs" />
+    <Compile Include="Fancy\FacingPositionTest.cs" />
+    <Compile Include="Fancy\BlockDetailsViewUpdaterTest.cs" />
+    <Compile Include="Fancy\CornerBlocksNumberGeneratorTest.cs" />
+    <Compile Include="Fancy\IgnoreFacingContextWorldObjectFactoryTest.cs" />
+    <Compile Include="Fancy\WorldObjectBitNumberFactoryPickerTest.cs" />
     <Compile Include="RectangleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BlueprintBuilderViewModelFactoryTest.cs" />
@@ -67,7 +74,10 @@
     <Compile Include="AspectRatioRectangleSectionTest.cs" />
     <Compile Include="FullRectangleSectionTest.cs" />
     <Compile Include="BlueprintBuilderControllerTest.cs" />
-    <Compile Include="CreateBlockActionTest.cs" />
+    <Compile Include="Actions\CreateBlockActionTest.cs" />
+    <Compile Include="BlueprintBuilderFancyViewModelTest.cs" />
+    <Compile Include="BlueprintBuilderFancyViewModelFactoryTest.cs" />
+    <Compile Include="ViewModelTilesFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Game\Game.csproj">
@@ -77,6 +87,10 @@
     <ProjectReference Include="..\Geometry\Geometry.csproj">
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
       <Name>Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NaturalNumbersMath\NaturalNumbersMath.csproj">
+      <Project>{8b91d960-85e6-4737-85ec-301e494fcb5f}</Project>
+      <Name>NaturalNumbersMath</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewInterface\ViewInterface.csproj">
       <Project>{04a45286-6a72-47fc-a4fe-4b74a2553bd4}</Project>

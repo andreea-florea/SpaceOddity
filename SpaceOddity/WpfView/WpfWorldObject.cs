@@ -43,19 +43,19 @@ namespace WpfView
                 UpdateElement();
             }
         }
-
-        private IAction leftClickAction;
-        public IAction LeftClickAction 
+        public Vector2 Rotation
         {
             get
             {
-                return leftClickAction;
+                throw new NotImplementedException();
             }
             set
             {
-                leftClickAction = value;
             }
         }
+
+        public IAction LeftClickAction { get; set; }
+        public IAction RightClickAction { get; set; }
 
         private void UpdateElement()
         {
@@ -66,19 +66,32 @@ namespace WpfView
             element.Width = scale.X;
         }
 
-        public WpfWorldObject(FrameworkElement element, Vector2 position, Vector2 scale, IAction leftClickAction)
+        public WpfWorldObject(FrameworkElement element, Vector2 position, Vector2 scale, 
+            IAction leftClickAction, IAction rightClickAction)
         {
             this.element = element;
             Position = position;
             Scale = scale;
             LeftClickAction = leftClickAction;
+            RightClickAction = rightClickAction;
 
             element.MouseLeftButtonDown += ElementMouseLeftButtonDown;
+            element.MouseRightButtonDown += ElementMouseRightButtonDown;
         }
 
         private void ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             LeftClickAction.Execute();
+        }
+
+        private void ElementMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            RightClickAction.Execute();
+        }
+
+        public void Delete()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -20,8 +20,40 @@ namespace ConstructedGame
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
             var controller = new BlueprintBuilderController();
 
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, controller);
+            var blueprintViewModelFactory = 
+                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory, controller);
+            blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
+        }
+
+        public void CreateBlueprintBuilderView(IWorldObjectFactory tileObjectFactory,
+            IWorldObjectFactory blockCoreFactory,
+            IWorldObjectFactory roundCornerFactory,
+            IWorldObjectFactory straightUpCornerFactory,
+            IWorldObjectFactory straightRightCornerFactory,
+            IWorldObjectFactory closedCornerFactory,
+            IWorldObjectFactory outsideUpCornerFactory,
+            IWorldObjectFactory outsideRightCornerFactory,
+            IWorldObjectFactory roundEdgeFactory,
+            IWorldObjectFactory closedEdgeFactory,
+            IRectangleSection fullRectangle)
+        {
+            var observableBlueprintBuilder = CreateBlueprintBuilder();
+            var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
+            var controller = new BlueprintBuilderController();
+
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, controller);
             var blueprintViewModelFactory =
-                new BlueprintBuilderViewModelFactory(tileObjectFactory, blockObjectFactory, controller);
+                new BlueprintBuilderFancyViewModelFactory(tilesFactory,
+                    blockCoreFactory,
+                    roundCornerFactory,
+                    straightUpCornerFactory,
+                    straightRightCornerFactory,
+                    closedCornerFactory,
+                    outsideUpCornerFactory,
+                    outsideRightCornerFactory,
+                    roundEdgeFactory,
+                    closedEdgeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

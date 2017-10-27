@@ -35,6 +35,14 @@ namespace Geometry
             }
         }
 
+        public double Angle
+        {
+            get
+            {
+                return Math.Atan2(Y, X);
+            }
+        }
+
         public Vector2(double x, double y) : this()
         {
             this.X = x;
@@ -64,6 +72,16 @@ namespace Geometry
         public static Vector2 operator *(double scalar, Vector2 a)
         {
             return new Vector2(a.X * scalar, a.Y * scalar);
+        }
+
+        public static bool operator==(Vector2 a, Vector2 b)
+        {
+            return a.X == b.X && a.Y == b.Y;
+        }
+
+        public static bool operator!=(Vector2 a, Vector2 b)
+        {
+            return a.X != b.X || a.Y != b.Y;
         }
 
         public Vector2 Divide(Vector2 divider)

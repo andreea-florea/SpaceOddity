@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Geometry
 {
-    public class Rectangle
+    public struct Rectangle
     {
         public Vector2 TopLeftCorner { get; private set; }
         public Vector2 BottomRightCorner { get; private set; }
@@ -28,7 +28,7 @@ namespace Geometry
             }
         }
 
-        public Rectangle(Vector2 topLeftCorner, Vector2 bottomRightCorner)
+        public Rectangle(Vector2 topLeftCorner, Vector2 bottomRightCorner) : this()
         {
             this.TopLeftCorner = topLeftCorner;
             this.BottomRightCorner = bottomRightCorner;

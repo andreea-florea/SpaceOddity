@@ -11,6 +11,9 @@ namespace ViewInterface
     {
         Vector2 Position { get; set; }
         Vector2 Scale { get; set; }
+        Vector2 Rotation { get; set; }
         IAction LeftClickAction { get; set; }
+        IAction RightClickAction { get; set; }
+        void Delete();
     }
 }

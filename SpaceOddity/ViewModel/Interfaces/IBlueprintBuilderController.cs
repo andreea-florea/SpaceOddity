@@ -10,5 +10,6 @@ namespace ViewModel.Interfaces
     public interface IBlueprintBuilderController
     {
         void AssignTileControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, int x, int y);
+        void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, int x, int y);
     }
 }
