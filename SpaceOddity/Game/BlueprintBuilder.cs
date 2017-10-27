@@ -36,7 +36,7 @@ namespace Game
 
         public IBlock GetBlock(Coordinate position)
         {
-            return blueprint[position.Y, position.X];
+            return blueprint.Get(position);
         }
 
         public bool CreateBlock(Coordinate position)

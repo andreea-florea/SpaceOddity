@@ -25,15 +25,16 @@ namespace ViewModel
             var tiles = new IWorldObject[builder.Height, builder.Width];
             var tileRects = fittingRectangle.Section.Split(builder.Width, builder.Height);
 
-            for (var y = 0; y < builder.Height; ++y)
+            for (var line = Coordinates.Zero; line.Y < builder.Height; line += Coordinates.Up)
             {
-                for (var x = 0; x < builder.Width; ++x)
+                for (var coordinate = line; coordinate.X < builder.Width; coordinate += Coordinates.Right)
                 {
-                    tiles[y, x] = tileFactory.CreateObject();
-                    tiles[y, x].Position = tileRects[y, x].Center;
-                    tiles[y, x].Scale = tileRects[y, x].Dimensions;
-                    controller.AssignTileControl(builder, tiles[y, x], new Coordinate(x, y));
+                    tiles[coordinate.Y, coordinate.X] = tileFactory.CreateObject();
+                    tiles.Get(coordinate).Position = tileRects.Get(coordinate).Center;
+                    tiles.Get(coordinate).Scale = tileRects.Get(coordinate).Dimensions;
+                    controller.AssignTileControl(builder, tiles.Get(coordinate), coordinate);
                 }
+
             }
             return tiles;
         }

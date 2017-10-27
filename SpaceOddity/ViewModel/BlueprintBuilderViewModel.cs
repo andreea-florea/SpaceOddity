@@ -41,19 +41,19 @@ namespace ViewModel
 
         public IWorldObject GetTile(Coordinate position)
         {
-            return tiles[position.Y, position.X];
+            return tiles.Get(position);
         }
 
         public IWorldObject GetBlock(Coordinate position)
         {
-            return blocks[position.Y, position.X];
+            return blocks.Get(position);
         }
 
         public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             blocks[position.Y, position.X] = blockFactory.CreateObject();
-            blocks[position.Y, position.X].Position = tiles[position.Y, position.X].Position;
-            blocks[position.Y, position.X].Scale = tiles[position.Y, position.X].Scale;
+            blocks.Get(position).Position = tiles.Get(position).Position;
+            blocks.Get(position).Scale = tiles.Get(position).Scale;
         }
 
         public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
