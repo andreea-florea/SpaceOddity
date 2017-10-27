@@ -1,4 +1,5 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace ViewModel
                     tiles[y, x] = tileFactory.CreateObject();
                     tiles[y, x].Position = tileRects[y, x].Center;
                     tiles[y, x].Scale = tileRects[y, x].Dimensions;
-                    controller.AssignTileControl(builder, tiles[y, x], x, y);
+                    controller.AssignTileControl(builder, tiles[y, x], new Coordinate(x, y));
                 }
             }
             return tiles;

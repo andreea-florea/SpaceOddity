@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Game.Interfaces;
+using NaturalNumbersMath;
 
 namespace Game
 {
@@ -33,48 +34,48 @@ namespace Game
             this.blockFactory = blockFactory;
         }
 
-        public IBlock GetBlock(int y, int x)
+        public IBlock GetBlock(Coordinate position)
         {
-            return blueprint[y, x];
+            return blueprint[position.Y, position.X];
         }
 
-        public bool CreateBlock(int y, int x)
+        public bool CreateBlock(Coordinate position)
         {
-            if (blueprint[y, x] == null)
+            if (GetBlock(position) == null)
             {
-                blueprint[y, x] = blockFactory.CreateBlock();
+                blueprint[position.Y, position.X] = blockFactory.CreateBlock();
                 return true;
             }
             return false;
         }
 
-        public bool DeleteBlock(int y, int x)
+        public bool DeleteBlock(Coordinate position)
         {
-            if (blueprint[y, x] == null)
+            if (GetBlock(position) == null)
             {
                 return false;
             }
 
-            blueprint[y, x] = null;
+            blueprint[position.Y, position.X] = null;
             return true;
         }
 
-        public bool AddShipComponent(int y, int x, IShipComponent component)
+        public bool AddShipComponent(Coordinate position, IShipComponent component)
         {
-            if (blueprint[y, x] != null)
+            if (GetBlock(position) != null)
             {
-                blueprint[y, x].AddShipComponent(component);
+                GetBlock(position).AddShipComponent(component);
                 return true;
             }
 
             return false;
         }
 
-        public bool DeleteShipComponent(int y, int x)
+        public bool DeleteShipComponent(Coordinate position)
         {
-            if (blueprint[y, x] != null && blueprint[y, x].ShipComponent != null)
+            if (GetBlock(position) != null && GetBlock(position).ShipComponent != null)
             {
-                blueprint[y, x].DeleteShipComponent();
+                GetBlock(position).DeleteShipComponent();
                 return true;
             }
 

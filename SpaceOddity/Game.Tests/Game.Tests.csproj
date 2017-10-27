@@ -74,6 +74,10 @@
       <Project>{017cbef2-ad71-4d14-a04f-ddd57c27a98f}</Project>
       <Name>Game</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NaturalNumbersMath\NaturalNumbersMath.csproj">
+      <Project>{8b91d960-85e6-4737-85ec-301e494fcb5f}</Project>
+      <Name>NaturalNumbersMath</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

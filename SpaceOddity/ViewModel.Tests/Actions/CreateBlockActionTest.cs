@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Game.Interfaces;
 using Moq;
 using ViewModel.Actions;
+using NaturalNumbersMath;
 
 namespace ViewModel.Tests.Actions
 {
@@ -12,10 +13,11 @@ namespace ViewModel.Tests.Actions
         [TestMethod]
         public void ActionCallsCreateBlockFromBlueprintBuilder()
         {
+            var position = new Coordinate(4, 3);
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            var action = new CreateBlockAction(mockBlueprintBuilder.Object, 4, 3);
+            var action = new CreateBlockAction(mockBlueprintBuilder.Object, position);
             action.Execute();
-            mockBlueprintBuilder.Verify(builder => builder.CreateBlock(3, 4), Times.Once());
+            mockBlueprintBuilder.Verify(builder => builder.CreateBlock(position), Times.Once());
         }
     }
 }

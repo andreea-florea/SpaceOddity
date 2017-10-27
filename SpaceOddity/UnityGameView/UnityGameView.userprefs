@@ -1,8 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\PrefabWorldObjectFactory.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\ControlScript.cs">
     <Files>
-      <File FileName="Assets\Code\PrefabWorldObjectFactory.cs" Line="23" Column="1" />
+      <File FileName="Assets\Code\PrefabWorldObjectFactory.cs" Line="23" Column="56" />
+      <File FileName="Assets\Code\UnityWorldObject.cs" Line="50" Column="11" />
+      <File FileName="Assets\Code\MainScript.cs" Line="13" Column="1" />
+      <File FileName="Assets\Code\FancyMainScript.cs" Line="23" Column="40" />
+      <File FileName="Assets\Code\ChildControlScript.cs" Line="11" Column="39" />
+      <File FileName="Assets\Code\ControlScript.cs" Line="16" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

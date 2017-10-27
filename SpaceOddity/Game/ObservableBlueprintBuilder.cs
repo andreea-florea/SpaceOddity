@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Game.Interfaces;
+using NaturalNumbersMath;
 
 namespace Game
 {
@@ -36,34 +37,34 @@ namespace Game
 
         #region Block Creation
 
-        public bool CreateBlock(int y, int x)
+        public bool CreateBlock(Coordinate position)
         {
-            var success = baseBuilder.CreateBlock(y, x);
+            var success = baseBuilder.CreateBlock(position);
             if (success)
             {
-                NotifyObserverOfBlockCreated(y, x);
+                NotifyObserverOfBlockCreated(position);
             }
             else
             {
-                NotifyObserverOfErrorWhenCreatingBlock(y, x);
+                NotifyObserverOfErrorWhenCreatingBlock(position);
             }
 
             return success;
         }
 
-        private void NotifyObserverOfBlockCreated(int y, int x)
+        private void NotifyObserverOfBlockCreated(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.BlockCreated(this, y, x);
+                observer.BlockCreated(this, position);
             }
         }
 
-        private void NotifyObserverOfErrorWhenCreatingBlock(int y, int x)
+        private void NotifyObserverOfErrorWhenCreatingBlock(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.ErrorBlockNotCreated(this, y, x);
+                observer.ErrorBlockNotCreated(this, position);
             }
         }
 
@@ -71,104 +72,104 @@ namespace Game
 
         #region Block Deletion
 
-        public bool DeleteBlock(int y, int x)
+        public bool DeleteBlock(Coordinate position)
         {
-            var success = baseBuilder.DeleteBlock(y, x);
+            var success = baseBuilder.DeleteBlock(position);
             if (success)
             {
-                NotifyObserverOfBlockDeleted(y, x);
+                NotifyObserverOfBlockDeleted(position);
             }
             else
             {
-                NotifyObserverOfErrorWhenDeletingBlock(y, x);
+                NotifyObserverOfErrorWhenDeletingBlock(position);
             }
 
             return success;
         }
 
-        private void NotifyObserverOfErrorWhenDeletingBlock(int y, int x)
+        private void NotifyObserverOfErrorWhenDeletingBlock(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.ErrorBlockNotDeleted(this, y, x);
+                observer.ErrorBlockNotDeleted(this, position);
             }
         }
 
-        private void NotifyObserverOfBlockDeleted(int y, int x)
+        private void NotifyObserverOfBlockDeleted(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.BlockDeleted(this, y, x);
+                observer.BlockDeleted(this, position);
             }
         }
         #endregion
 
         #region Ship Component Adding
 
-        public bool AddShipComponent(int y, int x, IShipComponent shipComponent)
+        public bool AddShipComponent(Coordinate position, IShipComponent shipComponent)
         {
-            var success = baseBuilder.AddShipComponent(y, x, shipComponent);
+            var success = baseBuilder.AddShipComponent(position, shipComponent);
 
             if (success)
             {
-                NotifyObserverOfShipComponentAdded(y, x);
+                NotifyObserverOfShipComponentAdded(position);
             }
             else
             {
-                NotifyObserverOfErrorWhenAddingShipComponent(y, x);
+                NotifyObserverOfErrorWhenAddingShipComponent(position);
             }
 
             return success;
         }
 
-        private void NotifyObserverOfShipComponentAdded(int y, int x)
+        private void NotifyObserverOfShipComponentAdded(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.ShipComponentAdded(this, y, x);
+                observer.ShipComponentAdded(this, position);
             }
         }
 
-        private void NotifyObserverOfErrorWhenAddingShipComponent(int y, int x)
+        private void NotifyObserverOfErrorWhenAddingShipComponent(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.ErrorShipComponentNotAdded(this, y, x);
+                observer.ErrorShipComponentNotAdded(this, position);
             }
         }
         #endregion
 
         #region Ship Component Deletion
 
-        public bool DeleteShipComponent(int y, int x)
+        public bool DeleteShipComponent(Coordinate position)
         {
-            var success = baseBuilder.DeleteShipComponent(y, x);
+            var success = baseBuilder.DeleteShipComponent(position);
 
             if (success)
             {
-                NotifyObserverOfShipComponentDeleted(y, x);
+                NotifyObserverOfShipComponentDeleted(position);
             }
             else
             {
-                NotifyObserverOfErrorWhenDeletingShipComponent(y, x);
+                NotifyObserverOfErrorWhenDeletingShipComponent(position);
             }
 
             return true;
         }
 
-        private void NotifyObserverOfShipComponentDeleted(int y, int x)
+        private void NotifyObserverOfShipComponentDeleted(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.ShipComponentDeleted(this, y, x);
+                observer.ShipComponentDeleted(this, position);
             }
         }
 
-        private void NotifyObserverOfErrorWhenDeletingShipComponent(int y, int x)
+        private void NotifyObserverOfErrorWhenDeletingShipComponent(Coordinate position)
         {
             foreach (var observer in observers)
             {
-                observer.ErrorShipComponentNotDeleted(this, y, x);
+                observer.ErrorShipComponentNotDeleted(this, position);
             }
         }
         #endregion
@@ -178,9 +179,9 @@ namespace Game
             observers.Add(observer);
         }
 
-        public IBlock GetBlock(int y, int x)
+        public IBlock GetBlock(Coordinate position)
         {
-            return baseBuilder.GetBlock(y, x);
+            return baseBuilder.GetBlock(position);
         }    
     }
 }

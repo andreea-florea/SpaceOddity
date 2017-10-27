@@ -4,6 +4,7 @@ using Moq;
 using ViewInterface;
 using Game.Interfaces;
 using ViewModel.Actions;
+using NaturalNumbersMath;
 
 namespace ViewModel.Tests
 {
@@ -17,11 +18,12 @@ namespace ViewModel.Tests
             var tile = new Mock<IWorldObject>();
             tile.SetupAllProperties();
 
+            var position = new Coordinate(2, 3);
             var blueprintBuilderController = new BlueprintBuilderController();
-            blueprintBuilderController.AssignTileControl(mockBlueprintBuilder.Object, tile.Object, 2, 3);
+            blueprintBuilderController.AssignTileControl(mockBlueprintBuilder.Object, tile.Object, position);
 
             tile.Object.LeftClickAction.Execute();
-            mockBlueprintBuilder.Verify(builder => builder.CreateBlock(3, 2));
+            mockBlueprintBuilder.Verify(builder => builder.CreateBlock(position));
         }
     }
 }

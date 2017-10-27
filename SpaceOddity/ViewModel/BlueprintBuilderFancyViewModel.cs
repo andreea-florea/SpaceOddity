@@ -19,46 +19,45 @@ namespace ViewModel
             this.detailsUpdaters = detailsUpdaters;
         }
 
-        public void BlockCreated(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            var position = new Coordinate(x, y);
             foreach (var detailsUpdater in detailsUpdaters)
             {
                 detailsUpdater.UpdateDetails(position);
             }
         }
 
-        public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ShipComponentDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ShipComponentDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }

@@ -23,7 +23,7 @@ namespace ViewModel.Fancy
 
         private bool HasBlock(Coordinate position)
         {
-            return blueprintBuilder.GetBlock(position.Y, position.X) != null;
+            return blueprintBuilder.GetBlock(position) != null;
         }
     }
 }

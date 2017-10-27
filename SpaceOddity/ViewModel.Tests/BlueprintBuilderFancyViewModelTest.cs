@@ -28,9 +28,10 @@ namespace ViewModel.Tests
         [TestMethod]
         public void CheckIfDetailsUpdaterIsCalled()
         {
+            var position = new Coordinate(4, 5);
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            fancyViewModel.BlockCreated(mockBlueprintBuilder.Object, 5, 4);
-            mockBlockDetailsViewUpdater.Verify(updater => updater.UpdateDetails(new Coordinate(4, 5)), Times.Once());
+            fancyViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            mockBlockDetailsViewUpdater.Verify(updater => updater.UpdateDetails(position), Times.Once());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ViewModel.Interfaces
 {
     public interface IBlueprintBuilderController
     {
-        void AssignTileControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, int x, int y);
-        void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, int x, int y);
+        void AssignTileControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, Coordinate position);
+        void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, Coordinate position);
     }
 }

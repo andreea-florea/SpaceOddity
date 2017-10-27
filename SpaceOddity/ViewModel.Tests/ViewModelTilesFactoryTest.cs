@@ -5,6 +5,7 @@ using Moq;
 using ViewModel.Interfaces;
 using Geometry;
 using ViewInterface;
+using NaturalNumbersMath;
 
 namespace ViewModel.Tests
 {
@@ -97,10 +98,10 @@ namespace ViewModel.Tests
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle());
 
             var tiles = tilesFactory.CreateTiles(mockBlueprintBuilder.Object, mockRectangleSection.Object);
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, 0, 0), Times.Once());
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, 1, 0), Times.Once());
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTestTile.Object, 0, 1), Times.Once());
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, 1, 1), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, new Coordinate(0, 0)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, new Coordinate(1, 0)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTestTile.Object, new Coordinate(0, 1)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, new Coordinate(1, 1)), Times.Once());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Game.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NaturalNumbersMath;
 
 namespace Game.Tests
 {
@@ -34,43 +35,48 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObservableBlueprintBuilderReturnsCorrectBlock()
         {
+            var position = new Coordinate(2, 3);
             var mockBlock = new Mock<IBlock>();
-            mockBlueprintBuilder.Setup(x => x.GetBlock(3, 2)).Returns(mockBlock.Object);
-            Assert.AreEqual(mockBlock.Object, observableBlueprintBuilder.GetBlock(3, 2));
-            mockBlueprintBuilder.Verify(x => x.GetBlock(3, 2), Times.Once());       
+            mockBlueprintBuilder.Setup(x => x.GetBlock(position)).Returns(mockBlock.Object);
+            Assert.AreEqual(mockBlock.Object, observableBlueprintBuilder.GetBlock(position));
+            mockBlueprintBuilder.Verify(x => x.GetBlock(position), Times.Once());       
         }
 
         #region Block Creation
         [TestMethod]
         public void CheckIfObserverIsInformedOfCreatedBlock()
         {
-            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(true);
-            observableBlueprintBuilder.CreateBlock(5, 6);
-            mockObserver.Verify(x => x.BlockCreated(observableBlueprintBuilder, 5, 6), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(position)).Returns(true);
+            observableBlueprintBuilder.CreateBlock(position);
+            mockObserver.Verify(x => x.BlockCreated(observableBlueprintBuilder, position), Times.Once());
         }
 
         [TestMethod]
         public void ObserverShouldNotBeInformedIfNoBlockIsCreated()
         {
-            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(false);
-            observableBlueprintBuilder.CreateBlock(5, 6);
-            mockObserver.Verify(x => x.BlockCreated(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(position)).Returns(false);
+            observableBlueprintBuilder.CreateBlock(position);
+            mockObserver.Verify(x => x.BlockCreated(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
 
         [TestMethod]
         public void CheckThatObserverSendsErrorMessageWhenCannotCreateBlock()
         {
-            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(false);
-            observableBlueprintBuilder.CreateBlock(5, 6);
-            mockObserver.Verify(x => x.ErrorBlockNotCreated(observableBlueprintBuilder, 5, 6), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(position)).Returns(false);
+            observableBlueprintBuilder.CreateBlock(position);
+            mockObserver.Verify(x => x.ErrorBlockNotCreated(observableBlueprintBuilder, position), Times.Once());
         }
 
         [TestMethod]
         public void CheckThatObserverDoesntSendErrorMessageWhenBlockCreated()
         {
-            mockBlueprintBuilder.Setup(x => x.CreateBlock(5, 6)).Returns(true);
-            observableBlueprintBuilder.CreateBlock(5, 6);
-            mockObserver.Verify(x => x.ErrorBlockNotCreated(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.CreateBlock(position)).Returns(true);
+            observableBlueprintBuilder.CreateBlock(position);
+            mockObserver.Verify(x => x.ErrorBlockNotCreated(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
         #endregion
 
@@ -78,33 +84,37 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObserverIsInformedOfDeletedBlock()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(true);
-            observableBlueprintBuilder.DeleteBlock(5, 6);
-            mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(position)).Returns(true);
+            observableBlueprintBuilder.DeleteBlock(position);
+            mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, position), Times.Once());
         }
 
         [TestMethod]
         public void ObserverShouldNotBeInformedIfNoBlockIsDeleted()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(false);
-            observableBlueprintBuilder.DeleteBlock(5, 6);
-            mockObserver.Verify(x => x.BlockDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(position)).Returns(false);
+            observableBlueprintBuilder.DeleteBlock(position);
+            mockObserver.Verify(x => x.BlockDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }      
 
         [TestMethod]
         public void CheckThatObserverSendsErrorMessageWhenCannotDeleteBlock()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(false);
-            observableBlueprintBuilder.DeleteBlock(5, 6);
-            mockObserver.Verify(x => x.ErrorBlockNotDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(position)).Returns(false);
+            observableBlueprintBuilder.DeleteBlock(position);
+            mockObserver.Verify(x => x.ErrorBlockNotDeleted(observableBlueprintBuilder, position), Times.Once());
         }
 
         [TestMethod]
         public void CheckThatObserverDoesntSendErrorMessageWhenBlockDeleted()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteBlock(5, 6)).Returns(true);
-            observableBlueprintBuilder.DeleteBlock(5, 6);
-            mockObserver.Verify(x => x.ErrorBlockNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(position)).Returns(true);
+            observableBlueprintBuilder.DeleteBlock(position);
+            mockObserver.Verify(x => x.ErrorBlockNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
         #endregion
 
@@ -112,33 +122,37 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObserverIsInformedOfAddedShipComponent()
         {
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(5, 6, mockShipComponent.Object)).Returns(true);
-            observableBlueprintBuilder.AddShipComponent(5, 6, mockShipComponent.Object);
-            mockObserver.Verify(x => x.ShipComponentAdded(observableBlueprintBuilder, 5, 6), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(true);
+            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockObserver.Verify(x => x.ShipComponentAdded(observableBlueprintBuilder, position), Times.Once());
         }
 
         [TestMethod]
         public void ObserverShouldNotBeInformedIfNoShipComponentIsAdded()
         {
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(5, 6, mockShipComponent.Object)).Returns(false);
-            observableBlueprintBuilder.AddShipComponent(5, 6, mockShipComponent.Object);
-            mockObserver.Verify(x => x.ShipComponentAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(false);
+            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockObserver.Verify(x => x.ShipComponentAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
 
         [TestMethod]
         public void CheckThatObserverSendsErrorMessageWhenCannotAddShipComponent()
         {
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(5, 6, mockShipComponent.Object)).Returns(false);
-            observableBlueprintBuilder.AddShipComponent(5, 6, mockShipComponent.Object);
-            mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(false);
+            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Once());
         }
 
         [TestMethod]
         public void CheckThatObserverDoesntSendErrorMessageWhenAddingShipComponent()
         {
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(5, 6, mockShipComponent.Object)).Returns(true);
-            observableBlueprintBuilder.AddShipComponent(5, 6, mockShipComponent.Object);
-            mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(true);
+            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
         #endregion
 
@@ -146,33 +160,37 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObserverIsInformedOfDeletedShipComponent()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(true);
-            observableBlueprintBuilder.DeleteShipComponent(5, 6);
-            mockObserver.Verify(x => x.ShipComponentDeleted(observableBlueprintBuilder, 5, 6), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(position)).Returns(true);
+            observableBlueprintBuilder.DeleteShipComponent(position);
+            mockObserver.Verify(x => x.ShipComponentDeleted(observableBlueprintBuilder, position), Times.Once());
         }
 
         [TestMethod]
         public void ObserverShouldNotBeInformedIfNoShipComponentIsDeleted()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(false);
-            observableBlueprintBuilder.DeleteShipComponent(5, 6);
-            mockObserver.Verify(x => x.ShipComponentDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(position)).Returns(false);
+            observableBlueprintBuilder.DeleteShipComponent(position);
+            mockObserver.Verify(x => x.ShipComponentDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
 
         [TestMethod]
         public void CheckThatObserverSendsErrorMessageWhenCannotDeleteShipComponent()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(false);
-            observableBlueprintBuilder.DeleteShipComponent(5, 6);
-            mockObserver.Verify(x => x.ErrorShipComponentNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(position)).Returns(false);
+            observableBlueprintBuilder.DeleteShipComponent(position);
+            mockObserver.Verify(x => x.ErrorShipComponentNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Once());
         }
 
         [TestMethod]
         public void CheckThatObserverDoesntSendErrorMessageWhenDeletingShipComponent()
         {
-            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(5, 6)).Returns(true);
-            observableBlueprintBuilder.DeleteShipComponent(5, 6);
-            mockObserver.Verify(x => x.ErrorShipComponentNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(position)).Returns(true);
+            observableBlueprintBuilder.DeleteShipComponent(position);
+            mockObserver.Verify(x => x.ErrorShipComponentNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
         #endregion
     }

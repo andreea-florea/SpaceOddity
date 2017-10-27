@@ -1,9 +1,9 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using ViewInterface;
 using ViewModel.Interfaces;
 
@@ -39,54 +39,54 @@ namespace ViewModel
             this.blockFactory = blockFactory;
         }
 
-        public IWorldObject GetTile(int x, int y)
+        public IWorldObject GetTile(Coordinate position)
         {
-            return tiles[y, x];
+            return tiles[position.Y, position.X];
         }
 
-        public IWorldObject GetBlock(int x, int y)
+        public IWorldObject GetBlock(Coordinate position)
         {
-            return blocks[y, x];
+            return blocks[position.Y, position.X];
         }
 
-        public void BlockCreated(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            blocks[y, x] = blockFactory.CreateObject();
-            blocks[y, x].Position = tiles[y, x].Position;
-            blocks[y, x].Scale = tiles[y, x].Scale;
+            blocks[position.Y, position.X] = blockFactory.CreateObject();
+            blocks[position.Y, position.X].Position = tiles[position.Y, position.X].Position;
+            blocks[position.Y, position.X].Scale = tiles[position.Y, position.X].Scale;
         }
 
-        public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, int y, int x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ShipComponentDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, int y, int x)
+        public void ShipComponentDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             throw new NotImplementedException();
         }

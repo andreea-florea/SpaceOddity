@@ -6,6 +6,7 @@ using ViewModel.Interfaces;
 using Geometry;
 using System.Collections.Generic;
 using ViewInterface;
+using NaturalNumbersMath;
 
 namespace ViewModel.Tests
 {
@@ -44,7 +45,7 @@ namespace ViewModel.Tests
 
             Assert.AreEqual(3, blueprintBuilderViewModel.Width);
             Assert.AreEqual(5, blueprintBuilderViewModel.Height);
-            Assert.AreEqual(tiles[3, 2], blueprintBuilderViewModel.GetTile(2, 3));
+            Assert.AreEqual(tiles[3, 2], blueprintBuilderViewModel.GetTile(new Coordinate(2, 3)));
         }
 
         [TestMethod]

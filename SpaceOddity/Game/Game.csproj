@@ -60,6 +60,12 @@
     <Compile Include="ObservableBlueprintBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NaturalNumbersMath\NaturalNumbersMath.csproj">
+      <Project>{8b91d960-85e6-4737-85ec-301e494fcb5f}</Project>
+      <Name>NaturalNumbersMath</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

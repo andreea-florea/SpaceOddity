@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaturalNumbersMath;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,10 @@ namespace Game.Interfaces
     {
         int Width { get; }
         int Height { get; }
-        IBlock GetBlock(int y, int x);
-        bool CreateBlock(int y, int x);
-        bool DeleteBlock(int y, int x);
-        bool AddShipComponent(int y, int x, IShipComponent component);
-        bool DeleteShipComponent(int y, int x);
+        IBlock GetBlock(Coordinate position);
+        bool CreateBlock(Coordinate position);
+        bool DeleteBlock(Coordinate position);
+        bool AddShipComponent(Coordinate position, IShipComponent component);
+        bool DeleteShipComponent(Coordinate position);
     }
 }

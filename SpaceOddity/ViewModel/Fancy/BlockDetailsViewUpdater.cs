@@ -35,12 +35,17 @@ namespace ViewModel.Fancy
             foreach (var detailUpdate in detailUpdates)
             {
                 var position = updatePosition + detailUpdate.RelativePosition;
-                if (blueprintBuilder.GetBlock(position.Y, position.X) != null)
+                if (HasBlock(position))
                 {
                     var newDetail = CreateDetailObject(position, detailUpdate.Forward);
                     ReplaceOldDetail(newDetail, position);
                 }
             }
+        }
+
+        private bool HasBlock(Coordinate position)
+        {
+            return blueprintBuilder.GetBlock(position) != null;
         }
 
         private IWorldObject CreateDetailObject(Coordinate position, Coordinate facing)

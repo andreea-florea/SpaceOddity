@@ -1,4 +1,5 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,17 @@ namespace ViewModel.Actions
     public class DeleteBlockAction : IAction
     {
         private IBlueprintBuilder blueprintBuilder;
-        private int x;
-        private int y;
+        private Coordinate position;
 
-        public DeleteBlockAction(IBlueprintBuilder blueprintBuilder, int x, int y)
+        public DeleteBlockAction(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             this.blueprintBuilder = blueprintBuilder;
-            this.x = x;
-            this.y = y;
+            this.position = position;
         }
 
         public void Execute()
         {
-            blueprintBuilder.DeleteBlock(y, x);
+            blueprintBuilder.DeleteBlock(position);
         }
     }
 }

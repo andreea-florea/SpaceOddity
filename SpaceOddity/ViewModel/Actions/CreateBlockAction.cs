@@ -1,9 +1,9 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using ViewInterface;
 
 namespace ViewModel.Actions
@@ -11,19 +11,17 @@ namespace ViewModel.Actions
     public class CreateBlockAction : IAction
     {
         private IBlueprintBuilder blueprintBuilder;
-        private int x;
-        private int y;
+        private Coordinate position;
 
-        public CreateBlockAction(IBlueprintBuilder blueprintBuilder, int x, int y)
+        public CreateBlockAction(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
             this.blueprintBuilder = blueprintBuilder;
-            this.x = x;
-            this.y = y;
+            this.position = position;
         }
 
         public void Execute()
         {
-            blueprintBuilder.CreateBlock(y, x);
+            blueprintBuilder.CreateBlock(position);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace ViewModel.Tests.Fancy
         {
             var mockBlock = new Mock<IBlock>();
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(3, 1)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(1, 3))).Returns(mockBlock.Object);
             var cornerBlocksNumberGenerator = new EdgeBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
             var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));

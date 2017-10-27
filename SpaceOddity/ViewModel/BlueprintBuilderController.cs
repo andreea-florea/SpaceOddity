@@ -1,4 +1,5 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace ViewModel
 {
     public class BlueprintBuilderController : IBlueprintBuilderController
     {
-        public void AssignTileControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, int x, int y)
+        public void AssignTileControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, Coordinate position)
         {
-            tile.LeftClickAction = new CreateBlockAction(blueprintBuilder, x, y);
+            tile.LeftClickAction = new CreateBlockAction(blueprintBuilder, position);
         }
 
-        public void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, int x, int y)
+        public void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, Coordinate position)
         {
             throw new NotImplementedException();
         }

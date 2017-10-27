@@ -4,6 +4,7 @@ using Moq;
 using ViewInterface;
 using Game.Interfaces;
 using ViewModel.Interfaces;
+using NaturalNumbersMath;
 
 namespace ViewModel.Tests
 {
@@ -71,17 +72,18 @@ namespace ViewModel.Tests
         [TestMethod]
         public void RoundCornerDetailsAreCreatedWithCorrectFactory()
         {
+            var position = new Coordinate(2, 1);
             tiles[1, 2] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(position)).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, position);
 
             mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(4));
         }
@@ -93,8 +95,8 @@ namespace ViewModel.Tests
             tiles[2, 2] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(2, 2)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
@@ -104,7 +106,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
             mockStraightRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
@@ -119,9 +121,9 @@ namespace ViewModel.Tests
             tiles[1, 3] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(2, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 3)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 1))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
@@ -134,7 +136,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
             mockStraightRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
@@ -151,15 +153,15 @@ namespace ViewModel.Tests
             tiles[2, 3] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(2, 3)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 2))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(5));
         }
@@ -173,10 +175,10 @@ namespace ViewModel.Tests
             tiles[2, 3] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(2, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 3)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(2, 3)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 1))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 2))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockClosedCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
@@ -187,7 +189,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockClosedCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(4));
             mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
@@ -201,14 +203,14 @@ namespace ViewModel.Tests
             tiles[1, 2] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockRoundEdgeFactory.Verify(factory => factory.CreateObject(), Times.Exactly(4));
         }
@@ -220,8 +222,8 @@ namespace ViewModel.Tests
             tiles[2, 2] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(2, 2)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
@@ -231,7 +233,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockRoundEdgeFactory.Verify(factory => factory.CreateObject(), Times.Exactly(3));
             mockClosedEdgeFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
@@ -243,14 +245,14 @@ namespace ViewModel.Tests
             tiles[1, 2] = mockTile.Object;
             mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
             mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(1, 2)).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
             mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, 1, 2);
+            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
             mockBlockCoreFactory.Verify(factory => factory.CreateObject(), Times.Once());
         }
