@@ -53,6 +53,7 @@
     <Compile Include="CoordinateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoordinatesTest.cs" />
+    <Compile Include="ArrayExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NaturalNumbersMath\NaturalNumbersMath.csproj">
