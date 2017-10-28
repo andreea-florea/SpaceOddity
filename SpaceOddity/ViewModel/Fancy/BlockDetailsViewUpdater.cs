@@ -63,12 +63,7 @@ namespace ViewModel.Fancy
             {
                 details.Get(position).Delete();
             }
-            SetDetail(newDetail, position);
-        }
-
-        private void SetDetail(IWorldObject detail, Coordinate position)
-        {
-            details[position.Y, position.X] = detail;
+            details.Set(position, newDetail);
         }
     }
 }

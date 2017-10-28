@@ -29,7 +29,7 @@ namespace ViewModel
             {
                 for (var coordinate = line; coordinate.X < builder.Width; coordinate += Coordinates.Right)
                 {
-                    tiles[coordinate.Y, coordinate.X] = tileFactory.CreateObject();
+                    tiles.Set(coordinate, tileFactory.CreateObject());
                     tiles.Get(coordinate).Position = tileRects.Get(coordinate).Center;
                     tiles.Get(coordinate).Scale = tileRects.Get(coordinate).Dimensions;
                     controller.AssignTileControl(builder, tiles.Get(coordinate), coordinate);

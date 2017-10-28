@@ -51,7 +51,7 @@ namespace ViewModel
 
         public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            blocks[position.Y, position.X] = blockFactory.CreateObject();
+            blocks.Set(position, blockFactory.CreateObject());
             blocks.Get(position).Position = tiles.Get(position).Position;
             blocks.Get(position).Scale = tiles.Get(position).Scale;
         }

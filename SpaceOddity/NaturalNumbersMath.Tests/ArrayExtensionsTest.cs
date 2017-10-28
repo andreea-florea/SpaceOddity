@@ -13,5 +13,13 @@ namespace NaturalNumbersMath.Tests
             array[2, 1] = 5;
             Assert.AreEqual(5, array.Get(new Coordinate(1, 2)));
         }
+
+        [TestMethod]
+        public void CanSetMemberOfArrayWithExtension()
+        {
+            int[,] array = new int[3, 4];
+            array.Set(new Coordinate(1, 2), 5);
+            Assert.AreEqual(5, array[2, 1]);
+        }
     }
 }

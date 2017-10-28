@@ -43,7 +43,7 @@ namespace Game
         {
             if (GetBlock(position) == null)
             {
-                blueprint[position.Y, position.X] = blockFactory.CreateBlock();
+                blueprint.Set(position, blockFactory.CreateBlock());
                 return true;
             }
             return false;
@@ -56,7 +56,7 @@ namespace Game
                 return false;
             }
 
-            blueprint[position.Y, position.X] = null;
+            blueprint.Set(position, null);
             return true;
         }
 
