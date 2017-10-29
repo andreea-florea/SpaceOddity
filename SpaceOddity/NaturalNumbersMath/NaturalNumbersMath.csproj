@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="CoordinateRectangle.cs" />
     <Compile Include="Coordinates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
