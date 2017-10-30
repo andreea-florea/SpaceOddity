@@ -183,5 +183,10 @@ namespace Game
         {
             return baseBuilder.GetBlock(position);
         }    
+
+        public bool HasBlock(Coordinate position)
+        {
+            return baseBuilder.HasBlock(position);
+        }
     }
 }

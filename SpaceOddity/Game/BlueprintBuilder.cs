@@ -39,6 +39,11 @@ namespace Game
             return blueprint.Get(position);
         }
 
+        public bool HasBlock(Coordinate position)
+        {
+            return (blueprint.IsWithinBounds(position) && GetBlock(position) != null);
+        }
+
         public bool CreateBlock(Coordinate position)
         {
             if (GetBlock(position) == null)

@@ -16,5 +16,16 @@ namespace NaturalNumbersMath
         {
             array[coordinate.Y, coordinate.X] = value;
         }
+
+        public static bool IsWithinBounds<T>(this T[,] array, Coordinate coordinate)
+        {
+            if (coordinate.Y < 0 || coordinate.X < 0 ||
+                coordinate.Y >= array.GetLength(0) || coordinate.X >= array.GetLength(1))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

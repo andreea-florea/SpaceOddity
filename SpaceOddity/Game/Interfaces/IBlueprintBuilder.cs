@@ -11,6 +11,7 @@ namespace Game.Interfaces
         int Width { get; }
         int Height { get; }
         IBlock GetBlock(Coordinate position);
+        bool HasBlock(Coordinate position);
         bool CreateBlock(Coordinate position);
         bool DeleteBlock(Coordinate position);
         bool AddShipComponent(Coordinate position, IShipComponent component);

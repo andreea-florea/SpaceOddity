@@ -25,6 +25,28 @@ namespace Game.Tests
         }
 
         [TestMethod]
+        public void CheckThatHasBlockReturnsFalseWhenThereIsNoBlockAtSpecifiedPosition()
+        {
+            var position = new Coordinate(3, 2);
+            Assert.IsFalse(blueprintBuilder.HasBlock(position));
+        }
+
+        [TestMethod]
+        public void CheckThatHasBlockReturnsTrueWhenBlockExistsAtSpecifiedPosition()
+        {
+            var position = new Coordinate(3, 2);
+            blueprint[2, 3] = mockBlock.Object;
+            Assert.IsTrue(blueprintBuilder.HasBlock(position));
+        }
+
+        [TestMethod]
+        public void HasBlockReturnsFalseIfPositionToCheckOutsideOfBlueprintBounds()
+        {
+            var position = new Coordinate(-3, 2);
+            Assert.IsFalse(blueprintBuilder.HasBlock(position));
+        }
+
+        [TestMethod]
         public void CheckIfBlueprintMatrixIsAssignedCorrectly()
         {
             var position = new Coordinate(3, 2);
