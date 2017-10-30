@@ -14,6 +14,7 @@ namespace WpfView
 {
     public class WpfWorldObject : IWorldObject
     {
+        private Canvas elementCanvas;
         private FrameworkElement element;
 
         private Vector2 position;
@@ -66,10 +67,11 @@ namespace WpfView
             element.Width = scale.X;
         }
 
-        public WpfWorldObject(FrameworkElement element, Vector2 position, Vector2 scale, 
+        public WpfWorldObject(FrameworkElement element, Canvas elementCanvas, Vector2 position, Vector2 scale, 
             IAction leftClickAction, IAction rightClickAction)
         {
             this.element = element;
+            this.elementCanvas = elementCanvas;
             Position = position;
             Scale = scale;
             LeftClickAction = leftClickAction;
@@ -91,7 +93,7 @@ namespace WpfView
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            elementCanvas.Children.Remove(element);
         }
     }
 }

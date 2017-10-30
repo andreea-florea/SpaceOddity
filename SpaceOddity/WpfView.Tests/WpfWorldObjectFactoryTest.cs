@@ -39,5 +39,22 @@ namespace WpfView.Tests
             Assert.IsTrue(worldObject.LeftClickAction is NoAction);
             Assert.IsTrue(worldObject.RightClickAction is NoAction);
         }
+
+        [TestMethod]
+        public void WorldObjectDeletesFromCorrectCanvas()
+        {
+            var canvas = new Canvas();
+            var element = new System.Windows.Shapes.Rectangle();
+
+            var mockFrameworkElementFactory = new Mock<IFrameworkElementFactory>();
+            mockFrameworkElementFactory.Setup(factory => factory.CreateElement()).Returns(element);
+
+            var worldObjectFactory = new WpfWorldObjectFactory(canvas, mockFrameworkElementFactory.Object);
+            var worldObject = worldObjectFactory.CreateObject();
+
+            Assert.IsTrue(canvas.Children.Contains(element));
+            worldObject.Delete();
+            Assert.IsFalse(canvas.Children.Contains(element));
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace ViewModel.Tests
     public class BlueprintBuilderControllerTest
     {
         [TestMethod]
-        public void CheckIfLeftClickActionIsAssignedByController()
+        public void CheckIfLeftClickActionIsAssignedByControllerToTile()
         {
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
             var tile = new Mock<IWorldObject>();
@@ -24,6 +24,21 @@ namespace ViewModel.Tests
 
             tile.Object.LeftClickAction.Execute();
             mockBlueprintBuilder.Verify(builder => builder.CreateBlock(position));
+        }
+
+        [TestMethod]
+        public void CheckIfRightClickActionIsAsssignedByControllerToBlock()
+        {
+            var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
+            var block = new Mock<IWorldObject>();
+            block.SetupAllProperties();
+
+            var position = new Coordinate(4, 2);
+            var blueprintBuilderController = new BlueprintBuilderController();
+            blueprintBuilderController.AssignBlockControl(mockBlueprintBuilder.Object, block.Object, position);
+
+            block.Object.RightClickAction.Execute();
+            mockBlueprintBuilder.Verify(builder => builder.DeleteBlock(position));
         }
     }
 }

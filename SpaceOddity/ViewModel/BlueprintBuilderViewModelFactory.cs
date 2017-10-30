@@ -29,7 +29,7 @@ namespace ViewModel
         {
             var tiles = tilesFactory.CreateTiles(builder, fittingRectangle);
             var blocks = new IWorldObject[builder.Height, builder.Width];
-            var viewModel = new BlueprintBuilderViewModel(tiles, blocks, blockFactory);
+            var viewModel = new BlueprintBuilderViewModel(tiles, blocks, blockFactory, controller);
             builder.AttachObserver(viewModel);
             return viewModel;
         }

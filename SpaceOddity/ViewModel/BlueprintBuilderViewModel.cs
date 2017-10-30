@@ -15,6 +15,7 @@ namespace ViewModel
         private IWorldObject[,] blocks;
 
         private IWorldObjectFactory blockFactory;
+        private IBlueprintBuilderController controller;
 
         public int Width
         {
@@ -32,11 +33,13 @@ namespace ViewModel
             }
         }
 
-        public BlueprintBuilderViewModel(IWorldObject[,] tiles, IWorldObject[,] blocks, IWorldObjectFactory blockFactory)
+        public BlueprintBuilderViewModel(IWorldObject[,] tiles, IWorldObject[,] blocks, 
+            IWorldObjectFactory blockFactory, IBlueprintBuilderController controller)
         {
             this.tiles = tiles;
             this.blocks = blocks;
             this.blockFactory = blockFactory;
+            this.controller = controller;
         }
 
         public IWorldObject GetTile(Coordinate position)
@@ -54,6 +57,7 @@ namespace ViewModel
             blocks.Set(position, blockFactory.CreateObject());
             blocks.Get(position).Position = tiles.Get(position).Position;
             blocks.Get(position).Scale = tiles.Get(position).Scale;
+            controller.AssignBlockControl(blueprintBuilder, blocks.Get(position), position);
         }
 
         public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
@@ -63,7 +67,8 @@ namespace ViewModel
 
         public void BlockDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            throw new NotImplementedException();
+            blocks.Get(position).Delete();
+            blocks.Set(position, null);
         }
 
         public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)

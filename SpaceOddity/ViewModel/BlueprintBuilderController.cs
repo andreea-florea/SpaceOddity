@@ -17,9 +17,9 @@ namespace ViewModel
             tile.LeftClickAction = new CreateBlockAction(blueprintBuilder, position);
         }
 
-        public void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, Coordinate position)
+        public void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject block, Coordinate position)
         {
-            throw new NotImplementedException();
+            block.RightClickAction = new DeleteBlockAction(blueprintBuilder, position);
         }
     }
 }
