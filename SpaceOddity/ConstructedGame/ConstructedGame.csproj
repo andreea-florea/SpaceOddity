@@ -56,6 +56,10 @@
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
       <Name>Geometry</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NaturalNumbersMath\NaturalNumbersMath.csproj">
+      <Project>{8b91d960-85e6-4737-85ec-301e494fcb5f}</Project>
+      <Name>NaturalNumbersMath</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewInterface\ViewInterface.csproj">
       <Project>{04a45286-6a72-47fc-a4fe-4b74a2553bd4}</Project>
       <Name>ViewInterface</Name>

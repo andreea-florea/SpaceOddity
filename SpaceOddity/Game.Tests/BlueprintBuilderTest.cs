@@ -51,8 +51,8 @@ namespace Game.Tests
         {
             var position = new Coordinate(3, 2);
             blueprint[2, 3] = mockBlock.Object;
-            Assert.AreEqual(9, blueprintBuilder.Height);
-            Assert.AreEqual(10, blueprintBuilder.Width);
+            Assert.AreEqual(9, blueprintBuilder.Dimensions.Y);
+            Assert.AreEqual(10, blueprintBuilder.Dimensions.X);
             Assert.AreEqual(blueprint[2, 3], blueprintBuilder.GetBlock(position));
         }
 
@@ -61,8 +61,8 @@ namespace Game.Tests
         {
             var dimensions = new Coordinate(4, 5);
             var blueprintBuilder = new BlueprintBuilder(dimensions);
-            Assert.AreEqual(4, blueprintBuilder.Height);
-            Assert.AreEqual(5, blueprintBuilder.Width);
+            Assert.AreEqual(4, blueprintBuilder.Dimensions.Y);
+            Assert.AreEqual(5, blueprintBuilder.Dimensions.X);
         }
 
         [TestMethod]

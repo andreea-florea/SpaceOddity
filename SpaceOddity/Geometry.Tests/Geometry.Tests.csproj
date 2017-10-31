@@ -62,6 +62,10 @@
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
       <Name>Geometry</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NaturalNumbersMath\NaturalNumbersMath.csproj">
+      <Project>{8b91d960-85e6-4737-85ec-301e494fcb5f}</Project>
+      <Name>NaturalNumbersMath</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

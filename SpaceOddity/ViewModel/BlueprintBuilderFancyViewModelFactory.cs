@@ -70,7 +70,7 @@ namespace ViewModel
 
         private IDetailsViewUpdater CreateCornerUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles, Coordinate direction)
         {
-            var cornerDetails = new IWorldObject[builder.Height, builder.Width];
+            var cornerDetails = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
 
             var cornerUpdates = new List<FacingPosition>();
 
@@ -97,7 +97,7 @@ namespace ViewModel
 
         private IDetailsViewUpdater CreateEdgeUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles, Coordinate direction)
         {
-            var edgeDetails = new IWorldObject[builder.Height, builder.Width];
+            var edgeDetails = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
 
             var edgeUpdates = new List<FacingPosition>();
 
@@ -115,7 +115,7 @@ namespace ViewModel
 
         private IDetailsViewUpdater CreateCoreUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles)
         {
-            var coreDetails = new IWorldObject[builder.Height, builder.Width];
+            var coreDetails = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
 
             var coreUpdates = new List<FacingPosition>();
             coreUpdates.Add(new FacingPosition(Coordinates.Zero, Coordinates.Zero));

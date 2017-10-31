@@ -13,18 +13,11 @@ namespace Game
         private IBlock[,] blueprint;
         private IBlockFactory blockFactory;
 
-        public int Width
+        public Coordinate Dimensions
         {
-            get
+            get 
             {
-                return blueprint.GetLength(1);
-            }
-        }
-        public int Height
-        {
-            get
-            {
-                return blueprint.GetLength(0);
+                return new Coordinate(blueprint.GetLength(1), blueprint.GetLength(0));
             }
         }
 

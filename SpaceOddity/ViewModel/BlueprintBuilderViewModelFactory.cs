@@ -28,7 +28,7 @@ namespace ViewModel
         public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
             var tiles = tilesFactory.CreateTiles(builder, fittingRectangle);
-            var blocks = new IWorldObject[builder.Height, builder.Width];
+            var blocks = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var viewModel = new BlueprintBuilderViewModel(tiles, blocks, blockFactory, controller);
             builder.AttachObserver(viewModel);
             return viewModel;

@@ -8,8 +8,7 @@ namespace Game.Interfaces
 {
     public interface IBlueprintBuilder
     {
-        int Width { get; }
-        int Height { get; }
+        Coordinate Dimensions { get; }
         IBlock GetBlock(Coordinate position);
         bool HasBlock(Coordinate position);
         bool CreateBlock(Coordinate position);

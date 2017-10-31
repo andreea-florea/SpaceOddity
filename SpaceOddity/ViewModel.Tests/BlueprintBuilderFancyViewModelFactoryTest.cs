@@ -77,8 +77,7 @@ namespace ViewModel.Tests
         {
             var position = new Coordinate(2, 1);
             tiles[1, 2] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(position)).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
@@ -97,8 +96,7 @@ namespace ViewModel.Tests
         {
             tiles[1, 2] = mockTile.Object;
             tiles[2, 2] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
@@ -125,8 +123,7 @@ namespace ViewModel.Tests
             tiles[1, 2] = mockTile.Object;
             tiles[2, 2] = mockTile.Object;
             tiles[1, 3] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(3, 1))).Returns(true);
@@ -160,8 +157,7 @@ namespace ViewModel.Tests
         {
             tiles[1, 2] = mockTile.Object;
             tiles[2, 3] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(3, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
@@ -184,8 +180,7 @@ namespace ViewModel.Tests
             tiles[2, 2] = mockTile.Object;
             tiles[1, 3] = mockTile.Object;
             tiles[2, 3] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(3, 1))).Returns(true);
@@ -216,8 +211,7 @@ namespace ViewModel.Tests
         public void RoundEdgesDetailsAreCreatedWithCorrectFactory()
         {
             tiles[1, 2] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
@@ -236,8 +230,7 @@ namespace ViewModel.Tests
         {
             tiles[1, 2] = mockTile.Object;
             tiles[2, 2] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
@@ -260,9 +253,8 @@ namespace ViewModel.Tests
         [TestMethod]
         public void CenterBlockDetailIsCreatedCorrectly()
         {
-            tiles[1, 2] = mockTile.Object;
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(4);
+            tiles.Set(new Coordinate(2, 1), mockTile.Object);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);

@@ -26,10 +26,9 @@ namespace Game.Tests
         [TestMethod]
         public void CheckIfObservarbleBlueprintBuilderReturnsBaseDimensions()
         {
-            mockBlueprintBuilder.SetupGet(x => x.Height).Returns(10);
-            mockBlueprintBuilder.SetupGet(x => x.Width).Returns(12);
-            Assert.AreEqual(10, observableBlueprintBuilder.Height);
-            Assert.AreEqual(12, observableBlueprintBuilder.Width);
+            mockBlueprintBuilder.SetupGet(builder => builder.Dimensions).Returns(new Coordinate(12, 10));
+            Assert.AreEqual(10, observableBlueprintBuilder.Dimensions.Y);
+            Assert.AreEqual(12, observableBlueprintBuilder.Dimensions.X);
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ViewModel.Interfaces;
 using Moq;
 using Geometry;
+using NaturalNumbersMath;
 
 namespace ViewModel.Tests
 {
@@ -40,7 +41,7 @@ namespace ViewModel.Tests
             var bottomRightCorner = new Vector2(7, 8);
             var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
 
-            var splits = rectangle.Split(2, 3);
+            var splits = rectangle.Split(new Coordinate(2, 3));
             Assert.AreEqual(3, splits.GetLength(0));
             Assert.AreEqual(2, splits.GetLength(1));
         }
@@ -52,7 +53,7 @@ namespace ViewModel.Tests
             var bottomRightCorner = new Vector2(5, 8);
             var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
 
-            var splits = rectangle.Split(2, 2);
+            var splits = rectangle.Split(new Coordinate(2, 2));
             Assert.AreEqual(1, splits[0, 0].TopLeftCorner.X);
             Assert.AreEqual(0, splits[0, 0].TopLeftCorner.Y);
             Assert.AreEqual(3, splits[0, 0].BottomRightCorner.X);

@@ -34,8 +34,7 @@ namespace ViewModel.Tests
         [TestMethod]
         public void CorrectAmountOfTilesAreCreated()
         {
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(7);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(7, 3));
             mockTileObjectFactory.Setup(factory => factory.CreateObject()).Returns(mockTile.Object);
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle());
 
@@ -58,8 +57,7 @@ namespace ViewModel.Tests
                 .Returns(mockTestTile.Object)
                 .Returns(mockTile.Object);
 
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(2);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(3, 2));
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(4, 8)));
 
             var tiles = tilesFactory.CreateTiles(mockBlueprintBuilder.Object, mockRectangleSection.Object);
@@ -72,8 +70,7 @@ namespace ViewModel.Tests
         {
             mockTileObjectFactory.Setup(factory => factory.CreateObject()).Returns(mockTile.Object);
 
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(3);
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(2);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(3, 2));
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(4, 8)));
 
             var tiles = tilesFactory.CreateTiles(mockBlueprintBuilder.Object, mockRectangleSection.Object);
@@ -93,8 +90,7 @@ namespace ViewModel.Tests
                 .Returns(mockTestTile.Object)
                 .Returns(mockTile.Object);
 
-            mockBlueprintBuilder.Setup(builder => builder.Width).Returns(2);
-            mockBlueprintBuilder.Setup(builder => builder.Height).Returns(2);
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(2, 2));
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle());
 
             var tiles = tilesFactory.CreateTiles(mockBlueprintBuilder.Object, mockRectangleSection.Object);

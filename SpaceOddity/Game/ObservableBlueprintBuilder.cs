@@ -13,19 +13,11 @@ namespace Game
         private IBlueprintBuilder baseBuilder;
         private List<IBlueprintBuilderObserver> observers;
 
-        public int Height
+        public Coordinate Dimensions
         {
-            get
+            get 
             {
-                return baseBuilder.Height;
-            }
-        }
-
-        public int Width
-        {
-            get
-            {
-                return baseBuilder.Width;
+                return baseBuilder.Dimensions; 
             }
         }
 

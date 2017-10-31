@@ -22,10 +22,10 @@ namespace ViewModel
 
         public IWorldObject[,] CreateTiles(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var tiles = new IWorldObject[builder.Height, builder.Width];
-            var tileRects = fittingRectangle.Section.Split(builder.Width, builder.Height);
+            var tiles = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
+            var tileRects = fittingRectangle.Section.Split(builder.Dimensions);
 
-            var coordinateRectangle = new CoordinateRectangle(Coordinates.Zero, new Coordinate(builder.Width, builder.Height));
+            var coordinateRectangle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);
             foreach (var coordinate in coordinateRectangle.Points)
             {
                 tiles.Set(coordinate, tileFactory.CreateObject());

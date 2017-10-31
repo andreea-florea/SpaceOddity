@@ -1,4 +1,5 @@
 ﻿using Geometry;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,45 +35,45 @@ namespace Geometry
             this.BottomRightCorner = bottomRightCorner;
         }
 
-        public Rectangle[,] Split(int width, int height)
+        public Rectangle[,] Split(Coordinate dimensions)
         {
-            var splits = new Rectangle[height, width];
-            var corners = CreateSplitCorners(width, height);
-            for (var i = 0; i < height; ++i)
+            var splits = new Rectangle[dimensions.Y, dimensions.X];
+            var corners = CreateSplitCorners(dimensions);
+            var coordinateRectangle = new CoordinateRectangle(Coordinates.Zero, dimensions);
+            foreach (var position in coordinateRectangle.Points)
             {
-                for (var j = 0; j < width; ++j)
-                {
-                    splits[i, j] = new Rectangle(corners[i, j], corners[i + 1, j + 1]);
-                }
+                splits.Set(position, 
+                    new Rectangle(corners.Get(position), corners.Get(position + Coordinates.Up + Coordinates.Right)));
             }
             return splits;
         }
 
-        private Vector2[,] CreateSplitCorners(int width, int height)
+        private Vector2[,] CreateSplitCorners(Coordinate dimensions)
         {
-            var splitSize = new Vector2(width, height);
+            var splitSize = new Vector2(dimensions.X, dimensions.Y);
             var splitDirection = Dimensions.Divide(splitSize);
             var xDirection = splitDirection.XProjection;
             var yDirection = splitDirection.YProjection;
 
-            return CreateMatrixPoints(TopLeftCorner, xDirection, yDirection, width + 1, height + 1);
+            return CreateMatrixPoints(TopLeftCorner, xDirection, yDirection, 
+                dimensions + Coordinates.Up + Coordinates.Right);
         }
 
         private Vector2[,] CreateMatrixPoints(Vector2 initialPosition, Vector2 xDirection, Vector2 yDirection,
-            int width, int height)
+            Coordinate dimensions)
         {
-            var corners = new Vector2[height + 1, width + 1];
+            var corners = new Vector2[dimensions.Y, dimensions.X];
 
             corners[0, 0] = TopLeftCorner;
 
-            for (var i = 1; i <= height; ++i)
+            for (var i = 1; i < dimensions.Y; ++i)
             {
                 corners[i, 0] = corners[i - 1, 0] + yDirection;
             }
 
-            for (var i = 0; i <= height; ++i)
+            for (var i = 0; i < dimensions.Y; ++i)
             {
-                for (var j = 1; j <= width; ++j)
+                for (var j = 1; j < dimensions.X; ++j)
                 {
                     corners[i, j] = corners[i, j - 1] + xDirection;
                 }
