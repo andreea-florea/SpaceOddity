@@ -21,15 +21,10 @@ namespace ViewModel.Fancy
         {
             var rightDirection = facing.RotateQuarterCircleRight();
             return new bool[] {
-                HasBlock(position + facing),
-                HasBlock(position + rightDirection),
-                HasBlock(position + facing + rightDirection)
+                blueprintBuilder.HasBlock(position + facing),
+                blueprintBuilder.HasBlock(position + rightDirection),
+                blueprintBuilder.HasBlock(position + facing + rightDirection)
             };
-        }
-
-        private bool HasBlock(Coordinate position)
-        {
-            return blueprintBuilder.GetBlock(position) != null;
         }
     }
 }

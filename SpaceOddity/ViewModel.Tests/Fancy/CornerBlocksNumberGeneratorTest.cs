@@ -14,9 +14,8 @@ namespace ViewModel.Tests.Fancy
         [TestMethod]
         public void CheckIfFrontBlockIsCountedTest()
         {
-            var mockBlock = new Mock<IBlock>();
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(1, 3))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(1, 3))).Returns(true);
             var cornerBlocksNumberGenerator = new CornerBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
             var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
@@ -28,9 +27,8 @@ namespace ViewModel.Tests.Fancy
         [TestMethod]
         public void CheckIfRightBlockIsCountedTest()
         {
-            var mockBlock = new Mock<IBlock>();
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             var cornerBlocksNumberGenerator = new CornerBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
             var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
@@ -42,9 +40,8 @@ namespace ViewModel.Tests.Fancy
         [TestMethod]
         public void CheckIfDiagonalBlockIsCountedTest()
         {
-            var mockBlock = new Mock<IBlock>();
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 3))).Returns(mockBlock.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 3))).Returns(true);
             var cornerBlocksNumberGenerator = new CornerBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
             var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));

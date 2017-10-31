@@ -18,12 +18,7 @@ namespace ViewModel.Fancy
 
         public bool[] GenerateNumber(Coordinate position, Coordinate facing)
         {
-            return new bool[1] { HasBlock(position + facing) };
-        }
-
-        private bool HasBlock(Coordinate position)
-        {
-            return blueprintBuilder.GetBlock(position) != null;
+            return new bool[1] { blueprintBuilder.HasBlock(position + facing) };
         }
     }
 }
