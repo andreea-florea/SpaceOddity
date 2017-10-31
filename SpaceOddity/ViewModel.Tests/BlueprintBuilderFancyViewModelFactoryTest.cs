@@ -56,6 +56,8 @@ namespace ViewModel.Tests
                 factory => factory.CreateTiles(mockBlueprintBuilder.Object, mockFittingRectangle.Object))
                 .Returns(tiles);
 
+            var mockController = new Mock<IBlueprintBuilderController>();
+
             blueprintBuilderViewModelFactory = new BlueprintBuilderFancyViewModelFactory(
                 mockTilesFactory.Object,
                 mockBlockCoreFactory.Object,
@@ -66,7 +68,8 @@ namespace ViewModel.Tests
                 mockOutsideUpCornerFactory.Object,
                 mockOutsideRightCornerFactory.Object,
                 mockRoundEdgeFactory.Object,
-                mockClosedEdgeFactory.Object);
+                mockClosedEdgeFactory.Object,
+                mockController.Object);
         }
 
         [TestMethod]

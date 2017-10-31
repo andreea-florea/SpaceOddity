@@ -6,8 +6,15 @@ public class ChildControlScript : MonoBehaviour {
 
 	public ControlScript ParentScript;
 
-	public void OnMouseDown() 
+	public void OnMouseOver() 
 	{
-		ParentScript.TriggerLeftButtonAction();
+		if (Input.GetMouseButtonDown(0))
+		{
+			ParentScript.TriggerLeftButtonAction();
+		}
+		if (Input.GetMouseButtonDown(1))
+		{
+			ParentScript.TriggerRightButtonAction();
+		}
 	}
 }

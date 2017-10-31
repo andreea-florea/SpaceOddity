@@ -18,11 +18,11 @@ public class PrefabWorldObjectFactory : IWorldObjectFactory
 	{
 		var gameObject = GameObject.Instantiate(prefab);
 		var worldObject = new UnityWorldObject (gameObject, topPosition, 
-			new Geometry.Vector2 (), new Geometry.Vector2 (), new NoAction ());
+			new Geometry.Vector2 (), new Geometry.Vector2 (), new NoAction(), new NoAction());
 
 		if (gameObject.GetComponent<ControlScript>() != null) 
 		{
-			gameObject.GetComponent<ControlScript> ().ControlObject = worldObject;
+			gameObject.GetComponent<ControlScript>().ControlObject = worldObject;
 		}
 
 		return worldObject;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ViewInterface;
+using ViewModel.Interfaces;
 
 namespace ViewModel.Fancy
 {
@@ -15,18 +16,21 @@ namespace ViewModel.Fancy
         private IWorldObject[,] tiles;
         private IWorldObject[,] details;
         private IFacingContextWorldObjectFactory detailFactory;
+        private IBlueprintBuilderController controller;
         private IEnumerable<FacingPosition> detailUpdates;
 
         public BlockDetailsViewUpdater(IBlueprintBuilder blueprintBuilder,
             IWorldObject[,] tiles,
             IWorldObject[,] details,
-            IFacingContextWorldObjectFactory detailFactory, 
+            IFacingContextWorldObjectFactory detailFactory,
+            IBlueprintBuilderController controller,
             IEnumerable<FacingPosition> detailUpdates)
         {
             this.blueprintBuilder = blueprintBuilder;
             this.tiles = tiles;
             this.details = details;
             this.detailFactory = detailFactory;
+            this.controller = controller;
             this.detailUpdates = detailUpdates;
         }
 
@@ -35,30 +39,30 @@ namespace ViewModel.Fancy
             foreach (var detailUpdate in detailUpdates)
             {
                 var position = updatePosition + detailUpdate.RelativePosition;
+                DeleteOldDetail(position);
                 if (blueprintBuilder.HasBlock(position))
                 {
-                    var newDetail = CreateDetailObject(position, detailUpdate.Forward);
-                    ReplaceOldDetail(newDetail, position);
+                    CreateDetailObject(position, detailUpdate.Forward);
                 }
             }
         }
 
-        private IWorldObject CreateDetailObject(Coordinate position, Coordinate facing)
+        private void CreateDetailObject(Coordinate position, Coordinate facing)
         {
             var detailObject = detailFactory.CreateObject(position, facing);
             detailObject.Position = tiles.Get(position).Position;
             detailObject.Scale = tiles.Get(position).Scale;
             detailObject.Rotation = new Vector2(facing.X, facing.Y);
-            return detailObject;
+            controller.AssignBlockControl(blueprintBuilder, detailObject, position);
+            details.Set(position, detailObject);
         }
 
-        private void ReplaceOldDetail(IWorldObject newDetail, Coordinate position)
+        private void DeleteOldDetail(Coordinate position)
         {
-            if (details.Get(position) != null)
+            if (details.IsWithinBounds(position) && details.Get(position) != null)
             {
                 details.Get(position).Delete();
             }
-            details.Set(position, newDetail);
         }
     }
 }

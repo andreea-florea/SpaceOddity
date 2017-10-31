@@ -53,7 +53,8 @@ namespace ConstructedGame
                     outsideUpCornerFactory,
                     outsideRightCornerFactory,
                     roundEdgeFactory,
-                    closedEdgeFactory);
+                    closedEdgeFactory,
+                    controller);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

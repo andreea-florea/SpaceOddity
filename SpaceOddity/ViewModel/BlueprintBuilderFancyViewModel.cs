@@ -21,10 +21,7 @@ namespace ViewModel
 
         public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            foreach (var detailsUpdater in detailsUpdaters)
-            {
-                detailsUpdater.UpdateDetails(position);
-            }
+            UpdateDetails(position);
         }
 
         public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
@@ -34,7 +31,15 @@ namespace ViewModel
 
         public void BlockDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            throw new NotImplementedException();
+            UpdateDetails(position);
+        }
+
+        private void UpdateDetails(Coordinate position)
+        {
+            foreach (var detailsUpdater in detailsUpdaters)
+            {
+                detailsUpdater.UpdateDetails(position);
+            }
         }
 
         public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)

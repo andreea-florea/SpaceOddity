@@ -7,6 +7,7 @@ using Geometry;
 using ViewInterface;
 using System.Collections.Generic;
 using NaturalNumbersMath;
+using ViewModel.Interfaces;
 
 namespace ViewModel.Tests.Fancy
 {
@@ -18,6 +19,7 @@ namespace ViewModel.Tests.Fancy
         private Mock<IWorldObject> mockTile;
         private Mock<IWorldObject> mockObject;
         private Mock<IFacingContextWorldObjectFactory> mockFactory;
+        private Mock<IBlueprintBuilderController> mockController;
         private BlockDetailsViewUpdater blockDetailsViewUpdater;
         private List<FacingPosition> detailUpdates;
         private IWorldObject[,] tiles;
@@ -32,12 +34,13 @@ namespace ViewModel.Tests.Fancy
             mockBlock = new Mock<IBlock>();
             mockTile = new Mock<IWorldObject>();
             mockFactory = new Mock<IFacingContextWorldObjectFactory>();
+            mockController = new Mock<IBlueprintBuilderController>();
             detailUpdates = new List<FacingPosition>();
             tiles = new IWorldObject[4, 4];
             details = new IWorldObject[4, 4];
 
             blockDetailsViewUpdater = new BlockDetailsViewUpdater(mockBlueprintBuilder.Object,
-                tiles, details, mockFactory.Object, detailUpdates);
+                tiles, details, mockFactory.Object, mockController.Object, detailUpdates);
         }
 
         [TestMethod]
@@ -89,20 +92,59 @@ namespace ViewModel.Tests.Fancy
         }
 
         [TestMethod]
-        public void OldDetailIsDeletedWhenNewOneIsUpdated()
+        public void OldDetailIsDeletedOnUpdated()
         {
             mockFactory.Setup(factory => factory.CreateObject(new Coordinate(1, 3), Coordinates.Down)).Returns(mockObject.Object);
             detailUpdates.Add(new FacingPosition(Coordinates.Down, new Coordinate(0, 0)));
             detailUpdates.Add(new FacingPosition(Coordinates.Down, new Coordinate(0, 0)));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(1, 3))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(1, 3))).Returns(mockBlock.Object);
-            tiles[3, 1] = mockTile.Object;
+
             var position = new Coordinate(1, 3);
+            tiles.Set(position, mockTile.Object);
             
             blockDetailsViewUpdater.UpdateDetails(position);
 
             mockFactory.Verify(factory => factory.CreateObject(new Coordinate(1, 3), Coordinates.Down), Times.Exactly(2));
             mockObject.Verify(worldObject => worldObject.Delete(), Times.Once());
+        }
+
+        [TestMethod]
+        public void DetailIsDeletedIfBlockIsMissing()
+        {
+            detailUpdates.Add(new FacingPosition(Coordinates.Down, Coordinates.Zero));
+            var position = new Coordinate(1, 3);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(false);
+
+            var mockDetail = new Mock<IWorldObject>();
+            details.Set(position, mockDetail.Object);
+
+            blockDetailsViewUpdater.UpdateDetails(position);
+
+            mockDetail.Verify(detail => detail.Delete(), Times.Once());
+        }
+
+        [TestMethod]
+        public void DetailNotDeletedIfCallIsOutsideBounds()
+        {
+            detailUpdates.Add(new FacingPosition(Coordinates.Down, Coordinates.Zero));
+            var position = new Coordinate(-1, 3);
+
+            blockDetailsViewUpdater.UpdateDetails(position);
+        }
+
+        [TestMethod]
+        public void BlockDetailIsAddedControl()
+        {
+            var position = new Coordinate(2, 3);
+            mockFactory.Setup(factory => factory.CreateObject(position, Coordinates.Up)).Returns(mockObject.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            detailUpdates.Add(new FacingPosition(Coordinates.Up, Coordinates.Zero));
+            tiles.Set(position, mockTile.Object);
+
+            blockDetailsViewUpdater.UpdateDetails(position);
+            mockController.Verify(controller => controller.AssignBlockControl(
+                mockBlueprintBuilder.Object, mockObject.Object, position), Times.Once);       
         }
     }
 }

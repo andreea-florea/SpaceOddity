@@ -56,13 +56,15 @@ public class UnityWorldObject : IWorldObject
 	public IAction RightClickAction { get; set; }
 
 	public UnityWorldObject(GameObject gameObject, float topPosition, 
-		Geometry.Vector2 position, Geometry.Vector2 scale, IAction leftClickAction)
+		Geometry.Vector2 position, Geometry.Vector2 scale, 
+		IAction leftClickAction, IAction rightClickAction)
 	{
 		this.gameObject = gameObject;
 		this.topPosition = topPosition;
 		Position = position;
 		Scale = scale;
 		LeftClickAction = leftClickAction;
+		RightClickAction = rightClickAction;
 	}
 
 	public void Delete()

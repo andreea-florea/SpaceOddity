@@ -7,13 +7,25 @@ public class ControlScript : MonoBehaviour
 {
 	public IWorldObject ControlObject { get; set; }
 
-	public void OnMouseDown() 
+	public void OnMouseOver() 
 	{
-		TriggerLeftButtonAction();
+		if (Input.GetMouseButtonDown(0))
+		{
+			TriggerLeftButtonAction();
+		}
+		if (Input.GetMouseButtonDown(1))
+		{
+			TriggerRightButtonAction();
+		}
 	}
 		
 	public void TriggerLeftButtonAction()
 	{
 		ControlObject.LeftClickAction.Execute();
+	}
+
+	public void TriggerRightButtonAction()
+	{
+		ControlObject.RightClickAction.Execute();
 	}
 }

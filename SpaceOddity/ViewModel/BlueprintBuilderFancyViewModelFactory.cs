@@ -22,6 +22,7 @@ namespace ViewModel
         private IWorldObjectFactory outsideRightCornerFactory;
         private IWorldObjectFactory roundEdgeFactory;
         private IWorldObjectFactory closedEdgeFactory;
+        private IBlueprintBuilderController controller;
 
         public BlueprintBuilderFancyViewModelFactory(
             IViewModelTilesFactory tilesFactory,
@@ -33,7 +34,8 @@ namespace ViewModel
             IWorldObjectFactory outsideUpCornerFactory,
             IWorldObjectFactory outsideRightCornerFactory,
             IWorldObjectFactory roundEdgeFactory,
-            IWorldObjectFactory closedEdgeFactory)
+            IWorldObjectFactory closedEdgeFactory,
+            IBlueprintBuilderController controller)
         {
             this.tilesFactory = tilesFactory;
             this.blockCoreFactory = blockCoreFactory;
@@ -45,6 +47,7 @@ namespace ViewModel
             this.outsideRightCornerFactory = outsideRightCornerFactory;
             this.roundEdgeFactory = roundEdgeFactory;
             this.closedEdgeFactory = closedEdgeFactory;
+            this.controller = controller;
         }
 
         public BlueprintBuilderFancyViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
@@ -87,9 +90,9 @@ namespace ViewModel
             baseCornerFactories[7] = closedCornerFactory;
             var cornerFactory = new WorldObjectBitNumberFactoryPicker(baseCornerFactories,
                 new CornerBlocksNumberGenerator(builder));
-
+            
             return new BlockDetailsViewUpdater(
-                builder, tiles, cornerDetails, cornerFactory, cornerUpdates);
+                builder, tiles, cornerDetails, cornerFactory, controller, cornerUpdates);
         }
 
         private IDetailsViewUpdater CreateEdgeUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles, Coordinate direction)
@@ -107,7 +110,7 @@ namespace ViewModel
             var edgeFactory = new WorldObjectBitNumberFactoryPicker(baseEdgeFactories,
                 new EdgeBlocksNumberGenerator(builder));
 
-            return new BlockDetailsViewUpdater(builder, tiles, edgeDetails, edgeFactory, edgeUpdates);
+            return new BlockDetailsViewUpdater(builder, tiles, edgeDetails, edgeFactory, controller, edgeUpdates);
         }
 
         private IDetailsViewUpdater CreateCoreUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles)
@@ -118,7 +121,7 @@ namespace ViewModel
             coreUpdates.Add(new FacingPosition(Coordinates.Zero, Coordinates.Zero));
 
             return new BlockDetailsViewUpdater(builder, tiles, coreDetails,
-                new IgnoreFacingContextWorldObjectFactory(blockCoreFactory), coreUpdates);
+                new IgnoreFacingContextWorldObjectFactory(blockCoreFactory), controller, coreUpdates);
         }
     }
 }

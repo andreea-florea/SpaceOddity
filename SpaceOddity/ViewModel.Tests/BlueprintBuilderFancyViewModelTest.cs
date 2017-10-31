@@ -26,11 +26,20 @@ namespace ViewModel.Tests
         }
 
         [TestMethod]
-        public void CheckIfDetailsUpdaterIsCalled()
+        public void CheckIfDetailsUpdaterIsCalledOnBlockCreated()
         {
             var position = new Coordinate(4, 5);
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
             fancyViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            mockBlockDetailsViewUpdater.Verify(updater => updater.UpdateDetails(position), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckIfDetailsUpdaterIsCalledOnBlockDeleted()
+        {
+            var position = new Coordinate(4, 5);
+            var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
+            fancyViewModel.BlockDeleted(mockBlueprintBuilder.Object, position);
             mockBlockDetailsViewUpdater.Verify(updater => updater.UpdateDetails(position), Times.Once());
         }
     }
