@@ -31,7 +31,13 @@ namespace Game
         public BlueprintBuilder(IBlock[,] blueprint, IBlockFactory blockFactory)
         {
             this.blueprint = blueprint;
-            this.blockFactory = blockFactory;
+            this.blockFactory = blockFactory;   
+        }
+
+        public BlueprintBuilder(Coordinate dimensions)
+        {
+            //TODO: check negatives
+            blueprint = new IBlock[dimensions.X, dimensions.Y];
         }
 
         public IBlock GetBlock(Coordinate position)
@@ -46,6 +52,7 @@ namespace Game
 
         public bool CreateBlock(Coordinate position)
         {
+            //TODO: check that position in within bounds
             if (GetBlock(position) == null)
             {
                 blueprint.Set(position, blockFactory.CreateBlock());
@@ -67,7 +74,7 @@ namespace Game
 
         public bool AddShipComponent(Coordinate position, IShipComponent component)
         {
-            if (GetBlock(position) != null)
+            if (GetBlock(position) != null && !(GetBlock(position).HasShipComponent()))
             {
                 GetBlock(position).AddShipComponent(component);
                 return true;
@@ -78,7 +85,7 @@ namespace Game
 
         public bool DeleteShipComponent(Coordinate position)
         {
-            if (GetBlock(position) != null && GetBlock(position).ShipComponent != null)
+            if (GetBlock(position) != null && GetBlock(position).HasShipComponent())
             {
                 GetBlock(position).DeleteShipComponent();
                 return true;

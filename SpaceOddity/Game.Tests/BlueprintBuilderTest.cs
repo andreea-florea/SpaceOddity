@@ -57,6 +57,15 @@ namespace Game.Tests
         }
 
         [TestMethod]
+        public void CheckThatBlueprintMatrixDimensionsAreAssignedCorrectly()
+        {
+            var dimensions = new Coordinate(4, 5);
+            var blueprintBuilder = new BlueprintBuilder(dimensions);
+            Assert.AreEqual(4, blueprintBuilder.Height);
+            Assert.AreEqual(5, blueprintBuilder.Width);
+        }
+
+        [TestMethod]
         public void CheckIfBlockGetsCreatedCorrectlyOnEmptySpot()
         {
             blueprint[4, 5] = mockBlock.Object;
@@ -122,9 +131,9 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
             mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(m => m.HasShipComponent()).Returns(true);
             mockBlock.Setup(x => x.DeleteShipComponent()).Callback(() => mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null));
-            blueprint[4, 5] = mockBlock.Object;
-            Assert.IsTrue(blueprintBuilder.AddShipComponent(position, mockShipComponent.Object));
+            blueprint.Set(position, mockBlock.Object);
             Assert.IsTrue(blueprintBuilder.DeleteShipComponent(position));
             Assert.AreEqual(null, blueprint[4, 5].ShipComponent);
             mockBlock.Verify(x => x.DeleteShipComponent(), Times.Once());
@@ -134,8 +143,9 @@ namespace Game.Tests
         public void CheckThatShipComponentCannotBeDeletedIfInexistent()
         {
             var position = new Coordinate(5, 4);
-            blueprint[4, 5] = mockBlock.Object;
-            mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null);
+            blueprint.Set(position, mockBlock.Object);
+            //mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null);
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
             Assert.IsFalse(blueprintBuilder.DeleteShipComponent(position));
             mockBlock.Verify(x => x.DeleteShipComponent(), Times.Never());
         }
@@ -147,6 +157,17 @@ namespace Game.Tests
             mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null);
             Assert.IsFalse(blueprintBuilder.DeleteShipComponent(position));
             mockBlock.Verify(x => x.DeleteShipComponent(), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckThatShipComponentCannotBeAddedToBlockWithExistentShipComponent()
+        {
+            var position = new Coordinate(5, 4);
+            blueprint.Set(position, mockBlock.Object);
+            //mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
+            Assert.IsFalse(blueprintBuilder.AddShipComponent(position, mockShipComponent.Object));
+            mockBlock.Verify(x => x.AddShipComponent(mockShipComponent.Object), Times.Never());
         }
     }
 }

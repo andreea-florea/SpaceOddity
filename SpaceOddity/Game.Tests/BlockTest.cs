@@ -33,5 +33,12 @@ namespace Game.Tests
             block.DeleteShipComponent();
             Assert.AreEqual(null, block.ShipComponent);
         }
+
+        [TestMethod]
+        public void CheckIfBlockHasShipComponent()
+        {
+            block.AddShipComponent(mockShipComponent.Object);
+            Assert.IsTrue(block.HasShipComponent());
+        }
     }
 }

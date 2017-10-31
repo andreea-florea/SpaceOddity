@@ -14,5 +14,7 @@ namespace Game.Interfaces
         void AddShipComponent(IShipComponent component);
 
         void DeleteShipComponent();
+
+        bool HasShipComponent();
     }
 }

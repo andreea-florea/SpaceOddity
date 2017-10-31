@@ -27,5 +27,11 @@ namespace Game
         {
             ShipComponent = null;
         }
+
+        public bool HasShipComponent()
+        {
+            return (ShipComponent != null);
+
+        }
     }
 }
