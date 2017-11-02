@@ -66,6 +66,15 @@ namespace Game.Tests
         }
 
         [TestMethod]
+        public void CheckThatBlockFactoryIsAssignedWhenUsingSimpleConstructor()
+        {
+            var dimensions = new Coordinate(4, 5);
+            var blueprintBuilder = new BlueprintBuilder(dimensions);
+            var position = new Coordinate(1, 2);
+            Assert.IsTrue(blueprintBuilder.CreateBlock(position));
+        }
+
+        [TestMethod]
         public void CheckIfBlockGetsCreatedCorrectlyOnEmptySpot()
         {
             blueprint[4, 5] = mockBlock.Object;

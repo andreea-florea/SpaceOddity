@@ -29,8 +29,9 @@ namespace Game
 
         public BlueprintBuilder(Coordinate dimensions)
         {
-            //TODO: check negatives
+            //TODO: check negatives?
             blueprint = new IBlock[dimensions.X, dimensions.Y];
+            blockFactory = new BlockFactory(5);
         }
 
         public IBlock GetBlock(Coordinate position)
@@ -45,7 +46,7 @@ namespace Game
 
         public bool CreateBlock(Coordinate position)
         {
-            //TODO: check that position in within bounds
+            //TODO: check that position in within bounds?
             if (GetBlock(position) == null)
             {
                 blueprint.Set(position, blockFactory.CreateBlock());
