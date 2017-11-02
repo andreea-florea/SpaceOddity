@@ -12,6 +12,7 @@ namespace Game
     {
         private IBlock[,] blueprint;
         private IBlockFactory blockFactory;
+        private IShipComponentFactory shipComponentFactory;
 
         public Coordinate Dimensions
         {
@@ -21,10 +22,11 @@ namespace Game
             }
         }
 
-        public BlueprintBuilder(IBlock[,] blueprint, IBlockFactory blockFactory)
+        public BlueprintBuilder(IBlock[,] blueprint, IBlockFactory blockFactory, IShipComponentFactory shipComponentFactory)
         {
             this.blueprint = blueprint;
-            this.blockFactory = blockFactory;   
+            this.blockFactory = blockFactory;
+            this.shipComponentFactory = shipComponentFactory;
         }
 
         public BlueprintBuilder(Coordinate dimensions)
@@ -32,6 +34,7 @@ namespace Game
             //TODO: check negatives?
             blueprint = new IBlock[dimensions.X, dimensions.Y];
             blockFactory = new BlockFactory(5);
+            shipComponentFactory = new BatteryFactory();
         }
 
         public IBlock GetBlock(Coordinate position)
@@ -66,8 +69,9 @@ namespace Game
             return true;
         }
 
-        public bool AddShipComponent(Coordinate position, IShipComponent component)
+        public bool AddShipComponent(Coordinate position)
         {
+            var component = shipComponentFactory.CreateComponent();
             if (GetBlock(position) != null && !(GetBlock(position).HasShipComponent()))
             {
                 GetBlock(position).AddShipComponent(component);

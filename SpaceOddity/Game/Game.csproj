@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battery.cs" />
+    <Compile Include="BatteryFactory.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockFactory.cs" />
     <Compile Include="BlueprintBuilder.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Interfaces\IBlueprintBuilderObserver.cs" />
     <Compile Include="Interfaces\IObservableBlueprintBuilder.cs" />
     <Compile Include="Interfaces\IShipComponent.cs" />
+    <Compile Include="Interfaces\IShipComponentFactory.cs" />
     <Compile Include="ObservableBlueprintBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

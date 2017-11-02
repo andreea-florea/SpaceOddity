@@ -65,7 +65,7 @@ namespace ConstructedGame
 
             var blueprint = new IBlock[height, width];
             var blockFactory = new BlockFactory(1);
-            var blueprintBuilder = new BlueprintBuilder(blueprint, blockFactory);
+            var blueprintBuilder = new BlueprintBuilder(blueprint, blockFactory, null);
             return new ObservableBlueprintBuilder(blueprintBuilder);
         }
 
