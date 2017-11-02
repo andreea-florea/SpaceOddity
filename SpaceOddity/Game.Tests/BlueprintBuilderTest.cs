@@ -11,6 +11,7 @@ namespace Game.Tests
         private IBlock[,] blueprint;
         private BlueprintBuilder blueprintBuilder;
         private Mock<IBlockFactory> mockBlockFactory;
+        private Mock<IShipComponentFactory> mockShipComponentFactory;
         private Mock<IBlock> mockBlock;
         private Mock<IShipComponent> mockShipComponent;
 
@@ -21,7 +22,8 @@ namespace Game.Tests
             mockBlock = new Mock<IBlock>();
             mockShipComponent = new Mock<IShipComponent>();
             mockBlockFactory = new Mock<IBlockFactory>();
-            blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object);
+            mockShipComponentFactory = new Mock<IShipComponentFactory>();
+            blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object);
         }
 
         [TestMethod]
@@ -75,6 +77,16 @@ namespace Game.Tests
         }
 
         [TestMethod]
+        public void CheckThatShipComponentFactoryIsAssignedWhenUsingSimpleConstructor()
+        {
+            var dimensions = new Coordinate(4, 5);
+            var blueprintBuilder = new BlueprintBuilder(dimensions);
+            var position = new Coordinate(1, 2);
+            Assert.IsTrue(blueprintBuilder.CreateBlock(position));
+            Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
+        }
+
+        [TestMethod]
         public void CheckIfBlockGetsCreatedCorrectlyOnEmptySpot()
         {
             blueprint[4, 5] = mockBlock.Object;
@@ -96,6 +108,18 @@ namespace Game.Tests
             mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
             Assert.AreEqual(mockBlock.Object, blueprintBuilder.GetBlock(position));
+        }
+
+        [TestMethod]
+        public void CheckIfShipComponentFactoryIsUsedToAddShipComponents()
+        {
+            var position = new Coordinate(5, 4);
+            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+            mockBlock.SetupAllProperties();
+            mockShipComponentFactory.Setup(x => x.CreateComponent()).Returns(mockShipComponent.Object);
+            Assert.IsTrue(blueprintBuilder.CreateBlock(position));
+            Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
+            mockBlock.Verify(block => block.AddShipComponent(mockShipComponent.Object), Times.Once());
         }
 
         [TestMethod]
@@ -122,7 +146,7 @@ namespace Game.Tests
             var position = new Coordinate(5, 4);
             mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
             blueprint[4, 5] = mockBlock.Object;
-            Assert.IsTrue(blueprintBuilder.AddShipComponent(position, mockShipComponent.Object));
+            Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             Assert.AreEqual(mockShipComponent.Object, blueprint[4, 5].ShipComponent);
             mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Once());
         }
@@ -131,7 +155,7 @@ namespace Game.Tests
         public void CheckThatShipComponentCannotBeAddedOnInexistentBlock()
         {
             var position = new Coordinate(5, 4);
-            Assert.IsFalse(blueprintBuilder.AddShipComponent(position, mockShipComponent.Object));
+            Assert.IsFalse(blueprintBuilder.AddShipComponent(position));
             mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Never());
         }
 
@@ -175,7 +199,7 @@ namespace Game.Tests
             blueprint.Set(position, mockBlock.Object);
             //mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
             mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
-            Assert.IsFalse(blueprintBuilder.AddShipComponent(position, mockShipComponent.Object));
+            Assert.IsFalse(blueprintBuilder.AddShipComponent(position));
             mockBlock.Verify(x => x.AddShipComponent(mockShipComponent.Object), Times.Never());
         }
     }

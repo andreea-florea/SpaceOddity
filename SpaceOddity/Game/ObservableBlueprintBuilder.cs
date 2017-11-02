@@ -98,9 +98,9 @@ namespace Game
 
         #region Ship Component Adding
 
-        public bool AddShipComponent(Coordinate position, IShipComponent shipComponent)
+        public bool AddShipComponent(Coordinate position)
         {
-            var success = baseBuilder.AddShipComponent(position, shipComponent);
+            var success = baseBuilder.AddShipComponent(position);
 
             if (success)
             {

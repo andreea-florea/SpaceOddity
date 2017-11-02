@@ -13,7 +13,7 @@ namespace Game.Interfaces
         bool HasBlock(Coordinate position);
         bool CreateBlock(Coordinate position);
         bool DeleteBlock(Coordinate position);
-        bool AddShipComponent(Coordinate position, IShipComponent component);
+        bool AddShipComponent(Coordinate position);
         bool DeleteShipComponent(Coordinate position);
     }
 }

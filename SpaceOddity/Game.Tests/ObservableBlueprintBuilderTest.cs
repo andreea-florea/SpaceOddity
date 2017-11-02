@@ -122,8 +122,8 @@ namespace Game.Tests
         public void CheckIfObserverIsInformedOfAddedShipComponent()
         {
             var position = new Coordinate(6, 5);
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(true);
-            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position)).Returns(true);
+            observableBlueprintBuilder.AddShipComponent(position);
             mockObserver.Verify(x => x.ShipComponentAdded(observableBlueprintBuilder, position), Times.Once());
         }
 
@@ -131,8 +131,8 @@ namespace Game.Tests
         public void ObserverShouldNotBeInformedIfNoShipComponentIsAdded()
         {
             var position = new Coordinate(6, 5);
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(false);
-            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position)).Returns(false);
+            observableBlueprintBuilder.AddShipComponent(position);
             mockObserver.Verify(x => x.ShipComponentAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
 
@@ -140,8 +140,8 @@ namespace Game.Tests
         public void CheckThatObserverSendsErrorMessageWhenCannotAddShipComponent()
         {
             var position = new Coordinate(6, 5);
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(false);
-            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position)).Returns(false);
+            observableBlueprintBuilder.AddShipComponent(position);
             mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Once());
         }
 
@@ -149,8 +149,8 @@ namespace Game.Tests
         public void CheckThatObserverDoesntSendErrorMessageWhenAddingShipComponent()
         {
             var position = new Coordinate(6, 5);
-            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position, mockShipComponent.Object)).Returns(true);
-            observableBlueprintBuilder.AddShipComponent(position, mockShipComponent.Object);
+            mockBlueprintBuilder.Setup(x => x.AddShipComponent(position)).Returns(true);
+            observableBlueprintBuilder.AddShipComponent(position);
             mockObserver.Verify(x => x.ErrorShipComponentNotAdded(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
         #endregion
