@@ -1,6 +1,7 @@
 ﻿using Game;
 using Game.Interfaces;
 using Geometry;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,12 +61,7 @@ namespace ConstructedGame
 
         private IObservableBlueprintBuilder CreateBlueprintBuilder()
         {
-            var width = 10;
-            var height = 10;
-
-            var blueprint = new IBlock[height, width];
-            var blockFactory = new BlockFactory(1);
-            var blueprintBuilder = new BlueprintBuilder(blueprint, blockFactory);
+            var blueprintBuilder = new BlueprintBuilder(new Coordinate(10, 10));
             return new ObservableBlueprintBuilder(blueprintBuilder);
         }
 
