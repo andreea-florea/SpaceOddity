@@ -13,6 +13,9 @@ namespace Game
 
         public IShipComponent ShipComponent { get; private set; }
 
+        public List<EdgesPipe> PipesWithBothEdges { get; private set; }
+        public List<ConnectingPipe> PipesWithOneEdge { get; private set; }
+
         public Block(double weight)
         {
             Weight = weight;
