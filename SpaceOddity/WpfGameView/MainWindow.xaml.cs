@@ -1,6 +1,4 @@
 ﻿using ConstructedGame;
-using Game;
-using Game.Interfaces;
 using Geometry;
 using System;
 using System.Collections.Generic;
@@ -15,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewInterface;
 using ViewModel;
 using ViewModel.Fancy;
 using ViewModel.Interfaces;

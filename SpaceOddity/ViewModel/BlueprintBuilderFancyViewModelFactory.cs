@@ -20,9 +20,10 @@ namespace ViewModel
         private IWorldObjectFactory closedCornerFactory;
         private IWorldObjectFactory outsideUpCornerFactory;
         private IWorldObjectFactory outsideRightCornerFactory;
+        private IWorldObjectFactory diagonalMissingCornerFactory;
         private IWorldObjectFactory roundEdgeFactory;
         private IWorldObjectFactory closedEdgeFactory;
-        private IBlueprintBuilderController controller;
+        private IBlueprintBuilderControlAssigner controller;
 
         public BlueprintBuilderFancyViewModelFactory(
             IViewModelTilesFactory tilesFactory,
@@ -33,9 +34,10 @@ namespace ViewModel
             IWorldObjectFactory closedCornerFactory,
             IWorldObjectFactory outsideUpCornerFactory,
             IWorldObjectFactory outsideRightCornerFactory,
+            IWorldObjectFactory diagonalMissingCornerFactory,
             IWorldObjectFactory roundEdgeFactory,
             IWorldObjectFactory closedEdgeFactory,
-            IBlueprintBuilderController controller)
+            IBlueprintBuilderControlAssigner controller)
         {
             this.tilesFactory = tilesFactory;
             this.blockCoreFactory = blockCoreFactory;
@@ -45,6 +47,7 @@ namespace ViewModel
             this.closedCornerFactory = closedCornerFactory;
             this.outsideUpCornerFactory = outsideUpCornerFactory;
             this.outsideRightCornerFactory = outsideRightCornerFactory;
+            this.diagonalMissingCornerFactory = diagonalMissingCornerFactory;
             this.roundEdgeFactory = roundEdgeFactory;
             this.closedEdgeFactory = closedEdgeFactory;
             this.controller = controller;
@@ -83,7 +86,7 @@ namespace ViewModel
             baseCornerFactories[0] = roundCornerFactory;
             baseCornerFactories[1] = straightUpCornerFactory;
             baseCornerFactories[2] = straightRightCornerFactory;
-            baseCornerFactories[3] = closedCornerFactory;
+            baseCornerFactories[3] = diagonalMissingCornerFactory;
             baseCornerFactories[4] = roundCornerFactory;
             baseCornerFactories[5] = outsideUpCornerFactory;
             baseCornerFactories[6] = outsideRightCornerFactory;

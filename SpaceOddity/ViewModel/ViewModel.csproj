@@ -41,14 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\DeleteBlockAction.cs" />
+    <Compile Include="Actions\BlockCancelAction.cs" />
+    <Compile Include="Actions\TileSelectAction.cs" />
     <Compile Include="AspectRatioRectangleSection.cs" />
+    <Compile Include="BlueprintBuilderControlAssigner.cs" />
     <Compile Include="BlueprintBuilderController.cs" />
     <Compile Include="BlueprintBuilderFancyViewModel.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelFactory.cs" />
     <Compile Include="BlueprintBuilderViewModel.cs" />
     <Compile Include="BlueprintBuilderViewModelFactory.cs" />
-    <Compile Include="Actions\CreateBlockAction.cs" />
     <Compile Include="Fancy\CornerBlocksNumberGenerator.cs" />
     <Compile Include="Fancy\EdgeBlocksNumberGenerator.cs" />
     <Compile Include="Fancy\IBitNumberGenerator.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Fancy\IgnoreFacingContextWorldObjectFactory.cs" />
     <Compile Include="Fancy\WorldObjectBitNumberFactoryPicker.cs" />
     <Compile Include="FullRectangleSection.cs" />
+    <Compile Include="Interfaces\IBlueprintBuilderControlAssigner.cs" />
     <Compile Include="Interfaces\IBlueprintBuilderController.cs" />
     <Compile Include="Interfaces\IRectangleSection.cs" />
     <Compile Include="IViewModelTilesFactory.cs" />

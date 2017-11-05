@@ -19,11 +19,12 @@ namespace ConstructedGame
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-            var controller = new BlueprintBuilderController();
+            var controller = new BlueprintBuilderController(observableBlueprintBuilder);
+            var assignController = new BlueprintBuilderControlAssigner(controller);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, controller);
-            var blueprintViewModelFactory = 
-                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory, controller);
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, assignController);
+            var blueprintViewModelFactory =
+                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory, assignController);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
@@ -35,15 +36,17 @@ namespace ConstructedGame
             IWorldObjectFactory closedCornerFactory,
             IWorldObjectFactory outsideUpCornerFactory,
             IWorldObjectFactory outsideRightCornerFactory,
+            IWorldObjectFactory diagonalMissingCornerFactory,
             IWorldObjectFactory roundEdgeFactory,
             IWorldObjectFactory closedEdgeFactory,
             IRectangleSection fullRectangle)
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-            var controller = new BlueprintBuilderController();
+            var controller = new BlueprintBuilderController(observableBlueprintBuilder);
+            var assignController = new BlueprintBuilderControlAssigner(controller);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, controller);
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, assignController);
             var blueprintViewModelFactory =
                 new BlueprintBuilderFancyViewModelFactory(tilesFactory,
                     blockCoreFactory,
@@ -53,9 +56,10 @@ namespace ConstructedGame
                     closedCornerFactory,
                     outsideUpCornerFactory,
                     outsideRightCornerFactory,
+                    diagonalMissingCornerFactory,
                     roundEdgeFactory,
                     closedEdgeFactory,
-                    controller);
+                    assignController);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

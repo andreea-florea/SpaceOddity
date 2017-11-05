@@ -15,7 +15,7 @@ namespace ViewModel
         private IWorldObject[,] blocks;
 
         private IWorldObjectFactory blockFactory;
-        private IBlueprintBuilderController controller;
+        private IBlueprintBuilderControlAssigner controller;
 
         public int Width
         {
@@ -34,7 +34,7 @@ namespace ViewModel
         }
 
         public BlueprintBuilderViewModel(IWorldObject[,] tiles, IWorldObject[,] blocks, 
-            IWorldObjectFactory blockFactory, IBlueprintBuilderController controller)
+            IWorldObjectFactory blockFactory, IBlueprintBuilderControlAssigner controller)
         {
             this.tiles = tiles;
             this.blocks = blocks;
@@ -57,7 +57,7 @@ namespace ViewModel
             blocks.Set(position, blockFactory.CreateObject());
             blocks.Get(position).Position = tiles.Get(position).Position;
             blocks.Get(position).Scale = tiles.Get(position).Scale;
-            controller.AssignBlockControl(blueprintBuilder, blocks.Get(position), position);
+            controller.AssignBlockControl(blocks.Get(position), position);
         }
 
         public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)

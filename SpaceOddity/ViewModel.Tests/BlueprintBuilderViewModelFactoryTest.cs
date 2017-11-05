@@ -17,7 +17,7 @@ namespace ViewModel.Tests
         private Mock<IWorldObjectFactory> mockBlockFactory;
         private IWorldObject[,] tiles;
         private Mock<IObservableBlueprintBuilder> mockBlueprintBuilder;
-        private Mock<IBlueprintBuilderController> mockController;
+        private Mock<IBlueprintBuilderControlAssigner> mockController;
         private BlueprintBuilderViewModelFactory viewModelFactory;
 
         [TestInitialize]
@@ -28,7 +28,7 @@ namespace ViewModel.Tests
             tiles = new IWorldObject[5, 3];
             mockBlueprintBuilder = new Mock<IObservableBlueprintBuilder>();
             mockTileFactory.Setup(factory => factory.CreateTiles(mockBlueprintBuilder.Object, It.IsAny<IRectangleSection>())).Returns(tiles);
-            mockController = new Mock<IBlueprintBuilderController>();
+            mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
             viewModelFactory = new BlueprintBuilderViewModelFactory(mockTileFactory.Object, mockBlockFactory.Object, mockController.Object);
         }

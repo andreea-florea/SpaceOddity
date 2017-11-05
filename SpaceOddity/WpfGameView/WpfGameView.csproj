@@ -97,10 +97,6 @@
       <Project>{135a28b7-e741-4d9d-92be-a93488400456}</Project>
       <Name>ConstructedGame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Game\Game.csproj">
-      <Project>{017cbef2-ad71-4d14-a04f-ddd57c27a98f}</Project>
-      <Name>Game</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Geometry\Geometry.csproj">
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
       <Name>Geometry</Name>

@@ -59,7 +59,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Actions\DeleteBlockActionTest.cs" />
+    <Compile Include="Actions\TileSelectActionTest.cs" />
+    <Compile Include="Actions\BlockCancelActionTest.cs" />
     <Compile Include="Fancy\EdgeBlocksNumberGeneratorTest.cs" />
     <Compile Include="Fancy\FacingPositionTest.cs" />
     <Compile Include="Fancy\BlockDetailsViewUpdaterTest.cs" />
@@ -73,10 +74,10 @@
     <Compile Include="MarginRectangleSectionTest.cs" />
     <Compile Include="AspectRatioRectangleSectionTest.cs" />
     <Compile Include="FullRectangleSectionTest.cs" />
-    <Compile Include="BlueprintBuilderControllerTest.cs" />
-    <Compile Include="Actions\CreateBlockActionTest.cs" />
+    <Compile Include="BlueprintBuilderControlAssignerTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelFactoryTest.cs" />
+    <Compile Include="BlueprintBuilderControllerTest.cs" />
     <Compile Include="ViewModelTilesFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>

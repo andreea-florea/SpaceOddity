@@ -14,6 +14,7 @@ public class FancyMainScript : MonoBehaviour {
 	public GameObject closedCornerPrefab;
 	public GameObject outsideUpCornerPrefab;
 	public GameObject outsideRightCornerPrefab;
+	public GameObject diagonalMissingCornerPrefab;
 	public GameObject roundEdgePrefab;
 	public GameObject closedEdgePrefab;
 
@@ -27,6 +28,7 @@ public class FancyMainScript : MonoBehaviour {
 		var closedCornerFactory = new PrefabWorldObjectFactory (closedCornerPrefab, 0);
 		var outsideUpCornerFactory = new PrefabWorldObjectFactory (outsideUpCornerPrefab, 0);
 		var outsideRightCornerFactory = new PrefabWorldObjectFactory (outsideRightCornerPrefab, 0);
+		var diagonalMissingCornerFactory = new PrefabWorldObjectFactory (diagonalMissingCornerPrefab, 0);
 		var roundEdgeFactory = new PrefabWorldObjectFactory (roundEdgePrefab, 0);
 		var closedEdgeFactory = new PrefabWorldObjectFactory (closedEdgePrefab, 0);
 
@@ -39,6 +41,7 @@ public class FancyMainScript : MonoBehaviour {
 			closedCornerFactory,
 			outsideUpCornerFactory,
 			outsideRightCornerFactory,
+			diagonalMissingCornerFactory,
 			roundEdgeFactory,
 			closedEdgeFactory,
 			new FullRectangleSection(new Geometry.Rectangle(new Geometry.Vector2(-10, -10), new Geometry.Vector2(10, 10))));

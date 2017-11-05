@@ -14,11 +14,11 @@ namespace ViewModel
     {
         private IViewModelTilesFactory tilesFactory;
         private IWorldObjectFactory blockFactory;
-        private IBlueprintBuilderController controller;
+        private IBlueprintBuilderControlAssigner controller;
 
         public BlueprintBuilderViewModelFactory(IViewModelTilesFactory tilesFactory, 
             IWorldObjectFactory blockFactory,
-            IBlueprintBuilderController controller)
+            IBlueprintBuilderControlAssigner controller)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;

@@ -12,9 +12,9 @@ namespace ViewModel
     public class ViewModelTilesFactory : IViewModelTilesFactory
     {
         private IWorldObjectFactory tileFactory;
-        private IBlueprintBuilderController controller;
+        private IBlueprintBuilderControlAssigner controller;
 
-        public ViewModelTilesFactory(IWorldObjectFactory tileFactory, IBlueprintBuilderController controller)
+        public ViewModelTilesFactory(IWorldObjectFactory tileFactory, IBlueprintBuilderControlAssigner controller)
         {
             this.tileFactory = tileFactory;
             this.controller = controller;
@@ -31,7 +31,7 @@ namespace ViewModel
                 tiles.Set(coordinate, tileFactory.CreateObject());
                 tiles.Get(coordinate).Position = tileRects.Get(coordinate).Center;
                 tiles.Get(coordinate).Scale = tileRects.Get(coordinate).Dimensions;
-                controller.AssignTileControl(builder, tiles.Get(coordinate), coordinate);
+                controller.AssignTileControl(tiles.Get(coordinate), coordinate);
             }
             return tiles;
         }

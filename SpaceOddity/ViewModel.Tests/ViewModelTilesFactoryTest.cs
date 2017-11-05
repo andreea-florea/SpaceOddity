@@ -16,7 +16,7 @@ namespace ViewModel.Tests
         private Mock<IRectangleSection> mockRectangleSection;
         private Mock<IWorldObjectFactory> mockTileObjectFactory;
         private Mock<IWorldObject> mockTile;
-        private Mock<IBlueprintBuilderController> mockController;
+        private Mock<IBlueprintBuilderControlAssigner> mockController;
         private ViewModelTilesFactory tilesFactory;
 
         [TestInitialize]
@@ -27,7 +27,7 @@ namespace ViewModel.Tests
             mockTileObjectFactory = new Mock<IWorldObjectFactory>();
             mockTile = new Mock<IWorldObject>();
             mockTile.SetupAllProperties();
-            mockController = new Mock<IBlueprintBuilderController>();
+            mockController = new Mock<IBlueprintBuilderControlAssigner>();
             tilesFactory = new ViewModelTilesFactory(mockTileObjectFactory.Object, mockController.Object);
         }
 
@@ -94,10 +94,10 @@ namespace ViewModel.Tests
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle());
 
             var tiles = tilesFactory.CreateTiles(mockBlueprintBuilder.Object, mockRectangleSection.Object);
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, new Coordinate(0, 0)), Times.Once());
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, new Coordinate(1, 0)), Times.Once());
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTestTile.Object, new Coordinate(0, 1)), Times.Once());
-            mockController.Verify(controller => controller.AssignTileControl(mockBlueprintBuilder.Object, mockTile.Object, new Coordinate(1, 1)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockTile.Object, new Coordinate(0, 0)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockTile.Object, new Coordinate(1, 0)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockTestTile.Object, new Coordinate(0, 1)), Times.Once());
+            mockController.Verify(controller => controller.AssignTileControl(mockTile.Object, new Coordinate(1, 1)), Times.Once());
         }
     }
 }
