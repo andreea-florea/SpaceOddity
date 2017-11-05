@@ -61,7 +61,7 @@ namespace ConstructedGame
 
         private IObservableBlueprintBuilder CreateBlueprintBuilder()
         {
-            var blueprintBuilder = new BlueprintBuilder(new Coordinate(10, 10));
+            var blueprintBuilder = new BlueprintBuilder(new Coordinate(11, 11));
             return new ObservableBlueprintBuilder(blueprintBuilder);
         }
 
