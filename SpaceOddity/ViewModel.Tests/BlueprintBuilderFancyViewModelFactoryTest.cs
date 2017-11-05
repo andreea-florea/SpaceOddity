@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ViewInterface;
 using Game.Interfaces;
-using ViewModel.Interfaces;
 using NaturalNumbersMath;
 
 namespace ViewModel.Tests

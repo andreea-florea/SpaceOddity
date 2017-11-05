@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using ViewModel;
-using ViewModel.Interfaces;
 
 namespace ConstructedGame
 {

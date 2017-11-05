@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ViewModel.Interfaces;
+
 using Moq;
 using NaturalNumbersMath;
 using ViewModel.Actions;

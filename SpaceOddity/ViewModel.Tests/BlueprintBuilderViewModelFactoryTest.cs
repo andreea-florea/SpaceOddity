@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Game.Interfaces;
 using Moq;
-using ViewModel.Interfaces;
+
 using Geometry;
 using System.Collections.Generic;
 using ViewInterface;

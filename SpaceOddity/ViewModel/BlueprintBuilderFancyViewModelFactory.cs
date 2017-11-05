@@ -7,7 +7,6 @@ using System.Text;
 using ViewInterface;
 using ViewModel.Fancy;
 using ViewModel.Fancy.Iternal;
-using ViewModel.Interfaces;
 
 namespace ViewModel
 {

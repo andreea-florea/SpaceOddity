@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ViewModel;
 using ViewModel.Fancy;
-using ViewModel.Interfaces;
+
 using WpfView;
 
 namespace WpfGameView

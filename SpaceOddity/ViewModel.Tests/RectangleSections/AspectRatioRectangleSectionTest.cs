@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ViewModel.Interfaces;
 using Moq;
 using Geometry;
 
-namespace ViewModel.Tests
+namespace ViewModel.Tests.RectangleSections
 {
     [TestClass]
     public class AspectRatioRectangleSectionTest

@@ -7,7 +7,6 @@ using Geometry;
 using ViewInterface;
 using System.Collections.Generic;
 using NaturalNumbersMath;
-using ViewModel.Interfaces;
 using ViewModel.Fancy.Iternal;
 
 namespace ViewModel.Tests.Fancy

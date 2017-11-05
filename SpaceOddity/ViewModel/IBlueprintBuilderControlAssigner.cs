@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 
-namespace ViewModel.Interfaces
+namespace ViewModel
 {
     public interface IBlueprintBuilderControlAssigner
     {

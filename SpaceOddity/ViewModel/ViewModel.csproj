@@ -60,8 +60,8 @@
     <Compile Include="Fancy\Internal\IgnoreFacingContextWorldObjectFactory.cs" />
     <Compile Include="Fancy\Internal\WorldObjectBitNumberFactoryPicker.cs" />
     <Compile Include="RectangleSections\FullRectangleSection.cs" />
-    <Compile Include="Interfaces\IBlueprintBuilderControlAssigner.cs" />
-    <Compile Include="Interfaces\IBlueprintBuilderController.cs" />
+    <Compile Include="IBlueprintBuilderControlAssigner.cs" />
+    <Compile Include="IBlueprintBuilderController.cs" />
     <Compile Include="IRectangleSection.cs" />
     <Compile Include="IViewModelTilesFactory.cs" />
     <Compile Include="RectangleSections\MarginRectangleSection.cs" />

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ViewModel.Actions;
 using Moq;
-using ViewModel.Interfaces;
+
 using NaturalNumbersMath;
 using Game.Interfaces;
 

@@ -5,7 +5,7 @@ using ViewInterface;
 using Game.Interfaces;
 using ViewModel.Actions;
 using NaturalNumbersMath;
-using ViewModel.Interfaces;
+
 
 namespace ViewModel.Tests
 {

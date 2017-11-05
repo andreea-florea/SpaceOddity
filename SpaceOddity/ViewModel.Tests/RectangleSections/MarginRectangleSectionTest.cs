@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ViewModel.Interfaces;
 using Geometry;
 
-namespace ViewModel.Tests
+namespace ViewModel.Tests.RectangleSections
 {
     [TestClass]
     public class MarginRectangleSectionTest
