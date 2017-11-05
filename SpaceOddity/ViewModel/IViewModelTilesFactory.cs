@@ -1,4 +1,5 @@
 ﻿using Game.Interfaces;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace ViewModel
 {
     public interface IViewModelTilesFactory
     {
-        IWorldObject[,] CreateTiles(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle);
+        IWorldObject[,] CreateTiles(IBlueprintBuilderControlAssigner controller, Coordinate dimensions, IRectangleSection fittingRectangle);
     }
 }

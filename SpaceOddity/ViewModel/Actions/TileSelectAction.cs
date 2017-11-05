@@ -8,7 +8,7 @@ using ViewModel.Interfaces;
 
 namespace ViewModel.Actions
 {
-    class TileSelectAction : IAction
+    internal class TileSelectAction : IAction
     {
         private IBlueprintBuilderController controller;
         private Coordinate position;

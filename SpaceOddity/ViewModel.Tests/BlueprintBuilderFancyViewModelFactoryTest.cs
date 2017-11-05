@@ -55,10 +55,8 @@ namespace ViewModel.Tests
             mockTile.SetupAllProperties();
             mockTilesFactory = new Mock<IViewModelTilesFactory>();
             mockTilesFactory.Setup(
-                factory => factory.CreateTiles(mockBlueprintBuilder.Object, mockFittingRectangle.Object))
+                factory => factory.CreateTiles(It.IsAny<BlueprintBuilderControlAssigner>(), new Coordinate(4, 3), mockFittingRectangle.Object))
                 .Returns(tiles);
-
-            var mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
             blueprintBuilderViewModelFactory = new BlueprintBuilderFancyViewModelFactory(
                 mockTilesFactory.Object,
@@ -71,8 +69,7 @@ namespace ViewModel.Tests
                 mockOutsideRightCornerFactory.Object,
                 mockDiagonalMissingCornerFactory.Object,
                 mockRoundEdgeFactory.Object,
-                mockClosedEdgeFactory.Object,
-                mockController.Object);
+                mockClosedEdgeFactory.Object);
         }
 
         [TestMethod]

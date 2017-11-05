@@ -12,20 +12,18 @@ namespace ViewModel
     public class ViewModelTilesFactory : IViewModelTilesFactory
     {
         private IWorldObjectFactory tileFactory;
-        private IBlueprintBuilderControlAssigner controller;
 
-        public ViewModelTilesFactory(IWorldObjectFactory tileFactory, IBlueprintBuilderControlAssigner controller)
+        public ViewModelTilesFactory(IWorldObjectFactory tileFactory)
         {
             this.tileFactory = tileFactory;
-            this.controller = controller;
         }
 
-        public IWorldObject[,] CreateTiles(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
+        public IWorldObject[,] CreateTiles(IBlueprintBuilderControlAssigner controller, Coordinate dimensions, IRectangleSection fittingRectangle)
         {
-            var tiles = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
-            var tileRects = fittingRectangle.Section.Split(builder.Dimensions);
+            var tiles = new IWorldObject[dimensions.Y, dimensions.X];
+            var tileRects = fittingRectangle.Section.Split(dimensions);
 
-            var coordinateRectangle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);
+            var coordinateRectangle = new CoordinateRectangle(Coordinates.Zero, dimensions);
             foreach (var coordinate in coordinateRectangle.Points)
             {
                 tiles.Set(coordinate, tileFactory.CreateObject());

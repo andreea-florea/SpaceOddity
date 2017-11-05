@@ -22,9 +22,9 @@ namespace ConstructedGame
             var controller = new BlueprintBuilderController(observableBlueprintBuilder);
             var assignController = new BlueprintBuilderControlAssigner(controller);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, assignController);
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory);
             var blueprintViewModelFactory =
-                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory, assignController);
+                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
@@ -43,10 +43,8 @@ namespace ConstructedGame
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-            var controller = new BlueprintBuilderController(observableBlueprintBuilder);
-            var assignController = new BlueprintBuilderControlAssigner(controller);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, assignController);
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory);
             var blueprintViewModelFactory =
                 new BlueprintBuilderFancyViewModelFactory(tilesFactory,
                     blockCoreFactory,
@@ -58,8 +56,7 @@ namespace ConstructedGame
                     outsideRightCornerFactory,
                     diagonalMissingCornerFactory,
                     roundEdgeFactory,
-                    closedEdgeFactory,
-                    assignController);
+                    closedEdgeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

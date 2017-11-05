@@ -8,7 +8,7 @@ using System.Text;
 using ViewInterface;
 using ViewModel.Interfaces;
 
-namespace ViewModel.Fancy
+namespace ViewModel.Fancy.Iternal
 {
     internal class BlockDetailsViewUpdater : IDetailsViewUpdater
     {

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ViewModel.Fancy
+namespace ViewModel.Fancy.Iternal
 {
-    public interface IBitNumberGenerator
+    internal interface IBitNumberGenerator
     {
         bool[] GenerateNumber(Coordinate position, Coordinate facing);
     }

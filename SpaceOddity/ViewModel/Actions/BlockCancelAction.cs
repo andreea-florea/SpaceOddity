@@ -8,7 +8,7 @@ using ViewModel.Interfaces;
 
 namespace ViewModel.Actions
 {
-    public class BlockCancelAction : IAction
+    internal class BlockCancelAction : IAction
     {
         private IBlueprintBuilderController controller;
         private Coordinate position;
