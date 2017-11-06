@@ -14,12 +14,15 @@ namespace ViewModel.Tests
     public class BlueprintBuilderViewModelTest
     {
         private Mock<IWorldObject> mockBlock;
+        private Mock<IWorldObject> mockShipComponent;
         private Mock<IWorldObjectFactory> mockBlockFactory;
+        private Mock<IWorldObjectFactory> mockShipComponentFactory;
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
         private Mock<IBlueprintBuilderControlAssigner> mockController;
         private Mock<IWorldObject> mockTile;
         private IWorldObject[,] blocks;
         private IWorldObject[,] tiles;
+        private IWorldObject[,] shipComponents;
         private BlueprintBuilderViewModel blueprintBuilderViewModel;
 
         [TestInitialize]
@@ -27,17 +30,22 @@ namespace ViewModel.Tests
         {
             mockBlock = new Mock<IWorldObject>();
             mockBlock.SetupAllProperties();
+            mockShipComponent = new Mock<IWorldObject>();
+            mockShipComponent.SetupAllProperties();
 
             mockBlockFactory = new Mock<IWorldObjectFactory>();
+            mockShipComponentFactory = new Mock<IWorldObjectFactory>();
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
             mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
             mockTile = new Mock<IWorldObject>();
             blocks = new IWorldObject[5, 6];
             tiles = new IWorldObject[5, 6];
+            shipComponents = new IWorldObject[5, 6];
 
             blueprintBuilderViewModel =
-                new BlueprintBuilderViewModel(tiles, blocks, mockBlockFactory.Object, mockController.Object);
+                new BlueprintBuilderViewModel(tiles, blocks, shipComponents, 
+                    mockBlockFactory.Object, mockShipComponentFactory.Object, mockController.Object);
         }
 
         [TestMethod]
@@ -91,6 +99,24 @@ namespace ViewModel.Tests
 
             mockBlock.Verify(block => block.Delete(), Times.Once());
             Assert.AreEqual(null, blocks.Get(position));
+        }
+
+        [TestMethod]
+        public void CheckIfShipComponentIsAddedAtCorrectPositionAndScale()
+        {
+            var position = new Coordinate(2, 3);
+            var translation = new Vector2(4, 5);
+            var scale = new Vector2(3, 2);
+            tiles.Set(position, mockTile.Object);
+            mockTile.SetupGet(tile => tile.Position).Returns(translation);
+            mockTile.SetupGet(tile => tile.Scale).Returns(scale);
+            mockShipComponentFactory.Setup(factory => factory.CreateObject()).Returns(mockShipComponent.Object);
+
+            blueprintBuilderViewModel.ShipComponentAdded(mockBlueprintBuilder.Object, position);
+
+            mockShipComponentFactory.Verify(factory => factory.CreateObject(), Times.Once());
+            Assert.AreEqual(translation, shipComponents.Get(position).Position);
+            Assert.AreEqual(scale, shipComponents.Get(position).Scale);
         }
     }
 }

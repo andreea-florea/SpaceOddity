@@ -12,12 +12,14 @@ namespace ViewModel
     {
         private IViewModelTilesFactory tilesFactory;
         private IWorldObjectFactory blockFactory;
+        private IWorldObjectFactory shipComponentsFactory;
 
         public BlueprintBuilderViewModelFactory(IViewModelTilesFactory tilesFactory, 
-            IWorldObjectFactory blockFactory)
+            IWorldObjectFactory blockFactory, IWorldObjectFactory shipComponentsFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;
+            this.shipComponentsFactory = shipComponentsFactory;
         }
 
         public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
@@ -26,7 +28,9 @@ namespace ViewModel
             var controlAssigner = new BlueprintBuilderControlAssigner(controller);
             var tiles = tilesFactory.CreateTiles(controlAssigner, builder.Dimensions, fittingRectangle);
             var blocks = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
-            var viewModel = new BlueprintBuilderViewModel(tiles, blocks, blockFactory, controlAssigner);
+            var shipComponents = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
+            var viewModel = new BlueprintBuilderViewModel(tiles, blocks, shipComponents, 
+                blockFactory, shipComponentsFactory, controlAssigner);
             builder.AttachObserver(viewModel);
             return viewModel;
         }

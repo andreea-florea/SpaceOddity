@@ -107,7 +107,7 @@ namespace Game
                 if (!(block.HasShipComponent()))
                 {
                     var intersectingPipe = HasIntersectingPipes(block, pipe);
-                    if ((block.PipesWithBothEdges.Count > 0) && intersectingPipe != null)
+                    if (intersectingPipe != null)
                     {
                         TransformDoubleEdgedPipeIntoConnectingPipe(block, intersectingPipe);
                         TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);

@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CircleFrameworkElementFactory.cs" />
     <Compile Include="IFrameworkElementFactory.cs" />
     <Compile Include="RectangleFrameworkElementFactory.cs" />
     <Compile Include="WpfWorldObjectFactory.cs" />

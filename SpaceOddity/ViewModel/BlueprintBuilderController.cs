@@ -21,6 +21,11 @@ namespace ViewModel
             blueprintBuilder.CreateBlock(position);
         }
 
+        public void BlockSelect(Coordinate position)
+        {
+            blueprintBuilder.AddShipComponent(position);
+        }
+
         public void BlockCancel(Coordinate position)
         {
             blueprintBuilder.DeleteBlock(position);

@@ -26,6 +26,7 @@ namespace ViewModel
         public void AssignBlockControl(IWorldObject block, Coordinate position)
         {
             block.RightClickAction = new BlockCancelAction(controller, position);
+            block.LeftClickAction = new BlockSelectAction(controller, position);
         }
     }
 }

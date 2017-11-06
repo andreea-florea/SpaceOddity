@@ -9,6 +9,8 @@ namespace ViewModel
     public interface IBlueprintBuilderController
     {
         void TileSelect(Coordinate position);
+        void BlockSelect(Coordinate position);
         void BlockCancel(Coordinate position);
+
     }
 }
