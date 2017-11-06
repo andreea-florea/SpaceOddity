@@ -91,5 +91,77 @@ namespace Game
 
             return false;
         }
+
+        public bool AddDoubleEdgedPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
+        {
+            var pipe = new DoubleEdgedPipe()
+            {
+                FirstEdge = firstEdge,
+                SecondEdge = secondEdge
+            };
+
+            var block = GetBlock(position);
+
+            if (block != null)
+            {
+                if (!(block.HasShipComponent()))
+                {
+                    var intersectingPipe = HasIntersectingPipes(block, pipe);
+                    if ((block.PipesWithBothEdges.Count > 0) && intersectingPipe != null)
+                    {
+                        TransformDoubleEdgedPipeIntoConnectingPipe(block, intersectingPipe);
+                        TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
+                        block.AddShipComponent(new EmptyShipComponent());
+                        block.PipesWithBothEdges.Remove(intersectingPipe);
+                    }
+                    else
+                    {
+                        block.PipesWithBothEdges.Add(pipe);
+                    }
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private DoubleEdgedPipe HasIntersectingPipes(IBlock block, DoubleEdgedPipe pipeToCheck)
+        {
+            foreach (DoubleEdgedPipe pipe in block.PipesWithBothEdges)
+            {
+                if (DoPipesIntersect(pipe, pipeToCheck))
+                {
+                    return pipe;
+                }
+            }
+            return null;
+        }
+
+        private bool DoPipesIntersect(DoubleEdgedPipe pipe1, DoubleEdgedPipe pipe2)
+        {
+            if ((pipe1.FirstEdge == EdgeType.UP && pipe1.SecondEdge == EdgeType.DOWN) || (pipe1.FirstEdge == EdgeType.DOWN && pipe1.SecondEdge == EdgeType.UP))
+            {
+                if ((pipe2.FirstEdge == EdgeType.LEFT && pipe2.SecondEdge == EdgeType.RIGHT) || (pipe2.FirstEdge == EdgeType.RIGHT && pipe2.SecondEdge == EdgeType.LEFT))
+                {
+                    return true;
+                }
+            }
+
+            if ((pipe1.FirstEdge == EdgeType.LEFT && pipe1.SecondEdge == EdgeType.RIGHT) || (pipe1.FirstEdge == EdgeType.RIGHT && pipe1.SecondEdge == EdgeType.LEFT))
+            {
+                if ((pipe2.FirstEdge == EdgeType.UP && pipe2.SecondEdge == EdgeType.DOWN) || (pipe2.FirstEdge == EdgeType.DOWN && pipe2.SecondEdge == EdgeType.UP))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void TransformDoubleEdgedPipeIntoConnectingPipe(IBlock block, DoubleEdgedPipe pipe)
+        {
+            block.PipesWithOneEdge.Add(new ConnectingPipe() { Edge = pipe.FirstEdge });
+            block.PipesWithOneEdge.Add(new ConnectingPipe() { Edge = pipe.SecondEdge }); 
+        }
     }
 }

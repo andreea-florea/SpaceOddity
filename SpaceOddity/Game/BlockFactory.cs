@@ -18,7 +18,7 @@ namespace Game
 
         public IBlock CreateBlock()
         {
-            return new Block(weight);
+            return new Block(weight, new List<DoubleEdgedPipe>(), new List<ConnectingPipe>());
         }
     }
 }

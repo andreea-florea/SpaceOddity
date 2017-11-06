@@ -67,6 +67,7 @@ namespace Game
         public bool DeleteBlock(Coordinate position)
         {
             var success = baseBuilder.DeleteBlock(position);
+            DeleteShipComponent(position);
             if (success)
             {
                 NotifyObserverOfBlockDeleted(position);
@@ -179,6 +180,12 @@ namespace Game
         public bool HasBlock(Coordinate position)
         {
             return baseBuilder.HasBlock(position);
+        }
+
+        public bool AddDoubleEdgedPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
+        {
+            return baseBuilder.AddDoubleEdgedPipe(position, firstEdge, secondEdge);
+            //TODO
         }
     }
 }

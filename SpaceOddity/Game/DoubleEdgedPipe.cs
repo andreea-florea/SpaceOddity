@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game
 {
-    public class EdgesPipe
+    public class DoubleEdgedPipe
     {
         public EdgeType FirstEdge { get; set; }
         public EdgeType SecondEdge { get; set; }

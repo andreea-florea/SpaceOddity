@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Game.Interfaces;
 
 namespace Game
 {
-    public enum EdgeType
+    public class EmptyShipComponent : IShipComponent
     {
-        UP = 1,
-        RIGHT = 2,
-        DOWN = 3,
-        LEFT = 4
     }
 }

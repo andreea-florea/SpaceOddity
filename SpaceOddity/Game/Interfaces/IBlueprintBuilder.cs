@@ -15,5 +15,6 @@ namespace Game.Interfaces
         bool DeleteBlock(Coordinate position);
         bool AddShipComponent(Coordinate position);
         bool DeleteShipComponent(Coordinate position);
+        bool AddDoubleEdgedPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge);
     }
 }

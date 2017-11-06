@@ -52,6 +52,10 @@
     <Compile Include="Block.cs" />
     <Compile Include="BlockFactory.cs" />
     <Compile Include="BlueprintBuilder.cs" />
+    <Compile Include="ConnectingPipe.cs" />
+    <Compile Include="DoubleEdgedPipe.cs" />
+    <Compile Include="EdgeType.cs" />
+    <Compile Include="EmptyShipComponent.cs" />
     <Compile Include="Interfaces\IBlock.cs" />
     <Compile Include="Interfaces\IBlockFactory.cs" />
     <Compile Include="Interfaces\IBlueprintBuilder.cs" />

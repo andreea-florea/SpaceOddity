@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Game.Interfaces;
+using System.Collections.Generic;
 
 namespace Game.Tests
 {
@@ -10,11 +11,15 @@ namespace Game.Tests
     {
         private Block block;
         private Mock<IShipComponent> mockShipComponent;
+        private List<DoubleEdgedPipe> doubleEdgedPipes;
+        private List<ConnectingPipe> oneEdgedPipes;
 
         [TestInitialize]
         public void Init()
         {
-            block = new Block(5);
+            doubleEdgedPipes = new List<DoubleEdgedPipe>();
+            oneEdgedPipes = new List<ConnectingPipe>();
+            block = new Block(5, doubleEdgedPipes, oneEdgedPipes);
             mockShipComponent = new Mock<IShipComponent>();
         }
 
@@ -39,6 +44,13 @@ namespace Game.Tests
         {
             block.AddShipComponent(mockShipComponent.Object);
             Assert.IsTrue(block.HasShipComponent());
+        }
+
+        [TestMethod]
+        public void CheckThatEdgesListsAreSetCorrectly()
+        {
+            Assert.AreEqual(doubleEdgedPipes, block.PipesWithBothEdges);
+            Assert.AreEqual(oneEdgedPipes, block.PipesWithOneEdge);
         }
     }
 }

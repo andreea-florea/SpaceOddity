@@ -11,7 +11,7 @@ namespace Game.Interfaces
 
         IShipComponent ShipComponent { get; }
 
-        List<EdgesPipe> PipesWithBothEdges { get; }
+        List<DoubleEdgedPipe> PipesWithBothEdges { get; set; }
         List<ConnectingPipe> PipesWithOneEdge { get; }
 
         void AddShipComponent(IShipComponent component);

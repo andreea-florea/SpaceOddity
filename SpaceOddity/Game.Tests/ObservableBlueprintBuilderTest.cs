@@ -115,6 +115,17 @@ namespace Game.Tests
             observableBlueprintBuilder.DeleteBlock(position);
             mockObserver.Verify(x => x.ErrorBlockNotDeleted(It.IsAny<IBlueprintBuilder>(), It.IsAny<Coordinate>()), Times.Never());
         }
+
+        [TestMethod]
+        public void CheckThatObserverIsInformedOfShipComponentDeletedWhenDeletingBlock()
+        {
+            var position = new Coordinate(6, 5);
+            mockBlueprintBuilder.Setup(x => x.DeleteBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(x => x.DeleteShipComponent(position)).Returns(true);
+            observableBlueprintBuilder.DeleteBlock(position);
+            mockObserver.Verify(x => x.BlockDeleted(observableBlueprintBuilder, position), Times.Once());
+            mockObserver.Verify(x => x.ShipComponentDeleted(observableBlueprintBuilder, position), Times.Once());            
+        }
         #endregion
 
         #region Add Ship Component
