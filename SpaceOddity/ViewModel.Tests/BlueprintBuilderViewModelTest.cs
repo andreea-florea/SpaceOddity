@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ViewModel.Interfaces;
+
 using Moq;
 using ViewInterface;
 using Game.Interfaces;
@@ -16,7 +16,7 @@ namespace ViewModel.Tests
         private Mock<IWorldObject> mockBlock;
         private Mock<IWorldObjectFactory> mockBlockFactory;
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
-        private Mock<IBlueprintBuilderController> mockController;
+        private Mock<IBlueprintBuilderControlAssigner> mockController;
         private Mock<IWorldObject> mockTile;
         private IWorldObject[,] blocks;
         private IWorldObject[,] tiles;
@@ -30,7 +30,7 @@ namespace ViewModel.Tests
 
             mockBlockFactory = new Mock<IWorldObjectFactory>();
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            mockController = new Mock<IBlueprintBuilderController>();
+            mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
             mockTile = new Mock<IWorldObject>();
             blocks = new IWorldObject[5, 6];
@@ -78,7 +78,7 @@ namespace ViewModel.Tests
             blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
 
             mockController.Verify(controller => 
-                controller.AssignBlockControl(mockBlueprintBuilder.Object, mockBlock.Object, position), Times.Once());
+                controller.AssignBlockControl(mockBlock.Object, position), Times.Once());
         }
 
         [TestMethod]

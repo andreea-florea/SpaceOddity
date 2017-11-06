@@ -7,7 +7,7 @@ using Geometry;
 using ViewInterface;
 using System.Collections.Generic;
 using NaturalNumbersMath;
-using ViewModel.Interfaces;
+using ViewModel.Fancy.Iternal;
 
 namespace ViewModel.Tests.Fancy
 {
@@ -19,7 +19,7 @@ namespace ViewModel.Tests.Fancy
         private Mock<IWorldObject> mockTile;
         private Mock<IWorldObject> mockObject;
         private Mock<IFacingContextWorldObjectFactory> mockFactory;
-        private Mock<IBlueprintBuilderController> mockController;
+        private Mock<IBlueprintBuilderControlAssigner> mockController;
         private BlockDetailsViewUpdater blockDetailsViewUpdater;
         private List<FacingPosition> detailUpdates;
         private IWorldObject[,] tiles;
@@ -34,7 +34,7 @@ namespace ViewModel.Tests.Fancy
             mockBlock = new Mock<IBlock>();
             mockTile = new Mock<IWorldObject>();
             mockFactory = new Mock<IFacingContextWorldObjectFactory>();
-            mockController = new Mock<IBlueprintBuilderController>();
+            mockController = new Mock<IBlueprintBuilderControlAssigner>();
             detailUpdates = new List<FacingPosition>();
             tiles = new IWorldObject[4, 4];
             details = new IWorldObject[4, 4];
@@ -143,8 +143,8 @@ namespace ViewModel.Tests.Fancy
             tiles.Set(position, mockTile.Object);
 
             blockDetailsViewUpdater.UpdateDetails(position);
-            mockController.Verify(controller => controller.AssignBlockControl(
-                mockBlueprintBuilder.Object, mockObject.Object, position), Times.Once);       
+            mockController.Verify(
+                controller => controller.AssignBlockControl(mockObject.Object, position), Times.Once);       
         }
     }
 }

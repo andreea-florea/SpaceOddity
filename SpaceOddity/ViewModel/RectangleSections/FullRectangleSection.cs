@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using ViewModel.Interfaces;
-
 namespace ViewModel
 {
     public class FullRectangleSection : IRectangleSection

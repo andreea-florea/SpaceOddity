@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using ViewModel;
-using ViewModel.Interfaces;
 
 namespace ConstructedGame
 {
@@ -19,11 +18,12 @@ namespace ConstructedGame
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-            var controller = new BlueprintBuilderController();
+            var controller = new BlueprintBuilderController(observableBlueprintBuilder);
+            var assignController = new BlueprintBuilderControlAssigner(controller);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, controller);
-            var blueprintViewModelFactory = 
-                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory, controller);
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory);
+            var blueprintViewModelFactory =
+                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
@@ -35,15 +35,15 @@ namespace ConstructedGame
             IWorldObjectFactory closedCornerFactory,
             IWorldObjectFactory outsideUpCornerFactory,
             IWorldObjectFactory outsideRightCornerFactory,
+            IWorldObjectFactory diagonalMissingCornerFactory,
             IWorldObjectFactory roundEdgeFactory,
             IWorldObjectFactory closedEdgeFactory,
             IRectangleSection fullRectangle)
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-            var controller = new BlueprintBuilderController();
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory, controller);
+            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory);
             var blueprintViewModelFactory =
                 new BlueprintBuilderFancyViewModelFactory(tilesFactory,
                     blockCoreFactory,
@@ -53,15 +53,15 @@ namespace ConstructedGame
                     closedCornerFactory,
                     outsideUpCornerFactory,
                     outsideRightCornerFactory,
+                    diagonalMissingCornerFactory,
                     roundEdgeFactory,
-                    closedEdgeFactory,
-                    controller);
+                    closedEdgeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
         private IObservableBlueprintBuilder CreateBlueprintBuilder()
         {
-            var blueprintBuilder = new BlueprintBuilder(new Coordinate(10, 10));
+            var blueprintBuilder = new BlueprintBuilder(new Coordinate(11, 11));
             return new ObservableBlueprintBuilder(blueprintBuilder);
         }
 

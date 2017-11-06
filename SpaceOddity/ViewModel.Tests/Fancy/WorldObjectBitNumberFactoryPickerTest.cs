@@ -4,6 +4,7 @@ using ViewModel.Fancy;
 using NaturalNumbersMath;
 using ViewInterface;
 using Moq;
+using ViewModel.Fancy.Iternal;
 
 namespace ViewModel.Tests.Fancy
 {

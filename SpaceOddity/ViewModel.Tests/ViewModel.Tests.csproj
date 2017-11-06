@@ -59,7 +59,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Actions\DeleteBlockActionTest.cs" />
+    <Compile Include="Actions\TileSelectActionTest.cs" />
+    <Compile Include="Actions\BlockCancelActionTest.cs" />
     <Compile Include="Fancy\EdgeBlocksNumberGeneratorTest.cs" />
     <Compile Include="Fancy\FacingPositionTest.cs" />
     <Compile Include="Fancy\BlockDetailsViewUpdaterTest.cs" />
@@ -70,13 +71,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BlueprintBuilderViewModelFactoryTest.cs" />
     <Compile Include="BlueprintBuilderViewModelTest.cs" />
-    <Compile Include="MarginRectangleSectionTest.cs" />
-    <Compile Include="AspectRatioRectangleSectionTest.cs" />
-    <Compile Include="FullRectangleSectionTest.cs" />
-    <Compile Include="BlueprintBuilderControllerTest.cs" />
-    <Compile Include="Actions\CreateBlockActionTest.cs" />
+    <Compile Include="RectangleSections\MarginRectangleSectionTest.cs" />
+    <Compile Include="RectangleSections\AspectRatioRectangleSectionTest.cs" />
+    <Compile Include="RectangleSections\FullRectangleSectionTest.cs" />
+    <Compile Include="BlueprintBuilderControlAssignerTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelFactoryTest.cs" />
+    <Compile Include="BlueprintBuilderControllerTest.cs" />
     <Compile Include="ViewModelTilesFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

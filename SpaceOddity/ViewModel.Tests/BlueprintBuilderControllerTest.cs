@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ViewInterface;
 using Game.Interfaces;
-using ViewModel.Actions;
+using Moq;
 using NaturalNumbersMath;
 
 namespace ViewModel.Tests
@@ -12,32 +10,22 @@ namespace ViewModel.Tests
     public class BlueprintBuilderControllerTest
     {
         [TestMethod]
-        public void CheckIfLeftClickActionIsAssignedByControllerToTile()
+        public void CreateBlocksOnTileSelect()
         {
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            var tile = new Mock<IWorldObject>();
-            tile.SetupAllProperties();
-
-            var position = new Coordinate(2, 3);
-            var blueprintBuilderController = new BlueprintBuilderController();
-            blueprintBuilderController.AssignTileControl(mockBlueprintBuilder.Object, tile.Object, position);
-
-            tile.Object.LeftClickAction.Execute();
+            var controller = new BlueprintBuilderController(mockBlueprintBuilder.Object);
+            var position = new Coordinate(4, 2);
+            controller.TileSelect(position);
             mockBlueprintBuilder.Verify(builder => builder.CreateBlock(position));
         }
 
         [TestMethod]
-        public void CheckIfRightClickActionIsAsssignedByControllerToBlock()
+        public void DeletesBlockOnBlockCancel()
         {
             var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            var block = new Mock<IWorldObject>();
-            block.SetupAllProperties();
-
+            var controller = new BlueprintBuilderController(mockBlueprintBuilder.Object);
             var position = new Coordinate(4, 2);
-            var blueprintBuilderController = new BlueprintBuilderController();
-            blueprintBuilderController.AssignBlockControl(mockBlueprintBuilder.Object, block.Object, position);
-
-            block.Object.RightClickAction.Execute();
+            controller.BlockCancel(position);
             mockBlueprintBuilder.Verify(builder => builder.DeleteBlock(position));
         }
     }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using ViewModel.Fancy;
-using ViewModel.Interfaces;
+using ViewModel.Fancy.Iternal;
 
 namespace ViewModel
 {
@@ -20,9 +20,9 @@ namespace ViewModel
         private IWorldObjectFactory closedCornerFactory;
         private IWorldObjectFactory outsideUpCornerFactory;
         private IWorldObjectFactory outsideRightCornerFactory;
+        private IWorldObjectFactory diagonalMissingCornerFactory;
         private IWorldObjectFactory roundEdgeFactory;
         private IWorldObjectFactory closedEdgeFactory;
-        private IBlueprintBuilderController controller;
 
         public BlueprintBuilderFancyViewModelFactory(
             IViewModelTilesFactory tilesFactory,
@@ -33,9 +33,9 @@ namespace ViewModel
             IWorldObjectFactory closedCornerFactory,
             IWorldObjectFactory outsideUpCornerFactory,
             IWorldObjectFactory outsideRightCornerFactory,
+            IWorldObjectFactory diagonalMissingCornerFactory,
             IWorldObjectFactory roundEdgeFactory,
-            IWorldObjectFactory closedEdgeFactory,
-            IBlueprintBuilderController controller)
+            IWorldObjectFactory closedEdgeFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockCoreFactory = blockCoreFactory;
@@ -45,30 +45,34 @@ namespace ViewModel
             this.closedCornerFactory = closedCornerFactory;
             this.outsideUpCornerFactory = outsideUpCornerFactory;
             this.outsideRightCornerFactory = outsideRightCornerFactory;
+            this.diagonalMissingCornerFactory = diagonalMissingCornerFactory;
             this.roundEdgeFactory = roundEdgeFactory;
             this.closedEdgeFactory = closedEdgeFactory;
-            this.controller = controller;
         }
 
         public BlueprintBuilderFancyViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var tiles = tilesFactory.CreateTiles(builder, fittingRectangle);
+            var controller = new BlueprintBuilderController(builder);
+            var controlAssigner = new BlueprintBuilderControlAssigner(controller);
+            var tiles = tilesFactory.CreateTiles(controlAssigner, builder.Dimensions, fittingRectangle);
 
             var detailsUpdaters = new List<IDetailsViewUpdater>();
 
             foreach (var direction in Coordinates.Directions)
             {
-                detailsUpdaters.Add(CreateCornerUpdater(builder, tiles, direction));
-                detailsUpdaters.Add(CreateEdgeUpdater(builder, tiles, direction));
+                detailsUpdaters.Add(CreateCornerUpdater(builder, controlAssigner, tiles, direction));
+                detailsUpdaters.Add(CreateEdgeUpdater(builder, controlAssigner, tiles, direction));
             }
-            detailsUpdaters.Add(CreateCoreUpdater(builder, tiles));
+            detailsUpdaters.Add(CreateCoreUpdater(builder, controlAssigner, tiles));
 
             var viewModel = new BlueprintBuilderFancyViewModel(detailsUpdaters);
             builder.AttachObserver(viewModel);
             return viewModel;
         }
 
-        private IDetailsViewUpdater CreateCornerUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles, Coordinate direction)
+        private IDetailsViewUpdater CreateCornerUpdater(IObservableBlueprintBuilder builder,
+            IBlueprintBuilderControlAssigner controlAssigner,
+            IWorldObject[,] tiles, Coordinate direction)
         {
             var cornerDetails = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
 
@@ -83,7 +87,7 @@ namespace ViewModel
             baseCornerFactories[0] = roundCornerFactory;
             baseCornerFactories[1] = straightUpCornerFactory;
             baseCornerFactories[2] = straightRightCornerFactory;
-            baseCornerFactories[3] = closedCornerFactory;
+            baseCornerFactories[3] = diagonalMissingCornerFactory;
             baseCornerFactories[4] = roundCornerFactory;
             baseCornerFactories[5] = outsideUpCornerFactory;
             baseCornerFactories[6] = outsideRightCornerFactory;
@@ -92,10 +96,12 @@ namespace ViewModel
                 new CornerBlocksNumberGenerator(builder));
             
             return new BlockDetailsViewUpdater(
-                builder, tiles, cornerDetails, cornerFactory, controller, cornerUpdates);
+                builder, tiles, cornerDetails, cornerFactory, controlAssigner, cornerUpdates);
         }
 
-        private IDetailsViewUpdater CreateEdgeUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles, Coordinate direction)
+        private IDetailsViewUpdater CreateEdgeUpdater(IObservableBlueprintBuilder builder,
+            IBlueprintBuilderControlAssigner controlAssigner,
+            IWorldObject[,] tiles, Coordinate direction)
         {
             var edgeDetails = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
 
@@ -110,10 +116,12 @@ namespace ViewModel
             var edgeFactory = new WorldObjectBitNumberFactoryPicker(baseEdgeFactories,
                 new EdgeBlocksNumberGenerator(builder));
 
-            return new BlockDetailsViewUpdater(builder, tiles, edgeDetails, edgeFactory, controller, edgeUpdates);
+            return new BlockDetailsViewUpdater(builder, tiles, edgeDetails, edgeFactory, controlAssigner, edgeUpdates);
         }
 
-        private IDetailsViewUpdater CreateCoreUpdater(IObservableBlueprintBuilder builder, IWorldObject[,] tiles)
+        private IDetailsViewUpdater CreateCoreUpdater(IObservableBlueprintBuilder builder,
+            IBlueprintBuilderControlAssigner controlAssigner,
+            IWorldObject[,] tiles)
         {
             var coreDetails = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
 
@@ -121,7 +129,7 @@ namespace ViewModel
             coreUpdates.Add(new FacingPosition(Coordinates.Zero, Coordinates.Zero));
 
             return new BlockDetailsViewUpdater(builder, tiles, coreDetails,
-                new IgnoreFacingContextWorldObjectFactory(blockCoreFactory), controller, coreUpdates);
+                new IgnoreFacingContextWorldObjectFactory(blockCoreFactory), controlAssigner, coreUpdates);
         }
     }
 }

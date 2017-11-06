@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ViewInterface;
-using ViewModel.Interfaces;
 
-namespace ViewModel.Fancy
+namespace ViewModel.Fancy.Iternal
 {
     internal class BlockDetailsViewUpdater : IDetailsViewUpdater
     {
@@ -16,14 +15,14 @@ namespace ViewModel.Fancy
         private IWorldObject[,] tiles;
         private IWorldObject[,] details;
         private IFacingContextWorldObjectFactory detailFactory;
-        private IBlueprintBuilderController controller;
+        private IBlueprintBuilderControlAssigner controller;
         private IEnumerable<FacingPosition> detailUpdates;
 
         public BlockDetailsViewUpdater(IBlueprintBuilder blueprintBuilder,
             IWorldObject[,] tiles,
             IWorldObject[,] details,
             IFacingContextWorldObjectFactory detailFactory,
-            IBlueprintBuilderController controller,
+            IBlueprintBuilderControlAssigner controller,
             IEnumerable<FacingPosition> detailUpdates)
         {
             this.blueprintBuilder = blueprintBuilder;
@@ -53,7 +52,7 @@ namespace ViewModel.Fancy
             detailObject.Position = tiles.Get(position).Position;
             detailObject.Scale = tiles.Get(position).Scale;
             detailObject.Rotation = new Vector2(facing.X, facing.Y);
-            controller.AssignBlockControl(blueprintBuilder, detailObject, position);
+            controller.AssignBlockControl(detailObject, position);
             details.Set(position, detailObject);
         }
 

@@ -5,6 +5,7 @@ using Geometry;
 using Game.Interfaces;
 using Moq;
 using NaturalNumbersMath;
+using ViewModel.Fancy.Iternal;
 
 namespace ViewModel.Tests.Fancy
 {

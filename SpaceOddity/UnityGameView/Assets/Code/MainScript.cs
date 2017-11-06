@@ -5,7 +5,6 @@ using Game.Interfaces;
 using Geometry;
 using ViewInterface;
 using ViewModel;
-using ViewModel.Interfaces;
 using ConstructedGame;
 
 public class MainScript : MonoBehaviour {

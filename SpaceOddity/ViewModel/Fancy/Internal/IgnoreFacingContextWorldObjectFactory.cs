@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 
-namespace ViewModel.Fancy
+namespace ViewModel.Fancy.Iternal
 {
-    public class IgnoreFacingContextWorldObjectFactory : IFacingContextWorldObjectFactory
+    internal class IgnoreFacingContextWorldObjectFactory : IFacingContextWorldObjectFactory
     {
         private IWorldObjectFactory baseFactory;
 

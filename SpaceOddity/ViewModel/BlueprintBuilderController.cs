@@ -4,22 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ViewInterface;
-using ViewModel.Actions;
-using ViewModel.Interfaces;
 
 namespace ViewModel
 {
     public class BlueprintBuilderController : IBlueprintBuilderController
     {
-        public void AssignTileControl(IBlueprintBuilder blueprintBuilder, IWorldObject tile, Coordinate position)
+        private IBlueprintBuilder blueprintBuilder;
+
+        public BlueprintBuilderController(IBlueprintBuilder blueprintBuilder)
         {
-            tile.LeftClickAction = new CreateBlockAction(blueprintBuilder, position);
+            this.blueprintBuilder = blueprintBuilder;
         }
 
-        public void AssignBlockControl(IBlueprintBuilder blueprintBuilder, IWorldObject block, Coordinate position)
+        public void TileSelect(Coordinate position)
         {
-            block.RightClickAction = new DeleteBlockAction(blueprintBuilder, position);
+            blueprintBuilder.CreateBlock(position);
+        }
+
+        public void BlockCancel(Coordinate position)
+        {
+            blueprintBuilder.DeleteBlock(position);
         }
     }
 }
