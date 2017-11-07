@@ -12,9 +12,11 @@ namespace ViewModel
     {
         private IWorldObject[,] tiles;
         private IWorldObject[,] blocks;
+        private IWorldObject[,] shipComponents;
 
         private IWorldObjectFactory blockFactory;
         private IBlueprintBuilderControlAssigner controller;
+        private IWorldObjectFactory shipComponentFactory;
 
         public int Width
         {
@@ -32,13 +34,16 @@ namespace ViewModel
             }
         }
 
-        public BlueprintBuilderViewModel(IWorldObject[,] tiles, IWorldObject[,] blocks, 
-            IWorldObjectFactory blockFactory, IBlueprintBuilderControlAssigner controller)
+        public BlueprintBuilderViewModel(IWorldObject[,] tiles, IWorldObject[,] blocks,
+            IWorldObject[,] shipComponents, IWorldObjectFactory blockFactory, 
+            IWorldObjectFactory shipComponentFactory, IBlueprintBuilderControlAssigner controller)
         {
             this.tiles = tiles;
             this.blocks = blocks;
+            this.shipComponents = shipComponents;
             this.blockFactory = blockFactory;
             this.controller = controller;
+            this.shipComponentFactory = shipComponentFactory;
         }
 
         public IWorldObject GetTile(Coordinate position)
@@ -77,7 +82,9 @@ namespace ViewModel
 
         public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            throw new NotImplementedException();
+            shipComponents.Set(position, shipComponentFactory.CreateObject());
+            shipComponents.Get(position).Position = tiles.Get(position).Position;
+            shipComponents.Get(position).Scale = tiles.Get(position).Scale;
         }
 
         public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
