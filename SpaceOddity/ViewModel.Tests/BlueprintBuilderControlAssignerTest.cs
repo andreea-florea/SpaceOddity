@@ -41,5 +41,20 @@ namespace ViewModel.Tests
             block.Object.RightClickAction.Execute();
             mockController.Verify(controller => controller.BlockCancel(position));
         }
+
+        [TestMethod]
+        public void CheckIfLeftClickActionIsAsssignedByControllerToBlock()
+        {
+            var mockController = new Mock<IBlueprintBuilderController>();
+            var block = new Mock<IWorldObject>();
+            block.SetupAllProperties();
+
+            var position = new Coordinate(4, 2);
+            var blueprintBuilderControlAssigner = new BlueprintBuilderControlAssigner(mockController.Object);
+            blueprintBuilderControlAssigner.AssignBlockControl(block.Object, position);
+
+            block.Object.LeftClickAction.Execute();
+            mockController.Verify(controller => controller.BlockSelect(position));
+        }
     }
 }
