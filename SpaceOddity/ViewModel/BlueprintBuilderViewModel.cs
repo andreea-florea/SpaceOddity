@@ -18,22 +18,6 @@ namespace ViewModel
         private IBlueprintBuilderControlAssigner controller;
         private IWorldObjectFactory shipComponentFactory;
 
-        public int Width
-        {
-            get
-            {
-                return tiles.GetLength(1);
-            }
-        }
-
-        public int Height
-        {
-            get
-            {
-                return tiles.GetLength(0);
-            }
-        }
-
         public BlueprintBuilderViewModel(IWorldObject[,] tiles, IWorldObject[,] blocks,
             IWorldObject[,] shipComponents, IWorldObjectFactory blockFactory, 
             IWorldObjectFactory shipComponentFactory, IBlueprintBuilderControlAssigner controller)

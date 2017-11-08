@@ -16,9 +16,9 @@ namespace ViewModel.Fancy.Iternal
             this.blueprintBuilder = blueprintBuilder;
         }
 
-        public bool[] GenerateNumber(Coordinate position, Coordinate facing)
+        public bool[] GenerateNumber(FacingPosition position)
         {
-            return new bool[1] { blueprintBuilder.HasBlock(position + facing) };
+            return new bool[1] { blueprintBuilder.HasBlock(position.Position + position.Forward) };
         }
     }
 }

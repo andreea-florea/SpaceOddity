@@ -19,13 +19,20 @@ namespace NaturalNumbersMath
 
         public static bool IsWithinBounds<T>(this T[,] array, Coordinate coordinate)
         {
-            if (coordinate.Y < 0 || coordinate.X < 0 ||
-                coordinate.Y >= array.GetLength(0) || coordinate.X >= array.GetLength(1))
-            {
-                return false;
-            }
+            return coordinate.Y >= 0 && coordinate.X >= 0 &&
+                coordinate.Y < array.GetLength(0) && coordinate.X < array.GetLength(1);
+        }
 
-            return true;
+        public static int ToInt(this bool[] bits)
+        {
+            var bitPower = 1;
+            var value = 0;
+            for (var i = 0; i < bits.Length; ++i)
+            {
+                value += bits[i] ? bitPower : 0;
+                bitPower <<= 1;
+            }
+            return value;
         }
     }
 }

@@ -16,44 +16,44 @@ namespace ViewModel.Fancy.Iternal
         private IWorldObject[,] details;
         private IFacingContextWorldObjectFactory detailFactory;
         private IBlueprintBuilderControlAssigner controller;
-        private IEnumerable<FacingPosition> detailUpdates;
+        private IEnumerable<FacingPosition> relativeDetailUpdates;
 
         public BlockDetailsViewUpdater(IBlueprintBuilder blueprintBuilder,
             IWorldObject[,] tiles,
             IWorldObject[,] details,
             IFacingContextWorldObjectFactory detailFactory,
             IBlueprintBuilderControlAssigner controller,
-            IEnumerable<FacingPosition> detailUpdates)
+            IEnumerable<FacingPosition> relativeDetailUpdates)
         {
             this.blueprintBuilder = blueprintBuilder;
             this.tiles = tiles;
             this.details = details;
             this.detailFactory = detailFactory;
             this.controller = controller;
-            this.detailUpdates = detailUpdates;
+            this.relativeDetailUpdates = relativeDetailUpdates;
         }
 
         public void UpdateDetails(Coordinate updatePosition)
         {
-            foreach (var detailUpdate in detailUpdates)
+            foreach (var relativeDetailUpdate in relativeDetailUpdates)
             {
-                var position = updatePosition + detailUpdate.RelativePosition;
-                DeleteOldDetail(position);
-                if (blueprintBuilder.HasBlock(position))
+                var detailUpdate = relativeDetailUpdate.GetGlobal(updatePosition);
+                DeleteOldDetail(detailUpdate.Position);
+                if (blueprintBuilder.HasBlock(detailUpdate.Position))
                 {
-                    CreateDetailObject(position, detailUpdate.Forward);
+                    CreateDetailObject(detailUpdate);
                 }
             }
         }
 
-        private void CreateDetailObject(Coordinate position, Coordinate facing)
+        private void CreateDetailObject(FacingPosition detailUpdate)
         {
-            var detailObject = detailFactory.CreateObject(position, facing);
-            detailObject.Position = tiles.Get(position).Position;
-            detailObject.Scale = tiles.Get(position).Scale;
-            detailObject.Rotation = new Vector2(facing.X, facing.Y);
-            controller.AssignBlockControl(detailObject, position);
-            details.Set(position, detailObject);
+            var detailObject = detailFactory.CreateObject(detailUpdate);
+            detailObject.Position = tiles.Get(detailUpdate.Position).Position;
+            detailObject.Scale = tiles.Get(detailUpdate.Position).Scale;
+            detailObject.Rotation = new Vector2(detailUpdate.Forward.X, detailUpdate.Forward.Y);
+            controller.AssignBlockControl(detailObject, detailUpdate.Position);
+            details.Set(detailUpdate.Position, detailObject);
         }
 
         private void DeleteOldDetail(Coordinate position)

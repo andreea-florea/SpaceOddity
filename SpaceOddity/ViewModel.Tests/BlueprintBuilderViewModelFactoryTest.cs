@@ -47,8 +47,6 @@ namespace ViewModel.Tests
             var blueprintBuilderViewModel =
                 viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, mockRectangle.Object);
 
-            Assert.AreEqual(3, blueprintBuilderViewModel.Width);
-            Assert.AreEqual(5, blueprintBuilderViewModel.Height);
             Assert.AreEqual(tiles.Get(position), blueprintBuilderViewModel.GetTile(position));
         }
 

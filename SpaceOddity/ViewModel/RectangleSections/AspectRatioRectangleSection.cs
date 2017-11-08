@@ -16,10 +16,11 @@ namespace ViewModel
             get 
             {
                 var baseSection = baseRectangleSection.Section;
-                var xScaled = aspectRatio * baseSection.Dimensions.X / aspectRatio.X;
-                var yScaled = aspectRatio * baseSection.Dimensions.Y / aspectRatio.Y;
+                
+                var xScaled = baseSection.Dimensions.X / aspectRatio.X;
+                var yScaled = baseSection.Dimensions.Y / aspectRatio.Y;
+                var scalledAspectRatio = aspectRatio * Math.Min(xScaled, yScaled);
 
-                var scalledAspectRatio = xScaled.Magnitude < yScaled.Magnitude ? xScaled : yScaled;
                 var topCornerOffset = (baseSection.Dimensions - scalledAspectRatio) * 0.5;
                 var sectionTopLeftCorner = baseSection.TopLeftCorner + topCornerOffset;
 

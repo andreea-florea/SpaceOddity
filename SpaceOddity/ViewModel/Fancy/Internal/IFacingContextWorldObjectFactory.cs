@@ -9,6 +9,6 @@ namespace ViewModel.Fancy.Iternal
 {
     internal interface IFacingContextWorldObjectFactory
     {
-        IWorldObject CreateObject(Coordinate position, Coordinate facing);
+        IWorldObject CreateObject(FacingPosition position);
     }
 }

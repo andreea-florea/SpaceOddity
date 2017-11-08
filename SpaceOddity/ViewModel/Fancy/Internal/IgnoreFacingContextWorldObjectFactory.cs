@@ -15,8 +15,8 @@ namespace ViewModel.Fancy.Iternal
         {
             this.baseFactory = baseFactory;
         }
-        
-        public IWorldObject CreateObject(Coordinate position, Coordinate facing)
+
+        public IWorldObject CreateObject(FacingPosition position)
         {
             return baseFactory.CreateObject();
         }

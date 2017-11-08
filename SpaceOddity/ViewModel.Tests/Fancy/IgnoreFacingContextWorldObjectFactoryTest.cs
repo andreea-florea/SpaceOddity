@@ -19,7 +19,7 @@ namespace ViewModel.Tests.Fancy
             mockBaseFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
             var objectFactory = new IgnoreFacingContextWorldObjectFactory(mockBaseFactory.Object);
 
-            var createdObject = objectFactory.CreateObject(new Coordinate(), new Coordinate());
+            var createdObject = objectFactory.CreateObject(new FacingPosition());
 
             mockBaseFactory.Verify(factory => factory.CreateObject(), Times.Once());
             Assert.AreEqual(mockObject.Object, createdObject);

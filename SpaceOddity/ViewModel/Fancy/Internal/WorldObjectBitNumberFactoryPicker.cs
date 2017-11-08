@@ -18,23 +18,10 @@ namespace ViewModel.Fancy.Iternal
             this.numberGenerator = numberGenerator;
         }
 
-        public IWorldObject CreateObject(Coordinate position, Coordinate facing)
+        public IWorldObject CreateObject(FacingPosition position)
         {
-            var index = ConvertBoolArrayToInt(numberGenerator.GenerateNumber(position, facing));
+            var index = numberGenerator.GenerateNumber(position).ToInt();
             return factories[index].CreateObject();
-        }
-
-        private int ConvertBoolArrayToInt(bool[] bits)
-        {
-            var bitPower = 1;
-            var value = 0;
-            for (var i = 0; i < bits.Length; ++i)
-            {
-                value += bits[i] ? bitPower : 0;
-                bitPower <<= 1;
-            }
-            Console.WriteLine(value);
-            return value;
         }
     }
 }

@@ -19,7 +19,8 @@ namespace ViewModel.Tests.Fancy
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(1, 3))).Returns(true);
             var cornerBlocksNumberGenerator = new CornerBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
-            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
+            var facingPosition = new FacingPosition(new Coordinate(0, 1), new Coordinate(1, 2));
+            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(facingPosition);
             Assert.AreEqual(true, bitNumber[0]);
             Assert.AreEqual(false, bitNumber[1]);
             Assert.AreEqual(false, bitNumber[2]);
@@ -32,7 +33,8 @@ namespace ViewModel.Tests.Fancy
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             var cornerBlocksNumberGenerator = new CornerBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
-            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
+            var facingPosition = new FacingPosition(new Coordinate(0, 1), new Coordinate(1, 2));
+            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(facingPosition);
             Assert.AreEqual(false, bitNumber[0]);
             Assert.AreEqual(true, bitNumber[1]);
             Assert.AreEqual(false, bitNumber[2]);
@@ -45,7 +47,8 @@ namespace ViewModel.Tests.Fancy
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 3))).Returns(true);
             var cornerBlocksNumberGenerator = new CornerBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
-            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
+            var facingPosition = new FacingPosition(new Coordinate(0, 1), new Coordinate(1, 2));
+            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(facingPosition);
             Assert.AreEqual(false, bitNumber[0]);
             Assert.AreEqual(false, bitNumber[1]);
             Assert.AreEqual(true, bitNumber[2]);

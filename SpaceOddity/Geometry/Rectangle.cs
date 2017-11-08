@@ -63,22 +63,12 @@ namespace Geometry
             Coordinate dimensions)
         {
             var corners = new Vector2[dimensions.Y, dimensions.X];
+            var splitsRectangle = new CoordinateRectangle(Coordinates.Zero, dimensions);
 
-            corners[0, 0] = TopLeftCorner;
-
-            for (var i = 1; i < dimensions.Y; ++i)
+            foreach (var coordinate in splitsRectangle.Points)
             {
-                corners[i, 0] = corners[i - 1, 0] + yDirection;
+                corners.Set(coordinate, initialPosition + coordinate.X * xDirection + coordinate.Y * yDirection);
             }
-
-            for (var i = 0; i < dimensions.Y; ++i)
-            {
-                for (var j = 1; j < dimensions.X; ++j)
-                {
-                    corners[i, j] = corners[i, j - 1] + xDirection;
-                }
-            }
-
             return corners;
         }
 

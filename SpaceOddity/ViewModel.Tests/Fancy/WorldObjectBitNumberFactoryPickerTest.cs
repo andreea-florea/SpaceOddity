@@ -33,13 +33,12 @@ namespace ViewModel.Tests.Fancy
         [TestMethod]
         public void FactoryPicksFirstBaseFactoryCorrectly()
         {
-            var position = new Coordinate(3, 1);
-            var facing = new Coordinate(1, 2);
+            var facingPosition = new FacingPosition(new Coordinate(1, 2), new Coordinate(3, 1));
             mockFirstFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
-            mockNumberGenerator.Setup(generator => generator.GenerateNumber(new Coordinate(3, 1), new Coordinate(1, 2)))
+            mockNumberGenerator.Setup(generator => generator.GenerateNumber(facingPosition))
                 .Returns(new bool[] { false });
 
-            var worldObject = factoryPicker.CreateObject(position, facing);
+            var worldObject = factoryPicker.CreateObject(facingPosition);
 
             Assert.AreEqual(mockObject.Object, worldObject);
         }
@@ -47,13 +46,12 @@ namespace ViewModel.Tests.Fancy
         [TestMethod]
         public void FactoryPicksSecondBaseFactoryCorrectly()
         {
-            var position = new Coordinate(3, 4);
-            var facing = new Coordinate(1, 0);
+            var facingPosition = new FacingPosition(new Coordinate(1, 0), new Coordinate(3, 4));
             mockSecondFactory.Setup(factory => factory.CreateObject()).Returns(mockObject.Object);
-            mockNumberGenerator.Setup(generator => generator.GenerateNumber(new Coordinate(3, 4), new Coordinate(1, 0)))
+            mockNumberGenerator.Setup(generator => generator.GenerateNumber(facingPosition))
                 .Returns(new bool[] { true });
 
-            var worldObject = factoryPicker.CreateObject(position, facing);
+            var worldObject = factoryPicker.CreateObject(facingPosition);
 
             Assert.AreEqual(mockObject.Object, worldObject);
         }

@@ -56,5 +56,12 @@ namespace NaturalNumbersMath.Tests
             int[,] array = new int[4, 5];
             Assert.IsTrue(array.IsWithinBounds(new Coordinate(2, 3)));
         }
+
+        [TestMethod]
+        public void ConvertsBoolArrayToIntCorrectly()
+        {
+            bool[] values = new bool[] { true, false, true };
+            Assert.AreEqual(5, values.ToInt());
+        }
     }
 }

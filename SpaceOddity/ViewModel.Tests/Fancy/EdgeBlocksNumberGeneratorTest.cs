@@ -20,7 +20,8 @@ namespace ViewModel.Tests.Fancy
             var cornerBlocksNumberGenerator = new EdgeBlocksNumberGenerator(mockBlueprintBuilder.Object);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(1, 3))).Returns(false);
 
-            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
+            var facingPosition = new FacingPosition(new Coordinate(0, 1), new Coordinate(1, 2));
+            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(facingPosition);
             Assert.AreEqual(false, bitNumber[0]);
         }
 
@@ -33,7 +34,8 @@ namespace ViewModel.Tests.Fancy
 
             var cornerBlocksNumberGenerator = new EdgeBlocksNumberGenerator(mockBlueprintBuilder.Object);
 
-            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(new Coordinate(1, 2), new Coordinate(0, 1));
+            var facingPosition = new FacingPosition(new Coordinate(0, 1), new Coordinate(1, 2));
+            var bitNumber = cornerBlocksNumberGenerator.GenerateNumber(facingPosition);
             Assert.AreEqual(true, bitNumber[0]);
         }
     }

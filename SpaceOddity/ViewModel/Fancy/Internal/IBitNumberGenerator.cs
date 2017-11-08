@@ -10,6 +10,6 @@ namespace ViewModel.Fancy.Iternal
 {
     internal interface IBitNumberGenerator
     {
-        bool[] GenerateNumber(Coordinate position, Coordinate facing);
+        bool[] GenerateNumber(FacingPosition position);
     }
 }

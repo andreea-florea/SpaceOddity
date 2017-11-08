@@ -54,8 +54,6 @@ namespace ViewModel.Tests
             var position = new Coordinate(1, 3);
             tiles.Set(position, mockTile.Object);
 
-            Assert.AreEqual(6, blueprintBuilderViewModel.Width);
-            Assert.AreEqual(5, blueprintBuilderViewModel.Height);
             Assert.AreEqual(mockTile.Object, blueprintBuilderViewModel.GetTile(position));
         }
 

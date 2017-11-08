@@ -15,8 +15,16 @@ namespace ViewModel.Tests.Fancy
             var cornerUpdate = new FacingPosition(new Coordinate(1, 0), new Coordinate(5, 4));
             Assert.AreEqual(1, cornerUpdate.Forward.X);
             Assert.AreEqual(0, cornerUpdate.Forward.Y);
-            Assert.AreEqual(5, cornerUpdate.RelativePosition.X);
-            Assert.AreEqual(4, cornerUpdate.RelativePosition.Y);
+            Assert.AreEqual(5, cornerUpdate.Position.X);
+            Assert.AreEqual(4, cornerUpdate.Position.Y);
+        }
+
+        [TestMethod]
+        public void CornerUpdateHasCorrectRight()
+        {
+            var cornerUpdate = new FacingPosition(new Coordinate(0, 1), new Coordinate(5, 4));
+            Assert.AreEqual(1, cornerUpdate.Right.X);
+            Assert.AreEqual(0, cornerUpdate.Right.Y);
         }
     }
 }

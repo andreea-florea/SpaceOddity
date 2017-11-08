@@ -17,13 +17,12 @@ namespace ViewModel.Fancy.Iternal
             this.blueprintBuilder = blueprintBuilder;
         }
 
-        public bool[] GenerateNumber(Coordinate position, Coordinate facing)
+        public bool[] GenerateNumber(FacingPosition position)
         {
-            var rightDirection = facing.RotateQuarterCircleRight();
             return new bool[] {
-                blueprintBuilder.HasBlock(position + facing),
-                blueprintBuilder.HasBlock(position + rightDirection),
-                blueprintBuilder.HasBlock(position + facing + rightDirection)
+                blueprintBuilder.HasBlock(position.Position + position.Forward),
+                blueprintBuilder.HasBlock(position.Position + position.Right),
+                blueprintBuilder.HasBlock(position.Position + position.Forward + position.Right)
             };
         }
     }
