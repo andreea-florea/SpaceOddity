@@ -51,7 +51,7 @@ namespace ViewModel.Fancy.Iternal
             var detailObject = detailFactory.CreateObject(detailUpdate);
             detailObject.Position = tiles.Get(detailUpdate.Position).Position;
             detailObject.Scale = tiles.Get(detailUpdate.Position).Scale;
-            detailObject.Rotation = new Vector2(detailUpdate.Forward.X, detailUpdate.Forward.Y);
+            detailObject.Rotation = detailUpdate.Forward.ToVector2();
             controller.AssignBlockControl(detailObject, detailUpdate.Position);
             details.Set(detailUpdate.Position, detailObject);
         }

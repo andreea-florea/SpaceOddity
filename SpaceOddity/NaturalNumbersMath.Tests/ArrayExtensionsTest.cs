@@ -7,6 +7,14 @@ namespace NaturalNumbersMath.Tests
     public class ArrayExtensionsTest
     {
         [TestMethod]
+        public void CanGetWidthAndHeightFromMatrix()
+        {
+            int[,] array = new int[3, 4];
+            Assert.AreEqual(4, array.Width());
+            Assert.AreEqual(3, array.Height());
+        }
+
+        [TestMethod]
         public void CanAccessMemberOfArrayWithExtension()
         {
             int[,] array = new int[3, 4];

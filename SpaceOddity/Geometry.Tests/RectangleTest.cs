@@ -52,8 +52,8 @@ namespace Geometry.Tests
             var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
 
             var splits = rectangle.Split(new Coordinate(2, 3));
-            Assert.AreEqual(3, splits.GetLength(0));
-            Assert.AreEqual(2, splits.GetLength(1));
+            Assert.AreEqual(3, splits.Height());
+            Assert.AreEqual(2, splits.Width());
         }
 
         [TestMethod]

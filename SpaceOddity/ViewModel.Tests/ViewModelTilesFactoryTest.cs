@@ -38,8 +38,8 @@ namespace ViewModel.Tests
             mockRectangleSection.Setup(section => section.Section).Returns(new Rectangle());
 
             var tiles = tilesFactory.CreateTiles(mockController.Object, new Coordinate(7, 3), mockRectangleSection.Object);
-            Assert.AreEqual(3, tiles.GetLength(0));
-            Assert.AreEqual(7, tiles.GetLength(1));
+            Assert.AreEqual(3, tiles.Height());
+            Assert.AreEqual(7, tiles.Width());
         }
 
         [TestMethod]

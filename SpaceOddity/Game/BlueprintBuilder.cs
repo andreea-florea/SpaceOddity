@@ -18,7 +18,7 @@ namespace Game
         {
             get 
             {
-                return new Coordinate(blueprint.GetLength(1), blueprint.GetLength(0));
+                return new Coordinate(blueprint.Width(), blueprint.Height());
             }
         }
 

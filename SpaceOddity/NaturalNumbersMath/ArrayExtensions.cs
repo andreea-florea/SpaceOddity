@@ -7,6 +7,16 @@ namespace NaturalNumbersMath
 {
     public static class ArrayExtensions
     {
+        public static int Width<T>(this T[,] array)
+        {
+            return array.GetLength(1);
+        }
+
+        public static int Height<T>(this T[,] array)
+        {
+            return array.GetLength(0);
+        }
+
         public static T Get<T>(this T[,] array, Coordinate coordinate)
         {
             return array[coordinate.Y, coordinate.X];
@@ -20,7 +30,7 @@ namespace NaturalNumbersMath
         public static bool IsWithinBounds<T>(this T[,] array, Coordinate coordinate)
         {
             return coordinate.Y >= 0 && coordinate.X >= 0 &&
-                coordinate.Y < array.GetLength(0) && coordinate.X < array.GetLength(1);
+                coordinate.Y < array.Height() && coordinate.X < array.Width();
         }
 
         public static int ToInt(this bool[] bits)

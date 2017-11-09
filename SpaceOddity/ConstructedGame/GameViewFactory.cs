@@ -69,9 +69,8 @@ namespace ConstructedGame
         private AspectRatioRectangleSection CreateViewRectangle(
             IObservableBlueprintBuilder observableBlueprintBuilder, IRectangleSection containingRectangle)
         {
-            return new AspectRatioRectangleSection(
-                new Vector2(observableBlueprintBuilder.Dimensions.X, observableBlueprintBuilder.Dimensions.Y),
-                containingRectangle);
+            return new AspectRatioRectangleSection( 
+                observableBlueprintBuilder.Dimensions.ToVector2(), containingRectangle);
         }
     }
 }
