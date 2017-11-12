@@ -9,5 +9,11 @@ namespace Game
     {
         public EdgeType FirstEdge { get; set; }
         public EdgeType SecondEdge { get; set; }
+
+        public DoubleEdgedPipe(EdgeType firstEdge, EdgeType secondEdge)
+        {
+            FirstEdge = firstEdge;
+            SecondEdge = secondEdge;
+        }
     }
 }

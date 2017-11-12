@@ -211,7 +211,7 @@ namespace Game.Tests
         public void CanAddDoubleEdgedPipeIfNothingOnBlock()
         {
             var position = new Coordinate(5, 4);
-            var pipe = new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.UP };
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
 
             blueprint.Set(position, mockBlock.Object);
             mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
@@ -227,7 +227,7 @@ namespace Game.Tests
         public void CannotAddDoubleEdgedPipeIfBlockInexistent()
         {
             var position = new Coordinate(5, 4);
-            var pipe = new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.UP };
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
 
             mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
             mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
@@ -240,8 +240,8 @@ namespace Game.Tests
         public void CanAddDoubleEdgedPipeIfDifferentDoubleEdgedPipeAlreadyExistsAndDoesNotIntersect()
         {
             var position = new Coordinate(5, 4);
-            var pipe1 = new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.UP };
-            var pipe2 = new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.RIGHT };
+            var pipe1 = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+            var pipe2 = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.RIGHT);
 
             blueprint.Set(position, mockBlock.Object);
             mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
@@ -260,8 +260,8 @@ namespace Game.Tests
         public void AfterTryingToAddDoubleEdgedPipeThatIntersectsWithExistingDoubleEdgedPipeNeitherWillBeFoundInDoubleEdgedPipesList()
         {
             var position = new Coordinate(5, 4);
-            var pipe1 = new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.UP };
-            var pipe2 = new DoubleEdgedPipe() { FirstEdge = EdgeType.LEFT, SecondEdge = EdgeType.RIGHT };
+            var pipe1 = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+            var pipe2 = new DoubleEdgedPipe(EdgeType.LEFT, EdgeType.RIGHT);
 
             blueprint.Set(position, mockBlock.Object);
             mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
@@ -280,7 +280,7 @@ namespace Game.Tests
         public void TryingToAddDoubleEdgedPipeOnBlockWithShipComponentResultsInAddingTwoConnectingPipes()
         {
             var position = new Coordinate(5, 4);
-            var pipe = new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.UP };
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
             blueprint.Set(position, mockBlock.Object);
             mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
             mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
@@ -298,7 +298,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
             blueprint.Set(position, mockBlock.Object);
-            doubleEdgedPipes.Add(new DoubleEdgedPipe() { FirstEdge = EdgeType.DOWN, SecondEdge = EdgeType.UP });
+            doubleEdgedPipes.Add(new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP));
             mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
             mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
             mockBlock.Setup(x => x.AddShipComponent(mockShipComponent.Object)).Callback(() => mockBlock.SetupGet(m => m.PipesWithBothEdges).Returns(new List<DoubleEdgedPipe>()));
@@ -308,6 +308,89 @@ namespace Game.Tests
             Assert.AreEqual(2, mockBlock.Object.PipesWithOneEdge.Count);
             Assert.AreEqual(EdgeType.DOWN, mockBlock.Object.PipesWithOneEdge[0].Edge);
             Assert.AreEqual(EdgeType.UP, mockBlock.Object.PipesWithOneEdge[1].Edge);
+        }
+
+        [TestMethod]
+        public void WhenDeletingShipComponentFromBlockWithOneConnectingEdgeTheEdgeIsDeleted()
+        {
+            var position = new Coordinate(5, 4);
+            mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(m => m.HasShipComponent()).Returns(true);
+            mockBlock.Setup(x => x.DeleteShipComponent()).Callback(() => mockBlock.SetupGet(m => m.ShipComponent).Returns((IShipComponent)null));
+            blueprint.Set(position, mockBlock.Object);
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.UP));
+            mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
+            mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
+            mockBlock.Setup(x => x.AddShipComponent(mockShipComponent.Object)).Callback(() => mockBlock.SetupGet(m => m.PipesWithOneEdge).Returns(new List<ConnectingPipe>()));
+
+            Assert.IsTrue(blueprintBuilder.DeleteShipComponent(position));
+            Assert.AreEqual(null, blueprint[4, 5].ShipComponent);
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count);
+            Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count);
+            mockBlock.Verify(x => x.DeleteShipComponent(), Times.Once());
+        }
+
+        [TestMethod]
+        public void WhenDeletingShipComponentFromBlockWithTwoConnectingEdgesTheEdgesAreDeletedAndTransformedToDoubleEdgePipe()
+        {
+            var position = new Coordinate(5, 4);
+            mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(m => m.HasShipComponent()).Returns(true);
+            blueprint.Set(position, mockBlock.Object);
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.UP));
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.DOWN));
+            mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
+            mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
+            mockBlock.Setup(x => x.DeleteShipComponent()).Callback(() => mockBlock.SetupGet(m => m.PipesWithOneEdge).Returns(new List<ConnectingPipe>()));
+
+            Assert.IsTrue(blueprintBuilder.DeleteShipComponent(position));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count);
+            Assert.AreEqual(1, mockBlock.Object.PipesWithBothEdges.Count);
+            Assert.AreEqual(EdgeType.UP, doubleEdgedPipes[0].FirstEdge);
+            Assert.AreEqual(EdgeType.DOWN, doubleEdgedPipes[0].SecondEdge);
+        }
+
+        [TestMethod]
+        public void WhenDeletingShipComponentFromBlockWithThreeConnectingEdgesTheEdgesAreDeletedAndTransformedToDoubleEdgePipe()
+        {
+            var position = new Coordinate(5, 4);
+            mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(m => m.HasShipComponent()).Returns(true);
+            blueprint.Set(position, mockBlock.Object);
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.UP));
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.DOWN));
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.RIGHT));
+            mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
+            mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
+            mockBlock.Setup(x => x.DeleteShipComponent()).Callback(() => mockBlock.SetupGet(m => m.PipesWithOneEdge).Returns(new List<ConnectingPipe>()));
+
+            Assert.IsTrue(blueprintBuilder.DeleteShipComponent(position));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count);
+            Assert.AreEqual(3, mockBlock.Object.PipesWithBothEdges.Count);
+            Assert.AreEqual(EdgeType.UP, doubleEdgedPipes[0].FirstEdge);
+            Assert.AreEqual(EdgeType.DOWN, doubleEdgedPipes[0].SecondEdge);
+        }
+
+        [TestMethod]
+        public void WhenDeletingShipComponentFromBlockWithFourConnectingEdgesAnEmptyShipComponentIsAdded()
+        {
+            var empty = new EmptyShipComponent();
+            var position = new Coordinate(5, 4);
+            mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
+            mockBlock.Setup(m => m.HasShipComponent()).Returns(true);
+            blueprint.Set(position, mockBlock.Object);
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.UP));
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.DOWN));
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.LEFT));
+            oneEdgedPipes.Add(new ConnectingPipe(EdgeType.RIGHT));
+            mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
+            mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
+            mockBlock.Setup(x => x.DeleteShipComponent()).Callback(() => mockBlock.SetupGet(m => m.ShipComponent).Returns(empty));
+
+            Assert.IsTrue(blueprintBuilder.DeleteShipComponent(position));
+            Assert.AreEqual(4, mockBlock.Object.PipesWithOneEdge.Count);
+            Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count);
+            Assert.AreEqual(empty, mockBlock.Object.ShipComponent);
         }
     }
 }
