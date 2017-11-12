@@ -50,7 +50,7 @@ namespace Game
         public bool CreateBlock(Coordinate position)
         {
             //TODO: check that position in within bounds?
-            if (GetBlock(position) == null)
+            if (!HasBlock(position))
             {
                 blueprint.Set(position, blockFactory.CreateBlock());
                 return true;
@@ -60,7 +60,7 @@ namespace Game
 
         public bool DeleteBlock(Coordinate position)
         {
-            if (GetBlock(position) == null)
+            if (!HasBlock(position))
             {
                 return false;
             }
@@ -72,9 +72,20 @@ namespace Game
         public bool AddShipComponent(Coordinate position)
         {
             var component = shipComponentFactory.CreateComponent();
-            if (GetBlock(position) != null && !(GetBlock(position).HasShipComponent()))
+            if (HasBlock(position) && !(GetBlock(position).HasShipComponent()))
             {
-                GetBlock(position).AddShipComponent(component);
+                var block = GetBlock(position);
+                block.AddShipComponent(component);
+
+                if (block.PipesWithBothEdges.Count > 0)
+                {
+                    for (int i = block.PipesWithBothEdges.Count - 1; i >=0; i--)
+                    {
+                        TransformDoubleEdgedPipeIntoConnectingPipe(block, block.PipesWithBothEdges[i]);
+                        block.PipesWithBothEdges.RemoveAt(i);
+                    }
+                }
+
                 return true;
             }
 
@@ -83,7 +94,7 @@ namespace Game
 
         public bool DeleteShipComponent(Coordinate position)
         {
-            if (GetBlock(position) != null && GetBlock(position).HasShipComponent())
+            if (HasBlock(position) && GetBlock(position).HasShipComponent())
             {
                 GetBlock(position).DeleteShipComponent();
                 return true;
@@ -118,6 +129,11 @@ namespace Game
                     {
                         block.PipesWithBothEdges.Add(pipe);
                     }
+                    return true;
+                }
+                else
+                {
+                    TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
                     return true;
                 }
             }
