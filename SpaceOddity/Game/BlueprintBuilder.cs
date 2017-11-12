@@ -77,14 +77,15 @@ namespace Game
                 var block = GetBlock(position);
                 block.AddShipComponent(component);
 
-                if (block.PipesWithBothEdges != null && block.PipesWithBothEdges.Count > 0)
+                if (block.PipesWithBothEdges != null)
                 {
                     var count = block.PipesWithBothEdges.Count;
                     for (int i = 0; i < count; i++)
                     {
                         TransformDoubleEdgedPipeIntoConnectingPipe(block, block.PipesWithBothEdges[i]);
-                        block.PipesWithBothEdges.RemoveAt(i);
                     }
+
+                    DeletePipesWithTwoEdges(block, count);
                 }
 
                 return true;
@@ -99,7 +100,7 @@ namespace Game
             {
                 var block = GetBlock(position);
 
-                if (block.PipesWithOneEdge != null && block.PipesWithOneEdge.Count > 0)
+                if (block.PipesWithOneEdge != null)
                 {
                     var count = block.PipesWithOneEdge.Count;
 
@@ -139,34 +140,36 @@ namespace Game
         public bool AddDoubleEdgedPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
         {
             var pipe = new DoubleEdgedPipe(firstEdge, secondEdge);
-
             var block = GetBlock(position);
-
+            
             if (block != null)
             {
-                if (!(block.HasShipComponent()))
+                if (!CheckIfDoubleEdgeAlreadyExists(pipe, block))
                 {
-                    var intersectingPipe = HasIntersectingPipes(block, pipe);
-                    if (intersectingPipe != null)
+                    if (!(block.HasShipComponent()))
                     {
-                        TransformDoubleEdgedPipeIntoConnectingPipe(block, intersectingPipe);
-                        TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
-                        block.AddShipComponent(new EmptyShipComponent());
-                        block.PipesWithBothEdges.Remove(intersectingPipe);
+                        var intersectingPipe = HasIntersectingPipes(block, pipe);
+                        if (intersectingPipe != null)
+                        {
+                            TransformDoubleEdgedPipeIntoConnectingPipe(block, intersectingPipe);
+                            TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
+                            block.AddShipComponent(new EmptyShipComponent());
+                            block.PipesWithBothEdges.Remove(intersectingPipe);
+                        }
+                        else
+                        {
+                            block.PipesWithBothEdges.Add(pipe);
+                        }
+                        return true;
                     }
                     else
                     {
-                        block.PipesWithBothEdges.Add(pipe);
+                        TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
+                        return true;
                     }
-                    return true;
                 }
-                else
-                {
-                    TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
-                    return true;
-                }
+                return false;
             }
-
             return false;
         }
 
@@ -205,8 +208,14 @@ namespace Game
 
         private void TransformDoubleEdgedPipeIntoConnectingPipe(IBlock block, DoubleEdgedPipe pipe)
         {
-            block.PipesWithOneEdge.Add(new ConnectingPipe(pipe.FirstEdge));
-            block.PipesWithOneEdge.Add(new ConnectingPipe(pipe.SecondEdge)); 
+            if (!CheckIfConnectingPipeAlreadyExists(new ConnectingPipe(pipe.FirstEdge), block))
+            {
+                block.PipesWithOneEdge.Add(new ConnectingPipe(pipe.FirstEdge));
+            }
+            if (!CheckIfConnectingPipeAlreadyExists(new ConnectingPipe(pipe.SecondEdge), block))
+            {
+                block.PipesWithOneEdge.Add(new ConnectingPipe(pipe.SecondEdge));
+            }                
         }
 
         private static void DeletePipesWithOneEdge(IBlock block, int count)
@@ -215,6 +224,50 @@ namespace Game
             {
                 block.PipesWithOneEdge.RemoveAt(i);
             }
+        }
+
+        private static void DeletePipesWithTwoEdges(IBlock block, int count)
+        {
+            for (int i = count - 1; i >= 0; i--)
+            {
+                block.PipesWithBothEdges.RemoveAt(i);
+            }
+        }
+
+        private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IBlock block)
+        {
+            if (block.PipesWithBothEdges == null)
+            {
+                return false;
+            }
+
+            foreach (var p in block.PipesWithBothEdges)
+            {
+                if (p.IsEqualTo(pipe))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckIfConnectingPipeAlreadyExists(ConnectingPipe pipe, IBlock block)
+        { 
+            if (block.PipesWithOneEdge == null)
+            {
+                return false;
+            }
+
+            foreach (var p in block.PipesWithOneEdge)
+            {
+                if (p.IsEqualTo(pipe))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

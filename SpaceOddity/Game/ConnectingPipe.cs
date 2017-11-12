@@ -13,5 +13,10 @@ namespace Game
         {
             Edge = edge;
         }
+
+        public bool IsEqualTo(ConnectingPipe pipe)
+        {
+            return Edge == pipe.Edge;
+        }
     }
 }

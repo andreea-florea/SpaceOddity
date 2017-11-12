@@ -15,5 +15,12 @@ namespace Game
             FirstEdge = firstEdge;
             SecondEdge = secondEdge;
         }
+
+        //TODO: test
+        public bool IsEqualTo(DoubleEdgedPipe pipe)
+        {
+            return ((FirstEdge == pipe.FirstEdge && SecondEdge == pipe.SecondEdge) ||
+                (FirstEdge == pipe.SecondEdge && SecondEdge == pipe.FirstEdge));
+        }
     }
 }
