@@ -49,7 +49,6 @@ namespace Game
 
         public bool CreateBlock(Coordinate position)
         {
-            //TODO: check that position in within bounds?
             if (!HasBlock(position))
             {
                 blueprint.Set(position, blockFactory.CreateBlock());
@@ -85,7 +84,7 @@ namespace Game
                         TransformDoubleEdgedPipeIntoConnectingPipe(block, block.PipesWithBothEdges[i]);
                     }
 
-                    DeletePipesWithTwoEdges(block, count);
+                    block.PipesWithBothEdges.Clear();
                 }
 
                 return true;
@@ -107,12 +106,12 @@ namespace Game
                     switch (count)
                     {
                         case 1:
-                            DeletePipesWithOneEdge(block, count);
+                            block.PipesWithOneEdge.Clear();
                             break;
                         case 2:
                             block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
                                 block.PipesWithOneEdge[0].Edge, block.PipesWithOneEdge[1].Edge));
-                            DeletePipesWithOneEdge(block, count);
+                            block.PipesWithOneEdge.Clear();
                             break;
                         case 3:
                             block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
@@ -121,10 +120,10 @@ namespace Game
                                 block.PipesWithOneEdge[1].Edge, block.PipesWithOneEdge[2].Edge));
                             block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
                                 block.PipesWithOneEdge[2].Edge, block.PipesWithOneEdge[0].Edge));
-                            DeletePipesWithOneEdge(block, count);
+                            block.PipesWithOneEdge.Clear();
                             break;
                         case 4:
-                            block.AddShipComponent(new EmptyShipComponent());
+                            //block.AddShipComponent(new EmptyShipComponent());
                             break;
                         default: break;
                     }
@@ -175,14 +174,7 @@ namespace Game
 
         private DoubleEdgedPipe HasIntersectingPipes(IBlock block, DoubleEdgedPipe pipeToCheck)
         {
-            foreach (DoubleEdgedPipe pipe in block.PipesWithBothEdges)
-            {
-                if (DoPipesIntersect(pipe, pipeToCheck))
-                {
-                    return pipe;
-                }
-            }
-            return null;
+            return block.PipesWithBothEdges.FirstOrDefault(pipe => DoPipesIntersect(pipe, pipeToCheck));
         }
 
         private bool DoPipesIntersect(DoubleEdgedPipe pipe1, DoubleEdgedPipe pipe2)
@@ -218,56 +210,14 @@ namespace Game
             }                
         }
 
-        private static void DeletePipesWithOneEdge(IBlock block, int count)
-        {
-            for (int i = count - 1; i >= 0; i--)
-            {
-                block.PipesWithOneEdge.RemoveAt(i);
-            }
-        }
-
-        private static void DeletePipesWithTwoEdges(IBlock block, int count)
-        {
-            for (int i = count - 1; i >= 0; i--)
-            {
-                block.PipesWithBothEdges.RemoveAt(i);
-            }
-        }
-
         private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IBlock block)
         {
-            if (block.PipesWithBothEdges == null)
-            {
-                return false;
-            }
-
-            foreach (var p in block.PipesWithBothEdges)
-            {
-                if (p.IsEqualTo(pipe))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return block.PipesWithBothEdges.Any(p => p.IsEqualTo(pipe));
         }
 
         private bool CheckIfConnectingPipeAlreadyExists(ConnectingPipe pipe, IBlock block)
-        { 
-            if (block.PipesWithOneEdge == null)
-            {
-                return false;
-            }
-
-            foreach (var p in block.PipesWithOneEdge)
-            {
-                if (p.IsEqualTo(pipe))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+        {
+            return block.PipesWithOneEdge.Any(p => p.IsEqualTo(pipe));
         }
     }
 }
