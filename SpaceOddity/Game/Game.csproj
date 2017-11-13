@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\IObservableBlueprintBuilder.cs" />
     <Compile Include="Interfaces\IShipComponent.cs" />
     <Compile Include="Interfaces\IShipComponentFactory.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="ObservableBlueprintBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

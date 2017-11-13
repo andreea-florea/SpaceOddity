@@ -70,23 +70,19 @@ namespace Game
 
         public bool AddShipComponent(Coordinate position)
         {
-            var component = shipComponentFactory.CreateComponent();
-            if (HasBlock(position) && !(GetBlock(position).HasShipComponent()))
+            var block = GetBlock(position);
+            if (HasBlock(position) && !(block.HasShipComponent()))
             {
-                var block = GetBlock(position);
+                var component = shipComponentFactory.CreateComponent();
                 block.AddShipComponent(component);
 
-                if (block.PipesWithBothEdges != null)
+                foreach(var pipe in block.PipesWithBothEdges)
                 {
-                    var count = block.PipesWithBothEdges.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        TransformDoubleEdgedPipeIntoConnectingPipe(block, block.PipesWithBothEdges[i]);
-                    }
-
-                    block.PipesWithBothEdges.Clear();
+                    TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
                 }
 
+                block.PipesWithBothEdges.Clear();
+                
                 return true;
             }
 
@@ -98,38 +94,37 @@ namespace Game
             if (HasBlock(position) && GetBlock(position).HasShipComponent())
             {
                 var block = GetBlock(position);
+                block.DeleteShipComponent();
 
-                if (block.PipesWithOneEdge != null)
-                {
-                    var count = block.PipesWithOneEdge.Count;
+                var pipes = block.PipesWithOneEdge.Select(pipe => pipe.Edge).ToList();
+                block.PipesWithOneEdge.Clear();
+                pipes.Pairs((e1, e2) => AddDoubleEdgedPipe(position, e1, e2));
 
-                    switch (count)
-                    {
-                        case 1:
-                            block.PipesWithOneEdge.Clear();
-                            break;
-                        case 2:
-                            block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
-                                block.PipesWithOneEdge[0].Edge, block.PipesWithOneEdge[1].Edge));
-                            block.PipesWithOneEdge.Clear();
-                            break;
-                        case 3:
-                            block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
-                                block.PipesWithOneEdge[0].Edge, block.PipesWithOneEdge[1].Edge));
-                            block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
-                                block.PipesWithOneEdge[1].Edge, block.PipesWithOneEdge[2].Edge));
-                            block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
-                                block.PipesWithOneEdge[2].Edge, block.PipesWithOneEdge[0].Edge));
-                            block.PipesWithOneEdge.Clear();
-                            break;
-                        case 4:
-                            //block.AddShipComponent(new EmptyShipComponent());
-                            break;
-                        default: break;
-                    }
-                }
+                //switch (block.PipesWithOneEdge.Count)
+                //{
+                //    case 1:
+                //        block.PipesWithOneEdge.Clear();
+                //        break;
+                //    case 2:
+                //        block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
+                //            block.PipesWithOneEdge[0].Edge, block.PipesWithOneEdge[1].Edge));
+                //        block.PipesWithOneEdge.Clear();
+                //        break;
+                //    case 3:
+                //        block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
+                //            block.PipesWithOneEdge[0].Edge, block.PipesWithOneEdge[1].Edge));
+                //        block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
+                //            block.PipesWithOneEdge[1].Edge, block.PipesWithOneEdge[2].Edge));
+                //        block.PipesWithBothEdges.Add(new DoubleEdgedPipe(
+                //            block.PipesWithOneEdge[2].Edge, block.PipesWithOneEdge[0].Edge));
+                //        block.PipesWithOneEdge.Clear();
+                //        break;
+                //    case 4:
+                //        block.AddShipComponent(new EmptyShipComponent());
+                //        break;
+                //    default: break;
+                //}
 
-                GetBlock(position).DeleteShipComponent();
                 return true;
             }
 
@@ -153,7 +148,7 @@ namespace Game
                             TransformDoubleEdgedPipeIntoConnectingPipe(block, intersectingPipe);
                             TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
                             block.AddShipComponent(new EmptyShipComponent());
-                            block.PipesWithBothEdges.Remove(intersectingPipe);
+                            block.PipesWithBothEdges.Clear();
                         }
                         else
                         {
@@ -200,14 +195,16 @@ namespace Game
 
         private void TransformDoubleEdgedPipeIntoConnectingPipe(IBlock block, DoubleEdgedPipe pipe)
         {
-            if (!CheckIfConnectingPipeAlreadyExists(new ConnectingPipe(pipe.FirstEdge), block))
+            AddConnectingPipe(block, new ConnectingPipe(pipe.FirstEdge));
+            AddConnectingPipe(block, new ConnectingPipe(pipe.SecondEdge));
+        }
+
+        private void AddConnectingPipe(IBlock block, ConnectingPipe pipe)
+        {
+            if (!CheckIfConnectingPipeAlreadyExists(pipe, block))
             {
-                block.PipesWithOneEdge.Add(new ConnectingPipe(pipe.FirstEdge));
+                block.PipesWithOneEdge.Add(pipe);
             }
-            if (!CheckIfConnectingPipeAlreadyExists(new ConnectingPipe(pipe.SecondEdge), block))
-            {
-                block.PipesWithOneEdge.Add(new ConnectingPipe(pipe.SecondEdge));
-            }                
         }
 
         private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IBlock block)
