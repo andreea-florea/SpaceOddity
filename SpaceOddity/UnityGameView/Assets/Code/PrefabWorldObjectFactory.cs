@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿/*
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ViewInterface;
@@ -28,3 +29,4 @@ public class PrefabWorldObjectFactory : IWorldObjectFactory
 		return worldObject;
 	}
 }
+*/

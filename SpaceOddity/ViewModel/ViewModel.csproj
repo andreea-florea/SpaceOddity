@@ -44,6 +44,8 @@
     <Compile Include="Actions\BlockCancelAction.cs" />
     <Compile Include="Actions\BlockSelectAction.cs" />
     <Compile Include="Actions\TileSelectAction.cs" />
+    <Compile Include="IWorldObject.cs" />
+    <Compile Include="IWorldObjectFactory.cs" />
     <Compile Include="RectangleSections\AspectRatioRectangleSection.cs" />
     <Compile Include="BlueprintBuilderControlAssigner.cs" />
     <Compile Include="BlueprintBuilderController.cs" />
@@ -68,6 +70,8 @@
     <Compile Include="RectangleSections\MarginRectangleSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelTilesFactory.cs" />
+    <Compile Include="WorldObject.cs" />
+    <Compile Include="WorldObjectFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Game\Game.csproj">

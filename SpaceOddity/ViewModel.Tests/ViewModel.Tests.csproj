@@ -79,6 +79,8 @@
     <Compile Include="BlueprintBuilderFancyViewModelTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelFactoryTest.cs" />
     <Compile Include="BlueprintBuilderControllerTest.cs" />
+    <Compile Include="WorldObjectFactoryTest.cs" />
+    <Compile Include="WorldObjectTest.cs" />
     <Compile Include="ViewModelTilesFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>

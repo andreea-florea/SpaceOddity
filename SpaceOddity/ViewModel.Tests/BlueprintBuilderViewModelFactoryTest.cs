@@ -7,6 +7,7 @@ using Geometry;
 using System.Collections.Generic;
 using ViewInterface;
 using NaturalNumbersMath;
+using ViewModel.Actions;
 
 namespace ViewModel.Tests
 {
@@ -14,8 +15,8 @@ namespace ViewModel.Tests
     public class BlueprintBuilderViewModelFactoryTest
     {
         private Mock<IViewModelTilesFactory> mockTileFactory;
-        private Mock<IWorldObjectFactory> mockBlockFactory;
-        private Mock<IWorldObjectFactory> mockShipComponentsFactory;
+        private Mock<IRenderableFactory> mockBlockFactory;
+        private Mock<IRenderableFactory> mockShipComponentsFactory;
         private IWorldObject[,] tiles;
         private Mock<IObservableBlueprintBuilder> mockBlueprintBuilder;
         private BlueprintBuilderViewModelFactory viewModelFactory;
@@ -24,8 +25,8 @@ namespace ViewModel.Tests
         public void Initialize()
         {
             mockTileFactory = new Mock<IViewModelTilesFactory>();
-            mockBlockFactory = new Mock<IWorldObjectFactory>();
-            mockShipComponentsFactory = new Mock<IWorldObjectFactory>();
+            mockBlockFactory = new Mock<IRenderableFactory>();
+            mockShipComponentsFactory = new Mock<IRenderableFactory>();
             tiles = new IWorldObject[5, 3];
             mockBlueprintBuilder = new Mock<IObservableBlueprintBuilder>();
             mockTileFactory.Setup(factory => 
@@ -66,9 +67,9 @@ namespace ViewModel.Tests
             var rectangle = new Mock<IRectangleSection>();
             rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
 
-            var mockBlock = new Mock<IWorldObject>();
-            mockBlock.SetupAllProperties();
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            var mockRenderable = new Mock<IRenderable>();
+            mockRenderable.SetupSet(block => block.RightClickAction = It.IsAny<BlockSelectAction>()).Verifiable();
+            mockBlockFactory.Setup(factory => factory.CreateRenderable()).Returns(mockRenderable.Object);
             mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 6));
             var blueprintBuilderViewModel = 
                 viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, rectangle.Object);
@@ -76,8 +77,8 @@ namespace ViewModel.Tests
             var position = new Coordinate(1, 1);
             tiles.Set(position, new Mock<IWorldObject>().Object);
             blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
-            blueprintBuilderViewModel.GetBlock(position).RightClickAction.Execute();
-            mockBlueprintBuilder.Verify(builder => builder.DeleteBlock(position), Times.Once());
+            blueprintBuilderViewModel.GetBlock(position);
+            mockRenderable.VerifySet(block => block.RightClickAction = It.IsAny<BlockCancelAction>());
         }
 
         [TestMethod]
@@ -86,7 +87,7 @@ namespace ViewModel.Tests
             var rectangle = new Mock<IRectangleSection>();
             rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
             mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 6));
-            mockShipComponentsFactory.Setup(factory => factory.CreateObject()).Returns(new Mock<IWorldObject>().Object);
+            mockShipComponentsFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
 
             var blueprintBuilderViewModel =
                 viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, rectangle.Object);
@@ -94,7 +95,7 @@ namespace ViewModel.Tests
             tiles.Set(new Coordinate(2, 3), mockTile.Object);
             blueprintBuilderViewModel.ShipComponentAdded(mockBlueprintBuilder.Object, new Coordinate(2, 3));
 
-            mockShipComponentsFactory.Verify(factory => factory.CreateObject(), Times.Once());
+            mockShipComponentsFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
         }
     }
 }

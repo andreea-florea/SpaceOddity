@@ -16,45 +16,42 @@ namespace ViewModel.Tests
         public void CheckIfLeftClickActionIsAssignedByControllerToTile()
         {
             var mockController = new Mock<IBlueprintBuilderController>();
-            var tile = new Mock<IWorldObject>();
-            tile.SetupAllProperties();
+            var mockTile = new Mock<IWorldObject>();
+            mockTile.SetupSet(tile => tile.LeftClickAction = It.IsAny<TileSelectAction>()).Verifiable();
 
             var position = new Coordinate(2, 3);
             var blueprintBuilderControlAssigner = new BlueprintBuilderControlAssigner(mockController.Object);
-            blueprintBuilderControlAssigner.AssignTileControl(tile.Object, position);
+            blueprintBuilderControlAssigner.AssignTileControl(mockTile.Object, position);
 
-            tile.Object.LeftClickAction.Execute();
-            mockController.Verify(controller => controller.TileSelect(position));
+            mockTile.VerifySet(tile => tile.LeftClickAction = It.IsAny<TileSelectAction>());
         }
 
         [TestMethod]
         public void CheckIfRightClickActionIsAsssignedByControllerToBlock()
         {
             var mockController = new Mock<IBlueprintBuilderController>();
-            var block = new Mock<IWorldObject>();
-            block.SetupAllProperties();
+            var mockBlock = new Mock<IWorldObject>();
+            mockBlock.SetupSet(block => block.RightClickAction = It.IsAny<BlockSelectAction>()).Verifiable();
 
             var position = new Coordinate(4, 2);
             var blueprintBuilderControlAssigner = new BlueprintBuilderControlAssigner(mockController.Object);
-            blueprintBuilderControlAssigner.AssignBlockControl(block.Object, position);
+            blueprintBuilderControlAssigner.AssignBlockControl(mockBlock.Object, position);
 
-            block.Object.RightClickAction.Execute();
-            mockController.Verify(controller => controller.BlockCancel(position));
+            mockBlock.VerifySet(block => block.RightClickAction = It.IsAny<BlockCancelAction>());
         }
 
         [TestMethod]
         public void CheckIfLeftClickActionIsAsssignedByControllerToBlock()
         {
             var mockController = new Mock<IBlueprintBuilderController>();
-            var block = new Mock<IWorldObject>();
-            block.SetupAllProperties();
+            var mockBlock = new Mock<IWorldObject>();
+            mockBlock.SetupSet(block => block.LeftClickAction = It.IsAny<BlockSelectAction>()).Verifiable();
 
             var position = new Coordinate(4, 2);
             var blueprintBuilderControlAssigner = new BlueprintBuilderControlAssigner(mockController.Object);
-            blueprintBuilderControlAssigner.AssignBlockControl(block.Object, position);
+            blueprintBuilderControlAssigner.AssignBlockControl(mockBlock.Object, position);
 
-            block.Object.LeftClickAction.Execute();
-            mockController.Verify(controller => controller.BlockSelect(position));
+            mockBlock.VerifySet(block => block.LeftClickAction = It.IsAny<BlockSelectAction>());
         }
     }
 }

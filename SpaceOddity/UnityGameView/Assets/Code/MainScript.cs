@@ -15,9 +15,9 @@ public class MainScript : MonoBehaviour {
 
     public void Start () 
 	{
-		var tileObjectFactory = new PrefabWorldObjectFactory (tilePrefab, 0);
-		var blockObjectFactory = new PrefabWorldObjectFactory (blockPrefab, 0);
-        var shipComponentsObjectFactory = new PrefabWorldObjectFactory(batteryPrefab, 0);
+		var tileObjectFactory = new PrefabRenderableFactory (tilePrefab, 0);
+		var blockObjectFactory = new PrefabRenderableFactory (blockPrefab, 0);
+		var shipComponentsObjectFactory = new PrefabRenderableFactory(batteryPrefab, 0);
 
         var blueprintBuilderFactory = new GameViewFactory();
 		blueprintBuilderFactory.CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory, 

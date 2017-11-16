@@ -20,17 +20,17 @@ public class FancyMainScript : MonoBehaviour {
 
 	void Start () 
 	{
-		var tileObjectFactory = new PrefabWorldObjectFactory (tilePrefab, 0);
-		var blockCoreFactory = new PrefabWorldObjectFactory (blockCorePrefab, 0);
-		var roundCornerFactory = new PrefabWorldObjectFactory (roundCornerPrefab, 0);
-		var straightUpCornerFactory = new PrefabWorldObjectFactory (straightUpConrerPrefab, 0);
-		var straightRightCornerFactory = new PrefabWorldObjectFactory (straightRightCornerPrefab, 0);
-		var closedCornerFactory = new PrefabWorldObjectFactory (closedCornerPrefab, 0);
-		var outsideUpCornerFactory = new PrefabWorldObjectFactory (outsideUpCornerPrefab, 0);
-		var outsideRightCornerFactory = new PrefabWorldObjectFactory (outsideRightCornerPrefab, 0);
-		var diagonalMissingCornerFactory = new PrefabWorldObjectFactory (diagonalMissingCornerPrefab, 0);
-		var roundEdgeFactory = new PrefabWorldObjectFactory (roundEdgePrefab, 0);
-		var closedEdgeFactory = new PrefabWorldObjectFactory (closedEdgePrefab, 0);
+		var tileObjectFactory = new PrefabRenderableFactory (tilePrefab, 0);
+		var blockCoreFactory = new PrefabRenderableFactory (blockCorePrefab, 0);
+		var roundCornerFactory = new PrefabRenderableFactory (roundCornerPrefab, 0);
+		var straightUpCornerFactory = new PrefabRenderableFactory (straightUpConrerPrefab, 0);
+		var straightRightCornerFactory = new PrefabRenderableFactory (straightRightCornerPrefab, 0);
+		var closedCornerFactory = new PrefabRenderableFactory (closedCornerPrefab, 0);
+		var outsideUpCornerFactory = new PrefabRenderableFactory (outsideUpCornerPrefab, 0);
+		var outsideRightCornerFactory = new PrefabRenderableFactory (outsideRightCornerPrefab, 0);
+		var diagonalMissingCornerFactory = new PrefabRenderableFactory (diagonalMissingCornerPrefab, 0);
+		var roundEdgeFactory = new PrefabRenderableFactory (roundEdgePrefab, 0);
+		var closedEdgeFactory = new PrefabRenderableFactory (closedEdgePrefab, 0);
 
 		var blueprintBuilderFactory = new GameViewFactory();
 		blueprintBuilderFactory.CreateBlueprintBuilderView(tileObjectFactory, 

@@ -65,8 +65,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="RectangleFrameworkElementFactoryTest.cs" />
-    <Compile Include="WpfWorldObjectFactoryTest.cs" />
-    <Compile Include="WpfWorldObjectTest.cs" />
+    <Compile Include="WpfRenderableFactoryTest.cs" />
+    <Compile Include="WpfRenderableTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

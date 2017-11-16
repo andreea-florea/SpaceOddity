@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 using System.Collections;
 using ViewInterface;
 using Geometry;
@@ -72,3 +73,4 @@ public class UnityWorldObject : IWorldObject
 		GameObject.Destroy (gameObject);
 	}
 }
+*/

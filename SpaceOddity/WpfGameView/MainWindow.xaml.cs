@@ -30,13 +30,13 @@ namespace WpfGameView
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var frameworkElementFactory = new RectangleFrameworkElementFactory(Brushes.LightGray, Brushes.Gray);
-            var tileObjectFactory = new WpfWorldObjectFactory(mainCanvas, frameworkElementFactory);
+            var tileObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkElementFactory);
 
             var frameworkBlockFactory = new RectangleFrameworkElementFactory(Brushes.Blue, Brushes.LightBlue);
-            var blockObjectFactory = new WpfWorldObjectFactory(mainCanvas, frameworkBlockFactory);
+            var blockObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkBlockFactory);
 
             var frameworkShipComponentFactory = new CircleFrameworkElementFactory();
-            var shipComponentObjectFactory = new WpfWorldObjectFactory(mainCanvas, frameworkShipComponentFactory);
+            var shipComponentObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkShipComponentFactory);
 
             var rectangle = new MarginRectangleSection(new Vector2(20, 20), 
                 new FullRectangleSection(new Geometry.Rectangle(

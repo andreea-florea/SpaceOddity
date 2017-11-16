@@ -13,8 +13,8 @@ namespace ConstructedGame
 {
     public class GameViewFactory
     {
-        public void CreateBlueprintBuilderView(IWorldObjectFactory tileObjectFactory,
-            IWorldObjectFactory blockObjectFactory, IWorldObjectFactory shipComponentsFactory, 
+        public void CreateBlueprintBuilderView(IRenderableFactory tileObjectFactory,
+            IRenderableFactory blockRenderableFactory, IRenderableFactory shipComponentsFactory, 
             IRectangleSection fullRectangle)
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
@@ -22,29 +22,29 @@ namespace ConstructedGame
             var controller = new BlueprintBuilderController(observableBlueprintBuilder);
             var assignController = new BlueprintBuilderControlAssigner(controller);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory);
+            var tilesFactory = new ViewModelTilesFactory(new WorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory =
-                new BlueprintBuilderViewModelFactory(tilesFactory, blockObjectFactory, shipComponentsFactory);
+                new BlueprintBuilderViewModelFactory(tilesFactory, blockRenderableFactory, shipComponentsFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
-        public void CreateBlueprintBuilderView(IWorldObjectFactory tileObjectFactory,
-            IWorldObjectFactory blockCoreFactory,
-            IWorldObjectFactory roundCornerFactory,
-            IWorldObjectFactory straightUpCornerFactory,
-            IWorldObjectFactory straightRightCornerFactory,
-            IWorldObjectFactory closedCornerFactory,
-            IWorldObjectFactory outsideUpCornerFactory,
-            IWorldObjectFactory outsideRightCornerFactory,
-            IWorldObjectFactory diagonalMissingCornerFactory,
-            IWorldObjectFactory roundEdgeFactory,
-            IWorldObjectFactory closedEdgeFactory,
+        public void CreateBlueprintBuilderView(IRenderableFactory tileObjectFactory,
+            IRenderableFactory blockCoreFactory,
+            IRenderableFactory roundCornerFactory,
+            IRenderableFactory straightUpCornerFactory,
+            IRenderableFactory straightRightCornerFactory,
+            IRenderableFactory closedCornerFactory,
+            IRenderableFactory outsideUpCornerFactory,
+            IRenderableFactory outsideRightCornerFactory,
+            IRenderableFactory diagonalMissingCornerFactory,
+            IRenderableFactory roundEdgeFactory,
+            IRenderableFactory closedEdgeFactory,
             IRectangleSection fullRectangle)
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
-            var tilesFactory = new ViewModelTilesFactory(tileObjectFactory);
+            var tilesFactory = new ViewModelTilesFactory(new WorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory =
                 new BlueprintBuilderFancyViewModelFactory(tilesFactory,
                     blockCoreFactory,

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace ViewInterface
+namespace ViewModel
 {
     public interface IWorldObjectFactory
     {

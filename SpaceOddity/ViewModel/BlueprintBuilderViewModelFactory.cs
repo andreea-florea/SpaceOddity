@@ -11,11 +11,11 @@ namespace ViewModel
     public class BlueprintBuilderViewModelFactory
     {
         private IViewModelTilesFactory tilesFactory;
-        private IWorldObjectFactory blockFactory;
-        private IWorldObjectFactory shipComponentsFactory;
+        private IRenderableFactory blockFactory;
+        private IRenderableFactory shipComponentsFactory;
 
-        public BlueprintBuilderViewModelFactory(IViewModelTilesFactory tilesFactory, 
-            IWorldObjectFactory blockFactory, IWorldObjectFactory shipComponentsFactory)
+        public BlueprintBuilderViewModelFactory(IViewModelTilesFactory tilesFactory,
+            IRenderableFactory blockFactory, IRenderableFactory shipComponentsFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;
@@ -30,7 +30,8 @@ namespace ViewModel
             var blocks = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var shipComponents = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var viewModel = new BlueprintBuilderViewModel(tiles, blocks, shipComponents, 
-                blockFactory, shipComponentsFactory, controlAssigner);
+                new WorldObjectFactory(blockFactory), 
+                new WorldObjectFactory(shipComponentsFactory), controlAssigner);
             builder.AttachObserver(viewModel);
             return viewModel;
         }

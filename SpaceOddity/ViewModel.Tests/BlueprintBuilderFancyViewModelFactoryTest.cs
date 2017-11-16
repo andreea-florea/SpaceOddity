@@ -13,40 +13,40 @@ namespace ViewModel.Tests
         private Mock<IViewModelTilesFactory> mockTilesFactory;
         private IWorldObject[,] tiles;
         private Mock<IWorldObject> mockTile;
-        private Mock<IWorldObjectFactory> mockBlockCoreFactory;
-        private Mock<IWorldObjectFactory> mockRoundCornerFactory;
-        private Mock<IWorldObjectFactory> mockStraightUpCornerFactory;
-        private Mock<IWorldObjectFactory> mockStraightRightCornerFactory;
-        private Mock<IWorldObjectFactory> mockClosedCornerFactory;
-        private Mock<IWorldObjectFactory> mockOutsideUpCornerFactory;
-        private Mock<IWorldObjectFactory> mockOutsideRightCornerFactory;
-        private Mock<IWorldObjectFactory> mockDiagonalMissingCornerFactory;
-        private Mock<IWorldObjectFactory> mockRoundEdgeFactory;
-        private Mock<IWorldObjectFactory> mockClosedEdgeFactory;
+        private Mock<IRenderableFactory> mockBlockCoreFactory;
+        private Mock<IRenderableFactory> mockRoundCornerFactory;
+        private Mock<IRenderableFactory> mockStraightUpCornerFactory;
+        private Mock<IRenderableFactory> mockStraightRightCornerFactory;
+        private Mock<IRenderableFactory> mockClosedCornerFactory;
+        private Mock<IRenderableFactory> mockOutsideUpCornerFactory;
+        private Mock<IRenderableFactory> mockOutsideRightCornerFactory;
+        private Mock<IRenderableFactory> mockDiagonalMissingCornerFactory;
+        private Mock<IRenderableFactory> mockRoundEdgeFactory;
+        private Mock<IRenderableFactory> mockClosedEdgeFactory;
 
         private Mock<IObservableBlueprintBuilder> mockBlueprintBuilder;
         private Mock<IBlock> mockBlock;
-        private Mock<IWorldObject> mockDetail;
+        private Mock<IRenderable> mockDetail;
         private Mock<IRectangleSection> mockFittingRectangle;
         private BlueprintBuilderFancyViewModelFactory blueprintBuilderViewModelFactory; 
 
         [TestInitialize]
         public void Initialize()
         {
-            mockBlockCoreFactory = new Mock<IWorldObjectFactory>();
-            mockRoundCornerFactory = new Mock<IWorldObjectFactory>();
-            mockStraightUpCornerFactory = new Mock<IWorldObjectFactory>();
-            mockStraightRightCornerFactory = new Mock<IWorldObjectFactory>();
-            mockClosedCornerFactory = new Mock<IWorldObjectFactory>();
-            mockOutsideUpCornerFactory = new Mock<IWorldObjectFactory>();
-            mockOutsideRightCornerFactory = new Mock<IWorldObjectFactory>();
-            mockDiagonalMissingCornerFactory = new Mock<IWorldObjectFactory>();
-            mockRoundEdgeFactory = new Mock<IWorldObjectFactory>();
-            mockClosedEdgeFactory = new Mock<IWorldObjectFactory>();
+            mockBlockCoreFactory = new Mock<IRenderableFactory>();
+            mockRoundCornerFactory = new Mock<IRenderableFactory>();
+            mockStraightUpCornerFactory = new Mock<IRenderableFactory>();
+            mockStraightRightCornerFactory = new Mock<IRenderableFactory>();
+            mockClosedCornerFactory = new Mock<IRenderableFactory>();
+            mockOutsideUpCornerFactory = new Mock<IRenderableFactory>();
+            mockOutsideRightCornerFactory = new Mock<IRenderableFactory>();
+            mockDiagonalMissingCornerFactory = new Mock<IRenderableFactory>();
+            mockRoundEdgeFactory = new Mock<IRenderableFactory>();
+            mockClosedEdgeFactory = new Mock<IRenderableFactory>();
 
             mockBlueprintBuilder = new Mock<IObservableBlueprintBuilder>();
             mockBlock = new Mock<IBlock>();
-            mockDetail = new Mock<IWorldObject>();
+            mockDetail = new Mock<IRenderable>();
             mockFittingRectangle = new Mock<IRectangleSection>();
 
             tiles = new IWorldObject[3, 4];
@@ -79,15 +79,15 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(position)).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, position);
 
-            mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(4));
+            mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(4));
         }
 
         [TestMethod]
@@ -100,20 +100,20 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockClosedEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockClosedEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockStraightRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
+            mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockStraightRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -129,26 +129,26 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 1))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockOutsideUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockOutsideRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockDiagonalMissingCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockClosedEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockOutsideUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockOutsideRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockDiagonalMissingCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockClosedEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockStraightRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
-            mockDiagonalMissingCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
-            mockOutsideUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
-            mockOutsideRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
+            mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockStraightRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
+            mockDiagonalMissingCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
+            mockOutsideUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
+            mockOutsideRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -161,15 +161,15 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(3, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 2))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(5));
+            mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(5));
         }
 
         [TestMethod]
@@ -188,22 +188,22 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 1))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 2))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockClosedCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockClosedEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockClosedCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockClosedEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockClosedCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(4));
-            mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockStraightRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
+            mockClosedCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(4));
+            mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockStraightRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -213,15 +213,15 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockRoundEdgeFactory.Verify(factory => factory.CreateObject(), Times.Exactly(4));
+            mockRoundEdgeFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(4));
         }
 
         [TestMethod]
@@ -234,19 +234,19 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 2))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockClosedEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockClosedEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockRoundEdgeFactory.Verify(factory => factory.CreateObject(), Times.Exactly(3));
-            mockClosedEdgeFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
+            mockRoundEdgeFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(3));
+            mockClosedEdgeFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -256,15 +256,15 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 3));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(2, 1))).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockBlockCoreFactory.Verify(factory => factory.CreateObject(), Times.Once());
+            mockBlockCoreFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
         }
 
         [TestMethod]
@@ -288,26 +288,26 @@ namespace ViewModel.Tests
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 1))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(2, 2))).Returns(mockBlock.Object);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(new Coordinate(3, 1))).Returns(mockBlock.Object);
-            mockRoundCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockDiagonalMissingCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockStraightRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockOutsideRightCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockOutsideUpCornerFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockRoundEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockClosedEdgeFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
-            mockBlockCoreFactory.Setup(factory => factory.CreateObject()).Returns(mockDetail.Object);
+            mockRoundCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockDiagonalMissingCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockStraightRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockOutsideRightCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockOutsideUpCornerFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockRoundEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockClosedEdgeFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
+            mockBlockCoreFactory.Setup(factory => factory.CreateRenderable()).Returns(mockDetail.Object);
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
             viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
 
-            mockDiagonalMissingCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
-            mockStraightUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockStraightRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(2));
-            mockOutsideUpCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
-            mockOutsideRightCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
-            mockRoundCornerFactory.Verify(factory => factory.CreateObject(), Times.Exactly(1));
+            mockDiagonalMissingCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
+            mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockStraightRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
+            mockOutsideUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
+            mockOutsideRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
+            mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
         }
     }
 }

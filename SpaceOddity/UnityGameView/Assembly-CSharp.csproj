@@ -55,7 +55,9 @@
      <Compile Include="Assets\Code\ControlScript.cs" />
      <Compile Include="Assets\Code\FancyMainScript.cs" />
      <Compile Include="Assets\Code\MainScript.cs" />
+     <Compile Include="Assets\Code\PrefabRenderableFactory.cs" />
      <Compile Include="Assets\Code\PrefabWorldObjectFactory.cs" />
+     <Compile Include="Assets\Code\UnityRenderable.cs" />
      <Compile Include="Assets\Code\UnityWorldObject.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

@@ -5,7 +5,7 @@ using ViewInterface;
 
 public class ControlScript : MonoBehaviour 
 {
-	public IWorldObject ControlObject { get; set; }
+	public UnityRenderable ControlObject { get; set; }
 
 	public void OnMouseOver() 
 	{

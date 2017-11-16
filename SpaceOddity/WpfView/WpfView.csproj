@@ -54,8 +54,8 @@
     <Compile Include="CircleFrameworkElementFactory.cs" />
     <Compile Include="IFrameworkElementFactory.cs" />
     <Compile Include="RectangleFrameworkElementFactory.cs" />
-    <Compile Include="WpfWorldObjectFactory.cs" />
-    <Compile Include="WpfWorldObject.cs" />
+    <Compile Include="WpfRenderable.cs" />
+    <Compile Include="WpfRenderableFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

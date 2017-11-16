@@ -13,29 +13,29 @@ namespace ViewModel
     public class BlueprintBuilderFancyViewModelFactory
     {
         private IViewModelTilesFactory tilesFactory;
-        private IWorldObjectFactory blockCoreFactory;
-        private IWorldObjectFactory roundCornerFactory;
-        private IWorldObjectFactory straightUpCornerFactory;
-        private IWorldObjectFactory straightRightCornerFactory;
-        private IWorldObjectFactory closedCornerFactory;
-        private IWorldObjectFactory outsideUpCornerFactory;
-        private IWorldObjectFactory outsideRightCornerFactory;
-        private IWorldObjectFactory diagonalMissingCornerFactory;
-        private IWorldObjectFactory roundEdgeFactory;
-        private IWorldObjectFactory closedEdgeFactory;
+        private IRenderableFactory blockCoreFactory;
+        private IRenderableFactory roundCornerFactory;
+        private IRenderableFactory straightUpCornerFactory;
+        private IRenderableFactory straightRightCornerFactory;
+        private IRenderableFactory closedCornerFactory;
+        private IRenderableFactory outsideUpCornerFactory;
+        private IRenderableFactory outsideRightCornerFactory;
+        private IRenderableFactory diagonalMissingCornerFactory;
+        private IRenderableFactory roundEdgeFactory;
+        private IRenderableFactory closedEdgeFactory;
 
         public BlueprintBuilderFancyViewModelFactory(
             IViewModelTilesFactory tilesFactory,
-            IWorldObjectFactory blockCoreFactory,
-            IWorldObjectFactory roundCornerFactory,
-            IWorldObjectFactory straightUpCornerFactory,
-            IWorldObjectFactory straightRightCornerFactory,
-            IWorldObjectFactory closedCornerFactory,
-            IWorldObjectFactory outsideUpCornerFactory,
-            IWorldObjectFactory outsideRightCornerFactory,
-            IWorldObjectFactory diagonalMissingCornerFactory,
-            IWorldObjectFactory roundEdgeFactory,
-            IWorldObjectFactory closedEdgeFactory)
+            IRenderableFactory blockCoreFactory,
+            IRenderableFactory roundCornerFactory,
+            IRenderableFactory straightUpCornerFactory,
+            IRenderableFactory straightRightCornerFactory,
+            IRenderableFactory closedCornerFactory,
+            IRenderableFactory outsideUpCornerFactory,
+            IRenderableFactory outsideRightCornerFactory,
+            IRenderableFactory diagonalMissingCornerFactory,
+            IRenderableFactory roundEdgeFactory,
+            IRenderableFactory closedEdgeFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockCoreFactory = blockCoreFactory;
@@ -84,14 +84,14 @@ namespace ViewModel
             cornerUpdates.Add(new FacingPosition(direction, -direction - direction.RotateQuarterCircleRight()));
 
             var baseCornerFactories = new IWorldObjectFactory[8];
-            baseCornerFactories[0] = roundCornerFactory;
-            baseCornerFactories[1] = straightUpCornerFactory;
-            baseCornerFactories[2] = straightRightCornerFactory;
-            baseCornerFactories[3] = diagonalMissingCornerFactory;
-            baseCornerFactories[4] = roundCornerFactory;
-            baseCornerFactories[5] = outsideUpCornerFactory;
-            baseCornerFactories[6] = outsideRightCornerFactory;
-            baseCornerFactories[7] = closedCornerFactory;
+            baseCornerFactories[0] = new WorldObjectFactory(roundCornerFactory);
+            baseCornerFactories[1] = new WorldObjectFactory(straightUpCornerFactory);
+            baseCornerFactories[2] = new WorldObjectFactory(straightRightCornerFactory);
+            baseCornerFactories[3] = new WorldObjectFactory(diagonalMissingCornerFactory);
+            baseCornerFactories[4] = new WorldObjectFactory(roundCornerFactory);
+            baseCornerFactories[5] = new WorldObjectFactory(outsideUpCornerFactory);
+            baseCornerFactories[6] = new WorldObjectFactory(outsideRightCornerFactory);
+            baseCornerFactories[7] = new WorldObjectFactory(closedCornerFactory);
             var cornerFactory = new WorldObjectBitNumberFactoryPicker(baseCornerFactories,
                 new CornerBlocksNumberGenerator(builder));
             
@@ -111,8 +111,8 @@ namespace ViewModel
             edgeUpdates.Add(new FacingPosition(direction, -direction));
 
             var baseEdgeFactories = new IWorldObjectFactory[2];
-            baseEdgeFactories[0] = roundEdgeFactory;
-            baseEdgeFactories[1] = closedEdgeFactory;
+            baseEdgeFactories[0] = new WorldObjectFactory(roundEdgeFactory);
+            baseEdgeFactories[1] = new WorldObjectFactory(closedEdgeFactory);
             var edgeFactory = new WorldObjectBitNumberFactoryPicker(baseEdgeFactories,
                 new EdgeBlocksNumberGenerator(builder));
 
@@ -129,7 +129,8 @@ namespace ViewModel
             coreUpdates.Add(new FacingPosition(Coordinates.Zero, Coordinates.Zero));
 
             return new BlockDetailsViewUpdater(builder, tiles, coreDetails,
-                new IgnoreFacingContextWorldObjectFactory(blockCoreFactory), controlAssigner, coreUpdates);
+                new IgnoreFacingContextWorldObjectFactory(new WorldObjectFactory(blockCoreFactory)),
+                controlAssigner, coreUpdates);
         }
     }
 }

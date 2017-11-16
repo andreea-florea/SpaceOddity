@@ -83,7 +83,8 @@ namespace ViewModel
 
         public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
         {
-            throw new NotImplementedException();
+            //Fix after Blueprint splitting
+            //throw new NotImplementedException();
         }
     }
 }
