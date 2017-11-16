@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Game.Interfaces;
+using Algorithms;
 using NaturalNumbersMath;
 
 namespace Game
@@ -98,7 +98,7 @@ namespace Game
 
                 var pipes = block.PipesWithOneEdge.Select(pipe => pipe.Edge).ToList();
                 block.PipesWithOneEdge.Clear();
-                pipes.Pairs((e1, e2) => AddDoubleEdgedPipe(position, e1, e2));
+                pipes.ForeachPair((e1, e2) => AddDoubleEdgedPipe(position, e1, e2));
 
                 //switch (block.PipesWithOneEdge.Count)
                 //{
