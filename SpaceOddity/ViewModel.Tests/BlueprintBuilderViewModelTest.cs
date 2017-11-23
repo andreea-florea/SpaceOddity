@@ -128,7 +128,6 @@ namespace ViewModel.Tests
             Assert.AreEqual(scale, shipComponents.Get(position).Scale);
         }
 
-
         [TestMethod]
         public void CheckIfPipeLinkIsCreatedBetweenTwoBlocksWhenTopBlockExists()
         {
@@ -248,6 +247,23 @@ namespace ViewModel.Tests
             blueprintBuilderViewModel.BlockDeleted(mockBlueprintBuilder.Object, position);
 
             mockPipeLink.Verify(link => link.Delete(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsRotatedCorrectly()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(2, 4);
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            Assert.AreEqual(new Vector2(0, 1), horizontalPipeLinks.Get(position).Rotation);
         }
     }
 }

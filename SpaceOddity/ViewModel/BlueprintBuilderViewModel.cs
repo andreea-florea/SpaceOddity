@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ViewInterface;
+using Geometry;
 
 namespace ViewModel
 {
@@ -98,8 +99,9 @@ namespace ViewModel
             if (blueprintBuilder.HasBlock(connectingPosition) && blueprintBuilder.HasBlock(position))
             {
                 links.Set(updatePosition, pipeLinkFactory.CreateObject());
-                links.Get(updatePosition).Position =
+                links.Get(updatePosition).Position = 
                     (tiles.Get(position).Position + tiles.Get(connectingPosition).Position) * 0.5;
+                links.Get(updatePosition).Rotation = direction.ToVector2();
             }
             else
             {

@@ -86,6 +86,9 @@
  <Reference Include="UnityEngine.SpatialTracking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
+ <Reference Include="Algorithm">
+ <HintPath>D:/TeamProjects/SpaceOddity/SpaceOddity/UnityGameView/Assets/Dlls/Algorithm.dll</HintPath>
+ </Reference>
  <Reference Include="ConstructedGame">
  <HintPath>D:/TeamProjects/SpaceOddity/SpaceOddity/UnityGameView/Assets/Dlls/ConstructedGame.dll</HintPath>
  </Reference>

@@ -12,16 +12,18 @@ public class MainScript : MonoBehaviour {
 	public GameObject tilePrefab;
 	public GameObject blockPrefab;
     public GameObject batteryPrefab;
+	public GameObject pipeLinkPrefab;
 
     public void Start () 
 	{
 		var tileObjectFactory = new PrefabRenderableFactory (tilePrefab, 0);
 		var blockObjectFactory = new PrefabRenderableFactory (blockPrefab, 0);
 		var shipComponentsObjectFactory = new PrefabRenderableFactory(batteryPrefab, 0);
+		var pipeLinkObjectFactory = new PrefabRenderableFactory (pipeLinkPrefab, 0);
 
         var blueprintBuilderFactory = new GameViewFactory();
 		blueprintBuilderFactory.CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory, 
-            shipComponentsObjectFactory,
-            new FullRectangleSection(new Geometry.Rectangle(new Geometry.Vector2(-10, -10), new Geometry.Vector2(10, 10))));
+			shipComponentsObjectFactory, pipeLinkObjectFactory,
+			new FullRectangleSection(new Geometry.Rectangle(new Geometry.Vector2(-5.5, -5.5), new Geometry.Vector2(5.5, 5.5))));
 	}
 }
