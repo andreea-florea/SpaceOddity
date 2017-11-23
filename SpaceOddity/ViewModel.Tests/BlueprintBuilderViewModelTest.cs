@@ -15,14 +15,18 @@ namespace ViewModel.Tests
     {
         private Mock<IWorldObject> mockBlock;
         private Mock<IWorldObject> mockShipComponent;
+        private Mock<IWorldObject> mockPipeLink;
         private Mock<IWorldObjectFactory> mockBlockFactory;
         private Mock<IWorldObjectFactory> mockShipComponentFactory;
+        private Mock<IWorldObjectFactory> mockPipeLinkFactory;
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
         private Mock<IBlueprintBuilderControlAssigner> mockController;
         private Mock<IWorldObject> mockTile;
         private IWorldObject[,] blocks;
         private IWorldObject[,] tiles;
         private IWorldObject[,] shipComponents;
+        private IWorldObject[,] horizontalPipeLinks;
+        private IWorldObject[,] verticalPipeLinks;
         private BlueprintBuilderViewModel blueprintBuilderViewModel;
 
         [TestInitialize]
@@ -32,9 +36,12 @@ namespace ViewModel.Tests
             mockBlock.SetupAllProperties();
             mockShipComponent = new Mock<IWorldObject>();
             mockShipComponent.SetupAllProperties();
+            mockPipeLink = new Mock<IWorldObject>();
+            mockPipeLink.SetupAllProperties();
 
             mockBlockFactory = new Mock<IWorldObjectFactory>();
             mockShipComponentFactory = new Mock<IWorldObjectFactory>();
+            mockPipeLinkFactory = new Mock<IWorldObjectFactory>();
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
             mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
@@ -42,10 +49,14 @@ namespace ViewModel.Tests
             blocks = new IWorldObject[5, 6];
             tiles = new IWorldObject[5, 6];
             shipComponents = new IWorldObject[5, 6];
+            horizontalPipeLinks = new IWorldObject[5, 5];
+            verticalPipeLinks = new IWorldObject[4, 6];
 
             blueprintBuilderViewModel =
                 new BlueprintBuilderViewModel(tiles, blocks, shipComponents, 
-                    mockBlockFactory.Object, mockShipComponentFactory.Object, mockController.Object);
+                    horizontalPipeLinks, verticalPipeLinks,
+                    mockBlockFactory.Object, mockShipComponentFactory.Object, mockPipeLinkFactory.Object,
+                    mockController.Object);
         }
 
         [TestMethod]
@@ -115,6 +126,128 @@ namespace ViewModel.Tests
             mockShipComponentFactory.Verify(factory => factory.CreateObject(), Times.Once());
             Assert.AreEqual(translation, shipComponents.Get(position).Position);
             Assert.AreEqual(scale, shipComponents.Get(position).Scale);
+        }
+
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsCreatedBetweenTwoBlocksWhenTopBlockExists()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(2, 4);
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            Assert.AreEqual(mockPipeLink.Object, horizontalPipeLinks.Get(position));
+        }
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsCreatedBetweenTwoBlocksWhenBottomBlockExists()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(2, 2);
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            Assert.AreEqual(mockPipeLink.Object, horizontalPipeLinks.Get(connectingPosition));
+        }
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsCreatedWithCorrectTranslation()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(2, 4);
+            var mockTile2 = new Mock<IWorldObject>();
+
+            mockTile.SetupGet(tile => tile.Position).Returns(new Vector2(2, 3));
+            mockTile2.SetupGet(tile => tile.Position).Returns(new Vector2(2, 4));
+
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile2.Object);
+
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            Assert.AreEqual(new Vector2(2, 3.5), horizontalPipeLinks.Get(position).Position);
+        }
+
+        [TestMethod]
+        public void CheckIfHorizontalPipeLinkIsNotCreatedIfBlocksAreNotConnected()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(2, 2);
+            tiles.Set(position, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(false);
+
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            mockPipeLinkFactory.Verify(factory => factory.CreateObject(), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsCreatedBetweenTwoBlocksWhenRightBlockExists()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(3, 3);
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            Assert.AreEqual(mockPipeLink.Object, verticalPipeLinks.Get(position));
+        }
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsCreatedBetweenTwoBlocksWhenLeftBlockExists()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(1, 3);
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            Assert.AreEqual(mockPipeLink.Object, verticalPipeLinks.Get(connectingPosition));
+        }
+
+        [TestMethod]
+        public void CheckIfPipeLinkIsDeleted()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(1, 3);
+            blocks.Set(position, mockBlock.Object);
+            verticalPipeLinks.Set(connectingPosition, mockPipeLink.Object);
+
+            blueprintBuilderViewModel.BlockDeleted(mockBlueprintBuilder.Object, position);
+
+            mockPipeLink.Verify(link => link.Delete(), Times.Once());
         }
     }
 }

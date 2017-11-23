@@ -14,7 +14,9 @@ namespace ConstructedGame
     public class GameViewFactory
     {
         public void CreateBlueprintBuilderView(IRenderableFactory tileObjectFactory,
-            IRenderableFactory blockRenderableFactory, IRenderableFactory shipComponentsFactory, 
+            IRenderableFactory blockRenderableFactory, 
+            IRenderableFactory shipComponentsFactory, 
+            IRenderableFactory pipeLinkFactory,
             IRectangleSection fullRectangle)
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
@@ -23,8 +25,8 @@ namespace ConstructedGame
             var assignController = new BlueprintBuilderControlAssigner(controller);
 
             var tilesFactory = new ViewModelTilesFactory(new WorldObjectFactory(tileObjectFactory));
-            var blueprintViewModelFactory =
-                new BlueprintBuilderViewModelFactory(tilesFactory, blockRenderableFactory, shipComponentsFactory);
+            var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(
+                tilesFactory, blockRenderableFactory, shipComponentsFactory, pipeLinkFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Algorithm;
 
 namespace Geometry
 {
@@ -76,12 +76,21 @@ namespace Geometry
 
         public static bool operator==(Vector2 a, Vector2 b)
         {
-            return a.X == b.X && a.Y == b.Y;
+            return a.X.CloseTo(b.X) && a.Y.CloseTo(b.Y);
         }
 
         public static bool operator!=(Vector2 a, Vector2 b)
         {
-            return a.X != b.X || a.Y != b.Y;
+            return !a.X.CloseTo(b.X) || !a.Y.CloseTo(b.Y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Vector2)
+            {
+                return (Vector2)obj == this;
+            }
+            return false;
         }
 
         public Vector2 Divide(Vector2 divider)

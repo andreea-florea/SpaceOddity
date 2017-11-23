@@ -16,7 +16,6 @@ namespace WpfView
             circle.Stroke = Brushes.Orange;
             circle.Fill = Brushes.Yellow;
             circle.StrokeThickness = 1;
-            //circle.Margin = new Thickness(5);
             return circle;
         }
     }

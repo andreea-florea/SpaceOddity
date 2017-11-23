@@ -17,6 +17,7 @@ namespace ViewModel.Tests
         private Mock<IViewModelTilesFactory> mockTileFactory;
         private Mock<IRenderableFactory> mockBlockFactory;
         private Mock<IRenderableFactory> mockShipComponentsFactory;
+        private Mock<IRenderableFactory> mockPipeLinkFactory;
         private IWorldObject[,] tiles;
         private Mock<IObservableBlueprintBuilder> mockBlueprintBuilder;
         private BlueprintBuilderViewModelFactory viewModelFactory;
@@ -27,14 +28,18 @@ namespace ViewModel.Tests
             mockTileFactory = new Mock<IViewModelTilesFactory>();
             mockBlockFactory = new Mock<IRenderableFactory>();
             mockShipComponentsFactory = new Mock<IRenderableFactory>();
-            tiles = new IWorldObject[5, 3];
+            mockPipeLinkFactory = new Mock<IRenderableFactory>();
+
+            tiles = new IWorldObject[5, 4];
             mockBlueprintBuilder = new Mock<IObservableBlueprintBuilder>();
             mockTileFactory.Setup(factory => 
                 factory.CreateTiles(It.IsAny<IBlueprintBuilderControlAssigner>(), It.IsAny<Coordinate>(), It.IsAny<IRectangleSection>())).Returns(tiles);
 
-            viewModelFactory = 
-                new BlueprintBuilderViewModelFactory(mockTileFactory.Object,
-                    mockBlockFactory.Object, mockShipComponentsFactory.Object);
+            viewModelFactory = new BlueprintBuilderViewModelFactory(
+                mockTileFactory.Object,
+                mockBlockFactory.Object, 
+                mockShipComponentsFactory.Object,
+                mockPipeLinkFactory.Object);
         }
 
         [TestMethod]
@@ -44,6 +49,7 @@ namespace ViewModel.Tests
             var mockTile = new Mock<IWorldObject>();
             tiles.Set(position, mockTile.Object);
 
+            mockBlueprintBuilder.SetupGet(builder => builder.Dimensions).Returns(new Coordinate(3, 2));
             var mockRectangle = new Mock<IRectangleSection>();
             var blueprintBuilderViewModel =
                 viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, mockRectangle.Object);
@@ -56,6 +62,7 @@ namespace ViewModel.Tests
         {
             var rectangle = new Mock<IRectangleSection>();
             rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
+            mockBlueprintBuilder.SetupGet(builder => builder.Dimensions).Returns(new Coordinate(3, 2));
             var blueprintBuilderViewModel =
                 viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, rectangle.Object);
             mockBlueprintBuilder.Verify(builder => builder.AttachObserver(blueprintBuilderViewModel), Times.Once());
@@ -96,6 +103,48 @@ namespace ViewModel.Tests
             blueprintBuilderViewModel.ShipComponentAdded(mockBlueprintBuilder.Object, new Coordinate(2, 3));
 
             mockShipComponentsFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckIfFactoryIsUsedToCreateHorizontalPipeLink()
+        {
+            var rectangle = new Mock<IRectangleSection>();
+            rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 5));
+            mockBlockFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
+            mockBlueprintBuilder.Setup(blueprint => blueprint.HasBlock(new Coordinate(2, 4))).Returns(true);
+            mockBlueprintBuilder.Setup(blueprint => blueprint.HasBlock(new Coordinate(2, 3))).Returns(true);
+
+            var blueprintBuilderViewModel =
+                viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, rectangle.Object);
+            var mockTile = new Mock<IWorldObject>();
+            tiles.Set(new Coordinate(2, 3), mockTile.Object);
+            tiles.Set(new Coordinate(2, 4), mockTile.Object);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 3));
+
+            mockPipeLinkFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckIfFactoryIsUsedToCreateVerticalPipeLink()
+        {
+            var rectangle = new Mock<IRectangleSection>();
+            rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
+            mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 5));
+            mockBlockFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
+            mockBlueprintBuilder.Setup(blueprint => blueprint.HasBlock(new Coordinate(3, 3))).Returns(true);
+            mockBlueprintBuilder.Setup(blueprint => blueprint.HasBlock(new Coordinate(2, 3))).Returns(true);
+
+            var blueprintBuilderViewModel =
+                viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, rectangle.Object);
+            var mockTile = new Mock<IWorldObject>();
+            tiles.Set(new Coordinate(2, 3), mockTile.Object);
+            tiles.Set(new Coordinate(3, 3), mockTile.Object);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 3));
+
+            mockPipeLinkFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
         }
     }
 }

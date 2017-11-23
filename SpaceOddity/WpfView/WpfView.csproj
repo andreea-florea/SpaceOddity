@@ -52,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircleFrameworkElementFactory.cs" />
+    <Compile Include="FixedSizeFrameworkElementFactory.cs" />
     <Compile Include="IFrameworkElementFactory.cs" />
     <Compile Include="RectangleFrameworkElementFactory.cs" />
+    <Compile Include="GridParentFrameworkElementFactory.cs" />
     <Compile Include="WpfRenderable.cs" />
     <Compile Include="WpfRenderableFactory.cs" />
   </ItemGroup>

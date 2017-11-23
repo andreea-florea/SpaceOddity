@@ -35,15 +35,26 @@ namespace WpfGameView
             var frameworkBlockFactory = new RectangleFrameworkElementFactory(Brushes.Blue, Brushes.LightBlue);
             var blockObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkBlockFactory);
 
-            var frameworkShipComponentFactory = new CircleFrameworkElementFactory();
+            var frameworkShipComponentFactory = new GridParentFrameworkElementFactory(
+                new CircleFrameworkElementFactory(), new Vector2(20, 20));
             var shipComponentObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkShipComponentFactory);
+
+            var frameworkPipeLinkFactory = new FixedSizeFrameworkElementFactory(
+                new RectangleFrameworkElementFactory(Brushes.CadetBlue, Brushes.DarkBlue), new Vector2(10, 10));
+
+            var pipeLinkObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkPipeLinkFactory);
 
             var rectangle = new MarginRectangleSection(new Vector2(20, 20), 
                 new FullRectangleSection(new Geometry.Rectangle(
                         new Vector2(0, 0), new Vector2(mainCanvas.ActualWidth, mainCanvas.ActualHeight))));
 
             var blueprintBuilderView = new GameViewFactory();
-            blueprintBuilderView.CreateBlueprintBuilderView(tileObjectFactory, blockObjectFactory, shipComponentObjectFactory, rectangle);
+            blueprintBuilderView.CreateBlueprintBuilderView(
+                tileObjectFactory, 
+                blockObjectFactory, 
+                shipComponentObjectFactory, 
+                pipeLinkObjectFactory, 
+                rectangle);
         }
 
     }
