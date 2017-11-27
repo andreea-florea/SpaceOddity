@@ -5,19 +5,17 @@ using System.Text;
 
 namespace Game.Interfaces
 {
-    public interface IBlock
+    public interface IBlock : IConstBlock
     {
-        double Weight { get; }
 
         IShipComponent ShipComponent { get; }
-
-        List<DoubleEdgedPipe> PipesWithBothEdges { get; set; }
-        List<ConnectingPipe> PipesWithOneEdge { get; }
-
         void AddShipComponent(IShipComponent component);
 
         void DeleteShipComponent();
 
-        bool HasShipComponent();
+        void AddPipe(DoubleEdgedPipe pipe);
+        void AddPipe(ConnectingPipe pipe);
+        void DeletePipe(DoubleEdgedPipe pipe);
+        void DeletePipe(ConnectingPipe pipe);
     }
 }

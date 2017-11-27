@@ -13,14 +13,30 @@ namespace Game
 
         public IShipComponent ShipComponent { get; private set; }
 
-        public List<DoubleEdgedPipe> PipesWithBothEdges { get; set; }
-        public List<ConnectingPipe> PipesWithOneEdge { get; private set; }
+        private List<DoubleEdgedPipe> pipesWithBothEdges;
+        private List<ConnectingPipe> pipesWithOneEdge;
+
+        public IEnumerable<DoubleEdgedPipe> PipesWithBothEdges
+        {
+            get
+            {
+                return pipesWithBothEdges;
+            }
+        }
+
+        public IEnumerable<ConnectingPipe> PipesWithOneEdge
+        {
+            get
+            {
+                return pipesWithOneEdge;
+            }
+        }
 
         public Block(double weight, List<DoubleEdgedPipe> pipesWithBothEdges, List<ConnectingPipe> pipesWithOneEdge)
         {
             Weight = weight;
-            PipesWithBothEdges = pipesWithBothEdges;
-            PipesWithOneEdge = pipesWithOneEdge;
+            this.pipesWithBothEdges = pipesWithBothEdges;
+            this.pipesWithOneEdge = pipesWithOneEdge;
         }
 
         public void AddShipComponent(IShipComponent shipComponent)
@@ -36,6 +52,26 @@ namespace Game
         public bool HasShipComponent()
         {
             return (ShipComponent != null);
+        }
+
+        public void AddPipe(DoubleEdgedPipe pipe)
+        {
+            pipesWithBothEdges.Add(pipe);
+        }
+
+        public void AddPipe(ConnectingPipe pipe)
+        {
+            pipesWithOneEdge.Add(pipe);
+        }
+
+        public void DeletePipe(DoubleEdgedPipe pipe)
+        {
+            pipesWithBothEdges.Remove(pipe);
+        }
+
+        public void DeletePipe(ConnectingPipe pipe)
+        {
+            pipesWithOneEdge.Remove(pipe);
         }
     }
 }

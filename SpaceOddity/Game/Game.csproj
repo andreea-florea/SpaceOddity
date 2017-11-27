@@ -51,6 +51,7 @@
     <Compile Include="BatteryFactory.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockFactory.cs" />
+    <Compile Include="Blueprint.cs" />
     <Compile Include="BlueprintBuilder.cs" />
     <Compile Include="ConnectingPipe.cs" />
     <Compile Include="DoubleEdgedPipe.cs" />
@@ -58,8 +59,10 @@
     <Compile Include="EmptyShipComponent.cs" />
     <Compile Include="Interfaces\IBlock.cs" />
     <Compile Include="Interfaces\IBlockFactory.cs" />
+    <Compile Include="Interfaces\IBlueprint.cs" />
     <Compile Include="Interfaces\IBlueprintBuilder.cs" />
     <Compile Include="Interfaces\IBlueprintBuilderObserver.cs" />
+    <Compile Include="Interfaces\IConstBlock.cs" />
     <Compile Include="Interfaces\IObservableBlueprintBuilder.cs" />
     <Compile Include="Interfaces\IShipComponent.cs" />
     <Compile Include="Interfaces\IShipComponentFactory.cs" />

@@ -70,6 +70,7 @@
     <Compile Include="BlockTest.cs" />
     <Compile Include="ConnectingPipeTest.cs" />
     <Compile Include="DoubleEdgedPipeTest.cs" />
+    <Compile Include="BlueprintTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Game\Game.csproj">

@@ -7,8 +7,8 @@ namespace Game
 {
     public class DoubleEdgedPipe
     {
-        public EdgeType FirstEdge { get; set; }
-        public EdgeType SecondEdge { get; set; }
+        public EdgeType FirstEdge { get; private set; }
+        public EdgeType SecondEdge { get; private set; }
 
         public DoubleEdgedPipe(EdgeType firstEdge, EdgeType secondEdge)
         {
@@ -16,7 +16,6 @@ namespace Game
             SecondEdge = secondEdge;
         }
 
-        //TODO: test
         public bool IsEqualTo(DoubleEdgedPipe pipe)
         {
             return ((FirstEdge == pipe.FirstEdge && SecondEdge == pipe.SecondEdge) ||

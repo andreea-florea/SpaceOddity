@@ -172,7 +172,7 @@ namespace Game
             observers.Add(observer);
         }
 
-        public IBlock GetBlock(Coordinate position)
+        public IConstBlock GetBlock(Coordinate position)
         {
             return baseBuilder.GetBlock(position);
         }    

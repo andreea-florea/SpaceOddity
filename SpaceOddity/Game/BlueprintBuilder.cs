@@ -10,7 +10,7 @@ namespace Game
 {
     public class BlueprintBuilder : IBlueprintBuilder
     {
-        private IBlock[,] blueprint;
+        private IBlueprint blueprint;
         private IBlockFactory blockFactory;
         private IShipComponentFactory shipComponentFactory;
 
@@ -18,11 +18,11 @@ namespace Game
         {
             get 
             {
-                return new Coordinate(blueprint.Width(), blueprint.Height());
+                return blueprint.Dimensions;
             }
         }
 
-        public BlueprintBuilder(IBlock[,] blueprint, IBlockFactory blockFactory, IShipComponentFactory shipComponentFactory)
+        public BlueprintBuilder(IBlueprint blueprint, IBlockFactory blockFactory, IShipComponentFactory shipComponentFactory)
         {
             this.blueprint = blueprint;
             this.blockFactory = blockFactory;
@@ -31,27 +31,27 @@ namespace Game
 
         public BlueprintBuilder(Coordinate dimensions)
         {
-            //TODO: check negatives?
-            blueprint = new IBlock[dimensions.X, dimensions.Y];
+            var blocks = new IBlock[dimensions.X, dimensions.Y];
+            blueprint = new Blueprint(blocks);
             blockFactory = new BlockFactory(5);
             shipComponentFactory = new BatteryFactory();
         }
 
-        public IBlock GetBlock(Coordinate position)
+        public IConstBlock GetBlock(Coordinate position)
         {
-            return blueprint.Get(position);
+            return blueprint.GetBlock(position);
         }
 
         public bool HasBlock(Coordinate position)
         {
-            return (blueprint.IsWithinBounds(position) && GetBlock(position) != null);
+            return blueprint.HasBlock(position);
         }
 
         public bool CreateBlock(Coordinate position)
         {
             if (!HasBlock(position))
             {
-                blueprint.Set(position, blockFactory.CreateBlock());
+                blueprint.PlaceBlock(position, blockFactory.CreateBlock());
                 return true;
             }
             return false;
@@ -64,7 +64,7 @@ namespace Game
                 return false;
             }
 
-            blueprint.Set(position, null);
+            blueprint.RemoveBlock(position);
             return true;
         }
 
@@ -74,14 +74,14 @@ namespace Game
             if (HasBlock(position) && !(block.HasShipComponent()))
             {
                 var component = shipComponentFactory.CreateComponent();
-                block.AddShipComponent(component);
+                blueprint.PlaceShipComponent(position, component);
 
                 foreach(var pipe in block.PipesWithBothEdges)
                 {
-                    TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
+                    TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
                 }
 
-                block.PipesWithBothEdges.Clear();
+                ClearPipes(position, block.PipesWithBothEdges);
                 
                 return true;
             }
@@ -89,15 +89,33 @@ namespace Game
             return false;
         }
 
+        private void ClearPipes(Coordinate position, IEnumerable<DoubleEdgedPipe> pipes)
+        {
+            var removingPipes = new List<DoubleEdgedPipe>(pipes);
+            foreach(var pipe in removingPipes)
+            {
+                blueprint.RemovePipe(position, pipe);
+            }
+        }
+
+        private void ClearPipes(Coordinate position, IEnumerable<ConnectingPipe> pipes)
+        {
+            var removingPipes = new List<ConnectingPipe>(pipes);
+            foreach (var pipe in removingPipes)
+            {
+                blueprint.RemovePipe(position, pipe);
+            }
+        }
+
         public bool DeleteShipComponent(Coordinate position)
         {
             if (HasBlock(position) && GetBlock(position).HasShipComponent())
             {
                 var block = GetBlock(position);
-                block.DeleteShipComponent();
+                blueprint.RemoveShipComponent(position);
 
                 var pipes = block.PipesWithOneEdge.Select(pipe => pipe.Edge).ToList();
-                block.PipesWithOneEdge.Clear();
+                ClearPipes(position, block.PipesWithOneEdge);
                 pipes.ForeachPair((e1, e2) => AddDoubleEdgedPipe(position, e1, e2));
 
                 //switch (block.PipesWithOneEdge.Count)
@@ -145,20 +163,20 @@ namespace Game
                         var intersectingPipe = HasIntersectingPipes(block, pipe);
                         if (intersectingPipe != null)
                         {
-                            TransformDoubleEdgedPipeIntoConnectingPipe(block, intersectingPipe);
-                            TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
-                            block.AddShipComponent(new EmptyShipComponent());
-                            block.PipesWithBothEdges.Clear();
+                            TransformDoubleEdgedPipeIntoConnectingPipe(position, intersectingPipe);
+                            TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
+                            blueprint.PlaceShipComponent(position, new EmptyShipComponent());
+                            ClearPipes(position, block.PipesWithBothEdges);
                         }
                         else
                         {
-                            block.PipesWithBothEdges.Add(pipe);
+                            blueprint.PlacePipe(position, pipe);
                         }
                         return true;
                     }
                     else
                     {
-                        TransformDoubleEdgedPipeIntoConnectingPipe(block, pipe);
+                        TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
                         return true;
                     }
                 }
@@ -167,7 +185,7 @@ namespace Game
             return false;
         }
 
-        private DoubleEdgedPipe HasIntersectingPipes(IBlock block, DoubleEdgedPipe pipeToCheck)
+        private DoubleEdgedPipe HasIntersectingPipes(IConstBlock block, DoubleEdgedPipe pipeToCheck)
         {
             return block.PipesWithBothEdges.FirstOrDefault(pipe => DoPipesIntersect(pipe, pipeToCheck));
         }
@@ -193,26 +211,27 @@ namespace Game
             return false;
         }
 
-        private void TransformDoubleEdgedPipeIntoConnectingPipe(IBlock block, DoubleEdgedPipe pipe)
+        private void TransformDoubleEdgedPipeIntoConnectingPipe(Coordinate position, DoubleEdgedPipe pipe)
         {
-            AddConnectingPipe(block, new ConnectingPipe(pipe.FirstEdge));
-            AddConnectingPipe(block, new ConnectingPipe(pipe.SecondEdge));
+            AddConnectingPipe(position, new ConnectingPipe(pipe.FirstEdge));
+            AddConnectingPipe(position, new ConnectingPipe(pipe.SecondEdge));
         }
 
-        private void AddConnectingPipe(IBlock block, ConnectingPipe pipe)
+        private void AddConnectingPipe(Coordinate position, ConnectingPipe pipe)
         {
+            var block = GetBlock(position);
             if (!CheckIfConnectingPipeAlreadyExists(pipe, block))
             {
-                block.PipesWithOneEdge.Add(pipe);
+                blueprint.PlacePipe(position, pipe);
             }
         }
 
-        private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IBlock block)
+        private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IConstBlock block)
         {
             return block.PipesWithBothEdges.Any(p => p.IsEqualTo(pipe));
         }
 
-        private bool CheckIfConnectingPipeAlreadyExists(ConnectingPipe pipe, IBlock block)
+        private bool CheckIfConnectingPipeAlreadyExists(ConnectingPipe pipe, IConstBlock block)
         {
             return block.PipesWithOneEdge.Any(p => p.IsEqualTo(pipe));
         }

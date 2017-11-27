@@ -9,7 +9,7 @@ namespace Game.Interfaces
     public interface IBlueprintBuilder
     {
         Coordinate Dimensions { get; }
-        IBlock GetBlock(Coordinate position);
+        IConstBlock GetBlock(Coordinate position);
         bool HasBlock(Coordinate position);
         bool CreateBlock(Coordinate position);
         bool DeleteBlock(Coordinate position);
