@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Actions\BlockCancelAction.cs" />
     <Compile Include="Actions\BlockSelectAction.cs" />
+    <Compile Include="Actions\PipeLinkSelectAction.cs" />
     <Compile Include="Actions\TileSelectAction.cs" />
     <Compile Include="IWorldObject.cs" />
     <Compile Include="IWorldObjectFactory.cs" />

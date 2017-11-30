@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using Geometry;
+using ViewModel.Actions;
 
 namespace ViewModel
 {

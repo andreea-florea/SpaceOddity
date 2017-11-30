@@ -62,6 +62,7 @@
     <Compile Include="Actions\TileSelectActionTest.cs" />
     <Compile Include="Actions\BlockCancelActionTest.cs" />
     <Compile Include="Actions\BlockSelectActionTest.cs" />
+    <Compile Include="Actions\PipeLinkSelectActionTest.cs" />
     <Compile Include="Fancy\EdgeBlocksNumberGeneratorTest.cs" />
     <Compile Include="Fancy\FacingPositionTest.cs" />
     <Compile Include="Fancy\BlockDetailsViewUpdaterTest.cs" />

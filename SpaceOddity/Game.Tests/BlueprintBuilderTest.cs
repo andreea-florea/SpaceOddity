@@ -35,6 +35,10 @@ namespace Game.Tests
 
             mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
             mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
+            mockBlock.Setup(block => block.AddPipe(It.IsAny<ConnectingPipe>())).Callback<ConnectingPipe>(p => oneEdgedPipes.Add(p));
+            mockBlock.Setup(block => block.AddPipe(It.IsAny<DoubleEdgedPipe>())).Callback<DoubleEdgedPipe>(p => doubleEdgedPipes.Add(p));
+            mockBlock.Setup(block => block.DeletePipe(It.IsAny<ConnectingPipe>())).Callback<ConnectingPipe>(p => oneEdgedPipes.Remove(p));
+            mockBlock.Setup(block => block.DeletePipe(It.IsAny<DoubleEdgedPipe>())).Callback<DoubleEdgedPipe>(p => doubleEdgedPipes.Remove(p));
         }
 
         [TestMethod]
