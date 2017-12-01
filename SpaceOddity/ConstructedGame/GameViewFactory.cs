@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using ViewModel;
+using ViewModel.Controller;
 
 namespace ConstructedGame
 {
@@ -21,8 +22,6 @@ namespace ConstructedGame
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-            var controller = new BlueprintBuilderController(observableBlueprintBuilder);
-            var assignController = new BlueprintBuilderControlAssigner(controller);
 
             var tilesFactory = new ViewModelTilesFactory(new WorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(

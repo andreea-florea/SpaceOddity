@@ -7,9 +7,10 @@ namespace Game
 {
     public enum EdgeType
     {
-        UP = 1,
-        RIGHT = 2,
-        DOWN = 3,
-        LEFT = 4
+        UP = 0,
+        RIGHT = 1,
+        DOWN = 2,
+        LEFT = 3,
+        COUNT
     }
 }

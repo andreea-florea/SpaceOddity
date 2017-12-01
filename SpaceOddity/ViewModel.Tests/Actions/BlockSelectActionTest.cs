@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NaturalNumbersMath;
 using ViewModel.Actions;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests.Actions
 {
@@ -14,9 +15,9 @@ namespace ViewModel.Tests.Actions
         {
             var mockController = new Mock<IBlueprintBuilderController>();
             var position = new Coordinate(4, 5);
-            var tileSelectAction = new BlockSelectAction(mockController.Object, position);
+            var blockSelectAction = new BlockSelectAction(mockController.Object, position);
 
-            tileSelectAction.Execute();
+            blockSelectAction.Execute();
 
             mockController.Verify(controller => controller.BlockSelect(position), Times.Once());
         }

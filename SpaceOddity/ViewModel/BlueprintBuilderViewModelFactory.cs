@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ViewInterface;
+using ViewModel.Controller;
+using ViewModel.DataStructures;
 
 namespace ViewModel
 {
@@ -28,8 +30,7 @@ namespace ViewModel
 
         public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var controller = new BlueprintBuilderController(builder);
-            var controlAssigner = new BlueprintBuilderControlAssigner(controller);
+            var controlAssigner = CreateController(builder);
             var tiles = tilesFactory.CreateTiles(controlAssigner, builder.Dimensions, fittingRectangle);
             var blocks = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var shipComponents = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
@@ -44,6 +45,14 @@ namespace ViewModel
                 controlAssigner);
             builder.AttachObserver(viewModel);
             return viewModel;
+        }
+
+        private BlueprintBuilderControlAssigner CreateController(IObservableBlueprintBuilder builder)
+        {
+            var controllerFactory = new BlueprintBuilderControllerFactory();
+            var controller = controllerFactory.CreateController(builder);
+            var controlAssigner = new BlueprintBuilderControlAssigner(controller);
+            return controlAssigner;
         }
     }
 }

@@ -7,6 +7,8 @@ using Game.Interfaces;
 using Geometry;
 using NaturalNumbersMath;
 using ViewModel.Actions;
+using ViewModel.DataStructures;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests
 {
@@ -263,6 +265,26 @@ namespace ViewModel.Tests
 
             blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
 
+            Assert.AreEqual(new Vector2(0, 1), horizontalPipeLinks.Get(position).Rotation);
+        }
+
+        [TestMethod]
+        public void CheckIfControllIsAssignedtoPipeLink()
+        {
+            var position = new Coordinate(2, 3);
+            var connectingPosition = new Coordinate(2, 4);
+            tiles.Set(position, mockTile.Object);
+            tiles.Set(connectingPosition, mockTile.Object);
+            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+
+            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+
+            var edge = new CoordinatePair(position, connectingPosition);
+            mockController.Verify(controller =>
+                controller.AssignPipeLinkControl(mockPipeLink.Object, edge), Times.Once());
             Assert.AreEqual(new Vector2(0, 1), horizontalPipeLinks.Get(position).Rotation);
         }
     }

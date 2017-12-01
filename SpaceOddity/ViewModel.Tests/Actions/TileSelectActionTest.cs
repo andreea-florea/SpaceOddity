@@ -5,6 +5,7 @@ using Moq;
 
 using NaturalNumbersMath;
 using Game.Interfaces;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests.Actions
 {

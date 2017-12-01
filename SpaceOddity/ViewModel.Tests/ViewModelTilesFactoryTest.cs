@@ -6,6 +6,7 @@ using Moq;
 using Geometry;
 using ViewInterface;
 using NaturalNumbersMath;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests
 {

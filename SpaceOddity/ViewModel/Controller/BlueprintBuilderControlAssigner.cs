@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using ViewModel.Actions;
+using ViewModel.DataStructures;
 
-namespace ViewModel
+namespace ViewModel.Controller
 {
     public class BlueprintBuilderControlAssigner : IBlueprintBuilderControlAssigner
     {
@@ -27,6 +28,11 @@ namespace ViewModel
         {
             block.RightClickAction = new BlockCancelAction(controller, position);
             block.LeftClickAction = new BlockSelectAction(controller, position);
+        }
+
+        public void AssignPipeLinkControl(IWorldObject pipeLink, CoordinatePair edge)
+        {
+            pipeLink.LeftClickAction = new PipeLinkSelectAction(controller, edge);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ViewInterface;
 using NaturalNumbersMath;
 using ViewModel.Actions;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests
 {

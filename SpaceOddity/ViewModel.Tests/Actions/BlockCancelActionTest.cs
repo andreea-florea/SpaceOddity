@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NaturalNumbersMath;
 using ViewModel.Actions;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests.Actions
 {

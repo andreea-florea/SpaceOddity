@@ -7,6 +7,8 @@ using System.Text;
 using ViewInterface;
 using Geometry;
 using ViewModel.Actions;
+using ViewModel.DataStructures;
+using ViewModel.Controller;
 
 namespace ViewModel
 {
@@ -103,6 +105,8 @@ namespace ViewModel
                 links.Get(updatePosition).Position = 
                     (tiles.Get(position).Position + tiles.Get(connectingPosition).Position) * 0.5;
                 links.Get(updatePosition).Rotation = direction.ToVector2();
+                controller.AssignPipeLinkControl(
+                    links.Get(updatePosition), new CoordinatePair(position, connectingPosition));
             }
             else
             {

@@ -8,6 +8,7 @@ using ViewInterface;
 using System.Collections.Generic;
 using NaturalNumbersMath;
 using ViewModel.Fancy.Iternal;
+using ViewModel.Controller;
 
 namespace ViewModel.Tests.Fancy
 {

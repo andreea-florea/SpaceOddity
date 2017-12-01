@@ -63,6 +63,11 @@
     <Compile Include="Actions\BlockCancelActionTest.cs" />
     <Compile Include="Actions\BlockSelectActionTest.cs" />
     <Compile Include="Actions\PipeLinkSelectActionTest.cs" />
+    <Compile Include="Controller\BlueprintBuilderMasterControllerTest.cs" />
+    <Compile Include="Controller\BlueprintBuilderPipeBuildControllerTest.cs" />
+    <Compile Include="Controller\BlueprintBuilderControllerFactoryTest.cs" />
+    <Compile Include="DataStructures\CoordinatePairTest.cs" />
+    <Compile Include="Extensions\CoordinateEdgeTypeExtensions.cs" />
     <Compile Include="Fancy\EdgeBlocksNumberGeneratorTest.cs" />
     <Compile Include="Fancy\FacingPositionTest.cs" />
     <Compile Include="Fancy\BlockDetailsViewUpdaterTest.cs" />
@@ -76,10 +81,10 @@
     <Compile Include="RectangleSections\MarginRectangleSectionTest.cs" />
     <Compile Include="RectangleSections\AspectRatioRectangleSectionTest.cs" />
     <Compile Include="RectangleSections\FullRectangleSectionTest.cs" />
-    <Compile Include="BlueprintBuilderControlAssignerTest.cs" />
+    <Compile Include="Controller\BlueprintBuilderControlAssignerTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelFactoryTest.cs" />
-    <Compile Include="BlueprintBuilderControllerTest.cs" />
+    <Compile Include="Controller\BlueprintBuilderBasicControllerTest.cs" />
     <Compile Include="WorldObjectFactoryTest.cs" />
     <Compile Include="WorldObjectTest.cs" />
     <Compile Include="ViewModelTilesFactoryTest.cs" />

@@ -97,5 +97,10 @@ namespace Geometry
         {
             return new Vector2(X / divider.X, Y / divider.Y);
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

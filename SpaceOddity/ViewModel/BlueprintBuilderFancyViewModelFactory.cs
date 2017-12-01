@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ViewInterface;
+using ViewModel.Controller;
+using ViewModel.DataStructures;
 using ViewModel.Fancy;
 using ViewModel.Fancy.Iternal;
 
@@ -52,8 +54,7 @@ namespace ViewModel
 
         public BlueprintBuilderFancyViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var controller = new BlueprintBuilderController(builder);
-            var controlAssigner = new BlueprintBuilderControlAssigner(controller);
+            var controlAssigner = CreateController(builder);
             var tiles = tilesFactory.CreateTiles(controlAssigner, builder.Dimensions, fittingRectangle);
 
             var detailsUpdaters = new List<IDetailsViewUpdater>();
@@ -68,6 +69,14 @@ namespace ViewModel
             var viewModel = new BlueprintBuilderFancyViewModel(detailsUpdaters);
             builder.AttachObserver(viewModel);
             return viewModel;
+        }
+        
+        private BlueprintBuilderControlAssigner CreateController(IObservableBlueprintBuilder builder)
+        {
+            var controllerFactory = new BlueprintBuilderControllerFactory();
+            var controller = controllerFactory.CreateController(builder);
+            var controlAssigner = new BlueprintBuilderControlAssigner(controller);
+            return controlAssigner;
         }
 
         private IDetailsViewUpdater CreateCornerUpdater(IObservableBlueprintBuilder builder,

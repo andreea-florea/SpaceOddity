@@ -5,9 +5,11 @@ using ViewInterface;
 using Game.Interfaces;
 using ViewModel.Actions;
 using NaturalNumbersMath;
+using ViewModel.DataStructures;
+using ViewModel.Controller;
 
 
-namespace ViewModel.Tests
+namespace ViewModel.Tests.Controller
 {
     [TestClass]
     public class BlueprintBuilderControlAssignerTest
@@ -52,6 +54,20 @@ namespace ViewModel.Tests
             blueprintBuilderControlAssigner.AssignBlockControl(mockBlock.Object, position);
 
             mockBlock.VerifySet(block => block.LeftClickAction = It.IsAny<BlockSelectAction>());
+        }
+
+        [TestMethod]
+        public void CheckIfLeftClickActionIsAssignedByControllerToPipeLink()
+        {
+            var mockController = new Mock<IBlueprintBuilderController>();
+            var mockPipeLink = new Mock<IWorldObject>();
+            mockPipeLink.SetupSet(pipeLink => pipeLink.LeftClickAction = It.IsAny<PipeLinkSelectAction>()).Verifiable();
+
+            var edge = new CoordinatePair(new Coordinate(2, 2), new Coordinate(1, 2));
+            var blueprintBuilderControlAssigner = new BlueprintBuilderControlAssigner(mockController.Object);
+            blueprintBuilderControlAssigner.AssignPipeLinkControl(mockPipeLink.Object, edge);
+
+            mockPipeLink.VerifySet(pipeLink => pipeLink.LeftClickAction = It.IsAny<PipeLinkSelectAction>());
         }
     }
 }
