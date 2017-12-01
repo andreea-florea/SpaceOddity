@@ -42,7 +42,7 @@ namespace ViewModel.Tests.Controller
         [TestMethod]
         public void MasterControllerResetsAfterPipeLinkIsSelected()
         {
-            var edge = new CoordinatePair(new Coordinate(2, 3), new Coordinate(2, 4));
+            var edge = new CoordinatePair(new Coordinate(2, 5), new Coordinate(2, 4));
             masterController.CurrentController = pipeBuildController;
 
             pipeBuildController.SelectedLink = new CoordinatePair(new Coordinate(2, 3), new Coordinate(3, 3));
@@ -50,5 +50,19 @@ namespace ViewModel.Tests.Controller
 
             Assert.AreEqual(masterController.BaseController, masterController.CurrentController);
         }
+
+        [TestMethod]
+        public void MasterControllerDoesNotCreatePipeIfLinkFromDifferentBlockIsSelected()
+        {
+            var edge1 = new CoordinatePair(new Coordinate(2, 3), new Coordinate(2, 4));
+            var edge2 = new CoordinatePair(new Coordinate(3, 2), new Coordinate(2, 2));
+            
+            pipeBuildController.SelectedLink = edge1;
+            pipeBuildController.PipeLinkSelect(edge2);
+
+            mockBlueprintBuilder.Verify(builder => 
+                builder.AddDoubleEdgedPipe(It.IsAny<Coordinate>(), It.IsAny<EdgeType>(), It.IsAny<EdgeType>()), Times.Never());
+        }
+
     }
 }

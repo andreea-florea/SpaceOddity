@@ -1,4 +1,5 @@
-﻿using NaturalNumbersMath;
+﻿using Algorithm;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,16 +28,16 @@ namespace ViewModel.DataStructures
             Second = second;
         }
 
-        public Coordinate GetCommonPosition(CoordinatePair other)
+        public Found<Coordinate> GetCommonPosition(CoordinatePair other)
         {
             foreach (var otherPosition in other.Positions)
             {
                 if (Positions.Contains(otherPosition))
                 {
-                    return otherPosition;
+                    return new Found<Coordinate>(true, otherPosition);
                 }
             }
-            return new Coordinate();
+            return new Found<Coordinate>(false, new Coordinate());
         }
     }
 }

@@ -90,6 +90,10 @@
     <Compile Include="ViewModelTilesFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Algorithm\Algorithms.csproj">
+      <Project>{32a175be-a3af-4020-9de4-345fba697103}</Project>
+      <Name>Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{017cbef2-ad71-4d14-a04f-ddd57c27a98f}</Project>
       <Name>Game</Name>

@@ -42,9 +42,13 @@ namespace ViewModel.Controller
         public void PipeLinkSelect(CoordinatePair edge)
         {
             var commonPosition = edge.GetCommonPosition(SelectedLink);
-            var firstDirection = GetOtherPositionDirection(commonPosition, SelectedLink);
-            var secondDirection = GetOtherPositionDirection(commonPosition, edge);
-            blueprintBuilder.AddDoubleEdgedPipe(commonPosition, firstDirection.GetEdgeType(), secondDirection.GetEdgeType());
+            if (commonPosition.IsFound)
+            {
+                var position = commonPosition.Element;
+                var firstDirection = GetOtherPositionDirection(position, SelectedLink);
+                var secondDirection = GetOtherPositionDirection(position, edge);
+                blueprintBuilder.AddDoubleEdgedPipe(position, firstDirection.GetEdgeType(), secondDirection.GetEdgeType());
+            }
             masterController.Reset();
         }
 
