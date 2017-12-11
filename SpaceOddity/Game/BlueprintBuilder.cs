@@ -163,9 +163,9 @@ namespace Game
                         var intersectingPipe = HasIntersectingPipes(block, pipe);
                         if (intersectingPipe != null)
                         {
+                            blueprint.PlaceShipComponent(position, new EmptyShipComponent());
                             TransformDoubleEdgedPipeIntoConnectingPipe(position, intersectingPipe);
                             TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
-                            blueprint.PlaceShipComponent(position, new EmptyShipComponent());
                             ClearPipes(position, block.PipesWithBothEdges);
                         }
                         else
@@ -181,6 +181,22 @@ namespace Game
                     }
                 }
                 return false;
+            }
+            return false;
+        }
+
+        public bool AddConnectingPipe(Coordinate position, EdgeType edge)
+        {
+            var block = GetBlock(position);
+            var pipe = new ConnectingPipe(edge);
+
+            if (block != null)
+            {
+                if (!CheckIfConnectingPipeAlreadyExists(pipe, block) && block.HasShipComponent())
+                {
+                    blueprint.PlacePipe(position, pipe);
+                    return true;
+                }
             }
             return false;
         }
@@ -213,17 +229,8 @@ namespace Game
 
         private void TransformDoubleEdgedPipeIntoConnectingPipe(Coordinate position, DoubleEdgedPipe pipe)
         {
-            AddConnectingPipe(position, new ConnectingPipe(pipe.FirstEdge));
-            AddConnectingPipe(position, new ConnectingPipe(pipe.SecondEdge));
-        }
-
-        private void AddConnectingPipe(Coordinate position, ConnectingPipe pipe)
-        {
-            var block = GetBlock(position);
-            if (!CheckIfConnectingPipeAlreadyExists(pipe, block))
-            {
-                blueprint.PlacePipe(position, pipe);
-            }
+            AddConnectingPipe(position, pipe.FirstEdge);
+            AddConnectingPipe(position, pipe.SecondEdge);
         }
 
         private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IConstBlock block)

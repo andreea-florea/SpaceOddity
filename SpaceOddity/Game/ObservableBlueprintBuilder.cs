@@ -187,5 +187,11 @@ namespace Game
             return baseBuilder.AddDoubleEdgedPipe(position, firstEdge, secondEdge);
             //TODO
         }
+
+        public bool AddConnectingPipe(Coordinate position, EdgeType edge)
+        {
+            throw new NotImplementedException();
+            //TODO
+        }
     }
 }
