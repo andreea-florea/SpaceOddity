@@ -316,44 +316,117 @@ namespace Game.Tests
             Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count());
         }
 
+        [TestMethod]
         public void CheckThatConnectingPipeCannotBeDeletedFromInexistentBlock()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
 
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
+
+            Assert.IsFalse(blueprintBuilder.DeleteConnectingPipe(position, pipe));
         }
 
+        [TestMethod]
         public void CheckThatConnectingPipeCannotBeDeletedIfInexistent()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
 
+            blocks.Set(position, mockBlock.Object);
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
+
+            Assert.IsFalse(blueprintBuilder.DeleteConnectingPipe(position, pipe));
         }
 
+        [TestMethod]
         public void CheckThatIfAllConnectingPipesOnBlockAreDeletedShipComponentIsNot()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
 
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe);
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
+
+            Assert.IsTrue(blueprintBuilder.DeleteConnectingPipe(position, pipe));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count());
+            mockBlock.Verify(x => x.DeleteShipComponent(), Times.Never());
         }
 
+        [TestMethod]
         public void CheckIfExistingConnectingPipeIsDeletedSuccessfully()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
 
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe);            
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
+
+            Assert.IsTrue(blueprintBuilder.DeleteConnectingPipe(position, pipe));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count());
         }
 
-        public void CannotDeleteDoubleEdgedPipeFromInexistentBlock()
+        [TestMethod]
+        public void CheckThatDoubleEdgedPipeCannotBeDeletedFromInexistentBlock()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
 
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
+
+            Assert.IsFalse(blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe));
         }
 
+        [TestMethod]
         public void CheckThatTryingToDeleteInexistentDoubleEdgedPipeButWithConnectingPipesThatCanComposeItDeletesTheConnectingPipes()
         {
+            var position = new Coordinate(5, 4);
+            var pipe1 = new ConnectingPipe(EdgeType.DOWN);
+            var pipe2 = new ConnectingPipe(EdgeType.UP);
+            var pipe = new DoubleEdgedPipe(EdgeType.UP, EdgeType.DOWN);
 
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe1);
+            blocks.Get(position).AddPipe(pipe2);
+            
+            Assert.IsTrue(blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count());
         }
 
-        public void CheckThatInexistentDoubleEdgedPipeButWithNoConnectingPipesThatCanComposeItCannotBeDeleted()
+        public void CheckThatInexistentDoubleEdgedPipeAndWithNoConnectingPipesThatCanComposeItCannotBeDeleted()
         {
 
         }
 
+        [TestMethod]
         public void CheckIfExistingDoubleEdgedPipeIsDeletedSuccessfully()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
 
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe);
+
+            Assert.IsTrue(blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
+        }
+
+        [TestMethod]
+        public void CheckThatDoubleEdgedPipeIsDeletedSuccessfullyEvenIfOrderOfEdgesDiffers()
+        {
+            var position = new Coordinate(5, 4);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+            var pipe1 = new DoubleEdgedPipe(EdgeType.UP, EdgeType.DOWN);
+
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe);
+
+            Assert.IsTrue(blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe1));
+            Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
+
+            //TO MODIFY
         }
 
         [TestMethod]

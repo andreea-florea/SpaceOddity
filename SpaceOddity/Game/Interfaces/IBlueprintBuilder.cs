@@ -17,5 +17,7 @@ namespace Game.Interfaces
         bool DeleteShipComponent(Coordinate position);
         bool AddDoubleEdgedPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge);
         bool AddConnectingPipe(Coordinate position, EdgeType edge);
+        bool DeleteDoubleEdgedPipe(Coordinate position, DoubleEdgedPipe pipe);
+        bool DeleteConnectingPipe(Coordinate position, ConnectingPipe pipe);
     }
 }

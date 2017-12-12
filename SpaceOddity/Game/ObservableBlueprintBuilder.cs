@@ -193,5 +193,15 @@ namespace Game
             throw new NotImplementedException();
             //TODO
         }
+
+        public bool DeleteDoubleEdgedPipe(Coordinate position, DoubleEdgedPipe pipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteConnectingPipe(Coordinate position, ConnectingPipe pipe)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

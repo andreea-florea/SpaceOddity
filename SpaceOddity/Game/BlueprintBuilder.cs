@@ -16,7 +16,7 @@ namespace Game
 
         public Coordinate Dimensions
         {
-            get 
+            get
             {
                 return blueprint.Dimensions;
             }
@@ -76,13 +76,13 @@ namespace Game
                 var component = shipComponentFactory.CreateComponent();
                 blueprint.PlaceShipComponent(position, component);
 
-                foreach(var pipe in block.PipesWithBothEdges)
+                foreach (var pipe in block.PipesWithBothEdges)
                 {
                     TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
                 }
 
                 ClearPipes(position, block.PipesWithBothEdges);
-                
+
                 return true;
             }
 
@@ -92,7 +92,7 @@ namespace Game
         private void ClearPipes(Coordinate position, IEnumerable<DoubleEdgedPipe> pipes)
         {
             var removingPipes = new List<DoubleEdgedPipe>(pipes);
-            foreach(var pipe in removingPipes)
+            foreach (var pipe in removingPipes)
             {
                 blueprint.RemovePipe(position, pipe);
             }
@@ -153,7 +153,7 @@ namespace Game
         {
             var pipe = new DoubleEdgedPipe(firstEdge, secondEdge);
             var block = GetBlock(position);
-            
+
             if (block != null)
             {
                 if (!CheckIfDoubleEdgeAlreadyExists(pipe, block))
@@ -185,6 +185,31 @@ namespace Game
             return false;
         }
 
+        public bool DeleteDoubleEdgedPipe(Coordinate position, DoubleEdgedPipe pipe)
+        {
+            var block = GetBlock(position);
+
+            if (block != null)
+            {
+                if (CheckIfDoubleEdgeAlreadyExists(pipe, block))
+                {
+                    blueprint.RemovePipe(position, pipe);
+                    return true;
+                }
+
+                if (CheckIfDoubleEdgedPipeCanBeComposedOfTwoConnectingPipes(pipe, block))
+                {
+                    var list = GetConnectingPipesThatComposeTwoEdgedPipe(pipe, block);
+                    foreach (var p in list)
+                    {
+                        blueprint.RemovePipe(position, p);
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool AddConnectingPipe(Coordinate position, EdgeType edge)
         {
             var block = GetBlock(position);
@@ -195,6 +220,21 @@ namespace Game
                 if (!CheckIfConnectingPipeAlreadyExists(pipe, block) && block.HasShipComponent())
                 {
                     blueprint.PlacePipe(position, pipe);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool DeleteConnectingPipe(Coordinate position, ConnectingPipe pipe)
+        {
+            var block = GetBlock(position);
+
+            if (block != null)
+            {
+                if (CheckIfConnectingPipeAlreadyExists(pipe, block))
+                {
+                    blueprint.RemovePipe(position, pipe);
                     return true;
                 }
             }
@@ -235,12 +275,34 @@ namespace Game
 
         private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IConstBlock block)
         {
-            return block.PipesWithBothEdges.Any(p => p.IsEqualTo(pipe));
+            return block.PipesWithBothEdges.Any(p => p.IsEqualTo(pipe))
+                || block.PipesWithBothEdges.Any(p => p.IsEqualTo(new DoubleEdgedPipe(pipe.SecondEdge, pipe.FirstEdge)));
         }
 
         private bool CheckIfConnectingPipeAlreadyExists(ConnectingPipe pipe, IConstBlock block)
         {
             return block.PipesWithOneEdge.Any(p => p.IsEqualTo(pipe));
+        }
+
+        private bool CheckIfDoubleEdgedPipeCanBeComposedOfTwoConnectingPipes(DoubleEdgedPipe pipe, IConstBlock block)
+        {
+            return block.PipesWithOneEdge.Select(p => p.Edge).ToList().Any(p => p == pipe.FirstEdge)
+                && block.PipesWithOneEdge.Select(p => p.Edge).ToList().Any(p => p == pipe.SecondEdge);
+        }
+
+        private List<ConnectingPipe> GetConnectingPipesThatComposeTwoEdgedPipe(DoubleEdgedPipe pipe, IConstBlock block)
+        {
+            var list = new List<ConnectingPipe>();
+            
+            foreach (var connectingPipe in block.PipesWithOneEdge)
+            {
+                if (connectingPipe.Edge == pipe.FirstEdge || connectingPipe.Edge == pipe.SecondEdge)
+                {
+                    list.Add(connectingPipe);
+                }
+            }
+
+            return list;
         }
     }
 }
