@@ -8,13 +8,13 @@ namespace Game.Interfaces
 {
     public interface IBlueprintObserver
     {
-        void BlockCreated(IBlueprint blueprintBuilder, Coordinate position);
-        void BlockDeleted(IBlueprint blueprintBuilder, Coordinate position);
-        void ShipComponentAdded(IBlueprint blueprintBuilder, Coordinate position);
-        void ShipComponentDeleted(IBlueprint blueprintBuilder, Coordinate position);
-        void DoubleEdgePipeAdded(IBlueprint blueprintBuilder, Coordinate position);
-        void DoubleEdgePipeDeleted(IBlueprint blueprintBuilder, Coordinate position);
-        void ConnectingPipeAdded(IBlueprint blueprintBuilder, Coordinate position);
-        void ConnectingPipeDeleted(IBlueprint blueprintBuilder, Coordinate position);
+        void BlockCreated(IBlueprint blueprint, Coordinate position);
+        void BlockDeleted(IBlueprint blueprint, Coordinate position);
+        void ShipComponentAdded(IBlueprint blueprint, Coordinate position);
+        void ShipComponentDeleted(IBlueprint blueprint, Coordinate position);
+        void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position);
+        void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position);
+        void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position);
+        void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position);
     }
 }

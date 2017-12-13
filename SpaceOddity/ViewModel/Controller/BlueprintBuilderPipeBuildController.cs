@@ -14,35 +14,44 @@ namespace ViewModel.Controller
         private BlueprintBuilderMasterController masterController;
         private IBlueprintBuilder blueprintBuilder;
 
-        public CoordinatePair SelectedLink { get; set; }
+        private CoordinatePair selectedLink;
+        public CoordinatePair SelectedLink 
+        { 
+            get
+            {
+                return selectedLink;
+            }
+            set
+            {
+                selectedLink = value;
+                masterController.ActivatePipeLink(selectedLink);
+            }
+        }
 
         public BlueprintBuilderPipeBuildController(BlueprintBuilderMasterController masterController, 
             IBlueprintBuilder blueprintBuilder, CoordinatePair selectedLink)
         {
             this.masterController = masterController;
             this.blueprintBuilder = blueprintBuilder;
-            this.SelectedLink = selectedLink;
+            this.selectedLink = selectedLink;
         }
 
         public void TileSelect(Coordinate position)
         {
-            throw new NotImplementedException();
         }
 
         public void BlockSelect(Coordinate position)
         {
-            throw new NotImplementedException();
         }
 
         public void BlockCancel(Coordinate position)
         {
-            throw new NotImplementedException();
         }
 
         public void PipeLinkSelect(CoordinatePair edge)
         {
             var commonPosition = edge.GetCommonPosition(SelectedLink);
-            if (commonPosition.IsFound)
+            if (commonPosition.IsFound && edge != SelectedLink)
             {
                 var position = commonPosition.Element;
                 var firstDirection = GetOtherPositionDirection(position, SelectedLink);

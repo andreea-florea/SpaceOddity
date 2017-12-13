@@ -49,7 +49,7 @@ namespace ViewModel.Fancy.Iternal
 
         private void CreateDetailObject(FacingPosition detailUpdate)
         {
-            var detailObject = detailFactory.CreateObject(detailUpdate);
+            var detailObject = detailFactory.Create(detailUpdate);
             detailObject.Position = tiles.Get(detailUpdate.Position).Position;
             detailObject.Scale = tiles.Get(detailUpdate.Position).Scale;
             detailObject.Rotation = detailUpdate.Forward.ToVector2();

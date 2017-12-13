@@ -10,7 +10,7 @@ using ViewModel.Fancy;
 
 namespace ViewModel
 {
-    public class BlueprintBuilderFancyViewModel : IBlueprintBuilderObserver
+    public class BlueprintBuilderFancyViewModel : IBlueprintObserver
     {
         private IEnumerable<IDetailsViewUpdater> detailsUpdaters;
 
@@ -19,17 +19,12 @@ namespace ViewModel
             this.detailsUpdaters = detailsUpdaters;
         }
 
-        public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void BlockCreated(IBlueprint blueprint, Coordinate position)
         {
             UpdateDetails(position);
         }
 
-        public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void BlockDeleted(IBlueprint blueprint, Coordinate position)
         {
             UpdateDetails(position);
         }
@@ -42,27 +37,32 @@ namespace ViewModel
             }
         }
 
-        public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void ShipComponentAdded(IBlueprint blueprint, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void ShipComponentDeleted(IBlueprint blueprint, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ShipComponentDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position)
         {
             throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position)
         {
             throw new NotImplementedException();
         }

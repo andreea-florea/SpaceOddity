@@ -67,6 +67,10 @@
     <Compile Include="RectangleFrameworkElementFactoryTest.cs" />
     <Compile Include="FixedSizeFrameworkElementFactoryTest.cs" />
     <Compile Include="GridParentFrameworkElementFactoryTest.cs" />
+    <Compile Include="ColorVectorTest.cs" />
+    <Compile Include="RectangleFrameworkElementWrapperTest.cs" />
+    <Compile Include="ParentFrameworkElementWrapperTest.cs" />
+    <Compile Include="BuilderWorldObjectStateTest.cs" />
     <Compile Include="WpfRenderableFactoryTest.cs" />
     <Compile Include="WpfRenderableTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -51,11 +51,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuilderWorldObjectState.cs" />
     <Compile Include="CircleFrameworkElementFactory.cs" />
+    <Compile Include="CircleFrameworkElementWrapper.cs" />
+    <Compile Include="ColorVector.cs" />
     <Compile Include="FixedSizeFrameworkElementFactory.cs" />
     <Compile Include="IFrameworkElementFactory.cs" />
+    <Compile Include="IFrameworkElementWrapper.cs" />
+    <Compile Include="ParentFrameworkElementWrapper.cs" />
     <Compile Include="RectangleFrameworkElementFactory.cs" />
     <Compile Include="GridParentFrameworkElementFactory.cs" />
+    <Compile Include="RectangleFrameworkElementWrapper.cs" />
     <Compile Include="WpfRenderable.cs" />
     <Compile Include="WpfRenderableFactory.cs" />
   </ItemGroup>

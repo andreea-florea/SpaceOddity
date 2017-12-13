@@ -23,7 +23,7 @@ namespace ConstructedGame
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
-            var tilesFactory = new ViewModelTilesFactory(new WorldObjectFactory(tileObjectFactory));
+            var tilesFactory = new ViewModelTilesFactory(new BuilderWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(
                 tilesFactory, blockRenderableFactory, shipComponentsFactory, pipeLinkFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
@@ -45,7 +45,7 @@ namespace ConstructedGame
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
-            var tilesFactory = new ViewModelTilesFactory(new WorldObjectFactory(tileObjectFactory));
+            var tilesFactory = new ViewModelTilesFactory(new BuilderWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory =
                 new BlueprintBuilderFancyViewModelFactory(tilesFactory,
                     blockCoreFactory,
@@ -61,17 +61,16 @@ namespace ConstructedGame
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
-        private IObservableBlueprintBuilder CreateBlueprintBuilder()
+        private IBlueprintBuilder CreateBlueprintBuilder()
         {
-            var blueprintBuilder = new BlueprintBuilder(new Coordinate(11, 11));
-            return new ObservableBlueprintBuilder(blueprintBuilder);
+            return new BlueprintBuilder(new Coordinate(11, 11));
         }
 
         private AspectRatioRectangleSection CreateViewRectangle(
-            IObservableBlueprintBuilder observableBlueprintBuilder, IRectangleSection containingRectangle)
+            IBlueprintBuilder blueprintBuilder, IRectangleSection containingRectangle)
         {
-            return new AspectRatioRectangleSection( 
-                observableBlueprintBuilder.Dimensions.ToVector2(), containingRectangle);
+            return new AspectRatioRectangleSection(
+                blueprintBuilder.Dimensions.ToVector2(), containingRectangle);
         }
     }
 }

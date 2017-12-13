@@ -13,6 +13,7 @@ namespace ViewModel.Tests.Controller
     public class BlueprintBuilderControllerFactoryTest
     {
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBlueprintBuilderTableHighlighter> mockTableHighlighter;
         private BlueprintBuilderControllerFactory factory;
         private IBlueprintBuilderController controller;
 
@@ -20,8 +21,9 @@ namespace ViewModel.Tests.Controller
         public void Initialize()
         {
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
+            mockTableHighlighter = new Mock<IBlueprintBuilderTableHighlighter>();
             factory = new BlueprintBuilderControllerFactory();
-            controller = factory.CreateController(mockBlueprintBuilder.Object);
+            controller = factory.CreateController(mockBlueprintBuilder.Object, mockTableHighlighter.Object);
         }
 
         [TestMethod]

@@ -11,22 +11,11 @@ namespace WpfView
 {
     public class RectangleFrameworkElementFactory : IFrameworkElementFactory
     {
-        private Brush fill;
-        private Brush stroke;
-
-        public RectangleFrameworkElementFactory(Brush fill, Brush stroke)
-        {
-            this.fill = fill;
-            this.stroke = stroke;
-        }
-
-        public FrameworkElement CreateElement()
+        public IFrameworkElementWrapper CreateElement()
         {
             var rectangle = new Rectangle();
-            rectangle.Stroke = stroke;
-            rectangle.Fill = fill;
             rectangle.StrokeThickness = 1;
-            return rectangle;
+            return new RectangleFrameworkElementWrapper(rectangle);
         }
     }
 }

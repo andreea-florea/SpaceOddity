@@ -19,16 +19,16 @@ namespace WpfView
             this.scale = scale;
         }
 
-        public FrameworkElement CreateElement()
+        public IFrameworkElementWrapper CreateElement()
         {
             var grid = new Grid();
 
             var baseElement = baseElementFactory.CreateElement();
-            baseElement.Width = scale.X;
-            baseElement.Height = scale.Y;
-            grid.Children.Add(baseElement);
+            baseElement.Element.Width = scale.X;
+            baseElement.Element.Height = scale.Y;
+            grid.Children.Add(baseElement.Element);
 
-            return grid;
+            return new ParentFrameworkElementWrapper(baseElement, grid);
         }
     }
 }

@@ -26,5 +26,18 @@ namespace ViewModel.Tests.DataStructures
             Assert.AreEqual(new Coordinate(3, 2),commonPosition.Element);
             Assert.IsTrue(commonPosition.IsFound);
         }
+
+        [TestMethod]
+        public void CoordinatePairEqualityChecksCorrectly()
+        {
+            var pair1 = new CoordinatePair(new Coordinate(3, 2), new Coordinate(2, 2));
+            var pair2 = new CoordinatePair(new Coordinate(3, 2), new Coordinate(2, 2));
+            var pair3 = new CoordinatePair(new Coordinate(3, 2), new Coordinate(2, 3));
+            var pair4 = new CoordinatePair(new Coordinate(1, 2), new Coordinate(2, 2));
+
+            Assert.IsTrue(pair1 == pair2);
+            Assert.IsFalse(pair1 == pair3);
+            Assert.IsFalse(pair1 == pair4);
+        }
     }
 }

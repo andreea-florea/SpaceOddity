@@ -13,6 +13,7 @@ namespace ViewModel.Tests.Controller
     public class BlueprintBuilderBasicControllerTest
     {
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBlueprintBuilderTableHighlighter> mockTableHighlighter;
         private BlueprintBuilderMasterController masterController;
         private BlueprintBuilderPipeBuildController pipeBuildController;
         private BlueprintBuilderBasicController controller;
@@ -21,7 +22,8 @@ namespace ViewModel.Tests.Controller
         public void Initialize()
         {
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            masterController = new BlueprintBuilderMasterController(null, null);
+            mockTableHighlighter = new Mock<IBlueprintBuilderTableHighlighter>();
+            masterController = new BlueprintBuilderMasterController(null, null, mockTableHighlighter.Object);
             pipeBuildController = new BlueprintBuilderPipeBuildController(masterController, mockBlueprintBuilder.Object, new CoordinatePair());
             controller = new BlueprintBuilderBasicController(masterController, pipeBuildController, mockBlueprintBuilder.Object);
             masterController.BaseController = controller;

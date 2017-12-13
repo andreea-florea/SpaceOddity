@@ -19,18 +19,18 @@ namespace WpfView
             this.baseElementScale = baseElementScale;
         }
 
-        public FrameworkElement CreateElement()
+        public IFrameworkElementWrapper CreateElement()
         {
             var parent = new Canvas();
             
             var baseElement = basicFactory.CreateElement();
-            baseElement.Height = baseElementScale.Y;
-            baseElement.Width = baseElementScale.X;
-            Canvas.SetLeft(baseElement, -baseElementScale.X * 0.5);
-            Canvas.SetTop(baseElement, -baseElementScale.Y * 0.5);
+            baseElement.Element.Height = baseElementScale.Y;
+            baseElement.Element.Width = baseElementScale.X;
+            Canvas.SetLeft(baseElement.Element, -baseElementScale.X * 0.5);
+            Canvas.SetTop(baseElement.Element, -baseElementScale.Y * 0.5);
 
-            parent.Children.Add(baseElement);
-            return parent;
+            parent.Children.Add(baseElement.Element);
+            return new ParentFrameworkElementWrapper(baseElement, parent);
         }
     }
 }

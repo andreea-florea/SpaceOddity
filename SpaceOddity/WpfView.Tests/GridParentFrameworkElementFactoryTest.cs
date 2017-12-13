@@ -13,13 +13,16 @@ namespace WpfView.Tests
         private Mock<IFrameworkElementFactory> mockFrameworkElementFactory;
         private GridParentFrameworkElementFactory gridParentFrameworkElementFactory;
         private FrameworkElement stubElement;
+        private Mock<IFrameworkElementWrapper> mockElementWrapper;
 
         [TestInitialize]
         public void Initialize()
         {
-            stubElement = new System.Windows.Shapes.Rectangle();
             mockFrameworkElementFactory = new Mock<IFrameworkElementFactory>();
-            mockFrameworkElementFactory.Setup(factory => factory.CreateElement()).Returns(stubElement);
+            stubElement = new System.Windows.Shapes.Rectangle();
+            var mockElementWrapper = new Mock<IFrameworkElementWrapper>();
+            mockElementWrapper.SetupGet(wrapper => wrapper.Element).Returns(stubElement);
+            mockFrameworkElementFactory.Setup(factory => factory.CreateElement()).Returns(mockElementWrapper.Object);
 
             gridParentFrameworkElementFactory =
                 new GridParentFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(4.2, 5));
@@ -38,7 +41,7 @@ namespace WpfView.Tests
         {
             var element = gridParentFrameworkElementFactory.CreateElement();
 
-            Assert.IsTrue((element as Grid).Children.Contains(stubElement));
+            Assert.IsTrue((element.Element as Grid).Children.Contains(stubElement));
         }
 
         [TestMethod]

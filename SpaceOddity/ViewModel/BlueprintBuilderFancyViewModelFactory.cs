@@ -1,4 +1,5 @@
-﻿using Game.Interfaces;
+﻿using Algorithm;
+using Game.Interfaces;
 using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
@@ -52,10 +53,11 @@ namespace ViewModel
             this.closedEdgeFactory = closedEdgeFactory;
         }
 
-        public BlueprintBuilderFancyViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
+        public BlueprintBuilderFancyViewModel CreateViewModel(IBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var controlAssigner = CreateController(builder);
-            var tiles = tilesFactory.CreateTiles(controlAssigner, builder.Dimensions, fittingRectangle);
+            var tiles = tilesFactory.CreateTiles(builder.Dimensions, fittingRectangle);
+            var tableHighlighter = new BlueprintBuilderTableHighlighter(null);
+            var controlAssigner = CreateController(builder, tableHighlighter);
 
             var detailsUpdaters = new List<IDetailsViewUpdater>();
 
@@ -70,16 +72,17 @@ namespace ViewModel
             builder.AttachObserver(viewModel);
             return viewModel;
         }
-        
-        private BlueprintBuilderControlAssigner CreateController(IObservableBlueprintBuilder builder)
+
+        private BlueprintBuilderControlAssigner CreateController(IBlueprintBuilder builder,
+            IBlueprintBuilderTableHighlighter tableHighlighter)
         {
             var controllerFactory = new BlueprintBuilderControllerFactory();
-            var controller = controllerFactory.CreateController(builder);
+            var controller = controllerFactory.CreateController(builder, tableHighlighter);
             var controlAssigner = new BlueprintBuilderControlAssigner(controller);
             return controlAssigner;
         }
 
-        private IDetailsViewUpdater CreateCornerUpdater(IObservableBlueprintBuilder builder,
+        private IDetailsViewUpdater CreateCornerUpdater(IBlueprintBuilder builder,
             IBlueprintBuilderControlAssigner controlAssigner,
             IWorldObject[,] tiles, Coordinate direction)
         {
@@ -92,7 +95,7 @@ namespace ViewModel
             cornerUpdates.Add(new FacingPosition(direction, -direction.RotateQuarterCircleRight()));
             cornerUpdates.Add(new FacingPosition(direction, -direction - direction.RotateQuarterCircleRight()));
 
-            var baseCornerFactories = new IWorldObjectFactory[8];
+            var baseCornerFactories = new IFactory<IWorldObject>[8];
             baseCornerFactories[0] = new WorldObjectFactory(roundCornerFactory);
             baseCornerFactories[1] = new WorldObjectFactory(straightUpCornerFactory);
             baseCornerFactories[2] = new WorldObjectFactory(straightRightCornerFactory);
@@ -108,7 +111,7 @@ namespace ViewModel
                 builder, tiles, cornerDetails, cornerFactory, controlAssigner, cornerUpdates);
         }
 
-        private IDetailsViewUpdater CreateEdgeUpdater(IObservableBlueprintBuilder builder,
+        private IDetailsViewUpdater CreateEdgeUpdater(IBlueprintBuilder builder,
             IBlueprintBuilderControlAssigner controlAssigner,
             IWorldObject[,] tiles, Coordinate direction)
         {
@@ -119,7 +122,7 @@ namespace ViewModel
             edgeUpdates.Add(new FacingPosition(direction, Coordinates.Zero));
             edgeUpdates.Add(new FacingPosition(direction, -direction));
 
-            var baseEdgeFactories = new IWorldObjectFactory[2];
+            var baseEdgeFactories = new IFactory<IWorldObject>[2];
             baseEdgeFactories[0] = new WorldObjectFactory(roundEdgeFactory);
             baseEdgeFactories[1] = new WorldObjectFactory(closedEdgeFactory);
             var edgeFactory = new WorldObjectBitNumberFactoryPicker(baseEdgeFactories,
@@ -128,7 +131,7 @@ namespace ViewModel
             return new BlockDetailsViewUpdater(builder, tiles, edgeDetails, edgeFactory, controlAssigner, edgeUpdates);
         }
 
-        private IDetailsViewUpdater CreateCoreUpdater(IObservableBlueprintBuilder builder,
+        private IDetailsViewUpdater CreateCoreUpdater(IBlueprintBuilder builder,
             IBlueprintBuilderControlAssigner controlAssigner,
             IWorldObject[,] tiles)
         {

@@ -29,8 +29,8 @@ namespace ViewModel.Tests
         public void CheckIfDetailsUpdaterIsCalledOnBlockCreated()
         {
             var position = new Coordinate(4, 5);
-            var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            fancyViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            var mockBlueprint = new Mock<IBlueprint>();
+            fancyViewModel.BlockCreated(mockBlueprint.Object, position);
             mockBlockDetailsViewUpdater.Verify(updater => updater.UpdateDetails(position), Times.Once());
         }
 
@@ -38,8 +38,8 @@ namespace ViewModel.Tests
         public void CheckIfDetailsUpdaterIsCalledOnBlockDeleted()
         {
             var position = new Coordinate(4, 5);
-            var mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            fancyViewModel.BlockDeleted(mockBlueprintBuilder.Object, position);
+            var mockBlueprint = new Mock<IBlueprint>();
+            fancyViewModel.BlockDeleted(mockBlueprint.Object, position);
             mockBlockDetailsViewUpdater.Verify(updater => updater.UpdateDetails(position), Times.Once());
         }
     }

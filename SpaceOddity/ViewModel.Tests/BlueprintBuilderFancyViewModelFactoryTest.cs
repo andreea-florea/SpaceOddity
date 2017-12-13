@@ -12,8 +12,8 @@ namespace ViewModel.Tests
     public class BlueprintBuilderFancyViewModelFactoryTest
     {
         private Mock<IViewModelTilesFactory> mockTilesFactory;
-        private IWorldObject[,] tiles;
-        private Mock<IWorldObject> mockTile;
+        private IBuilderWorldObject[,] tiles;
+        private Mock<IBuilderWorldObject> mockTile;
         private Mock<IRenderableFactory> mockBlockCoreFactory;
         private Mock<IRenderableFactory> mockRoundCornerFactory;
         private Mock<IRenderableFactory> mockStraightUpCornerFactory;
@@ -25,7 +25,8 @@ namespace ViewModel.Tests
         private Mock<IRenderableFactory> mockRoundEdgeFactory;
         private Mock<IRenderableFactory> mockClosedEdgeFactory;
 
-        private Mock<IObservableBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBlueprint> mockBlueprint;
         private Mock<IBlock> mockBlock;
         private Mock<IRenderable> mockDetail;
         private Mock<IRectangleSection> mockFittingRectangle;
@@ -45,17 +46,18 @@ namespace ViewModel.Tests
             mockRoundEdgeFactory = new Mock<IRenderableFactory>();
             mockClosedEdgeFactory = new Mock<IRenderableFactory>();
 
-            mockBlueprintBuilder = new Mock<IObservableBlueprintBuilder>();
+            mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
+            mockBlueprint = new Mock<IBlueprint>();
             mockBlock = new Mock<IBlock>();
             mockDetail = new Mock<IRenderable>();
             mockFittingRectangle = new Mock<IRectangleSection>();
 
-            tiles = new IWorldObject[3, 4];
-            mockTile = new Mock<IWorldObject>();
+            tiles = new IBuilderWorldObject[3, 4];
+            mockTile = new Mock<IBuilderWorldObject>();
             mockTile.SetupAllProperties();
             mockTilesFactory = new Mock<IViewModelTilesFactory>();
             mockTilesFactory.Setup(
-                factory => factory.CreateTiles(It.IsAny<BlueprintBuilderControlAssigner>(), new Coordinate(4, 3), mockFittingRectangle.Object))
+                factory => factory.CreateTiles(new Coordinate(4, 3), mockFittingRectangle.Object))
                 .Returns(tiles);
 
             blueprintBuilderViewModelFactory = new BlueprintBuilderFancyViewModelFactory(
@@ -86,7 +88,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            viewModel.BlockCreated(mockBlueprint.Object, position);
 
             mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(4));
         }
@@ -110,7 +112,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
             mockStraightRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
@@ -142,7 +144,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
             mockStraightRightCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
@@ -168,7 +170,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockRoundCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(5));
         }
@@ -199,7 +201,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockClosedCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(4));
             mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
@@ -220,7 +222,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockRoundEdgeFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(4));
         }
@@ -244,7 +246,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockRoundEdgeFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(3));
             mockClosedEdgeFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));
@@ -263,7 +265,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockBlockCoreFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
         }
@@ -301,7 +303,7 @@ namespace ViewModel.Tests
 
             var viewModel = blueprintBuilderViewModelFactory.CreateViewModel(
                 mockBlueprintBuilder.Object, mockFittingRectangle.Object);
-            viewModel.BlockCreated(mockBlueprintBuilder.Object, new Coordinate(2, 1));
+            viewModel.BlockCreated(mockBlueprint.Object, new Coordinate(2, 1));
 
             mockDiagonalMissingCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(1));
             mockStraightUpCornerFactory.Verify(factory => factory.CreateRenderable(), Times.Exactly(2));

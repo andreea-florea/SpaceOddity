@@ -50,7 +50,7 @@ namespace ViewModel.Tests.Fancy
             var position = new Coordinate(1, 3);
             var facingPosition = new FacingPosition(Coordinates.Right, position);
             detailUpdates.Add(new FacingPosition(new Coordinate(1, 0), new Coordinate(0, 0)));
-            mockFactory.Setup(factory => factory.CreateObject(facingPosition)).Returns(mockObject.Object);
+            mockFactory.Setup(factory => factory.Create(facingPosition)).Returns(mockObject.Object);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
             mockBlueprintBuilder.Setup(builder => builder.GetBlock(position)).Returns(mockBlock.Object);
             mockTile.Setup(tile => tile.Position).Returns(new Vector2(5, 7));
@@ -60,7 +60,7 @@ namespace ViewModel.Tests.Fancy
             blockDetailsViewUpdater.UpdateDetails(position);
 
             mockBlueprintBuilder.Verify(builder => builder.HasBlock(position), Times.Once);
-            mockFactory.Verify(factory => factory.CreateObject(facingPosition), Times.Once);
+            mockFactory.Verify(factory => factory.Create(facingPosition), Times.Once);
             Assert.AreEqual(5, mockObject.Object.Position.X);
             Assert.AreEqual(7, mockObject.Object.Position.Y);
             Assert.AreEqual(3, mockObject.Object.Scale.X);
@@ -73,7 +73,7 @@ namespace ViewModel.Tests.Fancy
         public void DetailIsUpdatedAtCorrectPosition()
         {
             var facingPosition = new FacingPosition(Coordinates.Up, new Coordinate(2, 3));
-            mockFactory.Setup(factory => factory.CreateObject(facingPosition)).Returns(mockObject.Object);
+            mockFactory.Setup(factory => factory.Create(facingPosition)).Returns(mockObject.Object);
             detailUpdates.Add(new FacingPosition(Coordinates.Up, new Coordinate(1, -1)));
             tiles.Set(new Coordinate(2, 3), mockTile.Object);
             var position = new Coordinate(1, 4);
@@ -86,20 +86,20 @@ namespace ViewModel.Tests.Fancy
         public void DetailIsNotCreatedForNullBlocks()
         {
             var facingPosition = new FacingPosition(Coordinates.Up, new Coordinate(2, 3));
-            mockFactory.Setup(factory => factory.CreateObject(facingPosition)).Returns(mockObject.Object);
+            mockFactory.Setup(factory => factory.Create(facingPosition)).Returns(mockObject.Object);
             detailUpdates.Add(new FacingPosition(Coordinates.Up, new Coordinate(1, -1)));
             tiles[3, 2] = mockTile.Object;
             var position = new Coordinate(1, 4);
             
             blockDetailsViewUpdater.UpdateDetails(position);
-            mockFactory.Verify(factory => factory.CreateObject(It.IsAny<FacingPosition>()), Times.Never);
+            mockFactory.Verify(factory => factory.Create(It.IsAny<FacingPosition>()), Times.Never);
         }
 
         [TestMethod]
         public void OldDetailIsDeletedOnUpdated()
         {
             var facingPosition = new FacingPosition(Coordinates.Down, new Coordinate(1, 3));
-            mockFactory.Setup(factory => factory.CreateObject(facingPosition)).Returns(mockObject.Object);
+            mockFactory.Setup(factory => factory.Create(facingPosition)).Returns(mockObject.Object);
             detailUpdates.Add(new FacingPosition(Coordinates.Down, new Coordinate(0, 0)));
             detailUpdates.Add(new FacingPosition(Coordinates.Down, new Coordinate(0, 0)));
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(new Coordinate(1, 3))).Returns(true);
@@ -110,7 +110,7 @@ namespace ViewModel.Tests.Fancy
             
             blockDetailsViewUpdater.UpdateDetails(position);
 
-            mockFactory.Verify(factory => factory.CreateObject(facingPosition), Times.Exactly(2));
+            mockFactory.Verify(factory => factory.Create(facingPosition), Times.Exactly(2));
             mockObject.Verify(worldObject => worldObject.Delete(), Times.Once());
         }
 
@@ -142,7 +142,7 @@ namespace ViewModel.Tests.Fancy
         public void BlockDetailIsAddedControl()
         {
             var position = new Coordinate(2, 3);
-            mockFactory.Setup(factory => factory.CreateObject(new FacingPosition(Coordinates.Up, position))).
+            mockFactory.Setup(factory => factory.Create(new FacingPosition(Coordinates.Up, position))).
                 Returns(mockObject.Object);
             mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
             detailUpdates.Add(new FacingPosition(Coordinates.Up, Coordinates.Zero));

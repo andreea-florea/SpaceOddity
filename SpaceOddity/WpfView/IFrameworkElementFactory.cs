@@ -9,6 +9,6 @@ namespace WpfView
 {
     public interface IFrameworkElementFactory
     {
-        FrameworkElement CreateElement();
+        IFrameworkElementWrapper CreateElement();
     }
 }

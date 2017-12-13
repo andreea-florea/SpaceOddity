@@ -17,7 +17,7 @@ namespace ViewModel.Tests
             mockRenderableFactory.Setup(factory => factory.CreateRenderable()).Returns(mockRenderable.Object);
             var worldObjectFactory = new WorldObjectFactory(mockRenderableFactory.Object);
 
-            var worldObject = worldObjectFactory.CreateObject();
+            var worldObject = worldObjectFactory.Create();
             mockRenderableFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
             mockRenderable.Verify(renderable => renderable.Update(new Vector2(), new Vector2(), new Vector2(1, 1)), Times.Once());
         }
@@ -33,7 +33,7 @@ namespace ViewModel.Tests
             mockRenderable.SetupSet(renderable => renderable.LeftClickAction = It.IsNotNull<NoAction>()).Verifiable();
             mockRenderable.SetupSet(renderable => renderable.RightClickAction = It.IsNotNull<NoAction>()).Verifiable();
 
-            var worldObject = worldObjectFactory.CreateObject();
+            var worldObject = worldObjectFactory.Create();
 
             mockRenderable.VerifySet(renderable => renderable.LeftClickAction = It.IsNotNull<NoAction>());
             mockRenderable.VerifySet(renderable => renderable.RightClickAction = It.IsNotNull<NoAction>());

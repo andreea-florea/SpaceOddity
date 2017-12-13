@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace WpfView.Tests
 {
@@ -10,14 +11,10 @@ namespace WpfView.Tests
         [TestMethod]
         public void CheckIfRectangleIsCreateCorrectly()
         {
-            var stroke = Brushes.Blue;
-            var fill = Brushes.Red;
-            var rectangleFactory = new RectangleFrameworkElementFactory(fill, stroke);
-            var rectangle = (System.Windows.Shapes.Rectangle)rectangleFactory.CreateElement();
+            var rectangleFactory = new RectangleFrameworkElementFactory();
+            var rectangle = rectangleFactory.CreateElement();
 
-            Assert.AreEqual(stroke, rectangle.Stroke);
-            Assert.AreEqual(fill, rectangle.Fill);
-            Assert.AreEqual(1, rectangle.StrokeThickness);
+            Assert.AreEqual(1, ((Rectangle)rectangle.Element).StrokeThickness);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace ViewModel.Tests.Controller
     {
         private Mock<IBlueprintBuilderController> mockBaseController;
         private Mock<IBlueprintBuilderController> mockController;
+        private Mock<IBlueprintBuilderTableHighlighter> mockTableHighlighter;
         private BlueprintBuilderMasterController controller;
 
         [TestInitialize]
@@ -19,7 +20,9 @@ namespace ViewModel.Tests.Controller
         {
             mockBaseController = new Mock<IBlueprintBuilderController>();
             mockController = new Mock<IBlueprintBuilderController>();
-            controller = new BlueprintBuilderMasterController(mockBaseController.Object, mockController.Object);
+            mockTableHighlighter = new Mock<IBlueprintBuilderTableHighlighter>();
+            controller = new BlueprintBuilderMasterController(
+                mockBaseController.Object, mockController.Object, mockTableHighlighter.Object);
         }
 
         [TestMethod]
@@ -61,6 +64,21 @@ namespace ViewModel.Tests.Controller
             controller.Reset();
             controller.TileSelect(position);
             mockBaseController.Verify(baseController => baseController.TileSelect(position), Times.Once());
+        }
+
+        [TestMethod]
+        public void MasterControllerAllowsObjectActivation()
+        {
+            var edge = new CoordinatePair(new Coordinate(1, 2), new Coordinate(2, 2));
+            controller.ActivatePipeLink(edge);
+            mockTableHighlighter.Verify(table => table.ActivatePipeLink(edge), Times.Once());
+        }
+
+        [TestMethod]
+        public void MasterControllerDeactivatesAllObjectsOnReset()
+        {
+            controller.Reset();
+            mockTableHighlighter.Verify(table => table.DeactivateAll(), Times.Once());
         }
     }
 }

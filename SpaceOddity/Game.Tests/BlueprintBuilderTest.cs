@@ -548,5 +548,14 @@ namespace Game.Tests
             Assert.AreEqual(EdgeType.UP, mockBlock.Object.PipesWithOneEdge.Skip(1).First().Edge);
             Assert.AreEqual(EdgeType.RIGHT, mockBlock.Object.PipesWithOneEdge.Skip(2).First().Edge);
         }
+
+        [TestMethod]
+        public void CanAttachObserverToBuilderThroughBlueprintBuilder()
+        {
+            var mockObserver = new Mock<IBlueprintObserver>();
+            blueprintBuilder.AttachObserver(mockObserver.Object);
+            blueprint.PlaceBlock(new Coordinate(2, 3), mockBlock.Object);
+            mockObserver.Verify(observer => observer.BlockCreated(blueprint, new Coordinate(2, 3)));
+        }
     }
 }

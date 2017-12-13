@@ -1,5 +1,6 @@
 ﻿using Game.Interfaces;
 using Geometry;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,29 +29,38 @@ namespace ViewModel
             this.pipeLinkFactory = pipeLinkFactory;
         }
 
-        public BlueprintBuilderViewModel CreateViewModel(IObservableBlueprintBuilder builder, IRectangleSection fittingRectangle)
+        public BlueprintBuilderViewModel CreateViewModel(IBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
-            var controlAssigner = CreateController(builder);
-            var tiles = tilesFactory.CreateTiles(controlAssigner, builder.Dimensions, fittingRectangle);
-            var blocks = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
-            var shipComponents = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
-            var horizontalPipeLinks = new IWorldObject[builder.Dimensions.Y - 1, builder.Dimensions.X];
-            var verticalPipeLinks = new IWorldObject[builder.Dimensions.Y, builder.Dimensions.X - 1];
+            var tiles = tilesFactory.CreateTiles(builder.Dimensions, fittingRectangle);
+            var blocks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
+            var shipComponents = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
+            var horizontalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y - 1, builder.Dimensions.X];
+            var verticalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X - 1];
 
-            var viewModel = new BlueprintBuilderViewModel(tiles, blocks, shipComponents,
-                horizontalPipeLinks, verticalPipeLinks,
-                new WorldObjectFactory(blockFactory), 
-                new WorldObjectFactory(shipComponentsFactory), 
-                new WorldObjectFactory(pipeLinkFactory),
+            var objectTable = new BlueprintBuilderObjectTable(
+                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks);
+            var controlAssigner = CreateController(builder, new BlueprintBuilderTableHighlighter(objectTable));
+
+            var tileRectanle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);
+            foreach(var coordinate in tileRectanle.Points)
+            {
+                controlAssigner.AssignTileControl(tiles.Get(coordinate), coordinate);
+            }
+
+            var viewModel = new BlueprintBuilderViewModel(objectTable,
+                new BuilderWorldObjectFactory(blockFactory), 
+                new BuilderWorldObjectFactory(shipComponentsFactory),
+                new BuilderWorldObjectFactory(pipeLinkFactory),
                 controlAssigner);
             builder.AttachObserver(viewModel);
             return viewModel;
         }
 
-        private BlueprintBuilderControlAssigner CreateController(IObservableBlueprintBuilder builder)
+        private BlueprintBuilderControlAssigner CreateController(IBlueprintBuilder builder,
+            IBlueprintBuilderTableHighlighter tableHighlighter)
         {
             var controllerFactory = new BlueprintBuilderControllerFactory();
-            var controller = controllerFactory.CreateController(builder);
+            var controller = controllerFactory.CreateController(builder, tableHighlighter);
             var controlAssigner = new BlueprintBuilderControlAssigner(controller);
             return controlAssigner;
         }

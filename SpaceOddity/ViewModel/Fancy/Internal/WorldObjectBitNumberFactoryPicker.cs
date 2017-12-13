@@ -1,4 +1,5 @@
-﻿using NaturalNumbersMath;
+﻿using Algorithm;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,19 @@ namespace ViewModel.Fancy.Iternal
 {
     internal class WorldObjectBitNumberFactoryPicker : IFacingContextWorldObjectFactory
     {
-        private IWorldObjectFactory[] factories;
+        private IFactory<IWorldObject>[] factories;
         private IBitNumberGenerator numberGenerator;
 
-        public WorldObjectBitNumberFactoryPicker(IWorldObjectFactory[] factories, IBitNumberGenerator numberGenerator)
+        public WorldObjectBitNumberFactoryPicker(IFactory<IWorldObject>[] factories, IBitNumberGenerator numberGenerator)
         {
             this.factories = factories;
             this.numberGenerator = numberGenerator;
         }
 
-        public IWorldObject CreateObject(FacingPosition position)
+        public IWorldObject Create(FacingPosition position)
         {
             var index = numberGenerator.GenerateNumber(position).ToInt();
-            return factories[index].CreateObject();
+            return factories[index].Create();
         }
     }
 }

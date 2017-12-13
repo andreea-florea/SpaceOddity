@@ -9,54 +9,57 @@ using NaturalNumbersMath;
 using ViewModel.Actions;
 using ViewModel.DataStructures;
 using ViewModel.Controller;
+using Algorithm;
 
 namespace ViewModel.Tests
 {
     [TestClass]
     public class BlueprintBuilderViewModelTest
     {
-        private Mock<IWorldObject> mockBlock;
-        private Mock<IWorldObject> mockShipComponent;
-        private Mock<IWorldObject> mockPipeLink;
-        private Mock<IWorldObjectFactory> mockBlockFactory;
-        private Mock<IWorldObjectFactory> mockShipComponentFactory;
-        private Mock<IWorldObjectFactory> mockPipeLinkFactory;
-        private Mock<IBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBuilderWorldObject> mockBlock;
+        private Mock<IBuilderWorldObject> mockShipComponent;
+        private Mock<IBuilderWorldObject> mockPipeLink;
+        private Mock<IFactory<IBuilderWorldObject>> mockBlockFactory;
+        private Mock<IFactory<IBuilderWorldObject>> mockShipComponentFactory;
+        private Mock<IFactory<IBuilderWorldObject>> mockPipeLinkFactory;
+        private Mock<IBlueprint> mockBlueprint;
         private Mock<IBlueprintBuilderControlAssigner> mockController;
-        private Mock<IWorldObject> mockTile;
-        private IWorldObject[,] blocks;
-        private IWorldObject[,] tiles;
-        private IWorldObject[,] shipComponents;
-        private IWorldObject[,] horizontalPipeLinks;
-        private IWorldObject[,] verticalPipeLinks;
+        private Mock<IBuilderWorldObject> mockTile;
+        private IBuilderWorldObject[,] blocks;
+        private IBuilderWorldObject[,] tiles;
+        private IBuilderWorldObject[,] shipComponents;
+        private IBuilderWorldObject[,] horizontalPipeLinks;
+        private IBuilderWorldObject[,] verticalPipeLinks;
         private BlueprintBuilderViewModel blueprintBuilderViewModel;
 
         [TestInitialize]
         public void Initialize()
         {
-            mockBlock = new Mock<IWorldObject>();
+            mockBlock = new Mock<IBuilderWorldObject>();
             mockBlock.SetupAllProperties();
-            mockShipComponent = new Mock<IWorldObject>();
+            mockShipComponent = new Mock<IBuilderWorldObject>();
             mockShipComponent.SetupAllProperties();
-            mockPipeLink = new Mock<IWorldObject>();
+            mockPipeLink = new Mock<IBuilderWorldObject>();
             mockPipeLink.SetupAllProperties();
 
-            mockBlockFactory = new Mock<IWorldObjectFactory>();
-            mockShipComponentFactory = new Mock<IWorldObjectFactory>();
-            mockPipeLinkFactory = new Mock<IWorldObjectFactory>();
-            mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
+            mockBlockFactory = new Mock<IFactory<IBuilderWorldObject>>();
+            mockShipComponentFactory = new Mock<IFactory<IBuilderWorldObject>>();
+            mockPipeLinkFactory = new Mock<IFactory<IBuilderWorldObject>>();
+            mockBlueprint = new Mock<IBlueprint>();
             mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
-            mockTile = new Mock<IWorldObject>();
-            blocks = new IWorldObject[5, 6];
-            tiles = new IWorldObject[5, 6];
-            shipComponents = new IWorldObject[5, 6];
-            horizontalPipeLinks = new IWorldObject[5, 5];
-            verticalPipeLinks = new IWorldObject[4, 6];
+            mockTile = new Mock<IBuilderWorldObject>();
+            blocks = new IBuilderWorldObject[5, 6];
+            tiles = new IBuilderWorldObject[5, 6];
+            shipComponents = new IBuilderWorldObject[5, 6];
+            horizontalPipeLinks = new IBuilderWorldObject[5, 5];
+            verticalPipeLinks = new IBuilderWorldObject[4, 6];
+
+            var objectTable = new BlueprintBuilderObjectTable(
+                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks);
 
             blueprintBuilderViewModel =
-                new BlueprintBuilderViewModel(tiles, blocks, shipComponents, 
-                    horizontalPipeLinks, verticalPipeLinks,
+                new BlueprintBuilderViewModel(objectTable,
                     mockBlockFactory.Object, mockShipComponentFactory.Object, mockPipeLinkFactory.Object,
                     mockController.Object);
         }
@@ -74,13 +77,13 @@ namespace ViewModel.Tests
         public void BlueprintViewModelCreatesWorldObjectBlockWhenOneIsCreated()
         {
             var position = new Coordinate(2, 3);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
             mockTile.Setup(tile => tile.Position).Returns(new Vector2(3, 6));
             mockTile.Setup(tile => tile.Scale).Returns(new Vector2(7, 5));
 
             tiles.Set(position, mockTile.Object);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
             var coordinate = new Coordinate(2, 3);
             Assert.AreEqual(tiles[3, 2].Position, blueprintBuilderViewModel.GetBlock(coordinate).Position);
@@ -92,9 +95,9 @@ namespace ViewModel.Tests
         {
             var position = new Coordinate(2, 3);
             tiles.Set(position, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
             mockController.Verify(controller => 
                 controller.AssignBlockControl(mockBlock.Object, position), Times.Once());
@@ -106,7 +109,7 @@ namespace ViewModel.Tests
             var position = new Coordinate(2, 3);
             blocks.Set(position, mockBlock.Object);
 
-            blueprintBuilderViewModel.BlockDeleted(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockDeleted(mockBlueprint.Object, position);
 
             mockBlock.Verify(block => block.Delete(), Times.Once());
             Assert.AreEqual(null, blocks.Get(position));
@@ -121,11 +124,11 @@ namespace ViewModel.Tests
             tiles.Set(position, mockTile.Object);
             mockTile.SetupGet(tile => tile.Position).Returns(translation);
             mockTile.SetupGet(tile => tile.Scale).Returns(scale);
-            mockShipComponentFactory.Setup(factory => factory.CreateObject()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(factory => factory.Create()).Returns(mockShipComponent.Object);
 
-            blueprintBuilderViewModel.ShipComponentAdded(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.ShipComponentAdded(mockBlueprint.Object, position);
 
-            mockShipComponentFactory.Verify(factory => factory.CreateObject(), Times.Once());
+            mockShipComponentFactory.Verify(factory => factory.Create(), Times.Once());
             Assert.AreEqual(translation, shipComponents.Get(position).Position);
             Assert.AreEqual(scale, shipComponents.Get(position).Scale);
         }
@@ -137,14 +140,14 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 4);
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            Assert.AreEqual(mockPipeLink.Object, horizontalPipeLinks.Get(position));
+            Assert.AreEqual(mockPipeLink.Object, verticalPipeLinks.Get(position));
         }
 
         [TestMethod]
@@ -154,14 +157,14 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 2);
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            Assert.AreEqual(mockPipeLink.Object, horizontalPipeLinks.Get(connectingPosition));
+            Assert.AreEqual(mockPipeLink.Object, verticalPipeLinks.Get(connectingPosition));
         }
 
         [TestMethod]
@@ -169,7 +172,7 @@ namespace ViewModel.Tests
         {
             var position = new Coordinate(2, 3);
             var connectingPosition = new Coordinate(2, 4);
-            var mockTile2 = new Mock<IWorldObject>();
+            var mockTile2 = new Mock<IBuilderWorldObject>();
 
             mockTile.SetupGet(tile => tile.Position).Returns(new Vector2(2, 3));
             mockTile2.SetupGet(tile => tile.Position).Returns(new Vector2(2, 4));
@@ -177,14 +180,14 @@ namespace ViewModel.Tests
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile2.Object);
 
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            Assert.AreEqual(new Vector2(2, 3.5), horizontalPipeLinks.Get(position).Position);
+            Assert.AreEqual(new Vector2(2, 3.5), verticalPipeLinks.Get(position).Position);
         }
 
         [TestMethod]
@@ -193,15 +196,14 @@ namespace ViewModel.Tests
             var position = new Coordinate(2, 3);
             var connectingPosition = new Coordinate(2, 2);
             tiles.Set(position, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(false);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(false);
 
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
-
-            mockPipeLinkFactory.Verify(factory => factory.CreateObject(), Times.Never());
+            mockPipeLinkFactory.Verify(factory => factory.Create(), Times.Never());
         }
 
         [TestMethod]
@@ -211,14 +213,14 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(3, 3);
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            Assert.AreEqual(mockPipeLink.Object, verticalPipeLinks.Get(position));
+            Assert.AreEqual(mockPipeLink.Object, horizontalPipeLinks.Get(position));
         }
 
         [TestMethod]
@@ -228,14 +230,14 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(1, 3);
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            Assert.AreEqual(mockPipeLink.Object, verticalPipeLinks.Get(connectingPosition));
+            Assert.AreEqual(mockPipeLink.Object, horizontalPipeLinks.Get(connectingPosition));
         }
 
         [TestMethod]
@@ -244,9 +246,9 @@ namespace ViewModel.Tests
             var position = new Coordinate(2, 3);
             var connectingPosition = new Coordinate(1, 3);
             blocks.Set(position, mockBlock.Object);
-            verticalPipeLinks.Set(connectingPosition, mockPipeLink.Object);
+            horizontalPipeLinks.Set(connectingPosition, mockPipeLink.Object);
 
-            blueprintBuilderViewModel.BlockDeleted(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockDeleted(mockBlueprint.Object, position);
 
             mockPipeLink.Verify(link => link.Delete(), Times.Once());
         }
@@ -258,14 +260,14 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 4);
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
-            Assert.AreEqual(new Vector2(0, 1), horizontalPipeLinks.Get(position).Rotation);
+            Assert.AreEqual(new Vector2(0, 1), verticalPipeLinks.Get(position).Rotation);
         }
 
         [TestMethod]
@@ -275,17 +277,17 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 4);
             tiles.Set(position, mockTile.Object);
             tiles.Set(connectingPosition, mockTile.Object);
-            mockBlockFactory.Setup(factory => factory.CreateObject()).Returns(mockBlock.Object);
-            mockPipeLinkFactory.Setup(factory => factory.CreateObject()).Returns(mockPipeLink.Object);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(position)).Returns(true);
-            mockBlueprintBuilder.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
+            mockBlockFactory.Setup(factory => factory.Create()).Returns(mockBlock.Object);
+            mockPipeLinkFactory.Setup(factory => factory.Create()).Returns(mockPipeLink.Object);
+            mockBlueprint.Setup(builder => builder.HasBlock(position)).Returns(true);
+            mockBlueprint.Setup(builder => builder.HasBlock(connectingPosition)).Returns(true);
 
-            blueprintBuilderViewModel.BlockCreated(mockBlueprintBuilder.Object, position);
+            blueprintBuilderViewModel.BlockCreated(mockBlueprint.Object, position);
 
             var edge = new CoordinatePair(position, connectingPosition);
             mockController.Verify(controller =>
                 controller.AssignPipeLinkControl(mockPipeLink.Object, edge), Times.Once());
-            Assert.AreEqual(new Vector2(0, 1), horizontalPipeLinks.Get(position).Rotation);
+            Assert.AreEqual(new Vector2(0, 1), verticalPipeLinks.Get(position).Rotation);
         }
     }
 }

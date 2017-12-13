@@ -12,5 +12,6 @@ namespace ViewInterface
         IAction RightClickAction { set; }
         void Update(Vector2 position, Vector2 rotation, Vector2 scale);
         void Delete();
+        void SetState(int state);
     }
 }

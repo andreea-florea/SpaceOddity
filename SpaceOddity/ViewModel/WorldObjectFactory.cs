@@ -1,4 +1,5 @@
-﻿using Geometry;
+﻿using Algorithm;
+using Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using ViewInterface;
 
 namespace ViewModel
 {
-    public class WorldObjectFactory : IWorldObjectFactory
+    public class WorldObjectFactory : IFactory<IWorldObject>
     {
         private IRenderableFactory renderableFactory;
 
@@ -16,7 +17,7 @@ namespace ViewModel
             this.renderableFactory = renderableFactory;
         }
 
-        public IWorldObject CreateObject()
+        public IWorldObject Create()
         {
             var renderable = renderableFactory.CreateRenderable();
             return new WorldObject(new Vector2(), new Vector2(), new Vector2(1, 1),

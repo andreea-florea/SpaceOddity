@@ -19,5 +19,6 @@ namespace Game.Interfaces
         bool AddConnectingPipe(Coordinate position, EdgeType edge);
         bool DeleteDoubleEdgedPipe(Coordinate position, DoubleEdgedPipe pipe);
         bool DeleteConnectingPipe(Coordinate position, ConnectingPipe pipe);
+        void AttachObserver(IBlueprintObserver observer);
     }
 }

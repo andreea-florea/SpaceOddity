@@ -29,20 +29,28 @@ namespace WpfGameView
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var frameworkElementFactory = new RectangleFrameworkElementFactory(Brushes.LightGray, Brushes.Gray);
-            var tileObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkElementFactory);
+            var tileStates = new BuilderWorldObjectState[1];
+            tileStates[0] = new BuilderWorldObjectState(new ColorVector(0.8, 0.9, 0.9), new ColorVector(0.5, 0.6, 0.6));
+            var frameworkElementFactory = new RectangleFrameworkElementFactory();
+            var tileObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkElementFactory, tileStates);
 
-            var frameworkBlockFactory = new RectangleFrameworkElementFactory(Brushes.Blue, Brushes.LightBlue);
-            var blockObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkBlockFactory);
+            var blockStates = new BuilderWorldObjectState[1];
+            blockStates[0] = new BuilderWorldObjectState(new ColorVector(0.1, 0.8, 0.9), new ColorVector(0.1, 0.8, 0.9));
+            var frameworkBlockFactory = new RectangleFrameworkElementFactory();
+            var blockObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkBlockFactory, blockStates);
 
+            var shipComponentStates = new BuilderWorldObjectState[1];
             var frameworkShipComponentFactory = new GridParentFrameworkElementFactory(
                 new CircleFrameworkElementFactory(), new Vector2(20, 20));
-            var shipComponentObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkShipComponentFactory);
+            var shipComponentObjectFactory = 
+                new WpfRenderableFactory(mainCanvas, frameworkShipComponentFactory, shipComponentStates);
 
+            var pipeLinkStates = new BuilderWorldObjectState[2];
+            pipeLinkStates[0] = new BuilderWorldObjectState(new ColorVector(0.15, 0.55, 0.9), new ColorVector(0.15, 0.55, 0.9));
+            pipeLinkStates[1] = new BuilderWorldObjectState(new ColorVector(1.0, 0.5, 0.0), new ColorVector(1.0, 0.5, 0.0));
             var frameworkPipeLinkFactory = new FixedSizeFrameworkElementFactory(
-                new RectangleFrameworkElementFactory(Brushes.CadetBlue, Brushes.DarkBlue), new Vector2(10, 10));
-
-            var pipeLinkObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkPipeLinkFactory);
+                new RectangleFrameworkElementFactory(), new Vector2(10, 10));
+            var pipeLinkObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkPipeLinkFactory, pipeLinkStates);
 
             var rectangle = new MarginRectangleSection(new Vector2(20, 20), 
                 new FullRectangleSection(new Geometry.Rectangle(

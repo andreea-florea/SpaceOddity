@@ -9,39 +9,27 @@ using Geometry;
 using ViewModel.Actions;
 using ViewModel.DataStructures;
 using ViewModel.Controller;
+using Algorithm;
 
 namespace ViewModel
 {
-    public class BlueprintBuilderViewModel : IBlueprintBuilderObserver
+    public class BlueprintBuilderViewModel : IBlueprintObserver
     {
-        private IWorldObject[,] tiles;
-        private IWorldObject[,] blocks;
-        private IWorldObject[,] shipComponents;
-        private IWorldObject[,] horizontalPipeLinks;
-        private IWorldObject[,] verticalPipeLinks;
+        private BlueprintBuilderObjectTable objectTable;
 
-        private IWorldObjectFactory blockFactory;
-        private IWorldObjectFactory shipComponentFactory;
-        private IWorldObjectFactory pipeLinkFactory;
+        private IFactory<IBuilderWorldObject> blockFactory;
+        private IFactory<IBuilderWorldObject> shipComponentFactory;
+        private IFactory<IBuilderWorldObject> pipeLinkFactory;
 
         private IBlueprintBuilderControlAssigner controller;
 
-        public BlueprintBuilderViewModel(
-            IWorldObject[,] tiles, 
-            IWorldObject[,] blocks,
-            IWorldObject[,] shipComponents, 
-            IWorldObject[,] horizontalPipeLinks, 
-            IWorldObject[,] verticalPipeLinks,
-            IWorldObjectFactory blockFactory, 
-            IWorldObjectFactory shipComponentFactory, 
-            IWorldObjectFactory pipeLinkFactory,
+        public BlueprintBuilderViewModel(BlueprintBuilderObjectTable objectTable,
+            IFactory<IBuilderWorldObject> blockFactory,
+            IFactory<IBuilderWorldObject> shipComponentFactory,
+            IFactory<IBuilderWorldObject> pipeLinkFactory,
             IBlueprintBuilderControlAssigner controller)
         {
-            this.tiles = tiles;
-            this.blocks = blocks;
-            this.shipComponents = shipComponents;
-            this.horizontalPipeLinks = horizontalPipeLinks;
-            this.verticalPipeLinks = verticalPipeLinks;
+            this.objectTable = objectTable;
             this.blockFactory = blockFactory;
             this.shipComponentFactory = shipComponentFactory;
             this.pipeLinkFactory = pipeLinkFactory;
@@ -50,106 +38,89 @@ namespace ViewModel
 
         public IWorldObject GetTile(Coordinate position)
         {
-            return tiles.Get(position);
+            return objectTable.GetTile(position);
         }
 
         public IWorldObject GetBlock(Coordinate position)
         {
-            return blocks.Get(position);
+            return objectTable.GetBlock(position);
         }
 
-        public void BlockCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void BlockCreated(IBlueprint blueprint, Coordinate position)
         {
             CreateBlock(position);
-            UpdatePipeLinks(blueprintBuilder, position);
+            UpdatePipeLinks(blueprint, position);
         }
 
         private void CreateBlock(Coordinate position)
         {
-            blocks.Set(position, blockFactory.CreateObject());
-            blocks.Get(position).Position = tiles.Get(position).Position;
-            blocks.Get(position).Scale = tiles.Get(position).Scale;
-            controller.AssignBlockControl(blocks.Get(position), position);
+            objectTable.SetBlock(position, blockFactory.Create());
+            objectTable.GetBlock(position).Position = objectTable.GetTile(position).Position;
+            objectTable.GetBlock(position).Scale = objectTable.GetTile(position).Scale;
+            controller.AssignBlockControl(objectTable.GetBlock(position), position);
         }
 
-        public void ErrorBlockNotCreated(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void BlockDeleted(IBlueprint blueprint, Coordinate position)
         {
-            throw new NotImplementedException();
+            objectTable.DeleteBlock(position);
+            UpdatePipeLinks(blueprint, position);
         }
 
-        public void BlockDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        private void UpdatePipeLinks(IBlueprint blueprint, Coordinate position)
         {
-            DeleteObject(blocks, position);
-            UpdatePipeLinks(blueprintBuilder, position);
+            UpdatePipeLink(blueprint, position, Coordinates.Up);
+            UpdatePipeLink(blueprint, position, Coordinates.Down);
+            UpdatePipeLink(blueprint, position, Coordinates.Right);
+            UpdatePipeLink(blueprint, position, Coordinates.Left);
         }
 
-        private void UpdatePipeLinks(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        private void UpdatePipeLink(IBlueprint blueprint, Coordinate position, Coordinate direction)
         {
-            UpdatePipeLink(horizontalPipeLinks, blueprintBuilder, position, Coordinates.Up);
-            UpdatePipeLink(horizontalPipeLinks, blueprintBuilder, position, Coordinates.Down);
-            UpdatePipeLink(verticalPipeLinks, blueprintBuilder, position, Coordinates.Right);
-            UpdatePipeLink(verticalPipeLinks, blueprintBuilder, position, Coordinates.Left);
-        }
+            var edge = new CoordinatePair(position, position + direction);
 
-        private void UpdatePipeLink(IWorldObject[,] links, IBlueprintBuilder blueprintBuilder,
-            Coordinate position, Coordinate direction)
-        {
-            var connectingPosition = position + direction;
-            var updatePosition = new Coordinate(
-                Math.Min(position.X, connectingPosition.X),
-                Math.Min(position.Y, connectingPosition.Y));
-
-            if (blueprintBuilder.HasBlock(connectingPosition) && blueprintBuilder.HasBlock(position))
+            if (edge.Positions.All(pos => blueprint.HasBlock(pos)))
             {
-                links.Set(updatePosition, pipeLinkFactory.CreateObject());
-                links.Get(updatePosition).Position = 
-                    (tiles.Get(position).Position + tiles.Get(connectingPosition).Position) * 0.5;
-                links.Get(updatePosition).Rotation = direction.ToVector2();
-                controller.AssignPipeLinkControl(
-                    links.Get(updatePosition), new CoordinatePair(position, connectingPosition));
+                objectTable.SetPipeLink(edge, pipeLinkFactory.Create());
+                objectTable.GetPipeLink(edge).Position = GetCenter(edge);
+                objectTable.GetPipeLink(edge).Rotation = direction.ToVector2();
+                controller.AssignPipeLinkControl(objectTable.GetPipeLink(edge), edge);
             }
             else
             {
-                DeleteObject(links, updatePosition);
+                objectTable.DeletePipeLink(edge);
             }
         }
 
-        private void DeleteObject(IWorldObject[,] array, Coordinate position)
+        private Vector2 GetCenter(CoordinatePair edge)
         {
-            if (array.Get(position) != null)
-            {
-                array.Get(position).Delete();
-                array.Set(position, null);
-            }
+            return (objectTable.GetTile(edge.First).Position + objectTable.GetTile(edge.Second).Position) * 0.5;
         }
 
-        public void ErrorBlockNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void ShipComponentAdded(IBlueprint blueprint, Coordinate position)
         {
-            throw new NotImplementedException();
+            objectTable.SetShipComponent(position, shipComponentFactory.Create());
+            objectTable.GetShipComponent(position).Position = objectTable.GetTile(position).Position;
+            objectTable.GetShipComponent(position).Scale = objectTable.GetTile(position).Scale;
         }
 
-        public void ShipComponentAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void ShipComponentDeleted(IBlueprint blueprint, Coordinate position)
         {
-            shipComponents.Set(position, shipComponentFactory.CreateObject());
-            shipComponents.Get(position).Position = tiles.Get(position).Position;
-            shipComponents.Get(position).Scale = tiles.Get(position).Scale;
         }
 
-        public void ErrorShipComponentNotAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position)
         {
-            //Fix after Blueprint splitting
-            //throw new NotImplementedException();
         }
 
-        public void ShipComponentDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position)
         {
-            throw new NotImplementedException();
         }
 
-        public void ErrorShipComponentNotDeleted(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position)
         {
-            //Fix after Blueprint splitting
-            //throw new NotImplementedException();
+        }
+
+        public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position)
+        {
         }
     }
 }

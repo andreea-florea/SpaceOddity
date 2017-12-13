@@ -12,11 +12,15 @@ namespace ViewModel.Controller
         public IBlueprintBuilderController BaseController { get; set; }
         public IBlueprintBuilderController CurrentController { get; set; }
 
+        private IBlueprintBuilderTableHighlighter tableHighlighter;
+
         public BlueprintBuilderMasterController(IBlueprintBuilderController baseController,
-            IBlueprintBuilderController currentController)
+            IBlueprintBuilderController currentController,
+            IBlueprintBuilderTableHighlighter tableHighlighter)
         {
             BaseController = baseController;
             CurrentController = currentController;
+            this.tableHighlighter = tableHighlighter;
         }
 
         public void TileSelect(Coordinate position)
@@ -42,6 +46,12 @@ namespace ViewModel.Controller
         public void Reset()
         {
             CurrentController = BaseController;
+            tableHighlighter.DeactivateAll();
+        }
+
+        public void ActivatePipeLink(CoordinatePair edge)
+        {
+            tableHighlighter.ActivatePipeLink(edge);
         }
     }
 }

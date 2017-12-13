@@ -12,14 +12,17 @@ namespace WpfView.Tests
     {
         private Mock<IFrameworkElementFactory> mockFrameworkElementFactory;
         private FixedSizeFrameworkElementFactory fixedSizeFrameworkElementFactory;
+        private Mock<IFrameworkElementWrapper> mockElementWrapper;
         private FrameworkElement stubElement;
  
         [TestInitialize]
         public void Initialize()
         {
             stubElement = new System.Windows.Shapes.Rectangle();
+            mockElementWrapper = new Mock<IFrameworkElementWrapper>();
+            mockElementWrapper.SetupGet(wrapper => wrapper.Element).Returns(stubElement);
             mockFrameworkElementFactory = new Mock<IFrameworkElementFactory>();
-            mockFrameworkElementFactory.Setup(factory => factory.CreateElement()).Returns(stubElement);
+            mockFrameworkElementFactory.Setup(factory => factory.CreateElement()).Returns(mockElementWrapper.Object);
 
             fixedSizeFrameworkElementFactory =
                 new FixedSizeFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(3.5, 2));
@@ -38,7 +41,7 @@ namespace WpfView.Tests
         {
             var element = fixedSizeFrameworkElementFactory.CreateElement();
 
-            Assert.IsTrue((element as Canvas).Children.Contains(stubElement));
+            Assert.IsTrue((element.Element as Canvas).Children.Contains(stubElement));
         }
 
         [TestMethod]

@@ -12,7 +12,7 @@ namespace ViewModel.DataStructures
         public Coordinate First { get; private set; }
         public Coordinate Second { get; private set; }
 
-        private IEnumerable<Coordinate> Positions
+        public IEnumerable<Coordinate> Positions
         {
             get
             {
@@ -38,6 +38,16 @@ namespace ViewModel.DataStructures
                 }
             }
             return new Found<Coordinate>(false, new Coordinate());
+        }
+
+        public static bool operator ==(CoordinatePair a, CoordinatePair b)
+        {
+            return a.First == b.First && a.Second == b.Second;
+        }
+
+        public static bool operator !=(CoordinatePair a, CoordinatePair b)
+        {
+            return a.First != b.First || a.Second != b.Second;
         }
     }
 }

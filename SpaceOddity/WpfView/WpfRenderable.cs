@@ -12,18 +12,22 @@ namespace WpfView
 {
     public class WpfRenderable : IRenderable
     {
-        private FrameworkElement element;
+        private IFrameworkElementWrapper wrapper;
         private Canvas canvasParent;
 
         public IAction LeftClickAction { private get; set; }
         public IAction RightClickAction { private get; set; }
 
-        public WpfRenderable(FrameworkElement element, Canvas canvasParent)
+        private BuilderWorldObjectState[] states;
+
+        public WpfRenderable(IFrameworkElementWrapper wrapper, Canvas canvasParent,
+            BuilderWorldObjectState[] states)
         {
-            this.element = element;
+            this.wrapper = wrapper;
             this.canvasParent = canvasParent;
-            element.MouseLeftButtonDown += ElementMouseLeftButtonDown;
-            element.MouseRightButtonDown += ElementMouseRightButtonDown;
+            this.states = states;
+            wrapper.Element.MouseLeftButtonDown += ElementMouseLeftButtonDown;
+            wrapper.Element.MouseRightButtonDown += ElementMouseRightButtonDown;
         }
 
         private void ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -41,15 +45,21 @@ namespace WpfView
         public void Update(Vector2 position, Vector2 rotation, Vector2 scale)
         {
             var topLeftPosition = position - scale * 0.5;
-            Canvas.SetTop(element, topLeftPosition.Y);
-            Canvas.SetLeft(element, topLeftPosition.X);
-            element.Height = scale.Y;
-            element.Width = scale.X;
+            Canvas.SetTop(wrapper.Element, topLeftPosition.Y);
+            Canvas.SetLeft(wrapper.Element, topLeftPosition.X);
+            wrapper.Element.Height = scale.Y;
+            wrapper.Element.Width = scale.X;
         }
 
         public void Delete()
         {
-            canvasParent.Children.Remove(element);
+            canvasParent.Children.Remove(wrapper.Element);
+        }
+
+        public void SetState(int state)
+        {
+            wrapper.Fill = states[state].Fill;
+            wrapper.Border = states[state].Border;
         }
     }
 }

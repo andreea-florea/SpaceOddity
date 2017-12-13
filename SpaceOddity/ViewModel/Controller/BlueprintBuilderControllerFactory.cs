@@ -9,9 +9,10 @@ namespace ViewModel.Controller
 {
     public class BlueprintBuilderControllerFactory
     {
-        public IBlueprintBuilderController CreateController(IBlueprintBuilder blueprintBuilder)
+        public IBlueprintBuilderController CreateController(IBlueprintBuilder blueprintBuilder,
+            IBlueprintBuilderTableHighlighter tableHighlighter)
         {
-            var controller = new BlueprintBuilderMasterController(null, null);
+            var controller = new BlueprintBuilderMasterController(null, null, tableHighlighter);
             var pipeBuildController = new BlueprintBuilderPipeBuildController(controller, blueprintBuilder, new CoordinatePair());
             var basicController = new BlueprintBuilderBasicController(controller, pipeBuildController, blueprintBuilder);
             controller.BaseController = basicController;

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 namespace ViewModel
 {
-    public interface IWorldObjectFactory
+    public interface IBuilderWorldObject : IWorldObject
     {
-        IWorldObject CreateObject();
+        void Deactivate();
+        void Activate();
     }
 }

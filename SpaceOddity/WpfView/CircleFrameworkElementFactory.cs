@@ -10,13 +10,11 @@ namespace WpfView
 {
     public class CircleFrameworkElementFactory : IFrameworkElementFactory
     {
-        public FrameworkElement CreateElement()
+        public IFrameworkElementWrapper CreateElement()
         {
             var circle = new Ellipse();
-            circle.Stroke = Brushes.Orange;
-            circle.Fill = Brushes.Yellow;
             circle.StrokeThickness = 1;
-            return circle;
+            return new CircleFrameworkElementWrapper(circle);
         }
     }
 }

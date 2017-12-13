@@ -13,6 +13,7 @@ namespace ViewModel.Tests.Controller
     public class BlueprintBuilderPipeBuildControllerTest
     {
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBlueprintBuilderTableHighlighter> mockHighlighter;
         private BlueprintBuilderMasterController masterController;
         private BlueprintBuilderPipeBuildController pipeBuildController;
         private BlueprintBuilderBasicController basicController;
@@ -21,7 +22,8 @@ namespace ViewModel.Tests.Controller
         public void Initialize()
         {
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
-            masterController = new BlueprintBuilderMasterController(null, null);
+            mockHighlighter = new Mock<IBlueprintBuilderTableHighlighter>();
+            masterController = new BlueprintBuilderMasterController(null, null, mockHighlighter.Object);
             pipeBuildController = new BlueprintBuilderPipeBuildController(masterController, mockBlueprintBuilder.Object, new CoordinatePair());
             basicController = new BlueprintBuilderBasicController(masterController, pipeBuildController, mockBlueprintBuilder.Object);
             masterController.BaseController = basicController;
@@ -64,5 +66,24 @@ namespace ViewModel.Tests.Controller
                 builder.AddDoubleEdgedPipe(It.IsAny<Coordinate>(), It.IsAny<EdgeType>(), It.IsAny<EdgeType>()), Times.Never());
         }
 
+        [TestMethod]
+        public void IfSelectedPipeLinkIsSelectedAgainItResetsToTheMasterController()
+        {
+            var edge = new CoordinatePair(new Coordinate(2, 3), new Coordinate(2, 4));
+
+            pipeBuildController.SelectedLink = edge;
+            pipeBuildController.PipeLinkSelect(edge);
+
+            mockBlueprintBuilder.Verify(builder =>
+                builder.AddDoubleEdgedPipe(It.IsAny<Coordinate>(), It.IsAny<EdgeType>(), It.IsAny<EdgeType>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void PipeLinkObjectIsActivated()
+        {
+            var edge = new CoordinatePair(new Coordinate(2, 3), new Coordinate(2, 4));
+            pipeBuildController.SelectedLink = edge;
+            mockHighlighter.Verify(highlighter => highlighter.ActivatePipeLink(edge), Times.Once());
+        }
     }
 }

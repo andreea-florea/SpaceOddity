@@ -1,4 +1,5 @@
-﻿using NaturalNumbersMath;
+﻿using Algorithm;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,16 @@ namespace ViewModel.Fancy.Iternal
 {
     internal class IgnoreFacingContextWorldObjectFactory : IFacingContextWorldObjectFactory
     {
-        private IWorldObjectFactory baseFactory;
+        private IFactory<IWorldObject> baseFactory;
 
-        public IgnoreFacingContextWorldObjectFactory(IWorldObjectFactory baseFactory)
+        public IgnoreFacingContextWorldObjectFactory(IFactory<IWorldObject> baseFactory)
         {
             this.baseFactory = baseFactory;
         }
 
-        public IWorldObject CreateObject(FacingPosition position)
+        public IWorldObject Create(FacingPosition position)
         {
-            return baseFactory.CreateObject();
+            return baseFactory.Create();
         }
     }
 }

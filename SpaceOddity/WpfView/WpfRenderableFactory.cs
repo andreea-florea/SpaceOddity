@@ -11,18 +11,22 @@ namespace WpfView
     {
         private Canvas parentCanvas;
         private IFrameworkElementFactory elementFactory;
+        private BuilderWorldObjectState[] states;
 
-        public WpfRenderableFactory(Canvas parentCanvas, IFrameworkElementFactory elementFactory)
+        public WpfRenderableFactory(Canvas parentCanvas, IFrameworkElementFactory elementFactory, BuilderWorldObjectState[] states)
         {
             this.parentCanvas = parentCanvas;
             this.elementFactory = elementFactory;
+            this.states = states;
         }
 
         public IRenderable CreateRenderable()
         {
-            var element = elementFactory.CreateElement();
-            parentCanvas.Children.Add(element);
-            return new WpfRenderable(element, parentCanvas);
+            var wrapper = elementFactory.CreateElement();
+            parentCanvas.Children.Add(wrapper.Element);
+            var renderable = new WpfRenderable(wrapper, parentCanvas, states);
+            renderable.SetState(0);
+            return renderable;
         }
     }
 }

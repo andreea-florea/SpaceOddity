@@ -11,6 +11,6 @@ namespace ViewModel
 {
     public interface IViewModelTilesFactory
     {
-        IWorldObject[,] CreateTiles(IBlueprintBuilderControlAssigner controller, Coordinate dimensions, IRectangleSection fittingRectangle);
+        IBuilderWorldObject[,] CreateTiles(Coordinate dimensions, IRectangleSection fittingRectangle);
     }
 }

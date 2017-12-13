@@ -318,5 +318,10 @@ namespace Game
 
             return null;
         }
+
+        public void AttachObserver(IBlueprintObserver observer)
+        {
+            blueprint.AttachObserver(observer);
+        }
     }
 }
