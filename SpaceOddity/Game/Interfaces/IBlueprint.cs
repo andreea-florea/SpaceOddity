@@ -10,6 +10,8 @@ namespace Game.Interfaces
     {
         Coordinate Dimensions { get; }
 
+        void AttachObserver(IBlueprintObserver observer);
+
         IConstBlock GetBlock(Coordinate position);
         bool HasBlock(Coordinate position);
         void PlaceBlock(Coordinate position, IBlock block);
