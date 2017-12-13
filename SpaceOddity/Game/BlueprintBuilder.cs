@@ -193,7 +193,8 @@ namespace Game
             {
                 if (CheckIfDoubleEdgeAlreadyExists(pipe, block))
                 {
-                    blueprint.RemovePipe(position, pipe);
+                    var p = GetDoubleEdgedPipe(pipe, block);
+                    blueprint.RemovePipe(position, p);
                     return true;
                 }
 
@@ -303,6 +304,19 @@ namespace Game
             }
 
             return list;
+        }
+
+        private DoubleEdgedPipe GetDoubleEdgedPipe(DoubleEdgedPipe pipe, IConstBlock block)
+        {
+            foreach (var p in block.PipesWithBothEdges)
+            {
+                if (p.IsEqualTo(pipe))
+                {
+                    return p;
+                }
+            }
+
+            return null;
         }
     }
 }

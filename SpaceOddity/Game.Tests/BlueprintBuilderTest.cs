@@ -425,8 +425,6 @@ namespace Game.Tests
 
             Assert.IsTrue(blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe1));
             Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
-
-            //TO MODIFY
         }
 
         [TestMethod]
