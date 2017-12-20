@@ -12,9 +12,9 @@ namespace Game.Interfaces
         void BlockDeleted(IBlueprint blueprint, Coordinate position);
         void ShipComponentAdded(IBlueprint blueprint, Coordinate position);
         void ShipComponentDeleted(IBlueprint blueprint, Coordinate position);
-        void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position);
-        void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position);
-        void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position);
-        void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position);
+        void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe);
+        void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe);
+        void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe);
+        void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe);
     }
 }

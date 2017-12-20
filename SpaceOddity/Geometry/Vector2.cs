@@ -93,6 +93,11 @@ namespace Geometry
             return false;
         }
 
+        public Vector2 Multiply(Vector2 multiplier)
+        {
+            return new Vector2(X * multiplier.X, Y * multiplier.Y);
+        }
+
         public Vector2 Divide(Vector2 divider)
         {
             return new Vector2(X / divider.X, Y / divider.Y);

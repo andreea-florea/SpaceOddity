@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Algorithm;
 
 namespace WpfView.Tests
 {
@@ -10,7 +11,7 @@ namespace WpfView.Tests
     public class WpfRenderableFactoryTest
     {
         private Canvas canvas;
-        private Mock<IFrameworkElementFactory> mockElementFactory;
+        private Mock<IFactory<IFrameworkElementWrapper>> mockElementFactory;
         private System.Windows.Shapes.Rectangle stubElement;
         private Mock<IFrameworkElementWrapper> mockElementWrapper;
         private BuilderWorldObjectState[] states;
@@ -20,12 +21,12 @@ namespace WpfView.Tests
         public void Initialize()
         {
             canvas = new Canvas();
-            mockElementFactory = new Mock<IFrameworkElementFactory>();
+            mockElementFactory = new Mock<IFactory<IFrameworkElementWrapper>>();
             stubElement = new System.Windows.Shapes.Rectangle();
             mockElementWrapper = new Mock<IFrameworkElementWrapper>();
             states = new BuilderWorldObjectState[2];
             mockElementWrapper.SetupGet(wrapper => wrapper.Element).Returns(stubElement);
-            mockElementFactory.Setup(factory => factory.CreateElement()).Returns(mockElementWrapper.Object);
+            mockElementFactory.Setup(factory => factory.Create()).Returns(mockElementWrapper.Object);
             
             wpfRenderableFactory = new WpfRenderableFactory(canvas, mockElementFactory.Object, states);
 

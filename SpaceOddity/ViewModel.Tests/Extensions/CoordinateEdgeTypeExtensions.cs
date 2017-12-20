@@ -12,10 +12,20 @@ namespace ViewModel.Tests.Extensions
         [TestMethod]
         public void ConvertCoordinateToEdgeTypeCorrectly()
         {
-            Assert.AreEqual(EdgeType.UP, Coordinates.Up.GetEdgeType());
-            Assert.AreEqual(EdgeType.DOWN, Coordinates.Down.GetEdgeType());
-            Assert.AreEqual(EdgeType.LEFT, Coordinates.Left.GetEdgeType());
-            Assert.AreEqual(EdgeType.RIGHT, Coordinates.Right.GetEdgeType());
+            Assert.AreEqual(EdgeType.UP, Coordinates.Up.ToEdgeType());
+            Assert.AreEqual(EdgeType.DOWN, Coordinates.Down.ToEdgeType());
+            Assert.AreEqual(EdgeType.LEFT, Coordinates.Left.ToEdgeType());
+            Assert.AreEqual(EdgeType.RIGHT, Coordinates.Right.ToEdgeType());
         }
+
+        [TestMethod]
+        public void ConvertEdgeTypeToCoordinateCorrectly()
+        {
+            Assert.AreEqual(Coordinates.Up, EdgeType.UP.ToCoordinate());
+            Assert.AreEqual(Coordinates.Down, EdgeType.DOWN.ToCoordinate());
+            Assert.AreEqual(Coordinates.Left, EdgeType.LEFT.ToCoordinate());
+            Assert.AreEqual(Coordinates.Right, EdgeType.RIGHT.ToCoordinate());
+        }
+
     }
 }

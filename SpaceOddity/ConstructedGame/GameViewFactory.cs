@@ -18,6 +18,7 @@ namespace ConstructedGame
             IRenderableFactory blockRenderableFactory, 
             IRenderableFactory shipComponentsFactory, 
             IRenderableFactory pipeLinkFactory,
+            ICurveRenderableFactory pipeFactory,
             IRectangleSection fullRectangle)
         {
             var observableBlueprintBuilder = CreateBlueprintBuilder();
@@ -25,7 +26,7 @@ namespace ConstructedGame
 
             var tilesFactory = new ViewModelTilesFactory(new BuilderWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(
-                tilesFactory, blockRenderableFactory, shipComponentsFactory, pipeLinkFactory);
+                tilesFactory, blockRenderableFactory, shipComponentsFactory, pipeLinkFactory, pipeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

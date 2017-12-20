@@ -52,6 +52,10 @@ namespace WpfGameView
                 new RectangleFrameworkElementFactory(), new Vector2(10, 10));
             var pipeLinkObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkPipeLinkFactory, pipeLinkStates);
 
+            var pipeStates = new BuilderWorldObjectState[1];
+            pipeStates[0] = new BuilderWorldObjectState(new ColorVector(0.8, 0.9, 1.0), new ColorVector(0.8, 0.9, 1.0));
+            var pipeObjectFactory = new WpfCurveRenderableFactory(mainCanvas, pipeStates);
+
             var rectangle = new MarginRectangleSection(new Vector2(20, 20), 
                 new FullRectangleSection(new Geometry.Rectangle(
                         new Vector2(0, 0), new Vector2(mainCanvas.ActualWidth, mainCanvas.ActualHeight))));
@@ -62,6 +66,7 @@ namespace WpfGameView
                 blockObjectFactory, 
                 shipComponentObjectFactory, 
                 pipeLinkObjectFactory, 
+                pipeObjectFactory,
                 rectangle);
         }
 

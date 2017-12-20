@@ -71,11 +71,16 @@
     <Compile Include="RectangleFrameworkElementWrapperTest.cs" />
     <Compile Include="ParentFrameworkElementWrapperTest.cs" />
     <Compile Include="BuilderWorldObjectStateTest.cs" />
+    <Compile Include="WpfCurveRenderableFactoryTest.cs" />
     <Compile Include="WpfRenderableFactoryTest.cs" />
     <Compile Include="WpfRenderableTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Algorithm\Algorithms.csproj">
+      <Project>{32a175be-a3af-4020-9de4-345fba697103}</Project>
+      <Name>Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Geometry\Geometry.csproj">
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>
       <Name>Geometry</Name>

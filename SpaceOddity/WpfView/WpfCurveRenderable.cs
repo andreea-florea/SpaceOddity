@@ -3,30 +3,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using ViewInterface;
 
 namespace WpfView
 {
-    public class WpfRenderable : IRenderable
+    public class WpfCurveRenderable : IRenderable
     {
-        private IFrameworkElementWrapper wrapper;
+        private Line line;
+        private ICurve curve;
         private Canvas canvasParent;
         private BuilderWorldObjectState[] states;
 
         public IAction LeftClickAction { private get; set; }
+
         public IAction RightClickAction { private get; set; }
 
-        public WpfRenderable(IFrameworkElementWrapper wrapper, Canvas canvasParent,
-            BuilderWorldObjectState[] states)
+        public WpfCurveRenderable(Line line, ICurve curve, Canvas canvasParent, BuilderWorldObjectState[] states)
         {
-            this.wrapper = wrapper;
+            this.line = line;
+            this.curve = curve;
             this.canvasParent = canvasParent;
             this.states = states;
-            wrapper.Element.MouseLeftButtonDown += ElementMouseLeftButtonDown;
-            wrapper.Element.MouseRightButtonDown += ElementMouseRightButtonDown;
+            line.MouseLeftButtonDown += ElementMouseLeftButtonDown;
+            line.MouseRightButtonDown += ElementMouseRightButtonDown;
         }
 
         private void ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -43,22 +46,28 @@ namespace WpfView
 
         public void Update(Vector2 position, Vector2 rotation, Vector2 scale)
         {
-            var topLeftPosition = position - scale * 0.5;
-            Canvas.SetTop(wrapper.Element, topLeftPosition.Y);
-            Canvas.SetLeft(wrapper.Element, topLeftPosition.X);
-            wrapper.Element.Height = scale.Y;
-            wrapper.Element.Width = scale.X;
+            Canvas.SetTop(line, position.Y);
+            Canvas.SetLeft(line, position.X);
+
+            var halfScale = scale * 0.5;
+            var startPoint = curve.GetPoint(0).Multiply(halfScale);
+            var endPoint = curve.GetPoint(1).Multiply(halfScale);
+
+            line.X1 = startPoint.X;
+            line.Y1 = startPoint.Y;
+            line.X2 = endPoint.X;
+            line.Y2 = endPoint.Y;
         }
 
         public void Delete()
         {
-            canvasParent.Children.Remove(wrapper.Element);
+            canvasParent.Children.Remove(line);
         }
 
         public void SetState(int state)
         {
-            wrapper.Fill = states[state].Fill;
-            wrapper.Border = states[state].Border;
+            line.Fill = new SolidColorBrush(states[state].Fill.GetColor());
+            line.Stroke = new SolidColorBrush(states[state].Border.GetColor());
         }
     }
 }

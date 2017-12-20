@@ -56,7 +56,7 @@ namespace ViewModel.Controller
                 var position = commonPosition.Element;
                 var firstDirection = GetOtherPositionDirection(position, SelectedLink);
                 var secondDirection = GetOtherPositionDirection(position, edge);
-                blueprintBuilder.AddDoubleEdgedPipe(position, firstDirection.GetEdgeType(), secondDirection.GetEdgeType());
+                blueprintBuilder.AddDoubleEdgedPipe(position, firstDirection.ToEdgeType(), secondDirection.ToEdgeType());
             }
             masterController.Reset();
         }

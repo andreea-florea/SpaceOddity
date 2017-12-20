@@ -1,4 +1,5 @@
-﻿using Geometry;
+﻿using Algorithm;
+using Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,22 @@ using System.Windows.Controls;
 
 namespace WpfView
 {
-    public class GridParentFrameworkElementFactory : IFrameworkElementFactory
+    public class GridParentFrameworkElementFactory : IFactory<IFrameworkElementWrapper>
     {
-        private IFrameworkElementFactory baseElementFactory;
+        private IFactory<IFrameworkElementWrapper> baseElementFactory;
         private Vector2 scale;
 
-        public GridParentFrameworkElementFactory(IFrameworkElementFactory baseElementFactory, Vector2 scale)
+        public GridParentFrameworkElementFactory(IFactory<IFrameworkElementWrapper> baseElementFactory, Vector2 scale)
         {
             this.baseElementFactory = baseElementFactory;
             this.scale = scale;
         }
 
-        public IFrameworkElementWrapper CreateElement()
+        public IFrameworkElementWrapper Create()
         {
             var grid = new Grid();
 
-            var baseElement = baseElementFactory.CreateElement();
+            var baseElement = baseElementFactory.Create();
             baseElement.Element.Width = scale.X;
             baseElement.Element.Height = scale.Y;
             grid.Children.Add(baseElement.Element);

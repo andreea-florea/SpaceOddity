@@ -4,25 +4,25 @@ using Moq;
 using System.Windows;
 using Geometry;
 using System.Windows.Controls;
+using Algorithm;
 
 namespace WpfView.Tests
 {
     [TestClass]
     public class GridParentFrameworkElementFactoryTest
     {
-        private Mock<IFrameworkElementFactory> mockFrameworkElementFactory;
+        private Mock<IFactory<IFrameworkElementWrapper>> mockFrameworkElementFactory;
         private GridParentFrameworkElementFactory gridParentFrameworkElementFactory;
         private FrameworkElement stubElement;
-        private Mock<IFrameworkElementWrapper> mockElementWrapper;
 
         [TestInitialize]
         public void Initialize()
         {
-            mockFrameworkElementFactory = new Mock<IFrameworkElementFactory>();
+            mockFrameworkElementFactory = new Mock<IFactory<IFrameworkElementWrapper>>();
             stubElement = new System.Windows.Shapes.Rectangle();
             var mockElementWrapper = new Mock<IFrameworkElementWrapper>();
             mockElementWrapper.SetupGet(wrapper => wrapper.Element).Returns(stubElement);
-            mockFrameworkElementFactory.Setup(factory => factory.CreateElement()).Returns(mockElementWrapper.Object);
+            mockFrameworkElementFactory.Setup(factory => factory.Create()).Returns(mockElementWrapper.Object);
 
             gridParentFrameworkElementFactory =
                 new GridParentFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(4.2, 5));
@@ -31,15 +31,15 @@ namespace WpfView.Tests
         [TestMethod]
         public void BasicFrameworkElementCalledToCreateFrameworkElement()
         {
-            gridParentFrameworkElementFactory.CreateElement();
+            gridParentFrameworkElementFactory.Create();
 
-            mockFrameworkElementFactory.Verify(factory => factory.CreateElement(), Times.Once());
+            mockFrameworkElementFactory.Verify(factory => factory.Create(), Times.Once());
         }
 
         [TestMethod]
         public void BasicFrameworkElementIsContainedByParentElement()
         {
-            var element = gridParentFrameworkElementFactory.CreateElement();
+            var element = gridParentFrameworkElementFactory.Create();
 
             Assert.IsTrue((element.Element as Grid).Children.Contains(stubElement));
         }
@@ -47,7 +47,7 @@ namespace WpfView.Tests
         [TestMethod]
         public void BasicFrameworkElementIsSetToDefaultScale()
         {
-            gridParentFrameworkElementFactory.CreateElement();
+            gridParentFrameworkElementFactory.Create();
 
             Assert.AreEqual(5, stubElement.Height);
             Assert.AreEqual(4.2, stubElement.Width);

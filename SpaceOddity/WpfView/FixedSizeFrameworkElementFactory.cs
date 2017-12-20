@@ -1,4 +1,5 @@
-﻿using Geometry;
+﻿using Algorithm;
+using Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,22 @@ using System.Windows.Controls;
 
 namespace WpfView
 {
-    public class FixedSizeFrameworkElementFactory : IFrameworkElementFactory
+    public class FixedSizeFrameworkElementFactory : IFactory<IFrameworkElementWrapper>
     {
-        private IFrameworkElementFactory basicFactory;
+        private IFactory<IFrameworkElementWrapper> basicFactory;
         private Vector2 baseElementScale;
 
-        public FixedSizeFrameworkElementFactory(IFrameworkElementFactory basicFactory, Vector2 baseElementScale)
+        public FixedSizeFrameworkElementFactory(IFactory<IFrameworkElementWrapper> basicFactory, Vector2 baseElementScale)
         {
             this.basicFactory = basicFactory;
             this.baseElementScale = baseElementScale;
         }
 
-        public IFrameworkElementWrapper CreateElement()
+        public IFrameworkElementWrapper Create()
         {
             var parent = new Canvas();
             
-            var baseElement = basicFactory.CreateElement();
+            var baseElement = basicFactory.Create();
             baseElement.Element.Height = baseElementScale.Y;
             baseElement.Element.Width = baseElementScale.X;
             Canvas.SetLeft(baseElement.Element, -baseElementScale.X * 0.5);

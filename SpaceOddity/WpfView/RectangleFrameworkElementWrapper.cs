@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace WpfView
 {
     public class RectangleFrameworkElementWrapper : IFrameworkElementWrapper
     {
-        private Rectangle rectangle;
+        private System.Windows.Shapes.Rectangle rectangle;
         public FrameworkElement Element
         {
             get
@@ -35,7 +36,7 @@ namespace WpfView
             }
         }
 
-        public RectangleFrameworkElementWrapper(Rectangle rectangle)
+        public RectangleFrameworkElementWrapper(System.Windows.Shapes.Rectangle rectangle)
         {
             this.rectangle = rectangle;
         }

@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NaturalNumbersMath;
 using ViewModel.DataStructures;
 using Moq;
+using Game;
+using System.Collections.Generic;
 
 namespace ViewModel.Tests
 {
@@ -16,6 +18,7 @@ namespace ViewModel.Tests
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
+        private Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes;
 
         [TestInitialize]
         public void Initialize()
@@ -27,8 +30,10 @@ namespace ViewModel.Tests
             shipComponents = new IBuilderWorldObject[5, 6];
             horizontalPipeLinks = new IBuilderWorldObject[5, 5];
             verticalPipeLinks = new IBuilderWorldObject[4, 6];
+            doubleEdgedPipes = new Dictionary<DoubleEdgedPipePosition, IWorldObject>();
 
-            objectTable = new BlueprintBuilderObjectTable(tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks);
+            objectTable = new BlueprintBuilderObjectTable(
+                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
         }
 
         [TestMethod]
@@ -128,6 +133,50 @@ namespace ViewModel.Tests
             var pipeLink = objectTable.GetPipeLink(edge);
 
             Assert.AreEqual(mockBuilderObject.Object, pipeLink);
+        }
+
+        [TestMethod]
+        public void CheckIfPipeIsSetCorrectly()
+        {
+            var position = new Coordinate(1, 4);
+
+            objectTable.SetPipe(position, EdgeType.LEFT, EdgeType.RIGHT, mockBuilderObject.Object);
+
+            var pipePosition = new DoubleEdgedPipePosition(position, EdgeType.LEFT, EdgeType.RIGHT);
+            Assert.AreEqual(mockBuilderObject.Object, doubleEdgedPipes[pipePosition]);
+        }
+
+        [TestMethod]
+        public void CheckIfPipeIsReturnedCorrectly()
+        {
+            var position = new Coordinate(1, 4);
+
+            objectTable.SetPipe(position, EdgeType.LEFT, EdgeType.RIGHT, mockBuilderObject.Object);
+
+            Assert.AreEqual(mockBuilderObject.Object, objectTable.GetPipe(position, EdgeType.LEFT, EdgeType.RIGHT));
+        }
+
+        [TestMethod]
+        public void CheckIfPipeIsReturnedCorrectlyForReversePipe()
+        {
+            var position = new Coordinate(1, 4);
+
+            objectTable.SetPipe(position, EdgeType.LEFT, EdgeType.RIGHT, mockBuilderObject.Object);
+
+            Assert.AreEqual(mockBuilderObject.Object, objectTable.GetPipe(position, EdgeType.RIGHT, EdgeType.LEFT));
+        }
+
+        [TestMethod]
+        public void CheckIfPipeIsDeletedCorrectly()
+        {
+            var position = new Coordinate(1, 4);
+            var key = new DoubleEdgedPipePosition(position, EdgeType.LEFT, EdgeType.RIGHT);
+
+            doubleEdgedPipes.Add(key, mockBuilderObject.Object);
+            objectTable.DeletePipe(position, EdgeType.LEFT, EdgeType.RIGHT);
+
+            Assert.IsFalse(doubleEdgedPipes.ContainsKey(key));
+            mockBuilderObject.Verify(mock => mock.Delete(), Times.Once());
         }
     }
 }

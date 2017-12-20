@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Algorithm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ using System.Windows.Shapes;
 
 namespace WpfView
 {
-    public class CircleFrameworkElementFactory : IFrameworkElementFactory
+    public class CircleFrameworkElementFactory : IFactory<IFrameworkElementWrapper>
     {
-        public IFrameworkElementWrapper CreateElement()
+        public IFrameworkElementWrapper Create()
         {
             var circle = new Ellipse();
             circle.StrokeThickness = 1;

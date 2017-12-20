@@ -12,7 +12,7 @@ namespace WpfView.Tests
         public void CheckIfRectangleIsCreateCorrectly()
         {
             var rectangleFactory = new RectangleFrameworkElementFactory();
-            var rectangle = rectangleFactory.CreateElement();
+            var rectangle = rectangleFactory.Create();
 
             Assert.AreEqual(1, ((Rectangle)rectangle.Element).StrokeThickness);
         }

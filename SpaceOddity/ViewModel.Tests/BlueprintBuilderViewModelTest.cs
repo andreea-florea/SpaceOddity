@@ -10,6 +10,8 @@ using ViewModel.Actions;
 using ViewModel.DataStructures;
 using ViewModel.Controller;
 using Algorithm;
+using Game;
+using System.Collections.Generic;
 
 namespace ViewModel.Tests
 {
@@ -22,14 +24,17 @@ namespace ViewModel.Tests
         private Mock<IFactory<IBuilderWorldObject>> mockBlockFactory;
         private Mock<IFactory<IBuilderWorldObject>> mockShipComponentFactory;
         private Mock<IFactory<IBuilderWorldObject>> mockPipeLinkFactory;
+        private Mock<IFactory<IWorldObject, ICurve>> mockPipeFactory;
         private Mock<IBlueprint> mockBlueprint;
         private Mock<IBlueprintBuilderControlAssigner> mockController;
         private Mock<IBuilderWorldObject> mockTile;
+        private Mock<IWorldObject> mockPipe;
         private IBuilderWorldObject[,] blocks;
         private IBuilderWorldObject[,] tiles;
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
+        private Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes;
         private BlueprintBuilderViewModel blueprintBuilderViewModel;
 
         [TestInitialize]
@@ -41,10 +46,13 @@ namespace ViewModel.Tests
             mockShipComponent.SetupAllProperties();
             mockPipeLink = new Mock<IBuilderWorldObject>();
             mockPipeLink.SetupAllProperties();
+            mockPipe = new Mock<IWorldObject>();
+            mockPipe.SetupAllProperties();
 
             mockBlockFactory = new Mock<IFactory<IBuilderWorldObject>>();
             mockShipComponentFactory = new Mock<IFactory<IBuilderWorldObject>>();
             mockPipeLinkFactory = new Mock<IFactory<IBuilderWorldObject>>();
+            mockPipeFactory = new Mock<IFactory<IWorldObject, ICurve>>();
             mockBlueprint = new Mock<IBlueprint>();
             mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
@@ -54,13 +62,15 @@ namespace ViewModel.Tests
             shipComponents = new IBuilderWorldObject[5, 6];
             horizontalPipeLinks = new IBuilderWorldObject[5, 5];
             verticalPipeLinks = new IBuilderWorldObject[4, 6];
-
+            doubleEdgedPipes = new Dictionary<DoubleEdgedPipePosition, IWorldObject>();
             var objectTable = new BlueprintBuilderObjectTable(
-                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks);
+                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
 
-            blueprintBuilderViewModel =
-                new BlueprintBuilderViewModel(objectTable,
-                    mockBlockFactory.Object, mockShipComponentFactory.Object, mockPipeLinkFactory.Object,
+            blueprintBuilderViewModel = new BlueprintBuilderViewModel(objectTable,
+                    mockBlockFactory.Object, 
+                    mockShipComponentFactory.Object, 
+                    mockPipeLinkFactory.Object,
+                    mockPipeFactory.Object,
                     mockController.Object);
         }
 
@@ -288,6 +298,55 @@ namespace ViewModel.Tests
             mockController.Verify(controller =>
                 controller.AssignPipeLinkControl(mockPipeLink.Object, edge), Times.Once());
             Assert.AreEqual(new Vector2(0, 1), verticalPipeLinks.Get(position).Rotation);
+        }
+
+        [TestMethod]
+        public void CreateCurvedPipeObjectAtCorrectPosition()
+        {
+            var position = new Coordinate(2, 3);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+
+            tiles.Set(position, mockTile.Object);
+            var location = new Vector2(1, 3);
+            var scale = new Vector2(4, 5);
+            mockTile.SetupGet(tile => tile.Position).Returns(location);
+            mockTile.SetupGet(tile => tile.Scale).Returns(scale);
+            mockPipeFactory.Setup(factory => factory.Create(It.IsAny<ICurve>())).Returns(mockPipe.Object);
+
+            blueprintBuilderViewModel.DoubleEdgePipeAdded(mockBlueprint.Object, position, pipe);
+
+            Assert.AreEqual(location, doubleEdgedPipes[new DoubleEdgedPipePosition(position, EdgeType.DOWN, EdgeType.UP)].Position);
+            Assert.AreEqual(scale, doubleEdgedPipes[new DoubleEdgedPipePosition(position, EdgeType.DOWN, EdgeType.UP)].Scale);
+        }
+
+        [TestMethod]
+        public void CreateCurvedPipeObjectWithCorrectCurve()
+        {
+            var position = new Coordinate(2, 3);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+            tiles.Set(position, mockTile.Object);
+
+            ICurve curve = null;
+            mockPipeFactory.Setup(factory => factory.Create(It.IsAny<StraightLineCurve>()))
+                .Returns(mockPipe.Object)
+                .Callback<StraightLineCurve>(curveParam => curve = curveParam);
+
+
+            blueprintBuilderViewModel.DoubleEdgePipeAdded(mockBlueprint.Object, position, pipe);
+            Assert.AreEqual(new Vector2(0, -1), curve.GetPoint(0));
+            Assert.AreEqual(new Vector2(0, 1), curve.GetPoint(1));
+        }
+
+        [TestMethod]
+        public void CheckIfDoubleEdgedPipeIsDeletedCorrectly()
+        {
+            var position = new Coordinate(2, 3);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+            var key = new DoubleEdgedPipePosition(position, pipe.FirstEdge, pipe.SecondEdge);
+
+            doubleEdgedPipes.Add(key, mockPipe.Object);
+            blueprintBuilderViewModel.DoubleEdgePipeDeleted(mockBlueprint.Object, position, pipe);
+            Assert.IsFalse(doubleEdgedPipes.ContainsKey(key));
         }
     }
 }

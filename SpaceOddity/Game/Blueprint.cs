@@ -87,7 +87,7 @@ namespace Game
 
             foreach (var observer in observers)
             {
-                observer.DoubleEdgePipeAdded(this, position);
+                observer.DoubleEdgePipeAdded(this, position, pipe);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Game
 
             foreach (var observer in observers)
             {
-                observer.ConnectingPipeDeleted(this, position);
+                observer.ConnectingPipeAdded(this, position, pipe);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Game
 
             foreach (var observer in observers)
             {
-                observer.DoubleEdgePipeDeleted(this, position);
+                observer.DoubleEdgePipeDeleted(this, position, pipe);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Game
 
             foreach (var observer in observers)
             {
-                observer.ConnectingPipeDeleted(this, position);
+                observer.ConnectingPipeDeleted(this, position, pipe);
             }
         }
     }

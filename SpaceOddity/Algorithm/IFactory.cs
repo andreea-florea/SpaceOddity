@@ -9,4 +9,9 @@ namespace Algorithm
     {
         TElement Create();
     }
+
+    public interface IFactory<TElement, TDetails>
+    {
+        TElement Create(TDetails details);
+    }
 }

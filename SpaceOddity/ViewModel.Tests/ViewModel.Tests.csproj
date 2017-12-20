@@ -67,6 +67,7 @@
     <Compile Include="Controller\BlueprintBuilderPipeBuildControllerTest.cs" />
     <Compile Include="Controller\BlueprintBuilderControllerFactoryTest.cs" />
     <Compile Include="DataStructures\CoordinatePairTest.cs" />
+    <Compile Include="DataStructures\DoubleEdgedPipePositionTest.cs" />
     <Compile Include="Extensions\CoordinateEdgeTypeExtensions.cs" />
     <Compile Include="Fancy\EdgeBlocksNumberGeneratorTest.cs" />
     <Compile Include="Fancy\FacingPositionTest.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="BuilderWorldObjectTest.cs" />
     <Compile Include="BlueprintBuilderObjectTableTest.cs" />
     <Compile Include="BlueprintBuilderTableHighlighterTest.cs" />
+    <Compile Include="CurveWorldObjectFactoryTest.cs" />
     <Compile Include="WorldObjectFactoryTest.cs" />
     <Compile Include="WorldObjectTest.cs" />
     <Compile Include="ViewModelTilesFactoryTest.cs" />

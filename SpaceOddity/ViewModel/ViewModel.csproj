@@ -49,6 +49,8 @@
     <Compile Include="BlueprintBuilderTableHighlighter.cs" />
     <Compile Include="BuilderWorldObject.cs" />
     <Compile Include="BuilderWorldObjectFactory.cs" />
+    <Compile Include="CurveWorldObjectFactory.cs" />
+    <Compile Include="DataStructures\DoubleEdgedPipePosition.cs" />
     <Compile Include="IBlueprintBuilderObjectTable.cs" />
     <Compile Include="Controller\BlueprintBuilderControllerFactory.cs" />
     <Compile Include="Controller\BlueprintBuilderMasterController.cs" />

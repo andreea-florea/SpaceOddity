@@ -19,6 +19,7 @@ namespace ViewModel.Tests
         private Mock<IRenderableFactory> mockBlockFactory;
         private Mock<IRenderableFactory> mockShipComponentsFactory;
         private Mock<IRenderableFactory> mockPipeLinkFactory;
+        private Mock<ICurveRenderableFactory> mockPipeFactory;
         private IBuilderWorldObject[,] tiles;
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
         private Mock<IBlueprint> mockBlueprint;
@@ -31,6 +32,7 @@ namespace ViewModel.Tests
             mockBlockFactory = new Mock<IRenderableFactory>();
             mockShipComponentsFactory = new Mock<IRenderableFactory>();
             mockPipeLinkFactory = new Mock<IRenderableFactory>();
+            mockPipeFactory = new Mock<ICurveRenderableFactory>();
 
             var mockEmptyTile = new Mock<IBuilderWorldObject>();
             tiles = new IBuilderWorldObject[6, 4];
@@ -49,7 +51,8 @@ namespace ViewModel.Tests
                 mockTileFactory.Object,
                 mockBlockFactory.Object, 
                 mockShipComponentsFactory.Object,
-                mockPipeLinkFactory.Object);
+                mockPipeLinkFactory.Object,
+                mockPipeFactory.Object);
         }
 
         [TestMethod]

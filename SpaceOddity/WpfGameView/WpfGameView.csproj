@@ -93,6 +93,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Algorithm\Algorithms.csproj">
+      <Project>{32a175be-a3af-4020-9de4-345fba697103}</Project>
+      <Name>Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConstructedGame\ConstructedGame.csproj">
       <Project>{135a28b7-e741-4d9d-92be-a93488400456}</Project>
       <Name>ConstructedGame</Name>

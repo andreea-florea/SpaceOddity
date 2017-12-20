@@ -1,4 +1,5 @@
-﻿using Game.Interfaces;
+﻿using Game;
+using Game.Interfaces;
 using Geometry;
 using NaturalNumbersMath;
 using System;
@@ -47,22 +48,22 @@ namespace ViewModel
             throw new NotImplementedException();
         }
 
-        public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position)
+        public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)
         {
             throw new NotImplementedException();
         }
 
-        public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position)
+        public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)
         {
             throw new NotImplementedException();
         }
 
-        public void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position)
+        public void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)
         {
             throw new NotImplementedException();
         }
 
-        public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position)
+        public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)
         {
             throw new NotImplementedException();
         }

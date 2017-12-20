@@ -1,4 +1,5 @@
-﻿using NaturalNumbersMath;
+﻿using Game;
+using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,22 @@ namespace ViewModel
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
+        private Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes;
 
         public BlueprintBuilderObjectTable(
             IBuilderWorldObject[,] tiles,
             IBuilderWorldObject[,] blocks,
             IBuilderWorldObject[,] shipComponents,
             IBuilderWorldObject[,] horizontalPipeLinks,
-            IBuilderWorldObject[,] verticalPipeLinks)
+            IBuilderWorldObject[,] verticalPipeLinks,
+            Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes)
         {
             this.tiles = tiles;
             this.blocks = blocks;
             this.shipComponents = shipComponents;
             this.horizontalPipeLinks = horizontalPipeLinks;
             this.verticalPipeLinks = verticalPipeLinks;
+            this.doubleEdgedPipes = doubleEdgedPipes;
         }
 
         public IBuilderWorldObject GetTile(Coordinate position)
@@ -52,6 +56,16 @@ namespace ViewModel
         public void SetShipComponent(Coordinate position, IWorldObject shipComponent)
         {
             shipComponents.Set(position, shipComponent);
+        }
+
+        public void SetPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge, IWorldObject pipeObject)
+        {
+            doubleEdgedPipes.Add(new DoubleEdgedPipePosition(position, firstEdge, secondEdge), pipeObject);
+        }
+
+        public IWorldObject GetPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
+        {
+            return doubleEdgedPipes[new DoubleEdgedPipePosition(position, firstEdge, secondEdge)];
         }
 
         public IBuilderWorldObject GetPipeLink(CoordinatePair edge)
@@ -93,6 +107,13 @@ namespace ViewModel
             DeleteObject(blocks, position);
         }
 
+        public void DeletePipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
+        {
+            var key = new DoubleEdgedPipePosition(position, firstEdge, secondEdge);
+            doubleEdgedPipes[key].Delete();
+            doubleEdgedPipes.Remove(key);
+        }
+
         private void DeleteObject(IWorldObject[,] array, Coordinate position)
         {
             if (array.Get(position) != null)
@@ -101,6 +122,5 @@ namespace ViewModel
                 array.Set(position, null);
             }
         }
-
     }
 }

@@ -17,16 +17,19 @@ namespace ViewModel
         private IRenderableFactory blockFactory;
         private IRenderableFactory shipComponentsFactory;
         private IRenderableFactory pipeLinkFactory;
+        private ICurveRenderableFactory pipeFactory;
 
         public BlueprintBuilderViewModelFactory(IViewModelTilesFactory tilesFactory,
             IRenderableFactory blockFactory, 
             IRenderableFactory shipComponentsFactory,
-            IRenderableFactory pipeLinkFactory)
+            IRenderableFactory pipeLinkFactory,
+            ICurveRenderableFactory pipeFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;
             this.shipComponentsFactory = shipComponentsFactory;
             this.pipeLinkFactory = pipeLinkFactory;
+            this.pipeFactory = pipeFactory;
         }
 
         public BlueprintBuilderViewModel CreateViewModel(IBlueprintBuilder builder, IRectangleSection fittingRectangle)
@@ -36,9 +39,10 @@ namespace ViewModel
             var shipComponents = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var horizontalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y - 1, builder.Dimensions.X];
             var verticalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X - 1];
+            var doubleEdgedPipes = new Dictionary<DoubleEdgedPipePosition, IWorldObject>();
 
             var objectTable = new BlueprintBuilderObjectTable(
-                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks);
+                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
             var controlAssigner = CreateController(builder, new BlueprintBuilderTableHighlighter(objectTable));
 
             var tileRectanle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);
@@ -51,6 +55,7 @@ namespace ViewModel
                 new BuilderWorldObjectFactory(blockFactory), 
                 new BuilderWorldObjectFactory(shipComponentsFactory),
                 new BuilderWorldObjectFactory(pipeLinkFactory),
+                new CurveWorldObjectFactory(pipeFactory),
                 controlAssigner);
             builder.AttachObserver(viewModel);
             return viewModel;

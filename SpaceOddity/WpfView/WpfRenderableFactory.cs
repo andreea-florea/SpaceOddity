@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Algorithm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,10 @@ namespace WpfView
     public class WpfRenderableFactory : IRenderableFactory
     {
         private Canvas parentCanvas;
-        private IFrameworkElementFactory elementFactory;
+        private IFactory<IFrameworkElementWrapper> elementFactory;
         private BuilderWorldObjectState[] states;
 
-        public WpfRenderableFactory(Canvas parentCanvas, IFrameworkElementFactory elementFactory, BuilderWorldObjectState[] states)
+        public WpfRenderableFactory(Canvas parentCanvas, IFactory<IFrameworkElementWrapper> elementFactory, BuilderWorldObjectState[] states)
         {
             this.parentCanvas = parentCanvas;
             this.elementFactory = elementFactory;
@@ -22,7 +23,7 @@ namespace WpfView
 
         public IRenderable CreateRenderable()
         {
-            var wrapper = elementFactory.CreateElement();
+            var wrapper = elementFactory.Create();
             parentCanvas.Children.Add(wrapper.Element);
             var renderable = new WpfRenderable(wrapper, parentCanvas, states);
             renderable.SetState(0);
