@@ -26,7 +26,7 @@ namespace WpfView.Tests
             mockFrameworkElementFactory.Setup(factory => factory.Create()).Returns(mockElementWrapper.Object);
 
             fixedSizeFrameworkElementFactory =
-                new FixedSizeFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(3.5, 2));
+                new FixedSizeFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(3.5, 2), 7);
         }
 
         [TestMethod]

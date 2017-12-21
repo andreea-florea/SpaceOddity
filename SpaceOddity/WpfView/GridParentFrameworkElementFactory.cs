@@ -13,11 +13,13 @@ namespace WpfView
     {
         private IFactory<IFrameworkElementWrapper> baseElementFactory;
         private Vector2 scale;
+        private int zIndex;
 
-        public GridParentFrameworkElementFactory(IFactory<IFrameworkElementWrapper> baseElementFactory, Vector2 scale)
+        public GridParentFrameworkElementFactory(IFactory<IFrameworkElementWrapper> baseElementFactory, Vector2 scale, int zIndex)
         {
             this.baseElementFactory = baseElementFactory;
             this.scale = scale;
+            this.zIndex = zIndex;
         }
 
         public IFrameworkElementWrapper Create()
@@ -29,6 +31,7 @@ namespace WpfView
             baseElement.Element.Height = scale.Y;
             grid.Children.Add(baseElement.Element);
 
+            Canvas.SetZIndex(grid, zIndex);
             return new ParentFrameworkElementWrapper(baseElement, grid);
         }
     }

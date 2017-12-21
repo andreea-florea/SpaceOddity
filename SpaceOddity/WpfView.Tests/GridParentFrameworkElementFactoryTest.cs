@@ -25,7 +25,7 @@ namespace WpfView.Tests
             mockFrameworkElementFactory.Setup(factory => factory.Create()).Returns(mockElementWrapper.Object);
 
             gridParentFrameworkElementFactory =
-                new GridParentFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(4.2, 5));
+                new GridParentFrameworkElementFactory(mockFrameworkElementFactory.Object, new Vector2(4.2, 5), 2);
         }
 
         [TestMethod]

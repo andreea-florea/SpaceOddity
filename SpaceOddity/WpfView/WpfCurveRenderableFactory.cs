@@ -14,12 +14,15 @@ namespace WpfView
     {
         private Canvas parentCanvas;
         private BuilderWorldObjectState[] states;
+        private int zIndex;
 
         public WpfCurveRenderableFactory(Canvas parentCanvas, 
-            BuilderWorldObjectState[] states)
+            BuilderWorldObjectState[] states,
+            int zIndex)
         {
             this.parentCanvas = parentCanvas;
             this.states = states;
+            this.zIndex = zIndex;
         }
 
         public IRenderable CreateRenderable(ICurve curve)
@@ -27,6 +30,7 @@ namespace WpfView
             var line = new Line();
             line.StrokeThickness = 2;
             parentCanvas.Children.Add(line);
+            Canvas.SetZIndex(line, zIndex);
             var renderable = new WpfCurveRenderable(line, curve, parentCanvas, states);
             renderable.SetState(0);
             return renderable;

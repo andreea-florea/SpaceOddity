@@ -13,11 +13,13 @@ namespace WpfView
     {
         private IFactory<IFrameworkElementWrapper> basicFactory;
         private Vector2 baseElementScale;
+        private int zIndex;
 
-        public FixedSizeFrameworkElementFactory(IFactory<IFrameworkElementWrapper> basicFactory, Vector2 baseElementScale)
+        public FixedSizeFrameworkElementFactory(IFactory<IFrameworkElementWrapper> basicFactory, Vector2 baseElementScale, int zIndex)
         {
             this.basicFactory = basicFactory;
             this.baseElementScale = baseElementScale;
+            this.zIndex = zIndex;
         }
 
         public IFrameworkElementWrapper Create()
@@ -29,6 +31,7 @@ namespace WpfView
             baseElement.Element.Width = baseElementScale.X;
             Canvas.SetLeft(baseElement.Element, -baseElementScale.X * 0.5);
             Canvas.SetTop(baseElement.Element, -baseElementScale.Y * 0.5);
+            Canvas.SetZIndex(parent, zIndex);
 
             parent.Children.Add(baseElement.Element);
             return new ParentFrameworkElementWrapper(baseElement, parent);
