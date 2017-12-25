@@ -395,9 +395,15 @@ namespace Game.Tests
             Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count());
         }
 
+        [TestMethod]
         public void CheckThatInexistentDoubleEdgedPipeAndWithNoConnectingPipesThatCanComposeItCannotBeDeleted()
         {
+            var position = new Coordinate(5, 4);
+            var pipe = new DoubleEdgedPipe(EdgeType.UP, EdgeType.DOWN);
 
+            blocks.Set(position, mockBlock.Object);
+
+            Assert.IsFalse(blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe));
         }
 
         [TestMethod]
