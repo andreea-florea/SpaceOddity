@@ -21,5 +21,16 @@ namespace Game
             return ((FirstEdge == pipe.FirstEdge && SecondEdge == pipe.SecondEdge) ||
                 (FirstEdge == pipe.SecondEdge && SecondEdge == pipe.FirstEdge));
         }
+
+        public override bool Equals(object obj)
+        {
+            var pipe = (DoubleEdgedPipe)obj;
+            return IsEqualTo(pipe);
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)FirstEdge + (int)SecondEdge;
+        }
     }
 }
