@@ -29,5 +29,23 @@ namespace Game.Tests
 
             Assert.IsTrue(doubleEdgedPipe.IsEqualTo(pipe));
         }
+
+        [TestMethod]
+        public void CheckThatHashCodesForSameDoubleEdgedPipeAreEqual()
+        {
+            var pipe1 = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+            var pipe2 = new DoubleEdgedPipe(EdgeType.UP, EdgeType.DOWN);
+
+            Assert.AreEqual(pipe1.GetHashCode(), pipe2.GetHashCode());
+        }
+
+        [TestMethod]
+        public void CheckThatHashCodesForDifferentDoubleEdgedPipeAreDifferent()
+        {
+            var pipe1 = new DoubleEdgedPipe(EdgeType.LEFT, EdgeType.UP);
+            var pipe2 = new DoubleEdgedPipe(EdgeType.UP, EdgeType.DOWN);
+
+            Assert.AreNotEqual(pipe1.GetHashCode(), pipe2.GetHashCode());
+        }
     }
 }
