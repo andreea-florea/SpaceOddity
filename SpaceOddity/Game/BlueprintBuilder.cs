@@ -37,6 +37,11 @@ namespace Game
             shipComponentFactory = new BatteryFactory();
         }
 
+        public void AttachObserver(IBlueprintObserver observer)
+        {
+            blueprint.AttachObserver(observer);
+        }
+
         public IConstBlock GetBlock(Coordinate position)
         {
             return blueprint.GetBlock(position);
@@ -64,7 +69,11 @@ namespace Game
                 return false;
             }
 
+            var block = GetBlock(position);
+            ClearPipes(position, block.PipesWithBothEdges);
+            DeleteShipComponent(position);
             blueprint.RemoveBlock(position);
+
             return true;
         }
 
@@ -276,8 +285,7 @@ namespace Game
 
         private bool CheckIfDoubleEdgeAlreadyExists(DoubleEdgedPipe pipe, IConstBlock block)
         {
-            return block.PipesWithBothEdges.Any(p => p.IsEqualTo(pipe))
-                || block.PipesWithBothEdges.Any(p => p.IsEqualTo(new DoubleEdgedPipe(pipe.SecondEdge, pipe.FirstEdge)));
+            return block.PipesWithBothEdges.Any(p => p.IsEqualTo(pipe));
         }
 
         private bool CheckIfConnectingPipeAlreadyExists(ConnectingPipe pipe, IConstBlock block)
@@ -317,11 +325,6 @@ namespace Game
             }
 
             return null;
-        }
-
-        public void AttachObserver(IBlueprintObserver observer)
-        {
-            blueprint.AttachObserver(observer);
         }
     }
 }

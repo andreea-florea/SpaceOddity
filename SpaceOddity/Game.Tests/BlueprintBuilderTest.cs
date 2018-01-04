@@ -140,10 +140,43 @@ namespace Game.Tests
         public void CheckIfExistentBlockIsDeletedSuccessfully()
         {
             var position = new Coordinate(5, 4);
+
             blocks[4, 5] = mockBlock.Object;
-            Assert.AreNotEqual(null, blocks[4, 5]);
+
             Assert.IsTrue(blueprintBuilder.DeleteBlock(position));
             Assert.AreEqual(null, blocks[4, 5]);
+        }
+
+        [TestMethod]
+        public void CheckThatDeletingBlockWithtShipComponentAndConnectingPipesAlsoDeletesTheShipComponentAndConnectingPipes()
+        {
+            var position = new Coordinate(5, 4);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
+
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe);
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
+
+            Assert.IsTrue(blueprintBuilder.DeleteBlock(position));
+            Assert.AreEqual(null, blocks[4, 5]);
+            Assert.AreEqual(0, mockBlock.Object.PipesWithOneEdge.Count());
+            mockBlock.Verify(x => x.DeleteShipComponent(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatDeletingBlockDoubleEdgedPipesAlsoDeletesTheDoubleEdgedPipes()
+        {
+            var position = new Coordinate(5, 4);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
+
+            blocks.Set(position, mockBlock.Object);
+            blocks.Get(position).AddPipe(pipe);
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(false);
+
+            Assert.IsTrue(blueprintBuilder.DeleteBlock(position));
+            Assert.AreEqual(null, blocks[4, 5]);
+            Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
+            mockBlock.Verify(x => x.DeletePipe(It.IsAny<DoubleEdgedPipe>()), Times.Once());
         }
 
         [TestMethod]
