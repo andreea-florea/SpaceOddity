@@ -71,17 +71,19 @@ namespace ViewModel.Tests.Controller
         }
 
         [TestMethod]
-        public void CheckIfLeftClickActionIsAssignedByControllerToShipComponent()
+        public void CheckIfClickActionsAreAssignedByControllerToShipComponent()
         {
             var mockController = new Mock<IBlueprintBuilderController>();
             var mockShipComponent = new Mock<IWorldObject>();
             mockShipComponent.SetupSet(component => component.LeftClickAction = It.IsAny<ShipComponentSelectAction>()).Verifiable();
+            mockShipComponent.SetupSet(component => component.RightClickAction = It.IsAny<ShipComponentCancelAction>()).Verifiable();
 
             var position = new Coordinate(1, 3);
             var blueprintBuilderControlAssigner = new BlueprintBuilderControlAssigner(mockController.Object);
             blueprintBuilderControlAssigner.AssignShipComponentControl(mockShipComponent.Object, position);
 
             mockShipComponent.VerifySet(component => component.LeftClickAction = It.IsAny<ShipComponentSelectAction>());
+            mockShipComponent.VerifySet(component => component.RightClickAction = It.IsAny<ShipComponentCancelAction>());
         }
     }
 }

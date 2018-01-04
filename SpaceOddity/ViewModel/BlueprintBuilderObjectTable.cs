@@ -108,6 +108,11 @@ namespace ViewModel
             DeleteObject(blocks, position);
         }
 
+        public void DeleteShipComponent(Coordinate position)
+        {
+            DeleteObject(shipComponents, position);
+        }
+
         public void DeletePipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
         {
             var key = new PipePosition(position, firstEdge, secondEdge);

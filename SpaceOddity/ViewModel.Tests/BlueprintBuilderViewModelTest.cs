@@ -378,5 +378,17 @@ namespace ViewModel.Tests
             blueprintBuilderViewModel.ConnectingPipeDeleted(mockBlueprint.Object, position, pipe);
             Assert.IsFalse(doubleEdgedPipes.ContainsKey(key));
         }
+
+        [TestMethod]
+        public void CheckIfShipComponentIsDeletedCorrectly()
+        {
+            var position = new Coordinate(1, 3);
+            shipComponents.Set(position, mockShipComponent.Object);
+
+            blueprintBuilderViewModel.ShipComponentDeleted(mockBlueprint.Object, position);
+
+            mockShipComponent.Verify(component => component.Delete(), Times.Once());
+            Assert.AreEqual(null, shipComponents.Get(position));
+        }
     }
 }

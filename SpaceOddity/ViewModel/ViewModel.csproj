@@ -44,6 +44,7 @@
     <Compile Include="Actions\BlockCancelAction.cs" />
     <Compile Include="Actions\BlockSelectAction.cs" />
     <Compile Include="Actions\PipeLinkSelectAction.cs" />
+    <Compile Include="Actions\ShipComponentCancelAction.cs" />
     <Compile Include="Actions\ShipComponentSelectAction.cs" />
     <Compile Include="Actions\TileSelectAction.cs" />
     <Compile Include="BlueprintBuilderObjectTable.cs" />

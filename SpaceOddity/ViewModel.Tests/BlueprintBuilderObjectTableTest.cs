@@ -64,6 +64,15 @@ namespace ViewModel.Tests
         }
 
         [TestMethod]
+        public void ShipComponentIsDeletedCorrectly()
+        {
+            var position = new Coordinate(1, 2);
+            shipComponents.Set(position, mockBuilderObject.Object);
+            objectTable.DeleteShipComponent(position);
+            Assert.AreEqual(null, shipComponents.Get(position));
+        }
+
+        [TestMethod]
         public void CorrectShipComponentIsReturned()
         {
             var position = new Coordinate(3, 1);

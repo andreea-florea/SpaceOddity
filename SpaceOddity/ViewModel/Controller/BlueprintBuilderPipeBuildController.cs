@@ -67,6 +67,11 @@ namespace ViewModel.Controller
             masterController.Reset();
         }
 
+        public void ShipComponentCancel(Coordinate position)
+        {
+
+        }
+
         public void PipeLinkSelect(CoordinatePair edge)
         {
             var commonPosition = edge.GetCommonPosition(SelectedLink);

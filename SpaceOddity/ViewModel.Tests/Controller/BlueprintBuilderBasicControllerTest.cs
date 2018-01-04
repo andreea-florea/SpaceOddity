@@ -55,6 +55,14 @@ namespace ViewModel.Tests.Controller
         }
 
         [TestMethod]
+        public void DeletesShipComponentOnShipComponentCancel()
+        {
+            var position = new Coordinate(4, 2);
+            controller.ShipComponentCancel(position);
+            mockBlueprintBuilder.Verify(builder => builder.DeleteShipComponent(position));
+        }
+
+        [TestMethod]
         public void SetCurrentControllerCorrectlyOnPipeSelect()
         {
             var edge = new CoordinatePair(new Coordinate(2, 3), new Coordinate(2, 4));

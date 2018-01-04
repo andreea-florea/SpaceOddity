@@ -112,6 +112,7 @@ namespace ViewModel
 
         public void ShipComponentDeleted(IBlueprint blueprint, Coordinate position)
         {
+            objectTable.DeleteShipComponent(position);
         }
 
         public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)

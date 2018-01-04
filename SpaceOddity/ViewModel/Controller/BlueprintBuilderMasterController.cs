@@ -43,6 +43,11 @@ namespace ViewModel.Controller
             CurrentController.ShipComponentSelect(position);
         }
 
+        public void ShipComponentCancel(Coordinate position)
+        {
+            CurrentController.ShipComponentCancel(position);
+        }
+
         public void PipeLinkSelect(CoordinatePair edge)
         {
             CurrentController.PipeLinkSelect(edge);

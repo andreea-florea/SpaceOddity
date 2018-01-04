@@ -38,6 +38,7 @@ namespace ViewModel.Controller
         public void AssignShipComponentControl(IWorldObject shipComponent, Coordinate position)
         {
             shipComponent.LeftClickAction = new ShipComponentSelectAction(controller, position);
+            shipComponent.RightClickAction = new ShipComponentCancelAction(controller, position);
         }
     }
 }

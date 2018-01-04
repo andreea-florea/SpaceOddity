@@ -71,8 +71,8 @@ namespace Game
             }
 
             var block = GetBlock(position);
-            ClearPipes(position, block.PipesWithBothEdges);
             DeleteShipComponent(position);
+            ClearPipes(position, block.PipesWithBothEdges);
             blueprint.RemoveBlock(position);
 
             return true;
