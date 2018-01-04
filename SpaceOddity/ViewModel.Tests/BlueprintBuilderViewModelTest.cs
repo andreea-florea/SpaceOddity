@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Moq;
 using ViewInterface;
 using Game.Interfaces;
@@ -12,6 +11,7 @@ using ViewModel.Controller;
 using Algorithm;
 using Game;
 using System.Collections.Generic;
+using Game.Enums;
 
 namespace ViewModel.Tests
 {

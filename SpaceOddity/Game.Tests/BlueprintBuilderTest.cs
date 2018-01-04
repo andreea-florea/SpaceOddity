@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NaturalNumbersMath;
 using System.Linq;
+using Game.Enums;
 
 namespace Game.Tests
 {

@@ -44,6 +44,7 @@ namespace Game
         public void PlaceBlock(Coordinate position, IBlock block)
         {
             blocks.Set(position, block);
+            blocks.Get(position).SetPosition(position);
 
             foreach (var observer in observers)
             {

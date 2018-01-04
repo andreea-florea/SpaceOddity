@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Game;
 using NaturalNumbersMath;
 using ViewModel.Extensions;
+using Game.Enums;
 
 namespace ViewModel.Tests.Extensions
 {

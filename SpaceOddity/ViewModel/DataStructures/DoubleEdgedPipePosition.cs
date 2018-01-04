@@ -1,4 +1,4 @@
-﻿using Game;
+﻿using Game.Enums;
 using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
