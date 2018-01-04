@@ -14,5 +14,6 @@ namespace ViewModel.Controller
         void AssignTileControl(IWorldObject tile, Coordinate position);
         void AssignBlockControl(IWorldObject block, Coordinate position);
         void AssignPipeLinkControl(IWorldObject pipeLink, CoordinatePair edge);
+        void AssignShipComponentControl(IWorldObject shipComponent, Coordinate position);
     }
 }

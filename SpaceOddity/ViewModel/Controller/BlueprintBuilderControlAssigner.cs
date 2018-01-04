@@ -34,5 +34,10 @@ namespace ViewModel.Controller
         {
             pipeLink.LeftClickAction = new PipeLinkSelectAction(controller, edge);
         }
+
+        public void AssignShipComponentControl(IWorldObject shipComponent, Coordinate position)
+        {
+            shipComponent.LeftClickAction = new ShipComponentSelectAction(controller, position);
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace ViewModel.Extensions
             AddPair(Coordinates.Down, EdgeType.DOWN);
             AddPair(Coordinates.Right, EdgeType.RIGHT);
             AddPair(Coordinates.Left, EdgeType.LEFT);
+            AddPair(Coordinates.Zero, EdgeType.COUNT);
         }
 
         private static void AddPair(Coordinate coordinate, EdgeType edge)

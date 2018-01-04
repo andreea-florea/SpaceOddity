@@ -13,7 +13,7 @@ namespace ViewModel.Tests.DataStructures
         public void DoubleEdgePipePositionIsCreatedCorrectly()
         {
             var position = new Coordinate(1, 2);
-            var doubleEdgePipePosition = new DoubleEdgedPipePosition(position, EdgeType.RIGHT, EdgeType.UP);
+            var doubleEdgePipePosition = new PipePosition(position, EdgeType.RIGHT, EdgeType.UP);
 
             Assert.AreEqual(position, doubleEdgePipePosition.Position);
             Assert.AreEqual(EdgeType.UP, doubleEdgePipePosition.FirstEdge);
@@ -23,8 +23,8 @@ namespace ViewModel.Tests.DataStructures
         [TestMethod]
         public void CheckDoubleEdgedPipePositionEqualities()
         {
-            var pipe = new DoubleEdgedPipePosition(new Coordinate(1, 2), EdgeType.LEFT, EdgeType.RIGHT);
-            var other = new DoubleEdgedPipePosition(new Coordinate(3, 2), EdgeType.LEFT, EdgeType.RIGHT);
+            var pipe = new PipePosition(new Coordinate(1, 2), EdgeType.LEFT, EdgeType.RIGHT);
+            var other = new PipePosition(new Coordinate(3, 2), EdgeType.LEFT, EdgeType.RIGHT);
 
             Assert.IsFalse(pipe == other);
             Assert.IsTrue(pipe != other);
@@ -33,8 +33,8 @@ namespace ViewModel.Tests.DataStructures
         [TestMethod]
         public void DoubleEdgedPipeAreEqualToReverseCounterpart()
         {
-            var pipe = new DoubleEdgedPipePosition(new Coordinate(1, 2), EdgeType.LEFT, EdgeType.RIGHT);
-            var other = new DoubleEdgedPipePosition(new Coordinate(1, 2), EdgeType.RIGHT, EdgeType.LEFT);
+            var pipe = new PipePosition(new Coordinate(1, 2), EdgeType.LEFT, EdgeType.RIGHT);
+            var other = new PipePosition(new Coordinate(1, 2), EdgeType.RIGHT, EdgeType.LEFT);
 
             Assert.IsTrue(pipe == other);
             Assert.IsFalse(pipe != other);

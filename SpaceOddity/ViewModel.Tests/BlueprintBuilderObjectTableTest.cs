@@ -18,7 +18,7 @@ namespace ViewModel.Tests
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
-        private Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes;
+        private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         [TestInitialize]
         public void Initialize()
@@ -30,7 +30,7 @@ namespace ViewModel.Tests
             shipComponents = new IBuilderWorldObject[5, 6];
             horizontalPipeLinks = new IBuilderWorldObject[5, 5];
             verticalPipeLinks = new IBuilderWorldObject[4, 6];
-            doubleEdgedPipes = new Dictionary<DoubleEdgedPipePosition, IWorldObject>();
+            doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 
             objectTable = new BlueprintBuilderObjectTable(
                 tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
@@ -142,7 +142,7 @@ namespace ViewModel.Tests
 
             objectTable.SetPipe(position, EdgeType.LEFT, EdgeType.RIGHT, mockBuilderObject.Object);
 
-            var pipePosition = new DoubleEdgedPipePosition(position, EdgeType.LEFT, EdgeType.RIGHT);
+            var pipePosition = new PipePosition(position, EdgeType.LEFT, EdgeType.RIGHT);
             Assert.AreEqual(mockBuilderObject.Object, doubleEdgedPipes[pipePosition]);
         }
 
@@ -170,7 +170,7 @@ namespace ViewModel.Tests
         public void CheckIfPipeIsDeletedCorrectly()
         {
             var position = new Coordinate(1, 4);
-            var key = new DoubleEdgedPipePosition(position, EdgeType.LEFT, EdgeType.RIGHT);
+            var key = new PipePosition(position, EdgeType.LEFT, EdgeType.RIGHT);
 
             doubleEdgedPipes.Add(key, mockBuilderObject.Object);
             objectTable.DeletePipe(position, EdgeType.LEFT, EdgeType.RIGHT);

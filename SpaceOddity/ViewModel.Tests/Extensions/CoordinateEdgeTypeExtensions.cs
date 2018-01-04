@@ -27,5 +27,11 @@ namespace ViewModel.Tests.Extensions
             Assert.AreEqual(Coordinates.Right, EdgeType.RIGHT.ToCoordinate());
         }
 
+        [TestMethod]
+        public void CountEdgeTypeConvertsToPointZero()
+        {
+            Assert.AreEqual(EdgeType.COUNT, Coordinates.Zero.ToEdgeType());
+            Assert.AreEqual(Coordinates.Zero, EdgeType.COUNT.ToCoordinate());
+        }
     }
 }

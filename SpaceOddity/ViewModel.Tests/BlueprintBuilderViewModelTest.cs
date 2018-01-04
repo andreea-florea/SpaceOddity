@@ -34,7 +34,7 @@ namespace ViewModel.Tests
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
-        private Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes;
+        private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
         private BlueprintBuilderViewModel blueprintBuilderViewModel;
 
         [TestInitialize]
@@ -62,7 +62,7 @@ namespace ViewModel.Tests
             shipComponents = new IBuilderWorldObject[5, 6];
             horizontalPipeLinks = new IBuilderWorldObject[5, 5];
             verticalPipeLinks = new IBuilderWorldObject[4, 6];
-            doubleEdgedPipes = new Dictionary<DoubleEdgedPipePosition, IWorldObject>();
+            doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
             var objectTable = new BlueprintBuilderObjectTable(
                 tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
 
@@ -139,6 +139,7 @@ namespace ViewModel.Tests
             blueprintBuilderViewModel.ShipComponentAdded(mockBlueprint.Object, position);
 
             mockShipComponentFactory.Verify(factory => factory.Create(), Times.Once());
+            mockController.Verify(controller => controller.AssignShipComponentControl(shipComponents.Get(position), position), Times.Once());
             Assert.AreEqual(translation, shipComponents.Get(position).Position);
             Assert.AreEqual(scale, shipComponents.Get(position).Scale);
         }
@@ -315,8 +316,8 @@ namespace ViewModel.Tests
 
             blueprintBuilderViewModel.DoubleEdgePipeAdded(mockBlueprint.Object, position, pipe);
 
-            Assert.AreEqual(location, doubleEdgedPipes[new DoubleEdgedPipePosition(position, EdgeType.DOWN, EdgeType.UP)].Position);
-            Assert.AreEqual(scale, doubleEdgedPipes[new DoubleEdgedPipePosition(position, EdgeType.DOWN, EdgeType.UP)].Scale);
+            Assert.AreEqual(location, doubleEdgedPipes[new PipePosition(position, EdgeType.DOWN, EdgeType.UP)].Position);
+            Assert.AreEqual(scale, doubleEdgedPipes[new PipePosition(position, EdgeType.DOWN, EdgeType.UP)].Scale);
         }
 
         [TestMethod]
@@ -342,10 +343,39 @@ namespace ViewModel.Tests
         {
             var position = new Coordinate(2, 3);
             var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP);
-            var key = new DoubleEdgedPipePosition(position, pipe.FirstEdge, pipe.SecondEdge);
+            var key = new PipePosition(position, pipe.FirstEdge, pipe.SecondEdge);
 
             doubleEdgedPipes.Add(key, mockPipe.Object);
             blueprintBuilderViewModel.DoubleEdgePipeDeleted(mockBlueprint.Object, position, pipe);
+            Assert.IsFalse(doubleEdgedPipes.ContainsKey(key));
+        }
+
+        [TestMethod]
+        public void CreateConnectingPipeCurveCorrectly()
+        {
+            var position = new Coordinate(2, 3);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
+            tiles.Set(position, mockTile.Object);
+
+            ICurve curve = null;
+            mockPipeFactory.Setup(factory => factory.Create(It.IsAny<StraightLineCurve>()))
+                .Returns(mockPipe.Object)
+                .Callback<StraightLineCurve>(curveParam => curve = curveParam);
+
+            blueprintBuilderViewModel.ConnectingPipeAdded(mockBlueprint.Object, position, pipe);
+            Assert.AreEqual(new Vector2(0, -1), curve.GetPoint(0));
+            Assert.AreEqual(new Vector2(0, 0), curve.GetPoint(1));
+        }
+
+        [TestMethod]
+        public void CheckIfConnectingPipeIsDeletedCorrectly()
+        {
+            var position = new Coordinate(2, 3);
+            var pipe = new ConnectingPipe(EdgeType.DOWN);
+            var key = new PipePosition(position, pipe.Edge, EdgeType.COUNT);
+
+            doubleEdgedPipes.Add(key, mockPipe.Object);
+            blueprintBuilderViewModel.ConnectingPipeDeleted(mockBlueprint.Object, position, pipe);
             Assert.IsFalse(doubleEdgedPipes.ContainsKey(key));
         }
     }

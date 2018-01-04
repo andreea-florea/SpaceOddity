@@ -1,4 +1,5 @@
-﻿using Game.Interfaces;
+﻿using Game;
+using Game.Interfaces;
 using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
@@ -48,22 +49,65 @@ namespace ViewModel.Controller
         {
         }
 
+        public void ShipComponentSelect(Coordinate position)
+        {
+            if (SelectedLink.Positions.Contains(position))
+            {
+                var pipeEdge = GetOtherPositionDirection(position, SelectedLink);
+                if (PipeExists(position, pipeEdge))
+                {
+                    blueprintBuilder.DeleteConnectingPipe(position, new ConnectingPipe(pipeEdge));
+                }
+                else
+                {
+                    blueprintBuilder.AddConnectingPipe(position, pipeEdge);
+                }
+            }
+            masterController.Reset();
+        }
+
         public void PipeLinkSelect(CoordinatePair edge)
         {
             var commonPosition = edge.GetCommonPosition(SelectedLink);
             if (commonPosition.IsFound && edge != SelectedLink)
             {
-                var position = commonPosition.Element;
-                var firstDirection = GetOtherPositionDirection(position, SelectedLink);
-                var secondDirection = GetOtherPositionDirection(position, edge);
-                blueprintBuilder.AddDoubleEdgedPipe(position, firstDirection.ToEdgeType(), secondDirection.ToEdgeType());
+                AddOrDeletePipe(commonPosition.Element, SelectedLink, edge);
             }
             masterController.Reset();
         }
 
-        private Coordinate GetOtherPositionDirection(Coordinate position, CoordinatePair edge)
+        private void AddOrDeletePipe(Coordinate position, CoordinatePair edge, CoordinatePair otherEdge)
         {
-            return edge.First - position + edge.Second - position;
+            var firstDirection = GetOtherPositionDirection(position, edge);
+            var secondDirection = GetOtherPositionDirection(position, otherEdge);
+            AddOrDeletePipe(position, new DoubleEdgedPipe(firstDirection, secondDirection));
+        }
+
+        private void AddOrDeletePipe(Coordinate position, DoubleEdgedPipe pipe)
+        {
+            if (PipeExists(position, pipe) || PipeExists(position, pipe.FirstEdge) && PipeExists(position, pipe.SecondEdge))
+            {
+                blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe);
+            }
+            else
+            {
+                blueprintBuilder.AddDoubleEdgedPipe(position, pipe.FirstEdge, pipe.SecondEdge);
+            }
+        }
+
+        private bool PipeExists(Coordinate position, DoubleEdgedPipe pipe)
+        {
+            return blueprintBuilder.GetBlock(position).PipesWithBothEdges.Any(blockPipe => blockPipe.IsEqualTo(pipe));
+        }
+
+        private bool PipeExists(Coordinate position, EdgeType edge)
+        {
+            return blueprintBuilder.GetBlock(position).PipesWithOneEdge.Any(blockPipe => blockPipe.Edge == edge);
+        }
+
+        private EdgeType GetOtherPositionDirection(Coordinate position, CoordinatePair edge)
+        {
+            return (edge.First - position + edge.Second - position).ToEdgeType();
         }
     }
 }

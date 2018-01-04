@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Game
 {
-    public class ConnectingPipe
+    public struct ConnectingPipe
     {
         public EdgeType Edge { get; set; }
 
-        public ConnectingPipe(EdgeType edge)
+        public ConnectingPipe(EdgeType edge) : this()
         {
             Edge = edge;
         }

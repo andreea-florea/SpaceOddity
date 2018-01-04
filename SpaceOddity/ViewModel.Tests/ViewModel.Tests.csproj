@@ -63,6 +63,7 @@
     <Compile Include="Actions\BlockCancelActionTest.cs" />
     <Compile Include="Actions\BlockSelectActionTest.cs" />
     <Compile Include="Actions\PipeLinkSelectActionTest.cs" />
+    <Compile Include="Actions\ShipComponentSelectActionTest.cs" />
     <Compile Include="Controller\BlueprintBuilderMasterControllerTest.cs" />
     <Compile Include="Controller\BlueprintBuilderPipeBuildControllerTest.cs" />
     <Compile Include="Controller\BlueprintBuilderControllerFactoryTest.cs" />

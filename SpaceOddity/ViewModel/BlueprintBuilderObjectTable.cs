@@ -15,7 +15,7 @@ namespace ViewModel
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
-        private Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes;
+        private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         public BlueprintBuilderObjectTable(
             IBuilderWorldObject[,] tiles,
@@ -23,7 +23,7 @@ namespace ViewModel
             IBuilderWorldObject[,] shipComponents,
             IBuilderWorldObject[,] horizontalPipeLinks,
             IBuilderWorldObject[,] verticalPipeLinks,
-            Dictionary<DoubleEdgedPipePosition, IWorldObject> doubleEdgedPipes)
+            Dictionary<PipePosition, IWorldObject> doubleEdgedPipes)
         {
             this.tiles = tiles;
             this.blocks = blocks;
@@ -60,12 +60,12 @@ namespace ViewModel
 
         public void SetPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge, IWorldObject pipeObject)
         {
-            doubleEdgedPipes.Add(new DoubleEdgedPipePosition(position, firstEdge, secondEdge), pipeObject);
+            doubleEdgedPipes.Add(new PipePosition(position, firstEdge, secondEdge), pipeObject);
         }
 
         public IWorldObject GetPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
         {
-            return doubleEdgedPipes[new DoubleEdgedPipePosition(position, firstEdge, secondEdge)];
+            return doubleEdgedPipes[new PipePosition(position, firstEdge, secondEdge)];
         }
 
         public IBuilderWorldObject GetPipeLink(CoordinatePair edge)
@@ -109,7 +109,7 @@ namespace ViewModel
 
         public void DeletePipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
         {
-            var key = new DoubleEdgedPipePosition(position, firstEdge, secondEdge);
+            var key = new PipePosition(position, firstEdge, secondEdge);
             doubleEdgedPipes[key].Delete();
             doubleEdgedPipes.Remove(key);
         }

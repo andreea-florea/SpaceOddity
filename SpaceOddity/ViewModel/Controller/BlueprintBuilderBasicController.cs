@@ -39,6 +39,10 @@ namespace ViewModel.Controller
             blueprintBuilder.DeleteBlock(position);
         }
 
+        public void ShipComponentSelect(Coordinate position)
+        {
+        }
+
         public void PipeLinkSelect(CoordinatePair edge)
         {
             pipeBuildController.SelectedLink = edge;

@@ -12,6 +12,7 @@ namespace ViewModel.Controller
         void TileSelect(Coordinate position);
         void BlockSelect(Coordinate position);
         void BlockCancel(Coordinate position);
+        void ShipComponentSelect(Coordinate position);
         void PipeLinkSelect(CoordinatePair edge);
     }
 }

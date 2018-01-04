@@ -50,6 +50,14 @@ namespace ViewModel.Tests.Controller
         }
 
         [TestMethod]
+        public void BaseControllerIsCalledOnShipComponentSelect()
+        {
+            var position = new Coordinate(2, 1);
+            controller.ShipComponentSelect(position);
+            mockController.Verify(baseController => baseController.ShipComponentSelect(position), Times.Once());
+        }
+
+        [TestMethod]
         public void BaseControllerIsCalledOnPipeLinkSelected()
         {
             var edge = new CoordinatePair(new Coordinate(2, 1), new Coordinate(2, 3));

@@ -106,6 +106,7 @@ namespace ViewModel
             objectTable.SetShipComponent(position, shipComponentFactory.Create());
             objectTable.GetShipComponent(position).Position = objectTable.GetTile(position).Position;
             objectTable.GetShipComponent(position).Scale = objectTable.GetTile(position).Scale;
+            controller.AssignShipComponentControl(objectTable.GetShipComponent(position), position);
         }
 
         public void ShipComponentDeleted(IBlueprint blueprint, Coordinate position)
@@ -114,39 +115,33 @@ namespace ViewModel
 
         public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)
         {
-            var curve = CreatePipeCurve(pipe);
+            CreatePipeObject(blueprint, position, pipe.FirstEdge, pipe.SecondEdge);
+        }
+
+        public void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)
+        {
+            CreatePipeObject(blueprint, position, pipe.Edge, EdgeType.COUNT);
+        }
+
+        private void CreatePipeObject(IBlueprint blueprint, Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
+        {
+            var curve = CreatePipeCurve(firstEdge, secondEdge);
             var pipeObject = pipeFactory.Create(curve);
             pipeObject.Position = objectTable.GetTile(position).Position;
             pipeObject.Scale = objectTable.GetTile(position).Scale;
-            objectTable.SetPipe(position, pipe.FirstEdge, pipe.SecondEdge, pipeObject);
+            objectTable.SetPipe(position, firstEdge, secondEdge, pipeObject);
         }
 
-        private ICurve CreatePipeCurve(DoubleEdgedPipe pipe)
+        private ICurve CreatePipeCurve(EdgeType firstEdge, EdgeType secondEdge)
         {
-            var firstPosition = pipe.FirstEdge.ToCoordinate().ToVector2();
-            var secondPosition = pipe.SecondEdge.ToCoordinate().ToVector2();
+            var firstPosition = firstEdge.ToCoordinate().ToVector2();
+            var secondPosition = secondEdge.ToCoordinate().ToVector2();
             return new StraightLineCurve(firstPosition, secondPosition - firstPosition);
         }
 
         public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)
         {
             objectTable.DeletePipe(position, pipe.FirstEdge, pipe.SecondEdge);
-        }
-
-        public void ConnectingPipeAdded(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)
-        {
-            var curve = CreatePipeCurve(pipe);
-            var pipeObject = pipeFactory.Create(curve);
-            pipeObject.Position = objectTable.GetTile(position).Position;
-            pipeObject.Scale = objectTable.GetTile(position).Scale;
-            objectTable.SetPipe(position, pipe.Edge, EdgeType.COUNT, pipeObject);
-        }
-
-        private ICurve CreatePipeCurve(ConnectingPipe pipe)
-        {
-            var firstPosition = pipe.Edge.ToCoordinate().ToVector2();
-            var secondPosition = new Vector2();
-            return new StraightLineCurve(firstPosition, secondPosition - firstPosition);
         }
 
         public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)

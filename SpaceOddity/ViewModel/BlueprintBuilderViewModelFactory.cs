@@ -39,7 +39,7 @@ namespace ViewModel
             var shipComponents = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var horizontalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y - 1, builder.Dimensions.X];
             var verticalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X - 1];
-            var doubleEdgedPipes = new Dictionary<DoubleEdgedPipePosition, IWorldObject>();
+            var doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 
             var objectTable = new BlueprintBuilderObjectTable(
                 tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
