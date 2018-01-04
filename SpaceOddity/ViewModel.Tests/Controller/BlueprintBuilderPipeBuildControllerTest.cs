@@ -6,6 +6,7 @@ using ViewModel.Controller;
 using NaturalNumbersMath;
 using ViewModel.DataStructures;
 using Game;
+using Game.Enums;
 using System.Collections.Generic;
 
 namespace ViewModel.Tests.Controller

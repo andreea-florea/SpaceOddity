@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 
 using Game.Interfaces;
+using NaturalNumbersMath;
 
 namespace Game
 {
     public class Block : IBlock
     {
         public double Weight { get; private set; }
-
         public IShipComponent ShipComponent { get; private set; }
+        public Coordinate Position { get; set; }
 
         private List<DoubleEdgedPipe> pipesWithBothEdges;
         private List<ConnectingPipe> pipesWithOneEdge;
@@ -72,6 +73,11 @@ namespace Game
         public void DeletePipe(ConnectingPipe pipe)
         {
             pipesWithOneEdge.Remove(pipe);
+        }
+
+        public void SetPosition(Coordinate position)
+        {
+            Position = position;
         }
     }
 }

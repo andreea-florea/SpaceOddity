@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Game.Interfaces;
 using NaturalNumbersMath;
+using Game.Enums;
 
 namespace Game.Tests
 {
@@ -32,6 +33,21 @@ namespace Game.Tests
             var position = new Coordinate(3, 4);
             blueprint.PlaceBlock(position, mockBlock.Object);
             Assert.AreEqual(mockBlock.Object, blueprint.GetBlock(position));
+        }
+
+        //todo
+        [TestMethod]
+        public void CheckThatPositionOfBlockIsSetWhenCreatingBlock()
+        {
+            var position = new Coordinate(1, 2);
+          
+            blueprint.PlaceBlock(position, mockBlock.Object);
+
+
+            mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
+
+            Assert.AreEqual(position.X, blueprint.GetBlock(position).Position.X);
+            Assert.AreEqual(position.Y, blueprint.GetBlock(position).Position.Y);
         }
 
         [TestMethod]

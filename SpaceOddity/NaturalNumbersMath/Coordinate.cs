@@ -46,5 +46,16 @@ namespace NaturalNumbersMath
         {
             return new Coordinate(-a.X, -a.Y);
         }
+
+        public override bool Equals(object obj)
+        {
+            var coordinate = (Coordinate)obj;
+            return X == coordinate.X && Y == coordinate.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X + Y;
+        }
     }
 }

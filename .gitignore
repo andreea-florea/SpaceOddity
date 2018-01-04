@@ -5,3 +5,5 @@
 */packages
 *.suo
 */UnityGameView/Temp/*
+SpaceOddity/TestResults/SpaceOddity.TE.Tests_log.ldf
+SpaceOddity/TestResults/SpaceOddity.TE.Tests.mdf

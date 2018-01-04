@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ViewModel.DataStructures;
 using NaturalNumbersMath;
-using Game;
+using Game.Enums;
 
 namespace ViewModel.Tests.DataStructures
 {

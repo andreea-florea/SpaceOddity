@@ -1,4 +1,5 @@
 ﻿using Game;
+using Game.Enums;
 using Game.Interfaces;
 using NaturalNumbersMath;
 using System;

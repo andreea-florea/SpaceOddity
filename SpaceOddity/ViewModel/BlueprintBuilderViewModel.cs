@@ -12,6 +12,7 @@ using ViewModel.Controller;
 using ViewModel.Extensions;
 using Algorithm;
 using Game;
+using Game.Enums;
 
 namespace ViewModel
 {

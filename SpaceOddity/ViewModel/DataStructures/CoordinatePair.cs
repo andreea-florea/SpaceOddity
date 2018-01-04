@@ -49,5 +49,16 @@ namespace ViewModel.DataStructures
         {
             return a.First != b.First || a.Second != b.Second;
         }
+
+        public override bool Equals(object obj)
+        {
+            var pair = (CoordinatePair)obj;
+            return First == pair.First && Second == pair.Second;
+        }
+
+        public override int GetHashCode()
+        {
+            return First.GetHashCode() + Second.GetHashCode();
+        }
     }
 }

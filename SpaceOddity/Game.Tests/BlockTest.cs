@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Game.Interfaces;
 using System.Collections.Generic;
+using NaturalNumbersMath;
 
 namespace Game.Tests
 {
@@ -51,6 +52,17 @@ namespace Game.Tests
         {
             Assert.AreEqual(doubleEdgedPipes, block.PipesWithBothEdges);
             Assert.AreEqual(oneEdgedPipes, block.PipesWithOneEdge);
+        }
+
+        [TestMethod]
+        public void ChechThatPositionIsSetCorrectly()
+        {
+            var position = new Coordinate(3, 4);
+
+            block.SetPosition(position);
+
+            Assert.AreEqual(position.X, block.Position.X);
+            Assert.AreEqual(position.Y, block.Position.Y);
         }
     }
 }

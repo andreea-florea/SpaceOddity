@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NaturalNumbersMath;
 using ViewModel.DataStructures;
 using Moq;
-using Game;
+using Game.Enums;
 using System.Collections.Generic;
 
 namespace ViewModel.Tests

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ViewModel.DataStructures;
+using Game.Enums;
 
 namespace ViewModel
 {

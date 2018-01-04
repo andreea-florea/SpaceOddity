@@ -55,16 +55,18 @@
     <Compile Include="BlueprintBuilder.cs" />
     <Compile Include="ConnectingPipe.cs" />
     <Compile Include="DoubleEdgedPipe.cs" />
-    <Compile Include="EdgeType.cs" />
+    <Compile Include="Enums\EdgeType.cs" />
     <Compile Include="EmptyShipComponent.cs" />
     <Compile Include="Interfaces\IBlock.cs" />
     <Compile Include="Interfaces\IBlockFactory.cs" />
+    <Compile Include="Interfaces\IBlockRestrictor.cs" />
     <Compile Include="Interfaces\IBlueprint.cs" />
     <Compile Include="Interfaces\IBlueprintBuilder.cs" />
     <Compile Include="Interfaces\IBlueprintObserver.cs" />
     <Compile Include="Interfaces\IConstBlock.cs" />
     <Compile Include="Interfaces\IShipComponent.cs" />
     <Compile Include="Interfaces\IShipComponentFactory.cs" />
+    <Compile Include="JetEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

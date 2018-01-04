@@ -5,7 +5,7 @@ using Game.Interfaces;
 using Moq;
 using NaturalNumbersMath;
 using ViewModel.DataStructures;
-using Game;
+using Game.Enums;
 
 namespace ViewModel.Tests.Controller
 {
