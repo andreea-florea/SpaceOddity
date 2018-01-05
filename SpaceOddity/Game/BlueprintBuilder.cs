@@ -14,6 +14,7 @@ namespace Game
         private IBlueprint blueprint;
         private IBlockFactory blockFactory;
         private IShipComponentFactory shipComponentFactory;
+        private List<IBlockRestrictor> blockRestrictors;
 
         public Coordinate Dimensions
         {
@@ -28,6 +29,7 @@ namespace Game
             this.blueprint = blueprint;
             this.blockFactory = blockFactory;
             this.shipComponentFactory = shipComponentFactory;
+            blockRestrictors = new List<IBlockRestrictor>();
         }
 
         public BlueprintBuilder(Coordinate dimensions)
@@ -36,6 +38,7 @@ namespace Game
             blueprint = new Blueprint(blocks);
             blockFactory = new BlockFactory(5);
             shipComponentFactory = new BatteryFactory();
+            blockRestrictors = new List<IBlockRestrictor>();
         }
 
         public void AttachObserver(IBlueprintObserver observer)
@@ -326,6 +329,18 @@ namespace Game
             }
 
             return null;
+        }
+
+        //todo: test
+        public void AddRestrictor(IBlockRestrictor restrictor)
+        {
+            blockRestrictors.Add(restrictor);
+        }
+
+        //todo: test
+        public void RemoveRestrictor(IBlockRestrictor restrictor)
+        {
+            blockRestrictors.Remove(restrictor);
         }
     }
 }

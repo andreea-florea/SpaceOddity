@@ -16,6 +16,7 @@ namespace Game.Tests
     {
         private IBlock[,] blocks;
         private Mock<IBlock> mockBlock;
+        private Mock<IBlueprintBuilder> mockBlueprintBuilder;
         private EdgeType edgeTypeColumn;
         private EdgeType edgeTypeLine;
         private JetEngine jetEngine;
@@ -27,6 +28,7 @@ namespace Game.Tests
             edgeTypeLine = EdgeType.LEFT;
             blocks = new Block[9, 10];
             mockBlock = new Mock<IBlock>();
+            mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
         }
 
         [TestMethod]
@@ -84,9 +86,26 @@ namespace Game.Tests
             Assert.IsFalse(jetEngine.CanCreateBlock(newBlockPosition));
         }
 
+        [TestMethod]
+        public void CheckIfAdditionalSetupsTriesToAddJetEngineToBlueprintBuilderBlockRestrictorList()
+        {
+            jetEngine = new JetEngine(mockBlock.Object, edgeTypeColumn);
 
+            jetEngine.AdditionalSetups(mockBlueprintBuilder.Object);
 
+            mockBlueprintBuilder.Verify(x => x.AddRestrictor(jetEngine), Times.Once());
+        }
 
-        //CheckIfCanCreateBlockIfBlockToBeCreatedOnSameLineAsShipComponentButShipComponentIsNotAJetEngine
+        [TestMethod]
+        public void CheckIfRemoveAdditionalSetupsTriesToDeleteJetEngineFromBlueprintBuilderBlockRestrictorList()
+        {
+            jetEngine = new JetEngine(mockBlock.Object, edgeTypeColumn);
+
+            jetEngine.RemoveAdditionalSetups(mockBlueprintBuilder.Object);
+
+            mockBlueprintBuilder.Verify(x => x.RemoveRestrictor(jetEngine), Times.Once());
+        }
+
+        //CheckIfCanCreateBlockIfBlockToBeCreatedOnSameLineAsShipComponentButShipComponentIsNotAJetEngine - in BlueprintBuilderTest
     }
 }

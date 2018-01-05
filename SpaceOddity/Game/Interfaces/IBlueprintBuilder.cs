@@ -10,6 +10,7 @@ namespace Game.Interfaces
     public interface IBlueprintBuilder
     {
         Coordinate Dimensions { get; }
+
         IConstBlock GetBlock(Coordinate position);
         bool HasBlock(Coordinate position);
         bool CreateBlock(Coordinate position);
@@ -21,5 +22,7 @@ namespace Game.Interfaces
         bool DeleteDoubleEdgedPipe(Coordinate position, DoubleEdgedPipe pipe);
         bool DeleteConnectingPipe(Coordinate position, ConnectingPipe pipe);
         void AttachObserver(IBlueprintObserver observer);
+        void AddRestrictor(IBlockRestrictor restrictor);
+        void RemoveRestrictor(IBlockRestrictor restrictor);
     }
 }

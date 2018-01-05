@@ -8,5 +8,14 @@ namespace Game
 {
     public class EmptyShipComponent : IShipComponent
     {
+        public void AdditionalSetups(IBlueprintBuilder blueprintBuilder)
+        {
+            return;
+        }
+
+        public void RemoveAdditionalSetups(IBlueprintBuilder blueprintBuilder)
+        {
+            return;
+        }
     }
 }

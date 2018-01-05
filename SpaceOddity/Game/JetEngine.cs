@@ -25,21 +25,27 @@ namespace Game
             switch (FacingDirection)
             {
                 case EdgeType.DOWN:
-                    if (position.Y > Block.Position.Y && position.X == Block.Position.X) return false;
-                    break;
+                    return !(position.Y > Block.Position.Y && position.X == Block.Position.X);
                 case EdgeType.LEFT:
-                    if (position.X < Block.Position.X && position.Y == Block.Position.Y) return false;
-                    break;
+                    return !(position.X < Block.Position.X && position.Y == Block.Position.Y);
                 case EdgeType.RIGHT:
-                    if (position.X > Block.Position.X && position.Y == Block.Position.Y) return false;
-                    break;
+                    return !(position.X > Block.Position.X && position.Y == Block.Position.Y);
                 case EdgeType.UP:
-                    if (position.Y < Block.Position.Y && position.X == Block.Position.X) return false;
-                    break;
+                    return !(position.Y < Block.Position.Y && position.X == Block.Position.X);
                 default: break;
             }
 
             return true;
+        }
+
+        public void AdditionalSetups(IBlueprintBuilder blueprintBuilder)
+        {
+            blueprintBuilder.AddRestrictor(this);
+        }
+
+        public void RemoveAdditionalSetups(IBlueprintBuilder blueprintBuilder)
+        {
+            blueprintBuilder.RemoveRestrictor(this);
         }
     }
 }

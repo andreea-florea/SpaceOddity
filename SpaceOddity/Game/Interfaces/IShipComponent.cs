@@ -8,5 +8,7 @@ namespace Game.Interfaces
 {
     public interface IShipComponent
     {
+        void AdditionalSetups(IBlueprintBuilder blueprintBuilder);
+        void RemoveAdditionalSetups(IBlueprintBuilder blueprintBuilder);
     }
 }

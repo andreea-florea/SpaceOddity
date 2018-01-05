@@ -9,5 +9,14 @@ namespace Game
 {
     public class Battery : IShipComponent
     {
+        public void AdditionalSetups(IBlueprintBuilder blueprintBuilder)
+        {
+            return;
+        }
+
+        public void RemoveAdditionalSetups(IBlueprintBuilder blueprintBuilder)
+        {
+            return;
+        }
     }
 }

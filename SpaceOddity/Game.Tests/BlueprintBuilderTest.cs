@@ -192,8 +192,10 @@ namespace Game.Tests
         public void CheckIfShipComponentIsAddedCorrectlyOnBlockOnBlueprint()
         {
             var position = new Coordinate(5, 4);
+
             mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
-            blocks[4, 5] = mockBlock.Object;
+            blocks.Set(position, mockBlock.Object);
+
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             Assert.AreEqual(mockShipComponent.Object, blocks[4, 5].ShipComponent);
             mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Once());
