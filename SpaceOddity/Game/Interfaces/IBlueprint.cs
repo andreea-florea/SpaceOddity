@@ -17,7 +17,7 @@ namespace Game.Interfaces
         void PlaceBlock(Coordinate position, IBlock block);
         void RemoveBlock(Coordinate position);
         void PlaceShipComponent(Coordinate position, IShipComponent shipComponent);
-        void RemoveShipComponent(Coordinate position);
+        IShipComponent RemoveShipComponent(Coordinate position);
         void PlacePipe(Coordinate position, DoubleEdgedPipe pipe);
         void PlacePipe(Coordinate position, ConnectingPipe pipe);
         void RemovePipe(Coordinate position, DoubleEdgedPipe pipe);

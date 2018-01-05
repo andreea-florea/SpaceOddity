@@ -86,8 +86,9 @@ namespace Game
             var block = GetBlock(position);
             if (HasBlock(position) && !(block.HasShipComponent()))
             {
-                var component = shipComponentFactory.CreateComponent();
+                var component = shipComponentFactory.CreateComponent();                
                 blueprint.PlaceShipComponent(position, component);
+                component.AdditionalSetups(this);
 
                 foreach (var pipe in block.PipesWithBothEdges)
                 {
@@ -125,7 +126,9 @@ namespace Game
             if (HasBlock(position) && GetBlock(position).HasShipComponent())
             {
                 var block = GetBlock(position);
-                blueprint.RemoveShipComponent(position);
+
+                var component = blueprint.RemoveShipComponent(position);
+                component.RemoveAdditionalSetups(this);
 
                 var pipes = block.PipesWithOneEdge.Select(pipe => pipe.Edge).ToList();
                 ClearPipes(position, block.PipesWithOneEdge);

@@ -72,14 +72,17 @@ namespace Game
             }
         }
 
-        public void RemoveShipComponent(Coordinate position)
+        public IShipComponent RemoveShipComponent(Coordinate position)
         {
+            var component = blocks.Get(position).ShipComponent;
             blocks.Get(position).DeleteShipComponent();
 
             foreach (var observer in observers)
             {
                 observer.ShipComponentDeleted(this, position);
             }
+
+            return component;
         }
 
         public void PlacePipe(Coordinate position, DoubleEdgedPipe pipe)
