@@ -12,7 +12,7 @@ namespace Game
     {
         public double Weight { get; private set; }
         public IShipComponent ShipComponent { get; private set; }
-        public Coordinate Position { get; set; }
+        public Coordinate Position { get; private set; }
 
         private List<DoubleEdgedPipe> pipesWithBothEdges;
         private List<ConnectingPipe> pipesWithOneEdge;

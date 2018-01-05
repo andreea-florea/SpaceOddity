@@ -8,6 +8,6 @@ namespace Game.Interfaces
 {
     public interface IBlockRestrictor
     {
-        bool CanCreateBlock(IBlueprint blueprint, Coordinate position); 
+        bool CanCreateBlock(Coordinate position); 
     }
 }

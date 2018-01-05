@@ -10,9 +10,9 @@ namespace Game.Interfaces
     {
         IEnumerable<DoubleEdgedPipe> PipesWithBothEdges { get; }
         IEnumerable<ConnectingPipe> PipesWithOneEdge { get; }
-
         double Weight { get; }
         Coordinate Position { get; }
+
         bool HasShipComponent();
         void SetPosition(Coordinate position);
     }

@@ -35,7 +35,6 @@ namespace Game.Tests
             Assert.AreEqual(mockBlock.Object, blueprint.GetBlock(position));
         }
 
-        //todo
         [TestMethod]
         public void CheckThatPositionOfBlockIsSetWhenCreatingBlock()
         {
@@ -43,11 +42,7 @@ namespace Game.Tests
           
             blueprint.PlaceBlock(position, mockBlock.Object);
 
-
-            mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
-
-            Assert.AreEqual(position.X, blueprint.GetBlock(position).Position.X);
-            Assert.AreEqual(position.Y, blueprint.GetBlock(position).Position.Y);
+            mockBlock.Verify(block => block.SetPosition(position), Times.Once());
         }
 
         [TestMethod]
