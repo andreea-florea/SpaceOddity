@@ -79,7 +79,7 @@ namespace ViewModel
             UpdatePipeLink(blueprint, position, Coordinates.Right);
             UpdatePipeLink(blueprint, position, Coordinates.Left);
         }
-
+        
         private void UpdatePipeLink(IBlueprint blueprint, Coordinate position, Coordinate direction)
         {
             var edge = new CoordinatePair(position, position + direction);
@@ -93,7 +93,10 @@ namespace ViewModel
             }
             else
             {
-                objectTable.DeletePipeLink(edge);
+                if (objectTable.HasPipeLink(edge))
+                {
+                    objectTable.DeletePipeLink(edge);
+                }
             }
         }
 

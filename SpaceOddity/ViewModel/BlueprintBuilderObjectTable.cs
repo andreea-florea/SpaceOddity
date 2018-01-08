@@ -16,21 +16,20 @@ namespace ViewModel
         private IBuilderWorldObject[,] shipComponents;
         private IBuilderWorldObject[,] horizontalPipeLinks;
         private IBuilderWorldObject[,] verticalPipeLinks;
+        private Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks;
         private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         public BlueprintBuilderObjectTable(
             IBuilderWorldObject[,] tiles,
             IBuilderWorldObject[,] blocks,
             IBuilderWorldObject[,] shipComponents,
-            IBuilderWorldObject[,] horizontalPipeLinks,
-            IBuilderWorldObject[,] verticalPipeLinks,
+            Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks,
             Dictionary<PipePosition, IWorldObject> doubleEdgedPipes)
         {
             this.tiles = tiles;
             this.blocks = blocks;
             this.shipComponents = shipComponents;
-            this.horizontalPipeLinks = horizontalPipeLinks;
-            this.verticalPipeLinks = verticalPipeLinks;
+            this.pipeLinks = pipeLinks;
             this.doubleEdgedPipes = doubleEdgedPipes;
         }
 
@@ -71,36 +70,23 @@ namespace ViewModel
 
         public IBuilderWorldObject GetPipeLink(CoordinatePair edge)
         {
-            var position = MinPosition(edge);
-            return GetPipeLinkArray(edge).Get(position);
+            return pipeLinks[edge];
         }
 
-        public void SetPipeLink(CoordinatePair edge, IWorldObject pipeLink)
+        public void SetPipeLink(CoordinatePair edge, IBuilderWorldObject pipeLink)
         {
-            var position = MinPosition(edge);
-            GetPipeLinkArray(edge).Set(position, pipeLink);
+            pipeLinks[edge] = pipeLink;
+        }
+
+        public bool HasPipeLink(CoordinatePair edge)
+        {
+            return pipeLinks.ContainsKey(edge);
         }
 
         public void DeletePipeLink(CoordinatePair edge)
         {
-            var position = MinPosition(edge);
-            DeleteObject(GetPipeLinkArray(edge), position);
-        }
-
-        private Coordinate MinPosition(CoordinatePair pair)
-        {
-            return new Coordinate(
-                Math.Min(pair.First.X, pair.Second.X),
-                Math.Min(pair.First.Y, pair.Second.Y));
-        }
-
-        private IBuilderWorldObject[,] GetPipeLinkArray(CoordinatePair edge)
-        {
-            if ((edge.First - edge.Second).X == 0)
-            {
-                return verticalPipeLinks;
-            }
-            return horizontalPipeLinks;
+            pipeLinks[edge].Delete();
+            pipeLinks.Remove(edge);
         }
 
         public void DeleteBlock(Coordinate position)

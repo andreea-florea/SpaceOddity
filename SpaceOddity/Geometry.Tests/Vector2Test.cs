@@ -107,5 +107,15 @@ namespace Geometry.Tests
             var otherVector = new Vector2(1, 0);
             Assert.AreEqual(-Math.PI * 0.75, vector.Angle);
         }
+
+        [TestMethod]
+        public void CheckIfTwoVectorsMultiplyCorrectly()
+        {
+            var v1 = new Vector2(5, 2);
+            var v2 = new Vector2(3, 4);
+
+            var result = v1.Multiply(v2);
+            Assert.AreEqual(new Vector2(15, 8), result);
+        }
     }
 }

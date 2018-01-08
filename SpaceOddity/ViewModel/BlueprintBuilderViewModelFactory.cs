@@ -37,12 +37,11 @@ namespace ViewModel
             var tiles = tilesFactory.CreateTiles(builder.Dimensions, fittingRectangle);
             var blocks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
             var shipComponents = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
-            var horizontalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y - 1, builder.Dimensions.X];
-            var verticalPipeLinks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X - 1];
+            var pipeLinks = new Dictionary<CoordinatePair, IBuilderWorldObject>();
             var doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 
             var objectTable = new BlueprintBuilderObjectTable(
-                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
+                tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
             var controlAssigner = CreateController(builder, new BlueprintBuilderTableHighlighter(objectTable));
 
             var tileRectanle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);

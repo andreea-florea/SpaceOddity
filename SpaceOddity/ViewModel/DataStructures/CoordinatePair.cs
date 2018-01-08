@@ -42,18 +42,20 @@ namespace ViewModel.DataStructures
 
         public static bool operator ==(CoordinatePair a, CoordinatePair b)
         {
-            return a.First == b.First && a.Second == b.Second;
+            return a.First == b.First && a.Second == b.Second ||
+                a.First == b.Second && a.Second == b.First;
         }
 
         public static bool operator !=(CoordinatePair a, CoordinatePair b)
         {
-            return a.First != b.First || a.Second != b.Second;
+            return (a.First != b.First || a.Second != b.Second) &&
+                (a.First != b.Second || a.Second != b.First);
         }
 
         public override bool Equals(object obj)
         {
             var pair = (CoordinatePair)obj;
-            return First == pair.First && Second == pair.Second;
+            return this == pair;
         }
 
         public override int GetHashCode()

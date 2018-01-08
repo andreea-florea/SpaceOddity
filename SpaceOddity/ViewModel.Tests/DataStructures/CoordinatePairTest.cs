@@ -39,5 +39,14 @@ namespace ViewModel.Tests.DataStructures
             Assert.IsFalse(pair1 == pair3);
             Assert.IsFalse(pair1 == pair4);
         }
+
+        [TestMethod]
+        public void CoordinatePairsAreEqualWithInterchanglePositions()
+        {
+            var pair1 = new CoordinatePair(new Coordinate(1, 2), new Coordinate(2, 2));
+            var pair2 = new CoordinatePair(new Coordinate(2, 2), new Coordinate(1, 2));
+
+            Assert.AreEqual(pair1, pair2);
+        }
     }
 }

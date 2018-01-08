@@ -15,7 +15,7 @@ namespace ViewModel
         IBuilderWorldObject GetShipComponent(Coordinate position);
         void SetShipComponent(Coordinate position, IWorldObject shipComponent);
         IBuilderWorldObject GetPipeLink(CoordinatePair edge);
-        void SetPipeLink(CoordinatePair edge, IWorldObject pipeLink);
+        void SetPipeLink(CoordinatePair edge, IBuilderWorldObject pipeLink);
         void DeletePipeLink(CoordinatePair edge);
         void DeleteBlock(Coordinate position);
     }

@@ -16,8 +16,7 @@ namespace ViewModel.Tests
         private IBuilderWorldObject[,] tiles;
         private IBuilderWorldObject[,] blocks;
         private IBuilderWorldObject[,] shipComponents;
-        private IBuilderWorldObject[,] horizontalPipeLinks;
-        private IBuilderWorldObject[,] verticalPipeLinks;
+        private Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks;
         private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         [TestInitialize]
@@ -28,12 +27,11 @@ namespace ViewModel.Tests
             tiles = new IBuilderWorldObject[5, 6];
             blocks = new IBuilderWorldObject[5, 6];
             shipComponents = new IBuilderWorldObject[5, 6];
-            horizontalPipeLinks = new IBuilderWorldObject[5, 5];
-            verticalPipeLinks = new IBuilderWorldObject[4, 6];
+            pipeLinks = new Dictionary<CoordinatePair, IBuilderWorldObject>();
             doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 
             objectTable = new BlueprintBuilderObjectTable(
-                tiles, blocks, shipComponents, horizontalPipeLinks, verticalPipeLinks, doubleEdgedPipes);
+                tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
         }
 
         [TestMethod]
@@ -90,7 +88,7 @@ namespace ViewModel.Tests
 
             objectTable.SetPipeLink(edge, mockBuilderObject.Object);
 
-            Assert.AreEqual(mockBuilderObject.Object, horizontalPipeLinks.Get(position));
+            Assert.AreEqual(mockBuilderObject.Object, pipeLinks[new CoordinatePair(position, connectingPosition)]);
         }
 
         [TestMethod]
@@ -100,9 +98,9 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 4);
             var edge = new CoordinatePair(position, connectingPosition);
 
-            horizontalPipeLinks.Set(position, mockBuilderObject.Object);
+            pipeLinks[new CoordinatePair(position, connectingPosition)] = mockBuilderObject.Object;
             objectTable.DeletePipeLink(edge);
-            Assert.AreEqual(null, horizontalPipeLinks.Get(position));
+            Assert.IsFalse(pipeLinks.ContainsKey(new CoordinatePair(position, connectingPosition)));
         }
 
         [TestMethod]
@@ -112,7 +110,7 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 4);
             var edge = new CoordinatePair(position, connectingPosition);
 
-            horizontalPipeLinks.Set(position, mockBuilderObject.Object);
+            pipeLinks[new CoordinatePair(position, connectingPosition)] = mockBuilderObject.Object;
             var pipeLink = objectTable.GetPipeLink(edge);
 
             Assert.AreEqual(mockBuilderObject.Object, pipeLink);
@@ -125,7 +123,7 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(1, 4);
             var edge = new CoordinatePair(position, connectingPosition);
 
-            verticalPipeLinks.Set(position, mockBuilderObject.Object);
+            pipeLinks[new CoordinatePair(position, connectingPosition)] = mockBuilderObject.Object;
             var pipeLink = objectTable.GetPipeLink(edge);
 
             Assert.AreEqual(mockBuilderObject.Object, pipeLink);
@@ -138,7 +136,7 @@ namespace ViewModel.Tests
             var connectingPosition = new Coordinate(2, 2);
             var edge = new CoordinatePair(position, connectingPosition);
 
-            verticalPipeLinks.Set(connectingPosition, mockBuilderObject.Object);
+            pipeLinks[new CoordinatePair(position, connectingPosition)] = mockBuilderObject.Object;
             var pipeLink = objectTable.GetPipeLink(edge);
 
             Assert.AreEqual(mockBuilderObject.Object, pipeLink);
