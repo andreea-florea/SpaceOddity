@@ -28,7 +28,8 @@ namespace Algorithm.Tests
             Assert.IsTrue(pair1 != differentPair);
             Assert.IsFalse(pair1 != samePair);
             Assert.AreEqual(pair1, pair2);
-            Assert.AreEqual(pair1.GetHashCode(), pair2.GetHashCode());
+            Assert.AreEqual(pair1.GetHashCode(), samePair.GetHashCode());
+            Assert.AreNotEqual(pair1.GetHashCode(), differentPair.GetHashCode());
         }
     }
 }

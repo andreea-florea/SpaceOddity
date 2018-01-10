@@ -35,7 +35,7 @@ namespace Algorithm
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return First.GetHashCode() + Second.GetHashCode();
         }
     }
 }

@@ -46,7 +46,11 @@ namespace ViewModel.Tests.DataStructures
             var pair1 = new CoordinatePair(new Coordinate(1, 2), new Coordinate(2, 2));
             var pair2 = new CoordinatePair(new Coordinate(2, 2), new Coordinate(1, 2));
 
+            Assert.IsTrue(pair1 == pair2);
+            Assert.IsFalse(pair1 != pair2);
+            Assert.AreEqual(pair1.GetHashCode(), pair2.GetHashCode());
             Assert.AreEqual(pair1, pair2);
+            Assert.IsTrue(pair1.Equals(pair2));
         }
     }
 }
