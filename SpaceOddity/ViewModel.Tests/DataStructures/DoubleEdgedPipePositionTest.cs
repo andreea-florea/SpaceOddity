@@ -16,8 +16,8 @@ namespace ViewModel.Tests.DataStructures
             var doubleEdgePipePosition = new PipePosition(position, EdgeType.RIGHT, EdgeType.UP);
 
             Assert.AreEqual(position, doubleEdgePipePosition.Position);
-            Assert.AreEqual(EdgeType.UP, doubleEdgePipePosition.FirstEdge);
-            Assert.AreEqual(EdgeType.RIGHT, doubleEdgePipePosition.SecondEdge);
+            Assert.AreEqual(EdgeType.RIGHT, doubleEdgePipePosition.FirstEdge);
+            Assert.AreEqual(EdgeType.UP, doubleEdgePipePosition.SecondEdge);
         }
 
         [TestMethod]

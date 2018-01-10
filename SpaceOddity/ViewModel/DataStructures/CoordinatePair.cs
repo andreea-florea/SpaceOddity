@@ -9,8 +9,22 @@ namespace ViewModel.DataStructures
 {
     public struct CoordinatePair
     {
-        public Coordinate First { get; private set; }
-        public Coordinate Second { get; private set; }
+        private InterchangeablePair<Coordinate> coordinates;
+        public Coordinate First
+        {
+            get
+            {
+                return coordinates.First;
+            }
+        }
+
+        public Coordinate Second
+        {
+            get
+            {
+                return coordinates.Second;
+            }
+        }
 
         public IEnumerable<Coordinate> Positions
         {
@@ -24,8 +38,7 @@ namespace ViewModel.DataStructures
         public CoordinatePair(Coordinate first, Coordinate second)
             : this()
         {
-            First = first;
-            Second = second;
+            coordinates = new InterchangeablePair<Coordinate>(first, second);
         }
 
         public Found<Coordinate> GetCommonPosition(CoordinatePair other)
@@ -42,25 +55,23 @@ namespace ViewModel.DataStructures
 
         public static bool operator ==(CoordinatePair a, CoordinatePair b)
         {
-            return a.First == b.First && a.Second == b.Second ||
-                a.First == b.Second && a.Second == b.First;
+            return a.coordinates == b.coordinates;
         }
 
         public static bool operator !=(CoordinatePair a, CoordinatePair b)
         {
-            return (a.First != b.First || a.Second != b.Second) &&
-                (a.First != b.Second || a.Second != b.First);
+            return a.coordinates != b.coordinates;
         }
 
         public override bool Equals(object obj)
         {
-            var pair = (CoordinatePair)obj;
-            return this == pair;
+            var other = (CoordinatePair)obj;
+            return coordinates.Equals(other.coordinates);
         }
 
         public override int GetHashCode()
         {
-            return First.GetHashCode() + Second.GetHashCode();
+            return coordinates.GetHashCode();
         }
     }
 }

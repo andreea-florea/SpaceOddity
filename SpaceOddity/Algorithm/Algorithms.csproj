@@ -47,6 +47,7 @@
     <Compile Include="DoubleExtensions.cs" />
     <Compile Include="Found.cs" />
     <Compile Include="IFactory.cs" />
+    <Compile Include="InterchangeablePair.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
