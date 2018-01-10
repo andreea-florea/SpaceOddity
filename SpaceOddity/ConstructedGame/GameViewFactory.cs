@@ -9,6 +9,7 @@ using System.Text;
 using ViewInterface;
 using ViewModel;
 using ViewModel.Controller;
+using ViewModel.Fancy;
 
 namespace ConstructedGame
 {

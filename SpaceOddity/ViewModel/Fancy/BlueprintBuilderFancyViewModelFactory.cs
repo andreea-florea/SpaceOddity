@@ -8,10 +8,9 @@ using System.Text;
 using ViewInterface;
 using ViewModel.Controller;
 using ViewModel.DataStructures;
-using ViewModel.Fancy;
 using ViewModel.Fancy.Iternal;
 
-namespace ViewModel
+namespace ViewModel.Fancy
 {
     public class BlueprintBuilderFancyViewModelFactory
     {

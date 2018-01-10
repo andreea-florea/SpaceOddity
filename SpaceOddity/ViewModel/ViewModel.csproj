@@ -65,8 +65,8 @@
     <Compile Include="RectangleSections\AspectRatioRectangleSection.cs" />
     <Compile Include="Controller\BlueprintBuilderControlAssigner.cs" />
     <Compile Include="Controller\BlueprintBuilderBasicController.cs" />
-    <Compile Include="BlueprintBuilderFancyViewModel.cs" />
-    <Compile Include="BlueprintBuilderFancyViewModelFactory.cs" />
+    <Compile Include="Fancy\BlueprintBuilderFancyViewModel.cs" />
+    <Compile Include="Fancy\BlueprintBuilderFancyViewModelFactory.cs" />
     <Compile Include="BlueprintBuilderViewModel.cs" />
     <Compile Include="BlueprintBuilderViewModelFactory.cs" />
     <Compile Include="Fancy\Internal\CornerBlocksNumberGenerator.cs" />
