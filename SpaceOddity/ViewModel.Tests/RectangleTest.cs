@@ -13,22 +13,22 @@ namespace ViewModel.Tests
         [TestMethod]
         public void RectangleHasCorrectCornersAssigned()
         {
-            var topLeftCorner = new Vector2(4, 5);
-            var bottomRightCorner = new Vector2(6, 7);
-            var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
+            var bottomLeftCorner = new Vector2(4, 5);
+            var topRightCorner = new Vector2(6, 7);
+            var rectangle = new Rectangle(bottomLeftCorner, topRightCorner);
 
-            Assert.AreEqual(4, rectangle.TopLeftCorner.X);
-            Assert.AreEqual(5, rectangle.TopLeftCorner.Y);
-            Assert.AreEqual(6, rectangle.BottomRightCorner.X);
-            Assert.AreEqual(7, rectangle.BottomRightCorner.Y);
+            Assert.AreEqual(4, rectangle.BottomLeftCorner.X);
+            Assert.AreEqual(5, rectangle.BottomLeftCorner.Y);
+            Assert.AreEqual(6, rectangle.TopRightCorner.X);
+            Assert.AreEqual(7, rectangle.TopRightCorner.Y);
         }
 
         [TestMethod]
         public void RectangleHasCorrectDimensions()
         {
-            var topLeftCorner = new Vector2(4, 5);
-            var bottomRightCorner = new Vector2(6, 8);
-            var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
+            var bottomLeftCorner = new Vector2(4, 5);
+            var topRightCorner = new Vector2(6, 8);
+            var rectangle = new Rectangle(bottomLeftCorner, topRightCorner);
 
             Assert.AreEqual(2, rectangle.Dimensions.X);
             Assert.AreEqual(3, rectangle.Dimensions.Y);
@@ -37,9 +37,9 @@ namespace ViewModel.Tests
         [TestMethod]
         public void RectangleSplitsInCorrectAmountOfRectangles()
         {
-            var topLeftCorner = new Vector2(3, 2);
-            var bottomRightCorner = new Vector2(7, 8);
-            var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
+            var bottomLeftCorner = new Vector2(3, 2);
+            var topRightCorner = new Vector2(7, 8);
+            var rectangle = new Rectangle(bottomLeftCorner, topRightCorner);
 
             var splits = rectangle.Split(new Coordinate(2, 3));
             Assert.AreEqual(3, splits.Height());
@@ -49,27 +49,27 @@ namespace ViewModel.Tests
         [TestMethod]
         public void RectangleSplitsAreCorrectlyProportionate()
         {
-            var topLeftCorner = new Vector2(1, 0);
-            var bottomRightCorner = new Vector2(5, 8);
-            var rectangle = new Rectangle(topLeftCorner, bottomRightCorner);
+            var bottomLeftCorner = new Vector2(1, 0);
+            var topRightCorner = new Vector2(5, 8);
+            var rectangle = new Rectangle(bottomLeftCorner, topRightCorner);
 
             var splits = rectangle.Split(new Coordinate(2, 2));
-            Assert.AreEqual(1, splits[0, 0].TopLeftCorner.X);
-            Assert.AreEqual(0, splits[0, 0].TopLeftCorner.Y);
-            Assert.AreEqual(3, splits[0, 0].BottomRightCorner.X);
-            Assert.AreEqual(4, splits[0, 0].BottomRightCorner.Y);
-            Assert.AreEqual(3, splits[0, 1].TopLeftCorner.X);
-            Assert.AreEqual(0, splits[0, 1].TopLeftCorner.Y);
-            Assert.AreEqual(5, splits[0, 1].BottomRightCorner.X);
-            Assert.AreEqual(4, splits[0, 1].BottomRightCorner.Y);
-            Assert.AreEqual(1, splits[1, 0].TopLeftCorner.X);
-            Assert.AreEqual(4, splits[1, 0].TopLeftCorner.Y);
-            Assert.AreEqual(3, splits[1, 0].BottomRightCorner.X);
-            Assert.AreEqual(8, splits[1, 0].BottomRightCorner.Y);
-            Assert.AreEqual(3, splits[1, 1].TopLeftCorner.X);
-            Assert.AreEqual(4, splits[1, 1].TopLeftCorner.Y);
-            Assert.AreEqual(5, splits[1, 1].BottomRightCorner.X);
-            Assert.AreEqual(8, splits[1, 1].BottomRightCorner.Y);
+            Assert.AreEqual(1, splits[0, 0].BottomLeftCorner.X);
+            Assert.AreEqual(0, splits[0, 0].BottomLeftCorner.Y);
+            Assert.AreEqual(3, splits[0, 0].TopRightCorner.X);
+            Assert.AreEqual(4, splits[0, 0].TopRightCorner.Y);
+            Assert.AreEqual(3, splits[0, 1].BottomLeftCorner.X);
+            Assert.AreEqual(0, splits[0, 1].BottomLeftCorner.Y);
+            Assert.AreEqual(5, splits[0, 1].TopRightCorner.X);
+            Assert.AreEqual(4, splits[0, 1].TopRightCorner.Y);
+            Assert.AreEqual(1, splits[1, 0].BottomLeftCorner.X);
+            Assert.AreEqual(4, splits[1, 0].BottomLeftCorner.Y);
+            Assert.AreEqual(3, splits[1, 0].TopRightCorner.X);
+            Assert.AreEqual(8, splits[1, 0].TopRightCorner.Y);
+            Assert.AreEqual(3, splits[1, 1].BottomLeftCorner.X);
+            Assert.AreEqual(4, splits[1, 1].BottomLeftCorner.Y);
+            Assert.AreEqual(5, splits[1, 1].TopRightCorner.X);
+            Assert.AreEqual(8, splits[1, 1].TopRightCorner.Y);
         }
     }
 }

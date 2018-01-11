@@ -10,21 +10,21 @@ namespace NaturalNumbersMath.Tests
         [TestMethod]
         public void CornersAreSetCorrectly()
         {
-            var topLeftCorner = new Coordinate(0, 1);
-            var bottomRightCorner = new Coordinate(2, 3);
+            var bottomLeftCorner = new Coordinate(0, 1);
+            var topRightCorner = new Coordinate(2, 3);
 
-            var rectangle = new CoordinateRectangle(topLeftCorner, bottomRightCorner);
-            Assert.AreEqual(topLeftCorner, rectangle.TopLeftCorner);
-            Assert.AreEqual(bottomRightCorner, rectangle.BottomRightCorner);
+            var rectangle = new CoordinateRectangle(bottomLeftCorner, topRightCorner);
+            Assert.AreEqual(bottomLeftCorner, rectangle.bottomLeftCorner);
+            Assert.AreEqual(topRightCorner, rectangle.topRightCorner);
         }
 
         [TestMethod]
         public void CheckIfCorrectCoordinatesAreIteratedOver()
         {
-            var topLeftCorner = new Coordinate(0, 1);
-            var bottomRightCorner = new Coordinate(2, 3);
+            var bottomLeftCorner = new Coordinate(0, 1);
+            var topRightCorner = new Coordinate(2, 3);
 
-            var rectangle = new CoordinateRectangle(topLeftCorner, bottomRightCorner);
+            var rectangle = new CoordinateRectangle(bottomLeftCorner, topRightCorner);
             var points = rectangle.Points.ToArray();
 
             Assert.AreEqual(new Coordinate(0, 1), points[0]);

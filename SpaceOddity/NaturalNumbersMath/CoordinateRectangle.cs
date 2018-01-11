@@ -7,16 +7,16 @@ namespace NaturalNumbersMath
 {
     public class CoordinateRectangle
     {
-        public Coordinate TopLeftCorner { get; private set; }
-        public Coordinate BottomRightCorner { get; private set; }
+        public Coordinate bottomLeftCorner { get; private set; }
+        public Coordinate topRightCorner { get; private set; }
 
         public IEnumerable<Coordinate> Points
         {
             get
             {
-                for (var line = TopLeftCorner; line.Y < BottomRightCorner.Y; line += Coordinates.Up)
+                for (var line = bottomLeftCorner; line.Y < topRightCorner.Y; line += Coordinates.Up)
                 {
-                    for (var coordinate = line; coordinate.X < BottomRightCorner.X; coordinate += Coordinates.Right)
+                    for (var coordinate = line; coordinate.X < topRightCorner.X; coordinate += Coordinates.Right)
                     {
                         yield return coordinate;
                     }
@@ -24,10 +24,10 @@ namespace NaturalNumbersMath
             }
         }
 
-        public CoordinateRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner)
+        public CoordinateRectangle(Coordinate bottomLeftCorner, Coordinate topRightCorner)
         {
-            this.TopLeftCorner = topLeftCorner;
-            this.BottomRightCorner = bottomRightCorner;
+            this.bottomLeftCorner = bottomLeftCorner;
+            this.topRightCorner = topRightCorner;
         }
     }
 }

@@ -15,10 +15,10 @@ namespace ViewModel.Tests.RectangleSections
             mockSection.Setup(section => section.Section).Returns(new Rectangle(new Vector2(1, 1), new Vector2(4, 7)));
             var rectangleSection = new MarginRectangleSection(new Vector2(1, 2), mockSection.Object);
 
-            Assert.AreEqual(2, rectangleSection.Section.TopLeftCorner.X);
-            Assert.AreEqual(3, rectangleSection.Section.TopLeftCorner.Y);
-            Assert.AreEqual(3, rectangleSection.Section.BottomRightCorner.X);
-            Assert.AreEqual(5, rectangleSection.Section.BottomRightCorner.Y);
+            Assert.AreEqual(2, rectangleSection.Section.BottomLeftCorner.X);
+            Assert.AreEqual(3, rectangleSection.Section.BottomLeftCorner.Y);
+            Assert.AreEqual(3, rectangleSection.Section.TopRightCorner.X);
+            Assert.AreEqual(5, rectangleSection.Section.TopRightCorner.Y);
         }
     }
 }

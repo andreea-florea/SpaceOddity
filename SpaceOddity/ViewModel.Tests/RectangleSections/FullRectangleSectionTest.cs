@@ -14,10 +14,10 @@ namespace ViewModel.Tests.RectangleSections
             var rectangle = new Rectangle(new Vector2(1, 1), new Vector2(4, 7));
             var rectangleSection = new FullRectangleSection(rectangle);
 
-            Assert.AreEqual(1, rectangleSection.Section.TopLeftCorner.X);
-            Assert.AreEqual(1, rectangleSection.Section.TopLeftCorner.Y);
-            Assert.AreEqual(4, rectangleSection.Section.BottomRightCorner.X);
-            Assert.AreEqual(7, rectangleSection.Section.BottomRightCorner.Y);
+            Assert.AreEqual(1, rectangleSection.Section.BottomLeftCorner.X);
+            Assert.AreEqual(1, rectangleSection.Section.BottomLeftCorner.Y);
+            Assert.AreEqual(4, rectangleSection.Section.TopRightCorner.X);
+            Assert.AreEqual(7, rectangleSection.Section.TopRightCorner.Y);
         }
     }
 }

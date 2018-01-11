@@ -16,7 +16,7 @@ namespace ViewModel
             get 
             {
                 var baseSection =  baseRectangleSection.Section;
-                return new Rectangle(baseSection.TopLeftCorner + margin, baseSection.BottomRightCorner - margin);
+                return new Rectangle(baseSection.BottomLeftCorner + margin, baseSection.TopRightCorner - margin);
             }
         }
 

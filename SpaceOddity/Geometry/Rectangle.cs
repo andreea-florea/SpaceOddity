@@ -10,14 +10,14 @@ namespace Geometry
 {
     public struct Rectangle
     {
-        public Vector2 TopLeftCorner { get; private set; }
-        public Vector2 BottomRightCorner { get; private set; }
+        public Vector2 BottomLeftCorner { get; private set; }
+        public Vector2 TopRightCorner { get; private set; }
 
         public Vector2 Dimensions
         {
             get
             {
-                return BottomRightCorner - TopLeftCorner;
+                return TopRightCorner - BottomLeftCorner;
             }
         }
 
@@ -25,14 +25,14 @@ namespace Geometry
         {
             get
             {
-                return TopLeftCorner + Dimensions * 0.5;
+                return BottomLeftCorner + Dimensions * 0.5;
             }
         }
 
-        public Rectangle(Vector2 topLeftCorner, Vector2 bottomRightCorner) : this()
+        public Rectangle(Vector2 bottomLeftCorner, Vector2 topRightCorner) : this()
         {
-            this.TopLeftCorner = topLeftCorner;
-            this.BottomRightCorner = bottomRightCorner;
+            this.BottomLeftCorner = bottomLeftCorner;
+            this.TopRightCorner = topRightCorner;
         }
 
         public Rectangle[,] Split(Coordinate dimensions)
@@ -55,7 +55,7 @@ namespace Geometry
             var xDirection = splitDirection.XProjection;
             var yDirection = splitDirection.YProjection;
 
-            return CreateMatrixPoints(TopLeftCorner, xDirection, yDirection, 
+            return CreateMatrixPoints(BottomLeftCorner, xDirection, yDirection, 
                 dimensions + Coordinates.Up + Coordinates.Right);
         }
 

@@ -22,7 +22,7 @@ namespace ViewModel
                 var scalledAspectRatio = aspectRatio * Math.Min(xScaled, yScaled);
 
                 var topCornerOffset = (baseSection.Dimensions - scalledAspectRatio) * 0.5;
-                var sectionTopLeftCorner = baseSection.TopLeftCorner + topCornerOffset;
+                var sectionTopLeftCorner = baseSection.BottomLeftCorner + topCornerOffset;
 
                 return new Rectangle(sectionTopLeftCorner, sectionTopLeftCorner + scalledAspectRatio);
             }
