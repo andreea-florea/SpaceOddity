@@ -13,7 +13,7 @@ namespace WpfView
 {
     public class WpfCurveRenderable : IRenderable
     {
-        private Line line;
+        private IList<Line> lines;
         private ICurve curve;
         private Canvas canvasParent;
         private BuilderWorldObjectState[] states;
@@ -22,14 +22,22 @@ namespace WpfView
 
         public IAction RightClickAction { private get; set; }
 
-        public WpfCurveRenderable(Line line, ICurve curve, Canvas canvasParent, BuilderWorldObjectState[] states)
+        public WpfCurveRenderable(IList<Line> lines, ICurve curve, Canvas canvasParent, BuilderWorldObjectState[] states)
         {
-            this.line = line;
+            this.lines = lines;
             this.curve = curve;
             this.canvasParent = canvasParent;
             this.states = states;
-            line.MouseLeftButtonDown += ElementMouseLeftButtonDown;
-            line.MouseRightButtonDown += ElementMouseRightButtonDown;
+            AssignLineControl();
+        }
+
+        private void AssignLineControl()
+        {
+            foreach (var line in lines)
+            {
+                line.MouseLeftButtonDown += ElementMouseLeftButtonDown;
+                line.MouseRightButtonDown += ElementMouseRightButtonDown;
+            }
         }
 
         private void ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -46,13 +54,25 @@ namespace WpfView
 
         public void Update(Vector2 position, Vector2 rotation, Vector2 scale)
         {
-            Canvas.SetTop(line, position.Y);
-            Canvas.SetLeft(line, position.X);
+            var deltaTime = 1.0 / lines.Count;
+            var lineTime = 0.0;
 
-            var halfScale = scale * 0.5;
-            var startPoint = curve.GetPoint(0).Multiply(halfScale);
-            var endPoint = curve.GetPoint(1).Multiply(halfScale);
+            foreach (var line in lines)
+            {
+                Canvas.SetTop(line, position.Y);
+                Canvas.SetLeft(line, position.X);
 
+                var halfScale = scale * 0.5;
+                var startPoint = curve.GetPoint(lineTime).Multiply(halfScale);
+                lineTime += deltaTime;
+                var endPoint = curve.GetPoint(lineTime).Multiply(halfScale);
+
+                SetLineCoordinates(line, startPoint, endPoint);
+            }
+        }
+
+        private void SetLineCoordinates(Line line, Vector2 startPoint, Vector2 endPoint)
+        {
             line.X1 = startPoint.X;
             line.Y1 = startPoint.Y;
             line.X2 = endPoint.X;
@@ -61,13 +81,19 @@ namespace WpfView
 
         public void Delete()
         {
-            canvasParent.Children.Remove(line);
+            foreach (var line in lines)
+            {
+                canvasParent.Children.Remove(line);
+            }
         }
 
         public void SetState(int state)
         {
-            line.Fill = new SolidColorBrush(states[state].Fill.GetColor());
-            line.Stroke = new SolidColorBrush(states[state].Border.GetColor());
+            foreach (var line in lines)
+            {
+                line.Fill = new SolidColorBrush(states[state].Fill.GetColor());
+                line.Stroke = new SolidColorBrush(states[state].Border.GetColor());
+            }
         }
     }
 }

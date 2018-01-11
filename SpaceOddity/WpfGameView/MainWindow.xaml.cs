@@ -54,7 +54,7 @@ namespace WpfGameView
 
             var pipeStates = new BuilderWorldObjectState[1];
             pipeStates[0] = new BuilderWorldObjectState(new ColorVector(0.8, 0.9, 1.0), new ColorVector(0.8, 0.9, 1.0));
-            var pipeObjectFactory = new WpfCurveRenderableFactory(mainCanvas, pipeStates, 3);
+            var pipeObjectFactory = new WpfCurveRenderableFactory(mainCanvas, pipeStates, 3, 8);
 
             var rectangle = new MarginRectangleSection(new Vector2(20, 20), 
                 new FullRectangleSection(new Geometry.Rectangle(

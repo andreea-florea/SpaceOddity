@@ -117,5 +117,13 @@ namespace Geometry.Tests
             var result = v1.Multiply(v2);
             Assert.AreEqual(new Vector2(15, 8), result);
         }
+
+        [TestMethod]
+        public void CheckIfAngleIsPositive()
+        {
+            var v1 = new Vector2(0, -1);
+
+            Assert.AreEqual(Math.PI * 3.0 * 0.5, v1.PositiveAngle);
+        }
     }
 }

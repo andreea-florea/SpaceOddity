@@ -43,6 +43,15 @@ namespace Geometry
             }
         }
 
+        public double PositiveAngle
+        {
+            get
+            {
+                var angle = Angle;
+                return angle < 0.0 ? angle + 2 * Math.PI : angle;
+            }
+        }
+
         public Vector2(double x, double y) : this()
         {
             this.X = x;

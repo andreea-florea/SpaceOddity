@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurveFraction.cs" />
     <Compile Include="EllipseCurve.cs" />
+    <Compile Include="OffsetCurve.cs" />
     <Compile Include="StraightLineCurve.cs" />
     <Compile Include="CoordinateExtensions.cs" />
     <Compile Include="ICurve.cs" />

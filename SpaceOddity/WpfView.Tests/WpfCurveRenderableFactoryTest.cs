@@ -24,7 +24,7 @@ namespace WpfView.Tests
             mockElementFactory = new Mock<IFactory<IFrameworkElementWrapper, ICurve>>();
             states = new BuilderWorldObjectState[1];
 
-            wpfRenderableFactory = new WpfCurveRenderableFactory(canvas, states, 2);
+            wpfRenderableFactory = new WpfCurveRenderableFactory(canvas, states, 2, 8);
         }
 
         [TestMethod]

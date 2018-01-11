@@ -326,15 +326,33 @@ namespace ViewModel.Tests
             tiles.Set(position, mockTile.Object);
 
             ICurve curve = null;
-            mockPipeFactory.Setup(factory => factory.Create(It.IsAny<StraightLineCurve>()))
+            mockPipeFactory.Setup(factory => factory.Create(It.IsAny<ICurve>()))
                 .Returns(mockPipe.Object)
-                .Callback<StraightLineCurve>(curveParam => curve = curveParam);
-
+                .Callback<ICurve>(curveParam => curve = curveParam);
 
             blueprintBuilderViewModel.DoubleEdgePipeAdded(mockBlueprint.Object, position, pipe);
             Assert.AreEqual(new Vector2(0, -1), curve.GetPoint(0));
             Assert.AreEqual(new Vector2(0, 1), curve.GetPoint(1));
         }
+
+        [TestMethod]
+        public void CreateCurvedPipeObjectWithRoundCurve()
+        {
+            var position = new Coordinate(2, 3);
+            var pipe = new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.RIGHT);
+            tiles.Set(position, mockTile.Object);
+
+            ICurve curve = null;
+            mockPipeFactory.Setup(factory => factory.Create(It.IsAny<ICurve>()))
+                .Returns(mockPipe.Object)
+                .Callback<ICurve>(curveParam => curve = curveParam);
+
+            blueprintBuilderViewModel.DoubleEdgePipeAdded(mockBlueprint.Object, position, pipe);
+            Assert.AreEqual(new Vector2(1, 0), curve.GetPoint(0));
+            Assert.AreEqual(new Vector2(0, -1), curve.GetPoint(1));
+            Assert.AreEqual(new Vector2(1-Math.Cos(Math.PI*0.25), Math.Sin(Math.PI*0.25)-1), curve.GetPoint(0.5));
+        }
+
 
         [TestMethod]
         public void CheckIfDoubleEdgedPipeIsDeletedCorrectly()
