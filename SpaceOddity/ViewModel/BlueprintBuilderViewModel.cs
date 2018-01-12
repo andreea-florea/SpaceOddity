@@ -158,9 +158,9 @@ namespace ViewModel
             var smallestAngle = Math.Abs(firstAngle - secondAngle) < Math.PI ?
                 Math.Min(firstAngle, secondAngle) : Math.Max(firstAngle, secondAngle);
 
-            return new OffsetCurve(
-                new CurveFraction(new EllipseCurve(new Vector2(1, 1)), smallestAngle + Math.PI, Math.PI * 0.5),
-                firstPosition + secondPosition);
+            return new CurveFraction(
+                new OffsetCurve(new EllipseCurve(new Vector2(1, 1)), firstPosition + secondPosition), 
+                smallestAngle + Math.PI, Math.PI * 0.5);
         }
 
         public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)
