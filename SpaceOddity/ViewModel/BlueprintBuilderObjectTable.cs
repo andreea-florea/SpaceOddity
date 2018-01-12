@@ -105,11 +105,5 @@ namespace ViewModel
             doubleEdgedPipes[key].Delete();
             doubleEdgedPipes.Remove(key);
         }
-
-        private void DeleteObject(IWorldObject[,] array, Coordinate position)
-        {
-            array.Get(position).Delete();
-            array.Set(position, null);
-        }
     }
 }
