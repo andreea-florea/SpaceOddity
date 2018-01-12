@@ -29,9 +29,9 @@ namespace ViewModel.Tests
         private Mock<IBlueprintBuilderControlAssigner> mockController;
         private Mock<IBuilderWorldObject> mockTile;
         private Mock<IWorldObject> mockPipe;
-        private IBuilderWorldObject[,] blocks;
         private IBuilderWorldObject[,] tiles;
-        private IBuilderWorldObject[,] shipComponents;
+        private Dictionary<Coordinate, IBuilderWorldObject> blocks;
+        private Dictionary<Coordinate, IBuilderWorldObject> shipComponents;
         private Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks;
         private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
         private BlueprintBuilderViewModel blueprintBuilderViewModel;
@@ -56,9 +56,9 @@ namespace ViewModel.Tests
             mockController = new Mock<IBlueprintBuilderControlAssigner>();
 
             mockTile = new Mock<IBuilderWorldObject>();
-            blocks = new IBuilderWorldObject[5, 6];
             tiles = new IBuilderWorldObject[5, 6];
-            shipComponents = new IBuilderWorldObject[5, 6];
+            blocks = new Dictionary<Coordinate, IBuilderWorldObject>();
+            shipComponents = new Dictionary<Coordinate, IBuilderWorldObject>();
             pipeLinks = new Dictionary<CoordinatePair, IBuilderWorldObject>();
             doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
             var objectTable = new BlueprintBuilderObjectTable(
@@ -115,12 +115,12 @@ namespace ViewModel.Tests
         public void CheckIfObjectIsDeletedFromView()
         {
             var position = new Coordinate(2, 3);
-            blocks.Set(position, mockBlock.Object);
+            blocks.Add(position, mockBlock.Object);
 
             blueprintBuilderViewModel.BlockDeleted(mockBlueprint.Object, position);
 
             mockBlock.Verify(block => block.Delete(), Times.Once());
-            Assert.AreEqual(null, blocks.Get(position));
+            Assert.IsFalse(blocks.ContainsKey(position));
         }
 
         [TestMethod]
@@ -137,9 +137,9 @@ namespace ViewModel.Tests
             blueprintBuilderViewModel.ShipComponentAdded(mockBlueprint.Object, position);
 
             mockShipComponentFactory.Verify(factory => factory.Create(), Times.Once());
-            mockController.Verify(controller => controller.AssignShipComponentControl(shipComponents.Get(position), position), Times.Once());
-            Assert.AreEqual(translation, shipComponents.Get(position).Position);
-            Assert.AreEqual(scale, shipComponents.Get(position).Scale);
+            mockController.Verify(controller => controller.AssignShipComponentControl(shipComponents[position], position), Times.Once());
+            Assert.AreEqual(translation, shipComponents[position].Position);
+            Assert.AreEqual(scale, shipComponents[position].Scale);
         }
 
         [TestMethod]
@@ -254,7 +254,7 @@ namespace ViewModel.Tests
         {
             var position = new Coordinate(2, 3);
             var connectingPosition = new Coordinate(1, 3);
-            blocks.Set(position, mockBlock.Object);
+            blocks.Add(position, mockBlock.Object);
             pipeLinks[new CoordinatePair(position, connectingPosition)] = mockPipeLink.Object;
 
             blueprintBuilderViewModel.BlockDeleted(mockBlueprint.Object, position);
@@ -399,12 +399,12 @@ namespace ViewModel.Tests
         public void CheckIfShipComponentIsDeletedCorrectly()
         {
             var position = new Coordinate(1, 3);
-            shipComponents.Set(position, mockShipComponent.Object);
+            shipComponents.Add(position, mockShipComponent.Object);
 
             blueprintBuilderViewModel.ShipComponentDeleted(mockBlueprint.Object, position);
 
             mockShipComponent.Verify(component => component.Delete(), Times.Once());
-            Assert.AreEqual(null, shipComponents.Get(position));
+            Assert.IsFalse(shipComponents.ContainsKey(position));
         }
     }
 }

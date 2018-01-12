@@ -35,8 +35,8 @@ namespace ViewModel
         public BlueprintBuilderViewModel CreateViewModel(IBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
             var tiles = tilesFactory.CreateTiles(builder.Dimensions, fittingRectangle);
-            var blocks = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
-            var shipComponents = new IBuilderWorldObject[builder.Dimensions.Y, builder.Dimensions.X];
+            var blocks = new Dictionary<Coordinate, IBuilderWorldObject>();
+            var shipComponents = new Dictionary<Coordinate, IBuilderWorldObject>();
             var pipeLinks = new Dictionary<CoordinatePair, IBuilderWorldObject>();
             var doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 

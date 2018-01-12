@@ -14,8 +14,8 @@ namespace ViewModel.Tests
         private BlueprintBuilderObjectTable objectTable;
         private Mock<IBuilderWorldObject> mockBuilderObject;
         private IBuilderWorldObject[,] tiles;
-        private IBuilderWorldObject[,] blocks;
-        private IBuilderWorldObject[,] shipComponents;
+        private Dictionary<Coordinate, IBuilderWorldObject> blocks;
+        private Dictionary<Coordinate, IBuilderWorldObject> shipComponents;
         private Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks;
         private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
@@ -25,8 +25,8 @@ namespace ViewModel.Tests
             mockBuilderObject = new Mock<IBuilderWorldObject>();
 
             tiles = new IBuilderWorldObject[5, 6];
-            blocks = new IBuilderWorldObject[5, 6];
-            shipComponents = new IBuilderWorldObject[5, 6];
+            blocks = new Dictionary<Coordinate, IBuilderWorldObject>();
+            shipComponents = new Dictionary<Coordinate, IBuilderWorldObject>();
             pipeLinks = new Dictionary<CoordinatePair, IBuilderWorldObject>();
             doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 
@@ -56,18 +56,18 @@ namespace ViewModel.Tests
         public void BlockIsDeletedCorrectly()
         {
             var position = new Coordinate(1, 2);
-            blocks.Set(position, mockBuilderObject.Object);
+            blocks.Add(position, mockBuilderObject.Object);
             objectTable.DeleteBlock(position);
-            Assert.AreEqual(null, blocks.Get(position));
+            Assert.IsFalse(blocks.ContainsKey(position));
         }
 
         [TestMethod]
         public void ShipComponentIsDeletedCorrectly()
         {
             var position = new Coordinate(1, 2);
-            shipComponents.Set(position, mockBuilderObject.Object);
+            shipComponents.Add(position, mockBuilderObject.Object);
             objectTable.DeleteShipComponent(position);
-            Assert.AreEqual(null, shipComponents.Get(position));
+            Assert.IsFalse(shipComponents.ContainsKey(position));
         }
 
         [TestMethod]

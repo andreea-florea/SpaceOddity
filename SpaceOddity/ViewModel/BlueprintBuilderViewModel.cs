@@ -142,20 +142,25 @@ namespace ViewModel
             var firstPosition = firstEdge.ToCoordinate().ToVector2();
             var secondPosition = secondEdge.ToCoordinate().ToVector2();
 
-            var controlPosition = firstPosition + secondPosition;
-            if (controlPosition.Magnitude < 1.0 || controlPosition.Magnitude.CloseTo(1.0))
+            if ((firstPosition + secondPosition).Magnitude.SmallerOrEqualTo(1.0))
             {
                 return new StraightLineCurve(firstPosition, secondPosition - firstPosition);
             }
 
+            return CreateRoundCurve(firstPosition, secondPosition);
+        }
+
+        private static ICurve CreateRoundCurve(Vector2 firstPosition, Vector2 secondPosition)
+        {
             var firstAngle = firstPosition.PositiveAngle;
             var secondAngle = secondPosition.PositiveAngle;
+
             var smallestAngle = Math.Abs(firstAngle - secondAngle) < Math.PI ?
                 Math.Min(firstAngle, secondAngle) : Math.Max(firstAngle, secondAngle);
 
             return new OffsetCurve(
                 new CurveFraction(new EllipseCurve(new Vector2(1, 1)), smallestAngle + Math.PI, Math.PI * 0.5),
-                controlPosition);
+                firstPosition + secondPosition);
         }
 
         public void DoubleEdgePipeDeleted(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)

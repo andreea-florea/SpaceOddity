@@ -12,17 +12,15 @@ namespace ViewModel
     public class BlueprintBuilderObjectTable : IBlueprintBuilderObjectTable
     {
         private IBuilderWorldObject[,] tiles;
-        private IBuilderWorldObject[,] blocks;
-        private IBuilderWorldObject[,] shipComponents;
-        private IBuilderWorldObject[,] horizontalPipeLinks;
-        private IBuilderWorldObject[,] verticalPipeLinks;
+        private Dictionary<Coordinate, IBuilderWorldObject> blocks;
+        private Dictionary<Coordinate, IBuilderWorldObject> shipComponents;
         private Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks;
         private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         public BlueprintBuilderObjectTable(
             IBuilderWorldObject[,] tiles,
-            IBuilderWorldObject[,] blocks,
-            IBuilderWorldObject[,] shipComponents,
+            Dictionary<Coordinate, IBuilderWorldObject> blocks,
+            Dictionary<Coordinate, IBuilderWorldObject> shipComponents,
             Dictionary<CoordinatePair, IBuilderWorldObject> pipeLinks,
             Dictionary<PipePosition, IWorldObject> doubleEdgedPipes)
         {
@@ -40,22 +38,22 @@ namespace ViewModel
 
         public IBuilderWorldObject GetBlock(Coordinate position)
         {
-            return blocks.Get(position);
+            return blocks[position];
         }
 
         public void SetBlock(Coordinate position, IBuilderWorldObject block)
         {
-            blocks.Set(position, block);
+            blocks.Add(position, block);
         }
 
         public IBuilderWorldObject GetShipComponent(Coordinate position)
         {
-            return shipComponents.Get(position);
+            return shipComponents[position];
         }
 
-        public void SetShipComponent(Coordinate position, IWorldObject shipComponent)
+        public void SetShipComponent(Coordinate position, IBuilderWorldObject shipComponent)
         {
-            shipComponents.Set(position, shipComponent);
+            shipComponents.Add(position, shipComponent);
         }
 
         public void SetPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge, IWorldObject pipeObject)
@@ -91,12 +89,14 @@ namespace ViewModel
 
         public void DeleteBlock(Coordinate position)
         {
-            DeleteObject(blocks, position);
+            blocks[position].Delete();
+            blocks.Remove(position);
         }
 
         public void DeleteShipComponent(Coordinate position)
         {
-            DeleteObject(shipComponents, position);
+            shipComponents[position].Delete();
+            shipComponents.Remove(position);
         }
 
         public void DeletePipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
@@ -108,11 +108,8 @@ namespace ViewModel
 
         private void DeleteObject(IWorldObject[,] array, Coordinate position)
         {
-            if (array.Get(position) != null)
-            {
-                array.Get(position).Delete();
-                array.Set(position, null);
-            }
+            array.Get(position).Delete();
+            array.Set(position, null);
         }
     }
 }
