@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{135A28B7-E741-4D9D-92BE-A93488400456}</ProjectGuid>
+    <ProjectGuid>{8A2253FD-810A-4419-A4F6-B2CADD18EDF5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConstructedGame</RootNamespace>
-    <AssemblyName>ConstructedGame</AssemblyName>
+    <RootNamespace>BlueprintBuildingViewModel</RootNamespace>
+    <AssemblyName>BlueprintBuildingViewModel</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,16 +23,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,17 +39,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\BlockCancelAction.cs" />
+    <Compile Include="Actions\BlockSelectAction.cs" />
+    <Compile Include="Actions\PipeLinkSelectAction.cs" />
+    <Compile Include="Actions\ShipComponentCancelAction.cs" />
+    <Compile Include="Actions\ShipComponentSelectAction.cs" />
+    <Compile Include="Actions\TileSelectAction.cs" />
+    <Compile Include="BlueprintBuilderObjectTable.cs" />
+    <Compile Include="BlueprintBuilderTableHighlighter.cs" />
+    <Compile Include="BlueprintBuilderViewModel.cs" />
+    <Compile Include="BlueprintBuilderViewModelFactory.cs" />
+    <Compile Include="Controller\BlueprintBuilderBasicController.cs" />
+    <Compile Include="Controller\BlueprintBuilderControlAssigner.cs" />
+    <Compile Include="Controller\BlueprintBuilderControllerFactory.cs" />
+    <Compile Include="Controller\BlueprintBuilderMasterController.cs" />
+    <Compile Include="Controller\BlueprintBuilderPipeBuildController.cs" />
+    <Compile Include="Controller\IBlueprintBuilderControlAssigner.cs" />
+    <Compile Include="Controller\IBlueprintBuilderController.cs" />
+    <Compile Include="DataStructures\CoordinatePair.cs" />
+    <Compile Include="DataStructures\PipePosition.cs" />
+    <Compile Include="Extensions\CoordinateEdgeTypeExtensions.cs" />
+    <Compile Include="Fancy\BlueprintBuilderFancyViewModel.cs" />
+    <Compile Include="Fancy\BlueprintBuilderFancyViewModelFactory.cs" />
+    <Compile Include="Fancy\FacingPosition.cs" />
+    <Compile Include="Fancy\IDetailsViewUpdater.cs" />
+    <Compile Include="Fancy\Internal\BlockDetailsViewUpdater.cs" />
+    <Compile Include="Fancy\Internal\CornerBlocksNumberGenerator.cs" />
+    <Compile Include="Fancy\Internal\EdgeBlocksNumberGenerator.cs" />
+    <Compile Include="Fancy\Internal\IBitNumberGenerator.cs" />
+    <Compile Include="Fancy\Internal\IFacingContextWorldObjectFactory.cs" />
+    <Compile Include="Fancy\Internal\IgnoreFacingContextWorldObjectFactory.cs" />
+    <Compile Include="Fancy\Internal\WorldObjectBitNumberFactoryPicker.cs" />
+    <Compile Include="IBlueprintBuilderObjectTable.cs" />
+    <Compile Include="IBlueprintBuilderTableHighlighter.cs" />
+    <Compile Include="IViewModelTilesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameViewFactory.cs" />
+    <Compile Include="ViewModelTilesFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Algorithm\Algorithms.csproj">
       <Project>{32a175be-a3af-4020-9de4-345fba697103}</Project>
       <Name>Algorithms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BlueprintBuildingViewModel\BlueprintBuildingViewModel.csproj">
-      <Project>{8a2253fd-810a-4419-a4f6-b2cadd18edf5}</Project>
-      <Name>BlueprintBuildingViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{017cbef2-ad71-4d14-a04f-ddd57c27a98f}</Project>

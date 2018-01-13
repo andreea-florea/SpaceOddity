@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using ViewInterface;
 using ViewModel;
-using ViewModel.Controller;
-using ViewModel.Fancy;
+using BlueprintBuildingViewModel.Controller;
+using BlueprintBuildingViewModel.Fancy;
+using BlueprintBuildingViewModel;
 
 namespace ConstructedGame
 {
@@ -25,7 +26,7 @@ namespace ConstructedGame
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
-            var tilesFactory = new ViewModelTilesFactory(new BuilderWorldObjectFactory(tileObjectFactory));
+            var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(
                 tilesFactory, blockRenderableFactory, shipComponentsFactory, pipeLinkFactory, pipeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
@@ -47,7 +48,7 @@ namespace ConstructedGame
             var observableBlueprintBuilder = CreateBlueprintBuilder();
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
-            var tilesFactory = new ViewModelTilesFactory(new BuilderWorldObjectFactory(tileObjectFactory));
+            var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory =
                 new BlueprintBuilderFancyViewModelFactory(tilesFactory,
                     blockCoreFactory,
