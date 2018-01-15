@@ -16,6 +16,7 @@ namespace Game.Tests
         private BlueprintBuilder blueprintBuilder;
         private Mock<IBlockFactory> mockBlockFactory;
         private Mock<IShipComponentFactory> mockShipComponentFactory;
+        private Mock<IShipComponentFactory> mockEmptyShipComponentFactory;
         private Mock<IBlock> mockBlock;
         private Mock<IShipComponent> mockShipComponent;
         private List<DoubleEdgedPipe> doubleEdgedPipes;
@@ -30,7 +31,8 @@ namespace Game.Tests
             mockShipComponent = new Mock<IShipComponent>();
             mockBlockFactory = new Mock<IBlockFactory>();
             mockShipComponentFactory = new Mock<IShipComponentFactory>();
-            blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object);
+            mockEmptyShipComponentFactory = new Mock<IShipComponentFactory>();
+            blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object, mockEmptyShipComponentFactory.Object);
             doubleEdgedPipes = new List<DoubleEdgedPipe>();
             oneEdgedPipes = new List<ConnectingPipe>();
 

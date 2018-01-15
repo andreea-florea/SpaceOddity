@@ -14,6 +14,7 @@ namespace Game
         private IBlueprint blueprint;
         private IBlockFactory blockFactory;
         private IShipComponentFactory shipComponentFactory;
+        private IShipComponentFactory emptyShipComponentFactory;
         private List<IBlockRestrictor> blockRestrictors;
 
         public Coordinate Dimensions
@@ -24,11 +25,12 @@ namespace Game
             }
         }
 
-        public BlueprintBuilder(IBlueprint blueprint, IBlockFactory blockFactory, IShipComponentFactory shipComponentFactory)
+        public BlueprintBuilder(IBlueprint blueprint, IBlockFactory blockFactory, IShipComponentFactory shipComponentFactory, IShipComponentFactory emptyShipComponentFactory)
         {
             this.blueprint = blueprint;
             this.blockFactory = blockFactory;
             this.shipComponentFactory = shipComponentFactory;
+            this.emptyShipComponentFactory = emptyShipComponentFactory;
             blockRestrictors = new List<IBlockRestrictor>();
         }
 
@@ -179,7 +181,7 @@ namespace Game
                         var intersectingPipe = HasIntersectingPipes(block, pipe);
                         if (intersectingPipe != null)
                         {
-                            blueprint.PlaceShipComponent(position, new EmptyShipComponent());
+                            blueprint.PlaceShipComponent(position, emptyShipComponentFactory.CreateComponent());
                             TransformDoubleEdgedPipeIntoConnectingPipe(position, intersectingPipe);
                             TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
                             ClearPipes(position, block.PipesWithBothEdges);
