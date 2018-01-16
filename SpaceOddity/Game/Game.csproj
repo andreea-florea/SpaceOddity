@@ -55,6 +55,8 @@
     <Compile Include="BlueprintBuilder.cs" />
     <Compile Include="ConnectingPipe.cs" />
     <Compile Include="DoubleEdgedPipe.cs" />
+    <Compile Include="EmptyShipComponentFactory.cs" />
+    <Compile Include="Enums\BlueprintShipComponentType.cs" />
     <Compile Include="Enums\EdgeType.cs" />
     <Compile Include="EmptyShipComponent.cs" />
     <Compile Include="Interfaces\IBlock.cs" />

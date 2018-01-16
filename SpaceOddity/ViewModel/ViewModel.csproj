@@ -44,6 +44,7 @@
     <Compile Include="ActivateableWorldObject.cs" />
     <Compile Include="ActivateableWorldObjectFactory.cs" />
     <Compile Include="CurveWorldObjectFactory.cs" />
+    <Compile Include="FactoryPicker.cs" />
     <Compile Include="IActivateableWorldObject.cs" />
     <Compile Include="IWorldObject.cs" />
     <Compile Include="RectangleSections\AspectRatioRectangleSection.cs" />

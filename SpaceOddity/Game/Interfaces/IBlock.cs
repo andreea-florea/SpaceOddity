@@ -8,8 +8,6 @@ namespace Game.Interfaces
 {
     public interface IBlock : IConstBlock
     {
-        IShipComponent ShipComponent { get; }
-
         void AddShipComponent(IShipComponent component);
         void DeleteShipComponent();
         void AddPipe(DoubleEdgedPipe pipe);

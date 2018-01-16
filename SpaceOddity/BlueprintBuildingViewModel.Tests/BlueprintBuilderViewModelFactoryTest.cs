@@ -17,7 +17,8 @@ namespace BlueprintBuildingViewModel.Tests
     {
         private Mock<IViewModelTilesFactory> mockTileFactory;
         private Mock<IRenderableFactory> mockBlockFactory;
-        private Mock<IRenderableFactory> mockShipComponentsFactory;
+        private Mock<IRenderableFactory> mockEmptyComponentsFactory;
+        private Mock<IRenderableFactory> mockBatteryFactory;
         private Mock<IRenderableFactory> mockPipeLinkFactory;
         private Mock<ICurveRenderableFactory> mockPipeFactory;
         private IActivateableWorldObject[,] tiles;
@@ -30,7 +31,8 @@ namespace BlueprintBuildingViewModel.Tests
         {
             mockTileFactory = new Mock<IViewModelTilesFactory>();
             mockBlockFactory = new Mock<IRenderableFactory>();
-            mockShipComponentsFactory = new Mock<IRenderableFactory>();
+            mockEmptyComponentsFactory = new Mock<IRenderableFactory>();
+            mockBatteryFactory = new Mock<IRenderableFactory>();
             mockPipeLinkFactory = new Mock<IRenderableFactory>();
             mockPipeFactory = new Mock<ICurveRenderableFactory>();
 
@@ -50,7 +52,8 @@ namespace BlueprintBuildingViewModel.Tests
             viewModelFactory = new BlueprintBuilderViewModelFactory(
                 mockTileFactory.Object,
                 mockBlockFactory.Object, 
-                mockShipComponentsFactory.Object,
+                mockBatteryFactory.Object,
+                mockEmptyComponentsFactory.Object,
                 mockPipeLinkFactory.Object,
                 mockPipeFactory.Object);
         }
@@ -107,7 +110,13 @@ namespace BlueprintBuildingViewModel.Tests
             var rectangle = new Mock<IRectangleSection>();
             rectangle.Setup(rect => rect.Section).Returns(new Rectangle(new Vector2(1, 2), new Vector2(5, 8)));
             mockBlueprintBuilder.Setup(builder => builder.Dimensions).Returns(new Coordinate(4, 6));
-            mockShipComponentsFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
+            mockEmptyComponentsFactory.Setup(factory => factory.CreateRenderable()).Returns(new Mock<IRenderable>().Object);
+
+            var mockComponent = new Mock<IShipComponent>();
+            var mockConstBlock = new Mock<IBlock>();
+            mockConstBlock.SetupAllProperties();
+            mockConstBlock.SetupGet(block => block.ShipComponent).Returns(mockComponent.Object);
+            mockBlueprint.Setup(blueprint => blueprint.GetBlock(new Coordinate(2, 3))).Returns(mockConstBlock.Object);
 
             var blueprintBuilderViewModel =
                 viewModelFactory.CreateViewModel(mockBlueprintBuilder.Object, rectangle.Object);
@@ -115,7 +124,7 @@ namespace BlueprintBuildingViewModel.Tests
             tiles.Set(new Coordinate(2, 3), mockTile.Object);
             blueprintBuilderViewModel.ShipComponentAdded(mockBlueprint.Object, new Coordinate(2, 3));
 
-            mockShipComponentsFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
+            mockEmptyComponentsFactory.Verify(factory => factory.CreateRenderable(), Times.Once());
         }
 
         [TestMethod]

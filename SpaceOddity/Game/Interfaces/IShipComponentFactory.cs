@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Algorithm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Game.Interfaces
 {
-    public interface IShipComponentFactory
+    public interface IShipComponentFactory : IFactory<IShipComponent>
     {
-        IShipComponent CreateComponent();
     }
 }

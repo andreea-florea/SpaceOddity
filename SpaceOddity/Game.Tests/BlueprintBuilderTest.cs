@@ -133,7 +133,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
             mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
-            mockShipComponentFactory.Setup(x => x.CreateComponent()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(x => x.Create()).Returns(mockShipComponent.Object);
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             mockBlock.Verify(block => block.AddShipComponent(mockShipComponent.Object), Times.Once());
@@ -197,7 +197,7 @@ namespace Game.Tests
             var position = new Coordinate(5, 4);
 
             mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
-            mockShipComponentFactory.Setup(m => m.CreateComponent()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
             blocks.Set(position, mockBlock.Object);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
@@ -211,7 +211,7 @@ namespace Game.Tests
             var position = new Coordinate(5, 4);
 
             blocks.Set(position, mockBlock.Object);
-            mockShipComponentFactory.Setup(m => m.CreateComponent()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             mockShipComponent.Verify(x => x.AdditionalSetups(It.IsAny<IBlueprintBuilder>()), Times.Once());
@@ -506,7 +506,7 @@ namespace Game.Tests
             doubleEdgedPipes.Add(new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP));
 
             mockBlock.Setup(block => block.AddShipComponent(It.IsAny<IShipComponent>())).Callback(() => mockBlock.Setup(x => x.HasShipComponent()).Returns(true));
-            mockShipComponentFactory.Setup(m => m.CreateComponent()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
@@ -619,7 +619,7 @@ namespace Game.Tests
             doubleEdgedPipes.Add(new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.RIGHT));
 
             mockBlock.Setup(block => block.AddShipComponent(It.IsAny<IShipComponent>())).Callback(() => mockBlock.Setup(x => x.HasShipComponent()).Returns(true));
-            mockShipComponentFactory.Setup(m => m.CreateComponent()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
            
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());

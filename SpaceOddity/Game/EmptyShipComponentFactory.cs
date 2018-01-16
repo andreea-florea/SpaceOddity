@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Game
 {
-    public class BatteryFactory : IShipComponentFactory
+    public class EmptyShipComponentFactory : IShipComponentFactory
     {
         public IShipComponent Create()
         {
-            return new Battery();
+            return new EmptyShipComponent();
         }
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="ActivateableWorldObjetFactoryTest.cs" />
     <Compile Include="ActivateableWorldObjectTest.cs" />
     <Compile Include="CurveWorldObjectFactoryTest.cs" />
+    <Compile Include="FactoryPickerTest.cs" />
     <Compile Include="WorldObjectFactoryTest.cs" />
     <Compile Include="WorldObjectTest.cs" />
   </ItemGroup>

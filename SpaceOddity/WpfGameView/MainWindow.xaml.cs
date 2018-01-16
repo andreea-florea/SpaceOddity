@@ -39,10 +39,18 @@ namespace WpfGameView
             var blockObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkBlockFactory, blockStates);
 
             var shipComponentStates = new BuilderWorldObjectState[1];
+            shipComponentStates[0] = new BuilderWorldObjectState(new ColorVector(1.0, 0.9, 0.0), new ColorVector(1.0, 0.9, 0.0));
             var frameworkShipComponentFactory = new GridParentFrameworkElementFactory(
                 new CircleFrameworkElementFactory(5), new Vector2(20, 20), 5);
             var shipComponentObjectFactory = 
                 new WpfRenderableFactory(mainCanvas, frameworkShipComponentFactory, shipComponentStates);
+
+            var emptyShipComponentStates = new BuilderWorldObjectState[1];
+            emptyShipComponentStates[0] = new BuilderWorldObjectState(new ColorVector(0.1, 0.9, 1.0), new ColorVector(0.1, 0.9, 1.0));
+            var frameworkEmptyShipComponentFactory = new GridParentFrameworkElementFactory(
+                new CircleFrameworkElementFactory(5), new Vector2(20, 20), 5);
+            var emptyShipComponentsFactory = 
+                new WpfRenderableFactory(mainCanvas, frameworkShipComponentFactory, emptyShipComponentStates);
 
             var pipeLinkStates = new BuilderWorldObjectState[2];
             pipeLinkStates[0] = new BuilderWorldObjectState(new ColorVector(0.15, 0.55, 0.9), new ColorVector(0.15, 0.55, 0.9));
@@ -64,6 +72,7 @@ namespace WpfGameView
                 tileObjectFactory, 
                 blockObjectFactory, 
                 shipComponentObjectFactory, 
+                emptyShipComponentsFactory,
                 pipeLinkObjectFactory, 
                 pipeObjectFactory,
                 rectangle);

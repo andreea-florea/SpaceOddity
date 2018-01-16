@@ -9,6 +9,8 @@ using ViewInterface;
 using BlueprintBuildingViewModel.Controller;
 using BlueprintBuildingViewModel.DataStructures;
 using ViewModel;
+using Algorithm;
+using Game.Enums;
 
 namespace BlueprintBuildingViewModel
 {
@@ -16,19 +18,22 @@ namespace BlueprintBuildingViewModel
     {
         private IViewModelTilesFactory tilesFactory;
         private IRenderableFactory blockFactory;
-        private IRenderableFactory shipComponentsFactory;
+        private IRenderableFactory batteryFactory;
+        private IRenderableFactory emptyComponentFactory;
         private IRenderableFactory pipeLinkFactory;
         private ICurveRenderableFactory pipeFactory;
 
         public BlueprintBuilderViewModelFactory(IViewModelTilesFactory tilesFactory,
-            IRenderableFactory blockFactory, 
-            IRenderableFactory shipComponentsFactory,
+            IRenderableFactory blockFactory,
+            IRenderableFactory batteryFactory,
+            IRenderableFactory emptyComponentFactory,
             IRenderableFactory pipeLinkFactory,
             ICurveRenderableFactory pipeFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;
-            this.shipComponentsFactory = shipComponentsFactory;
+            this.batteryFactory = batteryFactory;
+            this.emptyComponentFactory = emptyComponentFactory;
             this.pipeLinkFactory = pipeLinkFactory;
             this.pipeFactory = pipeFactory;
         }
@@ -51,9 +56,13 @@ namespace BlueprintBuildingViewModel
                 controlAssigner.AssignTileControl(tiles.Get(coordinate), coordinate);
             }
 
+            var shipComponentsFactories = new Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>>();
+            shipComponentsFactories.Add(BlueprintShipComponentType.Empty, new ActivateableWorldObjectFactory(emptyComponentFactory));
+            shipComponentsFactories.Add(BlueprintShipComponentType.Battery, new ActivateableWorldObjectFactory(batteryFactory));
+
             var viewModel = new BlueprintBuilderViewModel(objectTable,
                 new ActivateableWorldObjectFactory(blockFactory), 
-                new ActivateableWorldObjectFactory(shipComponentsFactory),
+                new FactoryPicker<BlueprintShipComponentType, IActivateableWorldObject>(shipComponentsFactories),
                 new ActivateableWorldObjectFactory(pipeLinkFactory),
                 new CurveWorldObjectFactory(pipeFactory),
                 controlAssigner);

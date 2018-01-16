@@ -19,16 +19,17 @@ namespace ConstructedGame
         public void CreateBlueprintBuilderView(IRenderableFactory tileObjectFactory,
             IRenderableFactory blockRenderableFactory, 
             IRenderableFactory shipComponentsFactory, 
+            IRenderableFactory emptyComponentsFactory,
             IRenderableFactory pipeLinkFactory,
             ICurveRenderableFactory pipeFactory,
             IRectangleSection fullRectangle)
         {
-            var observableBlueprintBuilder = CreateBlueprintBuilder();
+            var observableBlueprintBuilder = CreateBlueprintBuilder(new Coordinate(11, 11));
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
             var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(
-                tilesFactory, blockRenderableFactory, shipComponentsFactory, pipeLinkFactory, pipeFactory);
+                tilesFactory, blockRenderableFactory, shipComponentsFactory, emptyComponentsFactory, pipeLinkFactory, pipeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
@@ -45,7 +46,7 @@ namespace ConstructedGame
             IRenderableFactory closedEdgeFactory,
             IRectangleSection fullRectangle)
         {
-            var observableBlueprintBuilder = CreateBlueprintBuilder();
+            var observableBlueprintBuilder = CreateBlueprintBuilder(new Coordinate(11, 11));
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
             var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
@@ -64,9 +65,11 @@ namespace ConstructedGame
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
-        private IBlueprintBuilder CreateBlueprintBuilder()
+        private IBlueprintBuilder CreateBlueprintBuilder(Coordinate size)
         {
-            return new BlueprintBuilder(new Coordinate(11, 11));
+            return new BlueprintBuilder(
+                new Blueprint(new IBlock[size.Y, size.X]),
+                new BlockFactory(1.0), new BatteryFactory(), new EmptyShipComponentFactory());
         }
 
         private AspectRatioRectangleSection CreateViewRectangle(

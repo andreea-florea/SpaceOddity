@@ -66,6 +66,7 @@
     <Compile Include="EllipseCurveTest.cs" />
     <Compile Include="OffsetCurveTest.cs" />
     <Compile Include="CurveFractionTest.cs" />
+    <Compile Include="Vector2sTest.cs" />
     <Compile Include="Vector2Test.cs" />
   </ItemGroup>
   <ItemGroup>

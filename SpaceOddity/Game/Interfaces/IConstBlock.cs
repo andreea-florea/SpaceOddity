@@ -12,7 +12,7 @@ namespace Game.Interfaces
         IEnumerable<ConnectingPipe> PipesWithOneEdge { get; }
         double Weight { get; }
         Coordinate Position { get; }
-
+        IShipComponent ShipComponent { get; }
         bool HasShipComponent();
         void SetPosition(Coordinate position);
     }

@@ -22,7 +22,7 @@ namespace BlueprintBuildingViewModel
         private BlueprintBuilderObjectTable objectTable;
 
         private IFactory<IActivateableWorldObject> blockFactory;
-        private IFactory<IActivateableWorldObject> shipComponentFactory;
+        private IFactory<IActivateableWorldObject, BlueprintShipComponentType> shipComponentFactory;
         private IFactory<IActivateableWorldObject> pipeLinkFactory;
         private IFactory<IWorldObject, ICurve> pipeFactory;
 
@@ -30,7 +30,7 @@ namespace BlueprintBuildingViewModel
 
         public BlueprintBuilderViewModel(BlueprintBuilderObjectTable objectTable,
             IFactory<IActivateableWorldObject> blockFactory,
-            IFactory<IActivateableWorldObject> shipComponentFactory,
+            IFactory<IActivateableWorldObject, BlueprintShipComponentType> shipComponentFactory,
             IFactory<IActivateableWorldObject> pipeLinkFactory,
             IFactory<IWorldObject, ICurve> pipeFactory,
             IBlueprintBuilderControlAssigner controller)
@@ -108,7 +108,8 @@ namespace BlueprintBuildingViewModel
 
         public void ShipComponentAdded(IBlueprint blueprint, Coordinate position)
         {
-            objectTable.SetShipComponent(position, shipComponentFactory.Create());
+            var shipComponent = blueprint.GetBlock(position).ShipComponent;
+            objectTable.SetShipComponent(position, shipComponentFactory.Create(shipComponent.Type));
             objectTable.GetShipComponent(position).Position = objectTable.GetTile(position).Position;
             objectTable.GetShipComponent(position).Scale = objectTable.GetTile(position).Scale;
             controller.AssignShipComponentControl(objectTable.GetShipComponent(position), position);
@@ -151,7 +152,7 @@ namespace BlueprintBuildingViewModel
             return CreateRoundCurve(firstPosition, secondPosition);
         }
 
-        private static ICurve CreateRoundCurve(Vector2 firstPosition, Vector2 secondPosition)
+        private ICurve CreateRoundCurve(Vector2 firstPosition, Vector2 secondPosition)
         {
             var firstAngle = firstPosition.PositiveAngle;
             var secondAngle = secondPosition.PositiveAngle;
