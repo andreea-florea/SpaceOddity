@@ -21,6 +21,7 @@ namespace Game.Tests
         private Mock<IShipComponent> mockShipComponent;
         private List<DoubleEdgedPipe> doubleEdgedPipes;
         private List<ConnectingPipe> oneEdgedPipes;
+        private Mock<IBlockRestrictor> mockBlockRestrictor;
 
         [TestInitialize]
         public void Init()
@@ -35,6 +36,7 @@ namespace Game.Tests
             blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object, mockEmptyShipComponentFactory.Object);
             doubleEdgedPipes = new List<DoubleEdgedPipe>();
             oneEdgedPipes = new List<ConnectingPipe>();
+            mockBlockRestrictor = new Mock<IBlockRestrictor>();
 
             mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
             mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
@@ -116,6 +118,28 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
             blocks[4, 5] = mockBlock.Object;
+            Assert.IsFalse(blueprintBuilder.CreateBlock(position));
+        }
+
+        [TestMethod]
+        public void CheckIfBlockIsCreatedIfItIsNotRestrictedByOtherBlocks()
+        {
+            var position = new Coordinate(5, 4);
+
+            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+
+            Assert.IsTrue(blueprintBuilder.CreateBlock(position));
+        }
+
+        [TestMethod]
+        public void CheckThatBlockIsNotCreatedIfItIsRestrictedByOtherBlocks()
+        {
+            var position = new Coordinate(5, 4);
+
+            blueprintBuilder.AddRestrictor(mockBlockRestrictor.Object);
+            mockBlockRestrictor.Setup(x => x.CanCreateBlock(position)).Returns(false);
+            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+
             Assert.IsFalse(blueprintBuilder.CreateBlock(position));
         }
 

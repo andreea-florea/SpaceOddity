@@ -105,7 +105,5 @@ namespace Game.Tests
 
             mockBlueprintBuilder.Verify(x => x.RemoveRestrictor(jetEngine), Times.Once());
         }
-
-        //CheckIfCanCreateBlockIfBlockToBeCreatedOnSameLineAsShipComponentButShipComponentIsNotAJetEngine - in BlueprintBuilderTest
     }
 }

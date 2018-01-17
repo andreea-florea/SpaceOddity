@@ -60,6 +60,14 @@ namespace Game
 
         public bool CreateBlock(Coordinate position)
         {
+            foreach (var restrictor in blockRestrictors)
+            {
+                if (!restrictor.CanCreateBlock(position))
+                {
+                    return false;
+                }
+            }
+
             if (!HasBlock(position))
             {
                 blueprint.PlaceBlock(position, blockFactory.CreateBlock());
