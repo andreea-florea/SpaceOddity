@@ -60,19 +60,27 @@ namespace Game
 
         public bool CreateBlock(Coordinate position)
         {
-            foreach (var restrictor in blockRestrictors)
-            {
-                if (!restrictor.CanCreateBlock(position))
-                {
-                    return false;
-                }
-            }
-
-            if (!HasBlock(position))
+            if (CanCreateBlock(position))
             {
                 blueprint.PlaceBlock(position, blockFactory.CreateBlock());
                 return true;
             }
+
+            return false;
+        }
+
+        public bool CanCreateBlock(Coordinate position)
+        {
+            if (BlockCreationBlockedByRestrictors(position))
+            {
+                return false;
+            }
+
+            if (!HasBlock(position))
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -94,7 +102,7 @@ namespace Game
         public bool AddShipComponent(Coordinate position)
         {
             var block = GetBlock(position);
-            if (HasBlock(position) && !(block.HasShipComponent()))
+            if (CanAddShipComponent(position))
             {
                 var component = shipComponentFactory.Create();                
                 blueprint.PlaceShipComponent(position, component);
@@ -107,6 +115,17 @@ namespace Game
 
                 ClearPipes(position, block.PipesWithBothEdges);
 
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool CanAddShipComponent(Coordinate position)
+        {
+            var block = GetBlock(position);
+            if (HasBlock(position) && !(block.HasShipComponent()))
+            {
                 return true;
             }
 
@@ -342,6 +361,19 @@ namespace Game
             }
 
             return null;
+        }
+
+        private bool BlockCreationBlockedByRestrictors(Coordinate position)
+        {
+            foreach (var restrictor in blockRestrictors)
+            {
+                if (!restrictor.CanCreateBlock(position))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         //todo: test
