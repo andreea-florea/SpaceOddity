@@ -17,14 +17,14 @@ namespace BlueprintBuildingViewModel.Fancy.Iternal
         private IWorldObject[,] tiles;
         private IWorldObject[,] details;
         private IFacingContextWorldObjectFactory detailFactory;
-        private IBlueprintBuilderControlAssigner controller;
+        private IControlAssigner controller;
         private IEnumerable<FacingPosition> relativeDetailUpdates;
 
         public BlockDetailsViewUpdater(IBlueprintBuilder blueprintBuilder,
             IWorldObject[,] tiles,
             IWorldObject[,] details,
             IFacingContextWorldObjectFactory detailFactory,
-            IBlueprintBuilderControlAssigner controller,
+            IControlAssigner controller,
             IEnumerable<FacingPosition> relativeDetailUpdates)
         {
             this.blueprintBuilder = blueprintBuilder;

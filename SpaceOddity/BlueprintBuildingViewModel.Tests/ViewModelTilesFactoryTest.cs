@@ -18,7 +18,7 @@ namespace BlueprintBuildingViewModel.Tests
         private Mock<IRectangleSection> mockRectangleSection;
         private Mock<IFactory<IActivateableWorldObject>> mockTileObjectFactory;
         private Mock<IActivateableWorldObject> mockTile;
-        private Mock<IBlueprintBuilderControlAssigner> mockController;
+        private Mock<IControlAssigner> mockController;
         private ViewModelTilesFactory tilesFactory;
 
         [TestInitialize]
@@ -29,7 +29,7 @@ namespace BlueprintBuildingViewModel.Tests
             mockTileObjectFactory = new Mock<IFactory<IActivateableWorldObject>>();
             mockTile = new Mock<IActivateableWorldObject>();
             mockTile.SetupAllProperties();
-            mockController = new Mock<IBlueprintBuilderControlAssigner>();
+            mockController = new Mock<IControlAssigner>();
             tilesFactory = new ViewModelTilesFactory(mockTileObjectFactory.Object);
         }
 

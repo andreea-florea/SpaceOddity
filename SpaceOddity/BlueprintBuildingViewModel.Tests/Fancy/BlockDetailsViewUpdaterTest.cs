@@ -21,7 +21,7 @@ namespace BlueprintBuildingViewModel.Tests.Fancy
         private Mock<IWorldObject> mockTile;
         private Mock<IWorldObject> mockObject;
         private Mock<IFacingContextWorldObjectFactory> mockFactory;
-        private Mock<IBlueprintBuilderControlAssigner> mockController;
+        private Mock<IControlAssigner> mockController;
         private BlockDetailsViewUpdater blockDetailsViewUpdater;
         private List<FacingPosition> detailUpdates;
         private IWorldObject[,] tiles;
@@ -36,7 +36,7 @@ namespace BlueprintBuildingViewModel.Tests.Fancy
             mockBlock = new Mock<IBlock>();
             mockTile = new Mock<IWorldObject>();
             mockFactory = new Mock<IFacingContextWorldObjectFactory>();
-            mockController = new Mock<IBlueprintBuilderControlAssigner>();
+            mockController = new Mock<IControlAssigner>();
             detailUpdates = new List<FacingPosition>();
             tiles = new IWorldObject[4, 4];
             details = new IWorldObject[4, 4];
