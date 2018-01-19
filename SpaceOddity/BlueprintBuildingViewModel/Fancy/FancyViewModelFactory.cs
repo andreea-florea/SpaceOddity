@@ -92,8 +92,8 @@ namespace BlueprintBuildingViewModel.Fancy
 
             cornerUpdates.Add(new FacingPosition(direction, Coordinates.Zero));
             cornerUpdates.Add(new FacingPosition(direction, -direction));
-            cornerUpdates.Add(new FacingPosition(direction, -direction.RotateQuarterCircleRight()));
-            cornerUpdates.Add(new FacingPosition(direction, -direction - direction.RotateQuarterCircleRight()));
+            cornerUpdates.Add(new FacingPosition(direction, -direction.RotateQuarterCircleLeft()));
+            cornerUpdates.Add(new FacingPosition(direction, -direction - direction.RotateQuarterCircleLeft()));
 
             var baseCornerFactories = new IFactory<IWorldObject>[8];
             baseCornerFactories[0] = new WorldObjectFactory(roundCornerFactory);

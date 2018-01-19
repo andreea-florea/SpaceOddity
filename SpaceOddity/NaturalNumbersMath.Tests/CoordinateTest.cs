@@ -18,7 +18,7 @@ namespace NaturalNumbersMath.Tests
         public void CoordinateValuesRotateQuarterCircleRightCorrectly()
         {
             var coordinate = new Coordinate(2, 1);
-            var rotatedCoordinate = coordinate.RotateQuarterCircleRight();
+            var rotatedCoordinate = coordinate.RotateQuarterCircleLeft();
             Assert.AreEqual(1, rotatedCoordinate.X);
             Assert.AreEqual(-2, rotatedCoordinate.Y);
         }
