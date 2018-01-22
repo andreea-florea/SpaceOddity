@@ -15,7 +15,7 @@ namespace BlueprintBuildingViewModel.Fancy
         { 
             get
             {
-                return Forward.RotateQuarterCircleRight();
+                return Forward.RotateQuarterCircleLeft();
             }
         }
         public Coordinate Position { get; private set; }

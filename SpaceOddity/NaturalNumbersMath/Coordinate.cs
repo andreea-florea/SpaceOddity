@@ -17,7 +17,7 @@ namespace NaturalNumbersMath
             Y = y;
         }
 
-        public Coordinate RotateQuarterCircleRight()
+        public Coordinate RotateQuarterCircleLeft()
         {
             return new Coordinate(Y, -X);
         }

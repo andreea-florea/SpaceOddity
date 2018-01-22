@@ -28,7 +28,7 @@ namespace ConstructedGame
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
             var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
-            var blueprintViewModelFactory = new BlueprintBuilderViewModelFactory(
+            var blueprintViewModelFactory = new ViewModelFactory(
                 tilesFactory, blockRenderableFactory, shipComponentsFactory, emptyComponentsFactory, pipeLinkFactory, pipeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
@@ -51,7 +51,7 @@ namespace ConstructedGame
 
             var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory =
-                new BlueprintBuilderFancyViewModelFactory(tilesFactory,
+                new FancyViewModelFactory(tilesFactory,
                     blockCoreFactory,
                     roundCornerFactory,
                     straightUpCornerFactory,

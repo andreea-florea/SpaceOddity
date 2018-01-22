@@ -56,12 +56,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Actions\BlockCancelActionTest.cs" />
-    <Compile Include="Actions\BlockSelectActionTest.cs" />
-    <Compile Include="Actions\PipeLinkSelectActionTest.cs" />
-    <Compile Include="Actions\ShipComponentCancelActionTest.cs" />
-    <Compile Include="Actions\ShipComponentSelectActionTest.cs" />
-    <Compile Include="Actions\TileSelectActionTest.cs" />
+    <Compile Include="Actions\BlockCancelTest.cs" />
+    <Compile Include="Actions\BlockSelectTest.cs" />
+    <Compile Include="Actions\PipeLinkSelectTest.cs" />
+    <Compile Include="Actions\ShipComponentCancelTest.cs" />
+    <Compile Include="Actions\ShipComponentSelectTest.cs" />
+    <Compile Include="Actions\TileSelectTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelFactoryTest.cs" />
     <Compile Include="BlueprintBuilderFancyViewModelTest.cs" />
     <Compile Include="BlueprintBuilderObjectTableTest.cs" />

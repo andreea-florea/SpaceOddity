@@ -20,8 +20,8 @@ namespace NaturalNumbersMath.Tests
             Assert.AreEqual(0, Coordinates.Down.X);
             Assert.AreEqual(-1, Coordinates.Down.Y);
 
-            Assert.AreEqual(Coordinates.Up.X, Coordinates.Left.RotateQuarterCircleRight().X);
-            Assert.AreEqual(Coordinates.Up.Y, Coordinates.Left.RotateQuarterCircleRight().Y);
+            Assert.AreEqual(Coordinates.Up.X, Coordinates.Left.RotateQuarterCircleLeft().X);
+            Assert.AreEqual(Coordinates.Up.Y, Coordinates.Left.RotateQuarterCircleLeft().Y);
         }
 
         [TestMethod]
