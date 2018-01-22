@@ -5,6 +5,7 @@ using System.Text;
 
 using Game.Interfaces;
 using Game.Enums;
+using NaturalNumbersMath;
 
 namespace Game
 {
@@ -26,6 +27,11 @@ namespace Game
         public void RemoveAdditionalSetups(IBlueprintBuilder blueprintBuilder)
         {
             return;
+        }
+
+        public bool CanBePlaced(IBlueprint blueprint, Coordinate position)
+        {
+            return true;
         }
     }
 }

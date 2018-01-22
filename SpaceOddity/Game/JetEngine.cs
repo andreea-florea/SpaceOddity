@@ -54,5 +54,84 @@ namespace Game
         {
             blueprintBuilder.RemoveRestrictor(this);
         }
+
+        public bool CanBePlaced(IBlueprint blueprint, Coordinate position)
+        {
+            switch (FacingDirection)
+            {
+                case EdgeType.DOWN:
+                case EdgeType.UP:
+                    return !DoesBlueprintHaveBlocksOnColumn(position, blueprint);
+                case EdgeType.LEFT:
+                case EdgeType.RIGHT:
+                    return !DoesBlueprintHaveBlocksOnLine(position, blueprint);
+            }
+
+            return true;
+        }
+
+        private bool DoesBlueprintHaveBlocksOnColumn(Coordinate position, IBlueprint blueprint)
+        {
+            int startLine;
+            int endLine;
+
+            switch (FacingDirection)
+            {
+                case EdgeType.DOWN:
+                    startLine = position.Y + 1;
+                    endLine = blueprint.Dimensions.Y;
+                    break;
+                case EdgeType.UP:
+                    startLine = 0;
+                    endLine = position.Y;
+                    break;
+                default:
+                    startLine = 0;
+                    endLine = 0;
+                    break;
+            }
+
+            for (int i = startLine; i < endLine; i++)
+            {
+                if (blueprint.HasBlock(new Coordinate(position.X, i)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool DoesBlueprintHaveBlocksOnLine(Coordinate position, IBlueprint blueprint)
+        {
+            int startColumn;
+            int endColumn;
+
+            switch (FacingDirection)
+            {
+                case EdgeType.LEFT:
+                    startColumn = 0;
+                    endColumn = position.X;
+                    break;
+                case EdgeType.RIGHT:
+                    startColumn = position.X + 1;
+                    endColumn = blueprint.Dimensions.X;
+                    break;
+                default:
+                    startColumn = 0;
+                    endColumn = 0;
+                    break;
+            }
+
+            for (int j = startColumn; j < endColumn; j++)
+            {
+                if (blueprint.HasBlock(new Coordinate(j, position.Y)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace Game.Tests
         private IBlock[,] blocks;
         private Mock<IBlock> mockBlock;
         private Mock<IBlueprintBuilder> mockBlueprintBuilder;
+        private Mock<IBlueprint> mockBlueprint;
         private EdgeType edgeTypeColumn;
         private EdgeType edgeTypeLine;
         private JetEngine jetEngine;
@@ -29,6 +30,7 @@ namespace Game.Tests
             blocks = new Block[9, 10];
             mockBlock = new Mock<IBlock>();
             mockBlueprintBuilder = new Mock<IBlueprintBuilder>();
+            mockBlueprint = new Mock<IBlueprint>();
         }
 
         [TestMethod]
@@ -75,7 +77,7 @@ namespace Game.Tests
             Assert.IsFalse(jetEngine.CanCreateBlock(newBlockPosition));
         }
 
-        [TestMethod]  
+        [TestMethod]
         public void CheckThatBlockCannotBeCreatedIfBlockToBeCreatedIsWithinJetRangeOnTheSameColumn()
         {
             jetEngine = new JetEngine(mockBlock.Object, edgeTypeColumn);
@@ -104,6 +106,47 @@ namespace Game.Tests
             jetEngine.RemoveAdditionalSetups(mockBlueprintBuilder.Object);
 
             mockBlueprintBuilder.Verify(x => x.RemoveRestrictor(jetEngine), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatJetEngineCanBePlacedIfItDoesntInterfereWithAnyBlocks()
+        {
+            jetEngine = new JetEngine(mockBlock.Object, edgeTypeColumn);
+            var position = new Coordinate(4, 5);
+            var existingOnColumn = new Coordinate(4, 4);
+            var existingOnLine = new Coordinate(6, 5);
+
+            mockBlueprint.SetupGet(x => x.Dimensions).Returns(new Coordinate(10, 11));
+            mockBlueprint.Setup(x => x.HasBlock(existingOnColumn)).Returns(true);
+            mockBlueprint.Setup(x => x.HasBlock(existingOnLine)).Returns(true);
+
+            Assert.IsTrue(jetEngine.CanBePlaced(mockBlueprint.Object, position));
+        }
+
+        [TestMethod]
+        public void CheckThatJetEngineCannotBePlacedOnColumnIfInterferingBlocksExist()
+        {
+            jetEngine = new JetEngine(mockBlock.Object, edgeTypeColumn);
+            var position = new Coordinate(4, 5);
+            var existing = new Coordinate(4, 6);
+
+            mockBlueprint.SetupGet(x => x.Dimensions).Returns(new Coordinate(10, 11));
+            mockBlueprint.Setup(x => x.HasBlock(existing)).Returns(true);
+
+            Assert.IsFalse(jetEngine.CanBePlaced(mockBlueprint.Object, position));
+        }
+
+        [TestMethod]
+        public void CheckThatJetEngineCannotBePlacedOnLineIfInterferingBlocksExist()
+        {
+            jetEngine = new JetEngine(mockBlock.Object, edgeTypeLine);
+            var position = new Coordinate(4, 5);
+            var existing = new Coordinate(2, 5);
+
+            mockBlueprint.SetupGet(x => x.Dimensions).Returns(new Coordinate(10, 11));
+            mockBlueprint.Setup(x => x.HasBlock(existing)).Returns(true);
+
+            Assert.IsFalse(jetEngine.CanBePlaced(mockBlueprint.Object, position));
         }
     }
 }
