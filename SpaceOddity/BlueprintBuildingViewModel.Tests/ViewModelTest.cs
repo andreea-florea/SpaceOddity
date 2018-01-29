@@ -8,7 +8,7 @@ using NaturalNumbersMath;
 using BlueprintBuildingViewModel.Actions;
 using BlueprintBuildingViewModel.DataStructures;
 using BlueprintBuildingViewModel.Controller;
-using Algorithm;
+using Algorithms;
 using Game;
 using System.Collections.Generic;
 using Game.Enums;

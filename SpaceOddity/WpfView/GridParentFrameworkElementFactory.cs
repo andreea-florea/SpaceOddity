@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using Geometry;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,8 @@ namespace WpfView
         private Vector2 scale;
         private int zIndex;
 
-        public GridParentFrameworkElementFactory(IFactory<IFrameworkElementWrapper> baseElementFactory, Vector2 scale, int zIndex)
+        public GridParentFrameworkElementFactory(
+            IFactory<IFrameworkElementWrapper> baseElementFactory, Vector2 scale, int zIndex)
         {
             this.baseElementFactory = baseElementFactory;
             this.scale = scale;

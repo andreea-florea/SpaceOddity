@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using Geometry;
 using System;
 using System.Collections.Generic;

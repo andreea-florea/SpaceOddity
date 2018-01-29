@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,8 @@ namespace WpfView
         private IFactory<IFrameworkElementWrapper> elementFactory;
         private BuilderWorldObjectState[] states;
 
-        public WpfRenderableFactory(Canvas parentCanvas, IFactory<IFrameworkElementWrapper> elementFactory, BuilderWorldObjectState[] states)
+        public WpfRenderableFactory(
+            Canvas parentCanvas, IFactory<IFrameworkElementWrapper> elementFactory, BuilderWorldObjectState[] states)
         {
             this.parentCanvas = parentCanvas;
             this.elementFactory = elementFactory;

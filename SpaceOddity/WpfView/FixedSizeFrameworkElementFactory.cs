@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using Geometry;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,8 @@ namespace WpfView
         private Vector2 baseElementScale;
         private int zIndex;
 
-        public FixedSizeFrameworkElementFactory(IFactory<IFrameworkElementWrapper> basicFactory, Vector2 baseElementScale, int zIndex)
+        public FixedSizeFrameworkElementFactory(
+            IFactory<IFrameworkElementWrapper> basicFactory, Vector2 baseElementScale, int zIndex)
         {
             this.basicFactory = basicFactory;
             this.baseElementScale = baseElementScale;

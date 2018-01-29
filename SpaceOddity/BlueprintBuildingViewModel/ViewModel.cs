@@ -10,7 +10,7 @@ using BlueprintBuildingViewModel.Actions;
 using BlueprintBuildingViewModel.DataStructures;
 using BlueprintBuildingViewModel.Controller;
 using BlueprintBuildingViewModel.Extensions;
-using Algorithm;
+using Algorithms;
 using Game;
 using Game.Enums;
 using ViewModel;
@@ -87,10 +87,7 @@ namespace BlueprintBuildingViewModel
 
             if (edge.Positions.All(pos => blueprint.HasBlock(pos)))
             {
-                objectTable.SetPipeLink(edge, pipeLinkFactory.Create());
-                objectTable.GetPipeLink(edge).Position = GetCenter(edge);
-                objectTable.GetPipeLink(edge).Rotation = direction.ToVector2();
-                controller.AssignPipeLinkControl(objectTable.GetPipeLink(edge), edge);
+                CreatePipeLink(direction, edge);
             }
             else
             {
@@ -99,6 +96,14 @@ namespace BlueprintBuildingViewModel
                     objectTable.DeletePipeLink(edge);
                 }
             }
+        }
+
+        private void CreatePipeLink(Coordinate direction, CoordinatePair edge)
+        {
+            objectTable.SetPipeLink(edge, pipeLinkFactory.Create());
+            objectTable.GetPipeLink(edge).Position = GetCenter(edge);
+            objectTable.GetPipeLink(edge).Rotation = direction.ToVector2();
+            controller.AssignPipeLinkControl(objectTable.GetPipeLink(edge), edge);
         }
 
         private Vector2 GetCenter(CoordinatePair edge)
@@ -130,7 +135,8 @@ namespace BlueprintBuildingViewModel
             CreatePipeObject(blueprint, position, pipe.Edge, EdgeType.COUNT);
         }
 
-        private void CreatePipeObject(IBlueprint blueprint, Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
+        private void CreatePipeObject(
+            IBlueprint blueprint, Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
         {
             var curve = CreatePipeCurve(firstEdge, secondEdge);
             var pipeObject = pipeFactory.Create(curve);

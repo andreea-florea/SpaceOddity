@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using Game.Enums;
 using NaturalNumbersMath;
 using System;

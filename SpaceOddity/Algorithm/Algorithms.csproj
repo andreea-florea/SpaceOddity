@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="DoubleExtensions.cs" />
     <Compile Include="Found.cs" />
-    <Compile Include="IConstDictionary.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="InterchangeablePair.cs" />
     <Compile Include="ListExtensions.cs" />

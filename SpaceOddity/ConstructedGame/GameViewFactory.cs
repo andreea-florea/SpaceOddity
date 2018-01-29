@@ -29,7 +29,12 @@ namespace ConstructedGame
 
             var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
             var blueprintViewModelFactory = new ViewModelFactory(
-                tilesFactory, blockRenderableFactory, shipComponentsFactory, emptyComponentsFactory, pipeLinkFactory, pipeFactory);
+                tilesFactory, 
+                blockRenderableFactory, 
+                shipComponentsFactory, 
+                emptyComponentsFactory, 
+                pipeLinkFactory, 
+                pipeFactory);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 

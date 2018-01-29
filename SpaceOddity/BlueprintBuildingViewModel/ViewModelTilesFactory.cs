@@ -1,5 +1,4 @@
-﻿using Algorithm;
-using Game.Interfaces;
+﻿using Game.Interfaces;
 using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Text;
 using ViewInterface;
 using BlueprintBuildingViewModel.Controller;
 using ViewModel;
+using Algorithms;
 
 namespace BlueprintBuildingViewModel
 {

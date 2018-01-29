@@ -9,7 +9,7 @@ using ViewInterface;
 using BlueprintBuildingViewModel.Controller;
 using BlueprintBuildingViewModel.DataStructures;
 using ViewModel;
-using Algorithm;
+using Algorithms;
 using Game.Enums;
 
 namespace BlueprintBuildingViewModel
@@ -41,32 +41,59 @@ namespace BlueprintBuildingViewModel
         public ViewModel CreateViewModel(IBlueprintBuilder builder, IRectangleSection fittingRectangle)
         {
             var tiles = tilesFactory.CreateTiles(builder.Dimensions, fittingRectangle);
+            var objectTable = CreateObjectTable(tiles);
+            var controlAssigner = CreateController(builder, new TableHighlighter(objectTable));
+
+            AssignTileControls(builder, tiles, controlAssigner);
+
+            var viewModel = CreateViewModel(objectTable, controlAssigner, CreateShipComponentsFactories());
+            builder.AttachObserver(viewModel);
+            return viewModel;
+        }
+
+        private static ObjectTable CreateObjectTable(IActivateableWorldObject[,] tiles)
+        {
             var blocks = new Dictionary<Coordinate, IActivateableWorldObject>();
             var shipComponents = new Dictionary<Coordinate, IActivateableWorldObject>();
             var pipeLinks = new Dictionary<CoordinatePair, IActivateableWorldObject>();
             var doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
 
-            var objectTable = new ObjectTable(
-                tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
-            var controlAssigner = CreateController(builder, new TableHighlighter(objectTable));
+            return new ObjectTable(tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
+        }
 
+        private static void AssignTileControls(IBlueprintBuilder builder, IActivateableWorldObject[,] tiles, ControlAssigner controlAssigner)
+        {
             var tileRectanle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);
-            foreach(var coordinate in tileRectanle.Points)
+            foreach (var coordinate in tileRectanle.Points)
             {
                 controlAssigner.AssignTileControl(tiles.Get(coordinate), coordinate);
             }
+        }
 
-            var shipComponentsFactories = new Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>>();
-            shipComponentsFactories.Add(BlueprintShipComponentType.Empty, new ActivateableWorldObjectFactory(emptyComponentFactory));
-            shipComponentsFactories.Add(BlueprintShipComponentType.Battery, new ActivateableWorldObjectFactory(batteryFactory));
+        private Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>> 
+            CreateShipComponentsFactories()
+        {
+            var shipComponentsFactories =
+                new Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>>();
+            shipComponentsFactories.Add(
+                BlueprintShipComponentType.Empty, new ActivateableWorldObjectFactory(emptyComponentFactory));
+            shipComponentsFactories.Add(
+                BlueprintShipComponentType.Battery, new ActivateableWorldObjectFactory(batteryFactory));
+            return shipComponentsFactories;
+        }
 
-            var viewModel = new ViewModel(objectTable,
-                new ActivateableWorldObjectFactory(blockFactory), 
+        private ViewModel CreateViewModel(
+            ObjectTable objectTable, 
+            ControlAssigner controlAssigner, 
+            Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>> shipComponentsFactories)
+        {
+            var viewModel = new ViewModel(
+                objectTable,
+                new ActivateableWorldObjectFactory(blockFactory),
                 new FactoryPicker<BlueprintShipComponentType, IActivateableWorldObject>(shipComponentsFactories),
                 new ActivateableWorldObjectFactory(pipeLinkFactory),
                 new CurveWorldObjectFactory(pipeFactory),
                 controlAssigner);
-            builder.AttachObserver(viewModel);
             return viewModel;
         }
 

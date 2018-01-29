@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,8 @@ namespace BlueprintBuildingViewModel.Fancy.Iternal
         private IFactory<IWorldObject>[] factories;
         private IBitNumberGenerator numberGenerator;
 
-        public WorldObjectBitNumberFactoryPicker(IFactory<IWorldObject>[] factories, IBitNumberGenerator numberGenerator)
+        public WorldObjectBitNumberFactoryPicker(
+            IFactory<IWorldObject>[] factories, IBitNumberGenerator numberGenerator)
         {
             this.factories = factories;
             this.numberGenerator = numberGenerator;

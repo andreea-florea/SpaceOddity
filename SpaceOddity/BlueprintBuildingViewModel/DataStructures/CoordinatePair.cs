@@ -1,4 +1,4 @@
-﻿using Algorithm;
+﻿using Algorithms;
 using NaturalNumbersMath;
 using System;
 using System.Collections.Generic;

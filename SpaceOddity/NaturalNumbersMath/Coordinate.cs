@@ -49,8 +49,7 @@ namespace NaturalNumbersMath
 
         public override bool Equals(object obj)
         {
-            var coordinate = (Coordinate)obj;
-            return X == coordinate.X && Y == coordinate.Y;
+            return this == (Coordinate)obj;
         }
 
         public override int GetHashCode()

@@ -19,8 +19,7 @@ namespace WpfView
         public IAction LeftClickAction { private get; set; }
         public IAction RightClickAction { private get; set; }
 
-        public WpfRenderable(IFrameworkElementWrapper wrapper, Canvas canvasParent,
-            BuilderWorldObjectState[] states)
+        public WpfRenderable(IFrameworkElementWrapper wrapper, Canvas canvasParent, BuilderWorldObjectState[] states)
         {
             this.wrapper = wrapper;
             this.canvasParent = canvasParent;

@@ -4,7 +4,7 @@ using Moq;
 using System.Windows;
 using System.Windows.Controls;
 using Geometry;
-using Algorithm;
+using Algorithms;
 
 namespace WpfView.Tests
 {

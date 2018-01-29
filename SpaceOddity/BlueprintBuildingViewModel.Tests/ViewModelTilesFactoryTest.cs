@@ -6,7 +6,7 @@ using Geometry;
 using ViewInterface;
 using NaturalNumbersMath;
 using BlueprintBuildingViewModel.Controller;
-using Algorithm;
+using Algorithms;
 using ViewModel;
 
 namespace BlueprintBuildingViewModel.Tests

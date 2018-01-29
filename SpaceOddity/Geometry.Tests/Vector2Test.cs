@@ -114,7 +114,7 @@ namespace Geometry.Tests
             var v1 = new Vector2(5, 2);
             var v2 = new Vector2(3, 4);
 
-            var result = v1.Multiply(v2);
+            var result = v1.Scale(v2);
             Assert.AreEqual(new Vector2(15, 8), result);
         }
 

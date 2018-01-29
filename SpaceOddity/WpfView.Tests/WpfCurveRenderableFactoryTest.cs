@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Controls;
 using Moq;
 using Geometry;
-using Algorithm;
+using Algorithms;
 
 namespace WpfView.Tests
 {

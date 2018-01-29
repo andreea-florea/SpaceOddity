@@ -91,7 +91,8 @@ namespace BlueprintBuildingViewModel.Controller
 
         private void AddOrDeletePipe(Coordinate position, DoubleEdgedPipe pipe)
         {
-            if (PipeExists(position, pipe) || PipeExists(position, pipe.FirstEdge) && PipeExists(position, pipe.SecondEdge))
+            if (PipeExists(position, pipe) || 
+                PipeExists(position, pipe.FirstEdge) && PipeExists(position, pipe.SecondEdge))
             {
                 blueprintBuilder.DeleteDoubleEdgedPipe(position, pipe);
             }

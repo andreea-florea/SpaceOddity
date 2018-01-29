@@ -22,7 +22,8 @@ namespace WpfView
 
         public IAction RightClickAction { private get; set; }
 
-        public WpfCurveRenderable(IList<Line> lines, ICurve curve, Canvas canvasParent, BuilderWorldObjectState[] states)
+        public WpfCurveRenderable(
+            IList<Line> lines, ICurve curve, Canvas canvasParent, BuilderWorldObjectState[] states)
         {
             this.lines = lines;
             this.curve = curve;
@@ -54,20 +55,36 @@ namespace WpfView
 
         public void Update(Vector2 position, Vector2 rotation, Vector2 scale)
         {
-            var deltaTime = 1.0 / lines.Count;
-            var lineTime = 0.0;
+            UpdatePosition(position);
+            UpdateScale(scale);
+        }
 
+        private void UpdatePosition(Vector2 position)
+        {
             foreach (var line in lines)
             {
                 Canvas.SetTop(line, position.Y);
                 Canvas.SetLeft(line, position.X);
+            }
+        }
 
-                var halfScale = scale * 0.5;
-                var startPoint = curve.GetPoint(lineTime).Multiply(halfScale);
-                lineTime += deltaTime;
-                var endPoint = curve.GetPoint(lineTime).Multiply(halfScale);
+        private void UpdateScale(Vector2 scale)
+        {
+            var halfScale = scale * 0.5;
+            var points = CalculateCurvePoints().Select(point => point.Scale(halfScale)).ToArray();
 
-                SetLineCoordinates(line, startPoint, endPoint);
+            for (var i = 0; i < lines.Count; ++i)
+            {
+                SetLineCoordinates(lines[i], points[i], points[i + 1]);
+            }
+        }
+
+        private IEnumerable<Vector2> CalculateCurvePoints()
+        {
+            var deltaTime = 1.0 / lines.Count;
+            for (var i = 0; i <= lines.Count; ++i)
+            {
+                yield return curve.GetPoint(deltaTime * i);
             }
         }
 

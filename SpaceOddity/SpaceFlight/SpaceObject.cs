@@ -36,19 +36,14 @@ namespace SpaceFlight
                 UpdateObservers();
             }
         }
-        public Vector2 TranslationalForce { get; private set; }
-        public Vector2 RotationalForce { get; private set; }
 
         private IList<ISpaceObjectObserver> observers;
 
-        public SpaceObject(Vector2 position, Vector2 rotation, 
-            Vector2 transationalForce, Vector2 rotationalForce)
+        public SpaceObject(Vector2 position, Vector2 rotation)
         {
             observers = new List<ISpaceObjectObserver>();
             this.Position = position;
             this.Rotation = rotation;
-            this.TranslationalForce = transationalForce;
-            this.RotationalForce = rotationalForce;
         }
 
         private void UpdateObservers()

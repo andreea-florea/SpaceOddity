@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Algorithm.Tests
+namespace Algorithms.Tests
 {
     [TestClass]
     public class InterchangeablePairTest

@@ -5,7 +5,7 @@ using ViewInterface;
 using Moq;
 using NaturalNumbersMath;
 using BlueprintBuildingViewModel.Fancy.Iternal;
-using Algorithm;
+using Algorithms;
 using ViewModel;
 
 namespace BlueprintBuildingViewModel.Tests.Fancy

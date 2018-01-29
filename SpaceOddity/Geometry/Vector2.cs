@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Algorithm;
+using Algorithms;
 
 namespace Geometry
 {
@@ -102,7 +102,7 @@ namespace Geometry
             return false;
         }
 
-        public Vector2 Multiply(Vector2 multiplier)
+        public Vector2 Scale(Vector2 multiplier)
         {
             return new Vector2(X * multiplier.X, Y * multiplier.Y);
         }

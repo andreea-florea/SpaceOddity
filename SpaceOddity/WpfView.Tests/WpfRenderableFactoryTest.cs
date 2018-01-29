@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Algorithm;
+using Algorithms;
 
 namespace WpfView.Tests
 {
