@@ -69,6 +69,7 @@
     <Compile Include="Interfaces\IShipComponent.cs" />
     <Compile Include="Interfaces\IShipComponentFactory.cs" />
     <Compile Include="JetEngine.cs" />
+    <Compile Include="JetEngineFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

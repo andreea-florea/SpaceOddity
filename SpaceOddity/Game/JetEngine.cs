@@ -10,8 +10,8 @@ namespace Game
 {
     public class JetEngine : IShipComponent, IBlockRestrictor
     {
-        public IBlock Block { get; set; }
-        public EdgeType FacingDirection { get; set; }
+        public IConstBlock Block { get; private set; }
+        public EdgeType FacingDirection { get; private set; }
 
         public BlueprintShipComponentType Type
         {
@@ -21,7 +21,7 @@ namespace Game
             }
         }
 
-        public JetEngine(IBlock block, EdgeType facingDirection)
+        public JetEngine(IConstBlock block, EdgeType facingDirection)
         {
             Block = block;
             FacingDirection = facingDirection;
