@@ -104,18 +104,22 @@ namespace Game
             var block = GetBlock(position);
             if (CanAddShipComponent(position))
             {
-                var component = shipComponentFactory.Create();                
-                blueprint.PlaceShipComponent(position, component);
-                component.AdditionalSetups(this);
+                var component = shipComponentFactory.Create();
 
-                foreach (var pipe in block.PipesWithBothEdges)
+                if (component.CanBePlaced(blueprint, position))
                 {
-                    TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
+                    blueprint.PlaceShipComponent(position, component);
+                    component.AdditionalSetups(this);
+
+                    foreach (var pipe in block.PipesWithBothEdges)
+                    {
+                        TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
+                    }
+
+                    ClearPipes(position, block.PipesWithBothEdges);
+
+                    return true;
                 }
-
-                ClearPipes(position, block.PipesWithBothEdges);
-
-                return true;
             }
 
             return false;

@@ -156,8 +156,11 @@ namespace Game.Tests
         public void CheckIfShipComponentFactoryIsUsedToAddShipComponents()
         {
             var position = new Coordinate(5, 4);
+
             mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
             mockShipComponentFactory.Setup(x => x.Create()).Returns(mockShipComponent.Object);
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
+
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             mockBlock.Verify(block => block.AddShipComponent(mockShipComponent.Object), Times.Once());
@@ -222,6 +225,7 @@ namespace Game.Tests
 
             mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
             mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
             blocks.Set(position, mockBlock.Object);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
@@ -236,6 +240,7 @@ namespace Game.Tests
 
             blocks.Set(position, mockBlock.Object);
             mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             mockShipComponent.Verify(x => x.AdditionalSetups(It.IsAny<IBlueprintBuilder>()), Times.Once());
@@ -287,6 +292,32 @@ namespace Game.Tests
             mockBlock.Setup(x => x.HasShipComponent()).Returns(true);
             Assert.IsFalse(blueprintBuilder.AddShipComponent(position));
             mockBlock.Verify(x => x.AddShipComponent(mockShipComponent.Object), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckThatShipComponentIsNotAddedIfCanBePlacedReturnsFalse()
+        {
+            var position = new Coordinate(5, 4);
+
+            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(false);
+            blocks.Set(position, mockBlock.Object);
+
+            Assert.IsFalse(blueprintBuilder.AddShipComponent(position));
+            mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void CheckThatShipComponentIsAddedIfCanBePlacedReturnsTrue()
+        {
+            var position = new Coordinate(5, 4);
+
+            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
+            blocks.Set(position, mockBlock.Object);
+
+            Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
+            mockBlock.Verify(x => x.AddShipComponent(It.IsAny<IShipComponent>()), Times.Once());
         }
 
         [TestMethod]
@@ -531,6 +562,7 @@ namespace Game.Tests
 
             mockBlock.Setup(block => block.AddShipComponent(It.IsAny<IShipComponent>())).Callback(() => mockBlock.Setup(x => x.HasShipComponent()).Returns(true));
             mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
@@ -644,7 +676,8 @@ namespace Game.Tests
 
             mockBlock.Setup(block => block.AddShipComponent(It.IsAny<IShipComponent>())).Callback(() => mockBlock.Setup(x => x.HasShipComponent()).Returns(true));
             mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
-           
+            mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
+
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
             Assert.AreEqual(0, mockBlock.Object.PipesWithBothEdges.Count());
             Assert.AreEqual(3, mockBlock.Object.PipesWithOneEdge.Count());
