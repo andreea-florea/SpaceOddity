@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Game.Interfaces
 {
-    public interface IShipComponentFactory : IFactory<IShipComponent>
+    public interface IShipComponentFactory : IFactory<IShipComponent, IConstBlock>
     {
     }
 }

@@ -158,7 +158,7 @@ namespace Game.Tests
             var position = new Coordinate(5, 4);
 
             mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
-            mockShipComponentFactory.Setup(x => x.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(x => x.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
@@ -224,7 +224,7 @@ namespace Game.Tests
             var position = new Coordinate(5, 4);
 
             mockBlock.SetupGet(m => m.ShipComponent).Returns(mockShipComponent.Object);
-            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
             blocks.Set(position, mockBlock.Object);
 
@@ -239,7 +239,7 @@ namespace Game.Tests
             var position = new Coordinate(5, 4);
 
             blocks.Set(position, mockBlock.Object);
-            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
@@ -299,7 +299,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
 
-            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(false);
             blocks.Set(position, mockBlock.Object);
 
@@ -312,7 +312,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
 
-            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
             blocks.Set(position, mockBlock.Object);
 
@@ -561,7 +561,7 @@ namespace Game.Tests
             doubleEdgedPipes.Add(new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.UP));
 
             mockBlock.Setup(block => block.AddShipComponent(It.IsAny<IShipComponent>())).Callback(() => mockBlock.Setup(x => x.HasShipComponent()).Returns(true));
-            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));
@@ -675,7 +675,7 @@ namespace Game.Tests
             doubleEdgedPipes.Add(new DoubleEdgedPipe(EdgeType.DOWN, EdgeType.RIGHT));
 
             mockBlock.Setup(block => block.AddShipComponent(It.IsAny<IShipComponent>())).Callback(() => mockBlock.Setup(x => x.HasShipComponent()).Returns(true));
-            mockShipComponentFactory.Setup(m => m.Create()).Returns(mockShipComponent.Object);
+            mockShipComponentFactory.Setup(m => m.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
             Assert.IsTrue(blueprintBuilder.AddShipComponent(position));

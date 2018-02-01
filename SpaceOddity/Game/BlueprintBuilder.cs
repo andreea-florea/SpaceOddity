@@ -104,7 +104,7 @@ namespace Game
             var block = GetBlock(position);
             if (CanAddShipComponent(position))
             {
-                var component = shipComponentFactory.Create();
+                var component = shipComponentFactory.Create(block);
 
                 if (component.CanBePlaced(blueprint, position))
                 {
@@ -212,7 +212,7 @@ namespace Game
                         var intersectingPipe = HasIntersectingPipes(block, pipe);
                         if (intersectingPipe != null)
                         {
-                            blueprint.PlaceShipComponent(position, emptyShipComponentFactory.Create());
+                            blueprint.PlaceShipComponent(position, emptyShipComponentFactory.Create(block));
                             TransformDoubleEdgedPipeIntoConnectingPipe(position, intersectingPipe);
                             TransformDoubleEdgedPipeIntoConnectingPipe(position, pipe);
                             ClearPipes(position, block.PipesWithBothEdges);

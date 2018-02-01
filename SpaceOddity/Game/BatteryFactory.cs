@@ -8,7 +8,7 @@ namespace Game
 {
     public class BatteryFactory : IShipComponentFactory
     {
-        public IShipComponent Create()
+        public IShipComponent Create(IConstBlock block)
         {
             return new Battery();
         }
