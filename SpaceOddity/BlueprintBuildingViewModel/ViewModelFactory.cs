@@ -53,10 +53,10 @@ namespace BlueprintBuildingViewModel
 
         private static ObjectTable CreateObjectTable(IActivateableWorldObject[,] tiles)
         {
-            var blocks = new Dictionary<Coordinate, IActivateableWorldObject>();
-            var shipComponents = new Dictionary<Coordinate, IActivateableWorldObject>();
-            var pipeLinks = new Dictionary<CoordinatePair, IActivateableWorldObject>();
-            var doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
+            var blocks = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
+            var shipComponents = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
+            var pipeLinks = new WorldObjectDictionary<CoordinatePair, IActivateableWorldObject>();
+            var doubleEdgedPipes = new WorldObjectDictionary<PipePosition, IWorldObject>();
 
             return new ObjectTable(tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
         }

@@ -44,6 +44,8 @@
     <Compile Include="ActivateableWorldObject.cs" />
     <Compile Include="ActivateableWorldObjectFactory.cs" />
     <Compile Include="CurveWorldObjectFactory.cs" />
+    <Compile Include="MenuControls\DropDownList.cs" />
+    <Compile Include="MenuControls\DropDownListFactory.cs" />
     <Compile Include="FactoryPicker.cs" />
     <Compile Include="IActivateableWorldObject.cs" />
     <Compile Include="IWorldObject.cs" />
@@ -53,7 +55,9 @@
     <Compile Include="RectangleSections\MarginRectangleSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldObject.cs" />
+    <Compile Include="WorldObjectDictionary.cs" />
     <Compile Include="WorldObjectFactory.cs" />
+    <Compile Include="WorldObjectList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Algorithm\Algorithms.csproj">

@@ -15,10 +15,10 @@ namespace BlueprintBuildingViewModel.Tests
         private ObjectTable objectTable;
         private Mock<IActivateableWorldObject> mockBuilderObject;
         private IActivateableWorldObject[,] tiles;
-        private Dictionary<Coordinate, IActivateableWorldObject> blocks;
-        private Dictionary<Coordinate, IActivateableWorldObject> shipComponents;
-        private Dictionary<CoordinatePair, IActivateableWorldObject> pipeLinks;
-        private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
+        private WorldObjectDictionary<Coordinate, IActivateableWorldObject> blocks;
+        private WorldObjectDictionary<Coordinate, IActivateableWorldObject> shipComponents;
+        private WorldObjectDictionary<CoordinatePair, IActivateableWorldObject> pipeLinks;
+        private WorldObjectDictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         [TestInitialize]
         public void Initialize()
@@ -26,10 +26,10 @@ namespace BlueprintBuildingViewModel.Tests
             mockBuilderObject = new Mock<IActivateableWorldObject>();
 
             tiles = new IActivateableWorldObject[5, 6];
-            blocks = new Dictionary<Coordinate, IActivateableWorldObject>();
-            shipComponents = new Dictionary<Coordinate, IActivateableWorldObject>();
-            pipeLinks = new Dictionary<CoordinatePair, IActivateableWorldObject>();
-            doubleEdgedPipes = new Dictionary<PipePosition, IWorldObject>();
+            blocks = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
+            shipComponents = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
+            pipeLinks = new WorldObjectDictionary<CoordinatePair, IActivateableWorldObject>();
+            doubleEdgedPipes = new WorldObjectDictionary<PipePosition, IWorldObject>();
 
             objectTable = new ObjectTable(
                 tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);

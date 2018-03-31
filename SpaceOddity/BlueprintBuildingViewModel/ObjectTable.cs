@@ -13,17 +13,17 @@ namespace BlueprintBuildingViewModel
     public class ObjectTable : IObjectTable
     {
         private IActivateableWorldObject[,] tiles;
-        private Dictionary<Coordinate, IActivateableWorldObject> blocks;
-        private Dictionary<Coordinate, IActivateableWorldObject> shipComponents;
-        private Dictionary<CoordinatePair, IActivateableWorldObject> pipeLinks;
-        private Dictionary<PipePosition, IWorldObject> doubleEdgedPipes;
+        private WorldObjectDictionary<Coordinate, IActivateableWorldObject> blocks;
+        private WorldObjectDictionary<Coordinate, IActivateableWorldObject> shipComponents;
+        private WorldObjectDictionary<CoordinatePair, IActivateableWorldObject> pipeLinks;
+        private WorldObjectDictionary<PipePosition, IWorldObject> doubleEdgedPipes;
 
         public ObjectTable(
             IActivateableWorldObject[,] tiles,
-            Dictionary<Coordinate, IActivateableWorldObject> blocks,
-            Dictionary<Coordinate, IActivateableWorldObject> shipComponents,
-            Dictionary<CoordinatePair, IActivateableWorldObject> pipeLinks,
-            Dictionary<PipePosition, IWorldObject> doubleEdgedPipes)
+            WorldObjectDictionary<Coordinate, IActivateableWorldObject> blocks,
+            WorldObjectDictionary<Coordinate, IActivateableWorldObject> shipComponents,
+            WorldObjectDictionary<CoordinatePair, IActivateableWorldObject> pipeLinks,
+            WorldObjectDictionary<PipePosition, IWorldObject> doubleEdgedPipes)
         {
             this.tiles = tiles;
             this.blocks = blocks;
@@ -84,27 +84,22 @@ namespace BlueprintBuildingViewModel
 
         public void DeletePipeLink(CoordinatePair edge)
         {
-            pipeLinks[edge].Delete();
             pipeLinks.Remove(edge);
         }
 
         public void DeleteBlock(Coordinate position)
         {
-            blocks[position].Delete();
             blocks.Remove(position);
         }
 
         public void DeleteShipComponent(Coordinate position)
         {
-            shipComponents[position].Delete();
             shipComponents.Remove(position);
         }
 
         public void DeletePipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge)
         {
-            var key = new PipePosition(position, firstEdge, secondEdge);
-            doubleEdgedPipes[key].Delete();
-            doubleEdgedPipes.Remove(key);
+            doubleEdgedPipes.Remove(new PipePosition(position, firstEdge, secondEdge));
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Game.Interfaces
     public interface IShipComponent
     {
         BlueprintShipComponentType Type { get; }
-
         void AdditionalSetups(IBlueprintBuilder blueprintBuilder);
         void RemoveAdditionalSetups(IBlueprintBuilder blueprintBuilder);
         bool CanBePlaced(IBlueprint blueprint, Coordinate position);

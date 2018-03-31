@@ -59,6 +59,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MenuControls\DropDownListFactoryTest.cs" />
+    <Compile Include="MenuControls\DropDownListTest.cs" />
     <Compile Include="RectangleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleSections\MarginRectangleSectionTest.cs" />
@@ -68,6 +70,8 @@
     <Compile Include="ActivateableWorldObjectTest.cs" />
     <Compile Include="CurveWorldObjectFactoryTest.cs" />
     <Compile Include="FactoryPickerTest.cs" />
+    <Compile Include="WorldObjectListTest.cs" />
+    <Compile Include="WorldObjectDictionaryTest.cs" />
     <Compile Include="WorldObjectFactoryTest.cs" />
     <Compile Include="WorldObjectTest.cs" />
   </ItemGroup>
