@@ -10,16 +10,16 @@ namespace ViewModel
 {
     public class CurveWorldObjectFactory : IFactory<IWorldObject, ICurve>
     {
-        private ICurveRenderableFactory renderableFactory;
+        private IFactory<IRenderable, ICurve> renderableFactory;
 
-        public CurveWorldObjectFactory(ICurveRenderableFactory renderableFactory)
+        public CurveWorldObjectFactory(IFactory<IRenderable, ICurve> renderableFactory)
         {
             this.renderableFactory = renderableFactory;
         }
 
         public IWorldObject Create(ICurve details)
         {
-            var renderable = renderableFactory.CreateRenderable(details);
+            var renderable = renderableFactory.Create(details);
             return new WorldObject(new Vector2(), new Vector2(), new Vector2(1, 1),
                 new NoAction(), new NoAction(), renderable);
         }

@@ -1,4 +1,5 @@
 ﻿using Algorithms;
+using Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,34 +7,80 @@ using System.Text;
 
 namespace ViewModel.MenuControls
 {
-    public class DropDownList
+    public class DropDownList : IDropDownList
     {
-        public int SelectedItem { get; private set; }
-        public IWorldObject Object { get; private set; }
-        public WorldObjectList<IWorldObject> ExpandedItems { get; private set; }
+        private int selectedIndex;
+        public int SelectedIndex 
+        {
+            get
+            {
+                return selectedIndex;
+            }
+            set
+            {
+                selectedIndex = value;
+                Object.Delete();
+                CreateSelectedObject();
+            }
+        }
 
-        private IEnumerable<IFactory<IWorldObject>> itemFactories;
+        public IWorldObject Object { get; private set; }
+        private Vector2 position;
+        private Vector2 scale;
+        public Vector2 Direction { get; private set; }
+
+        private WorldObjectList<IWorldObject> expandedItems;
+        private IList<IFactory<IWorldObject>> itemFactories;
 
         public DropDownList(
-            int selectedItem, 
-            IWorldObject worldObject, 
-            IEnumerable<IFactory<IWorldObject>> itemFactories)
+            int selectedIndex, 
+            Vector2 position,
+            Vector2 scale,
+            Vector2 direction,
+            IList<IFactory<IWorldObject>> itemFactories)
         {
-            this.SelectedItem = selectedItem;
-            this.Object = worldObject;
+            this.selectedIndex = selectedIndex;
+            this.position = position;
+            this.scale = scale;
+            this.Direction = direction;
             this.itemFactories = itemFactories;
-            ExpandedItems = new WorldObjectList<IWorldObject>();
+            expandedItems = new WorldObjectList<IWorldObject>();
+            CreateSelectedObject();
+        }
+
+        private void CreateSelectedObject()
+        {
+            Object = itemFactories[SelectedIndex].Create();
+            Object.Position = position;
+            Object.Scale = scale;
+            Object.LeftClickAction = new ToggleAction(this);
         }
 
         public void Toggle()
         {
-            if (ExpandedItems.Any())
+            if (expandedItems.Any())
             {
-                ExpandedItems.Clear();
+                Close();
             }
             else
             {
-                ExpandedItems.AddRange(itemFactories.Select(factory => factory.Create()));
+                Open();
+            }
+        }
+
+        public void Close()
+        {
+            expandedItems.Clear();
+        }
+
+        private void Open()
+        {
+            expandedItems.AddRange(itemFactories.Select(factory => factory.Create()));
+            for (var i = 0; i < expandedItems.Count; ++i)
+            {
+                expandedItems[i].Position = position + Direction * (i + 1);
+                expandedItems[i].Scale = scale;
+                expandedItems[i].LeftClickAction = new SelectDropDownItemAction(this, i);
             }
         }
     }

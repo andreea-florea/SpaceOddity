@@ -10,7 +10,7 @@ using ViewInterface;
 
 namespace WpfView
 {
-    public class WpfCurveRenderableFactory : ICurveRenderableFactory
+    public class WpfCurveRenderableFactory : IFactory<IRenderable, ICurve>
     {
         private Canvas parentCanvas;
         private BuilderWorldObjectState[] states;
@@ -28,7 +28,7 @@ namespace WpfView
             this.lineSegments = lineSegments;
         }
 
-        public IRenderable CreateRenderable(ICurve curve)
+        public IRenderable Create(ICurve curve)
         {
             var lines = CreateLines();
             var renderable = new WpfCurveRenderable(lines, curve, parentCanvas, states);

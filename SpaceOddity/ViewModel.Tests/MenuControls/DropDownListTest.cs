@@ -5,6 +5,8 @@ using Moq;
 using Algorithms;
 using System.Collections.Generic;
 using System.Linq;
+using Geometry;
+using ViewInterface;
 
 namespace ViewModel.Tests.MenuControls
 {
@@ -31,22 +33,56 @@ namespace ViewModel.Tests.MenuControls
             itemFactories.Add(mockFactory1.Object);
             itemFactories.Add(mockFactory2.Object);
 
-            var mockItem = new Mock<IWorldObject>();
-            dropDownList = new DropDownList(0, mockItem.Object, itemFactories);
+            var direction = new Vector2(3, 0);
+            dropDownList = new DropDownList(0, new Vector2(1, 1), new Vector2(3, 3), direction, itemFactories);
         }
 
         [TestMethod]
         public void DropDownListCanBeToggled()
         {
-            Assert.AreEqual(0, dropDownList.ExpandedItems.Count());
             dropDownList.Toggle();
-            Assert.AreEqual(mockItem1.Object, dropDownList.ExpandedItems[0]);
-            Assert.AreEqual(mockItem2.Object, dropDownList.ExpandedItems[1]);
-            Assert.AreEqual(2, dropDownList.ExpandedItems.Count());
+            mockFactory1.Verify(factory => factory.Create(), Times.Exactly(2));
+            mockFactory2.Verify(factory => factory.Create(), Times.Once());
             dropDownList.Toggle();
             mockItem1.Verify(item => item.Delete(), Times.Once());
             mockItem2.Verify(item => item.Delete(), Times.Once());
-            Assert.AreEqual(0, dropDownList.ExpandedItems.Count());
+        }
+
+        [TestMethod]
+        public void ElementsAreToggledAtCorrectPosition()
+        {
+            dropDownList.Toggle();
+
+            mockItem1.VerifySet(item => item.Position = new Vector2(4, 1), Times.Once());
+            mockItem2.VerifySet(item => item.Position = new Vector2(7, 1), Times.Once());
+            mockItem1.VerifySet(item => item.Scale = new Vector2(3, 3), Times.Exactly(2));
+            mockItem2.VerifySet(item => item.Scale = new Vector2(3, 3), Times.Once());
+        }
+
+        [TestMethod]
+        public void ElementsAreCreatedWithSelectAction()
+        {
+            IAction setClick1 = null;
+            IAction setClick2 = null;
+            mockItem1.SetupSet(item => item.LeftClickAction = It.IsAny<IAction>()).Callback<IAction>(click => setClick1 = click);
+            mockItem2.SetupSet(item => item.LeftClickAction = It.IsAny<IAction>()).Callback<IAction>(click => setClick2 = click);
+
+            dropDownList.Toggle();
+
+            (setClick2 as SelectDropDownItemAction).Execute();
+            Assert.AreEqual(1, dropDownList.SelectedIndex);
+            (setClick1 as SelectDropDownItemAction).Execute();
+            Assert.AreEqual(0, dropDownList.SelectedIndex);
+        }
+
+        [TestMethod]
+        public void ViewChangedWithIndex()
+        {
+            dropDownList.SelectedIndex = 1;
+            mockItem1.Verify(dropDown => dropDown.Delete(), Times.Once());
+            mockItem2.VerifySet(item => item.Position = new Vector2(1, 1), Times.Once());
+            mockItem2.VerifySet(item => item.Scale = new Vector2(3, 3), Times.Once());
+            Assert.AreEqual(dropDownList.Object, mockItem2.Object);
         }
     }
 }

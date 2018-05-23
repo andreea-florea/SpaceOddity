@@ -10,16 +10,16 @@ namespace ViewModel
 {
     public class WorldObjectFactory : IFactory<IWorldObject>
     {
-        private IRenderableFactory renderableFactory;
+        private IFactory<IRenderable> renderableFactory;
 
-        public WorldObjectFactory(IRenderableFactory renderableFactory)
+        public WorldObjectFactory(IFactory<IRenderable> renderableFactory)
         {
             this.renderableFactory = renderableFactory;
         }
 
         public IWorldObject Create()
         {
-            var renderable = renderableFactory.CreateRenderable();
+            var renderable = renderableFactory.Create();
             return new WorldObject(new Vector2(), new Vector2(), new Vector2(1, 1),
                 new NoAction(), new NoAction(), renderable);
         }

@@ -16,29 +16,29 @@ namespace BlueprintBuildingViewModel.Fancy
     public class FancyViewModelFactory
     {
         private IViewModelTilesFactory tilesFactory;
-        private IRenderableFactory blockCoreFactory;
-        private IRenderableFactory roundCornerFactory;
-        private IRenderableFactory straightUpCornerFactory;
-        private IRenderableFactory straightRightCornerFactory;
-        private IRenderableFactory closedCornerFactory;
-        private IRenderableFactory outsideUpCornerFactory;
-        private IRenderableFactory outsideRightCornerFactory;
-        private IRenderableFactory diagonalMissingCornerFactory;
-        private IRenderableFactory roundEdgeFactory;
-        private IRenderableFactory closedEdgeFactory;
+        private IFactory<IRenderable> blockCoreFactory;
+        private IFactory<IRenderable> roundCornerFactory;
+        private IFactory<IRenderable> straightUpCornerFactory;
+        private IFactory<IRenderable> straightRightCornerFactory;
+        private IFactory<IRenderable> closedCornerFactory;
+        private IFactory<IRenderable> outsideUpCornerFactory;
+        private IFactory<IRenderable> outsideRightCornerFactory;
+        private IFactory<IRenderable> diagonalMissingCornerFactory;
+        private IFactory<IRenderable> roundEdgeFactory;
+        private IFactory<IRenderable> closedEdgeFactory;
 
         public FancyViewModelFactory(
             IViewModelTilesFactory tilesFactory,
-            IRenderableFactory blockCoreFactory,
-            IRenderableFactory roundCornerFactory,
-            IRenderableFactory straightUpCornerFactory,
-            IRenderableFactory straightRightCornerFactory,
-            IRenderableFactory closedCornerFactory,
-            IRenderableFactory outsideUpCornerFactory,
-            IRenderableFactory outsideRightCornerFactory,
-            IRenderableFactory diagonalMissingCornerFactory,
-            IRenderableFactory roundEdgeFactory,
-            IRenderableFactory closedEdgeFactory)
+            IFactory<IRenderable> blockCoreFactory,
+            IFactory<IRenderable> roundCornerFactory,
+            IFactory<IRenderable> straightUpCornerFactory,
+            IFactory<IRenderable> straightRightCornerFactory,
+            IFactory<IRenderable> closedCornerFactory,
+            IFactory<IRenderable> outsideUpCornerFactory,
+            IFactory<IRenderable> outsideRightCornerFactory,
+            IFactory<IRenderable> diagonalMissingCornerFactory,
+            IFactory<IRenderable> roundEdgeFactory,
+            IFactory<IRenderable> closedEdgeFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockCoreFactory = blockCoreFactory;

@@ -47,9 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAction.cs" />
-    <Compile Include="ICurveRenderableFactory.cs" />
     <Compile Include="IRenderable.cs" />
-    <Compile Include="IRenderableFactory.cs" />
     <Compile Include="NoAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

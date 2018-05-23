@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="MenuControls\DropDownListFactoryTest.cs" />
     <Compile Include="MenuControls\DropDownListTest.cs" />
+    <Compile Include="MenuControls\ToggleActionTest.cs" />
+    <Compile Include="MenuControls\SelectDropDownItemActionTest.cs" />
     <Compile Include="RectangleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleSections\MarginRectangleSectionTest.cs" />

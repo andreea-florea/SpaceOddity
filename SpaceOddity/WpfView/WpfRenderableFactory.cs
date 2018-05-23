@@ -8,7 +8,7 @@ using ViewInterface;
 
 namespace WpfView
 {
-    public class WpfRenderableFactory : IRenderableFactory
+    public class WpfRenderableFactory : IFactory<IRenderable>
     {
         private Canvas parentCanvas;
         private IFactory<IFrameworkElementWrapper> elementFactory;
@@ -22,7 +22,7 @@ namespace WpfView
             this.states = states;
         }
 
-        public IRenderable CreateRenderable()
+        public IRenderable Create()
         {
             var wrapper = elementFactory.Create();
             parentCanvas.Children.Add(wrapper.Element);

@@ -49,6 +49,9 @@
     <Compile Include="FactoryPicker.cs" />
     <Compile Include="IActivateableWorldObject.cs" />
     <Compile Include="IWorldObject.cs" />
+    <Compile Include="MenuControls\IDropDownList.cs" />
+    <Compile Include="MenuControls\SelectDropDownItemAction.cs" />
+    <Compile Include="MenuControls\ToggleAction.cs" />
     <Compile Include="RectangleSections\AspectRatioRectangleSection.cs" />
     <Compile Include="RectangleSections\FullRectangleSection.cs" />
     <Compile Include="IRectangleSection.cs" />

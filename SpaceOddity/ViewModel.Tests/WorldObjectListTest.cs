@@ -50,5 +50,17 @@ namespace ViewModel.Tests
 
             Assert.AreEqual(2, list.Count());
         }
+
+        [TestMethod]
+        public void CanCountTheAmountOfWorldObjects()
+        {
+            var list = new WorldObjectList<IWorldObject>();
+            var mockObjects = new List<IWorldObject>();
+            mockObjects.Add(new Mock<IWorldObject>().Object);
+            mockObjects.Add(new Mock<IWorldObject>().Object);
+
+            list.AddRange(mockObjects);
+            Assert.AreEqual(2, list.Count);
+        }
     }
 }

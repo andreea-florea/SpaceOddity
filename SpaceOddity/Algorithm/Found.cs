@@ -9,7 +9,6 @@ namespace Algorithms
     {
         public bool IsFound { get; private set; }
         public T Element { get; private set; }
-
         
         public Found(bool isFound, T element)
         {

@@ -10,6 +10,14 @@ namespace ViewModel
     {
         private List<TWorldObject> objects;
 
+        public int Count
+        {
+            get
+            {
+                return objects.Count;
+            }
+        }
+
         public TWorldObject this[int index]
         {
             get

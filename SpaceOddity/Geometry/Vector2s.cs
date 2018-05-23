@@ -46,5 +46,13 @@ namespace Geometry
                 return new Vector2(-1, 0);
             }
         }
+
+        public static Vector2 Diagonal
+        {
+            get
+            {
+                return new Vector2(1, 1);
+            }
+        }
     }
 }

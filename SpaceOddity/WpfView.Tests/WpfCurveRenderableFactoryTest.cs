@@ -30,7 +30,7 @@ namespace WpfView.Tests
         [TestMethod]
         public void CurveRenderableIsCreatedAddedToCanvas()
         {
-            //wpfRenderableFactory.CreateRenderable(mockCurve.Object);
+            //wpfRenderableFactory.Create(mockCurve.Object);
         }
     }
 }

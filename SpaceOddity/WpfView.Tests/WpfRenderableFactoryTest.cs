@@ -35,7 +35,7 @@ namespace WpfView.Tests
         [TestMethod]
         public void RenderableIsCreatedAddedToCanvas()
         {
-            wpfRenderableFactory.CreateRenderable();
+            wpfRenderableFactory.Create();
             Assert.IsTrue(canvas.Children.Contains(stubElement));
         }
 
@@ -47,8 +47,8 @@ namespace WpfView.Tests
             states[0] = new BuilderWorldObjectState(green, red);
             mockElementWrapper.SetupSet(wrapper => wrapper.Border = red).Verifiable();
             mockElementWrapper.SetupSet(wrapper => wrapper.Fill = green).Verifiable();
-            
-            wpfRenderableFactory.CreateRenderable();
+
+            wpfRenderableFactory.Create();
 
             mockElementWrapper.VerifySet(wrapper => wrapper.Border = red, Times.Once());
             mockElementWrapper.VerifySet(wrapper => wrapper.Fill = green, Times.Once());
@@ -57,7 +57,7 @@ namespace WpfView.Tests
         [TestMethod]
         public void DestroyingARenderableRemovesFrameworkElementFromCanvas()
         {
-            var renderable = wpfRenderableFactory.CreateRenderable();
+            var renderable = wpfRenderableFactory.Create();
             renderable.Delete();
 
             Assert.IsFalse(canvas.Children.Contains(stubElement));

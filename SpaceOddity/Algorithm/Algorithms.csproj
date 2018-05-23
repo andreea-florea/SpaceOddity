@@ -49,6 +49,7 @@
     <Compile Include="IFactory.cs" />
     <Compile Include="InterchangeablePair.cs" />
     <Compile Include="ListExtensions.cs" />
+    <Compile Include="MultipleFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

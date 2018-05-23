@@ -17,18 +17,18 @@ namespace BlueprintBuildingViewModel
     public class ViewModelFactory
     {
         private IViewModelTilesFactory tilesFactory;
-        private IRenderableFactory blockFactory;
-        private IRenderableFactory batteryFactory;
-        private IRenderableFactory emptyComponentFactory;
-        private IRenderableFactory pipeLinkFactory;
-        private ICurveRenderableFactory pipeFactory;
+        private IFactory<IRenderable> blockFactory;
+        private IFactory<IRenderable> batteryFactory;
+        private IFactory<IRenderable> emptyComponentFactory;
+        private IFactory<IRenderable> pipeLinkFactory;
+        private IFactory<IRenderable, ICurve> pipeFactory;
 
         public ViewModelFactory(IViewModelTilesFactory tilesFactory,
-            IRenderableFactory blockFactory,
-            IRenderableFactory batteryFactory,
-            IRenderableFactory emptyComponentFactory,
-            IRenderableFactory pipeLinkFactory,
-            ICurveRenderableFactory pipeFactory)
+            IFactory<IRenderable> blockFactory,
+            IFactory<IRenderable> batteryFactory,
+            IFactory<IRenderable> emptyComponentFactory,
+            IFactory<IRenderable> pipeLinkFactory,
+            IFactory<IRenderable, ICurve> pipeFactory)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;

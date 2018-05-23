@@ -1,4 +1,5 @@
 ﻿using Algorithms;
+using Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,27 @@ namespace ViewModel.MenuControls
 {
     public class DropDownListFactory : IFactory<DropDownList>
     {
-        private List<IFactory<IWorldObject>> itemsList;
+        private IList<IFactory<IWorldObject>> itemsList;
+        private Vector2 position;
+        private Vector2 direction;
         private int selectedItem;
 
-        public DropDownListFactory(List<IFactory<IWorldObject>> itemsList, int selectedItem)
+        public DropDownListFactory(
+            IList<IFactory<IWorldObject>> itemsList,
+            Vector2 position,
+            Vector2 direction,
+            int selectedItem)
         {
             this.itemsList = itemsList;
+            this.position = position;
+            this.direction = direction;
             this.selectedItem = selectedItem;
         }
 
         public DropDownList Create()
         {
-            return new DropDownList(selectedItem, itemsList[selectedItem].Create(), itemsList);
+            return new DropDownList(
+                selectedItem, position, Vector2s.Diagonal * direction.Magnitude, direction, itemsList);
         }
     }
 }

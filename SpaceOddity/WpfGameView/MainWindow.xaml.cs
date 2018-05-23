@@ -1,4 +1,5 @@
-﻿using ConstructedGame;
+﻿using Algorithms;
+using ConstructedGame;
 using Geometry;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViewInterface;
 using ViewModel;
-
 using WpfView;
 
 namespace WpfGameView
@@ -36,6 +37,7 @@ namespace WpfGameView
                 CreateEmptyShipComponentFactory(),
                 CreatePipeLinkFactory(),
                 CreatePipeFactory(),
+                CreateBlockIconFactories(),
                 CreateViewRectangle());
         }
 
@@ -108,6 +110,22 @@ namespace WpfGameView
                 new BuilderWorldObjectState(new ColorVector(0.8, 0.9, 1.0), new ColorVector(0.8, 0.9, 1.0));
             var pipeObjectFactory = new WpfCurveRenderableFactory(mainCanvas, pipeStates, 3, 8);
             return pipeObjectFactory;
+        }
+
+        private IEnumerable<IFactory<IRenderable>> CreateBlockIconFactories()
+        {
+            yield return CreateBlockIconFactory(new ColorVector(0.1, 0.8, 0.9), new ColorVector(0.1, 0.7, 0.8));
+            yield return CreateBlockIconFactory(new ColorVector(0.9, 0.3, 0.3), new ColorVector(0.8, 0.7, 0.1));
+        }
+
+        private IFactory<IRenderable> CreateBlockIconFactory(ColorVector fill, ColorVector border)
+        {
+            var blockIconStates = new BuilderWorldObjectState[1];
+            blockIconStates[0] =
+                new BuilderWorldObjectState(fill, border);
+            var frameworkElementFactory = new RectangleFrameworkElementFactory(1);
+            var blockIconFactory = new WpfRenderableFactory(mainCanvas, frameworkElementFactory, blockIconStates);
+            return blockIconFactory;
         }
 
         private MarginRectangleSection CreateViewRectangle()
