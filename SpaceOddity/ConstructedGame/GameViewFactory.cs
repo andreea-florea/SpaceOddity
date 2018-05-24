@@ -14,6 +14,7 @@ using BlueprintBuildingViewModel;
 using ViewModel.MenuControls;
 using Algorithms;
 using Algorithm;
+using ViewModel.ModelDetailsConnection;
 
 namespace ConstructedGame
 {
@@ -36,7 +37,9 @@ namespace ConstructedGame
             IEnumerable<IFactory<IRenderable>> blockIconRenderableFactories,
             IRectangleSection fullRectangle)
         {
-            var observableBlueprintBuilder = CreateBlueprintBuilder(boardSize);
+            var shipComponentDetails = new DetailsCollection<IShipComponent>();
+            var blockDetails = new DetailsCollection<IBlock>();
+            var observableBlueprintBuilder = CreateBlueprintBuilder(boardSize, shipComponentDetails, blockDetails);
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
             CreateUserInterface(blockIconRenderableFactories);
@@ -48,7 +51,8 @@ namespace ConstructedGame
                 shipComponentsFactory, 
                 emptyComponentsFactory, 
                 pipeLinkFactory, 
-                pipeFactory);
+                pipeFactory,
+                shipComponentDetails);
             blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
         }
 
@@ -60,47 +64,16 @@ namespace ConstructedGame
             dropDownFactory.Create();
         }
 
-        public void CreateBlueprintBuilderView(
-            IFactory<IRenderable> tileObjectFactory,
-            IFactory<IRenderable> blockCoreFactory,
-            IFactory<IRenderable> roundCornerFactory,
-            IFactory<IRenderable> straightUpCornerFactory,
-            IFactory<IRenderable> straightRightCornerFactory,
-            IFactory<IRenderable> closedCornerFactory,
-            IFactory<IRenderable> outsideUpCornerFactory,
-            IFactory<IRenderable> outsideRightCornerFactory,
-            IFactory<IRenderable> diagonalMissingCornerFactory,
-            IFactory<IRenderable> roundEdgeFactory,
-            IFactory<IRenderable> closedEdgeFactory,
-            IRectangleSection fullRectangle)
-        {
-            var observableBlueprintBuilder = CreateBlueprintBuilder(boardSize);
-            var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
-
-            var tilesFactory = new ViewModelTilesFactory(new ActivateableWorldObjectFactory(tileObjectFactory));
-            var blueprintViewModelFactory = new FancyViewModelFactory(
-                tilesFactory,
-                blockCoreFactory,
-                roundCornerFactory,
-                straightUpCornerFactory,
-                straightRightCornerFactory,
-                closedCornerFactory,
-                outsideUpCornerFactory,
-                outsideRightCornerFactory,
-                diagonalMissingCornerFactory,
-                roundEdgeFactory,
-                closedEdgeFactory);
-
-            blueprintViewModelFactory.CreateViewModel(observableBlueprintBuilder, fittingRectangle);
-        }
-
-        private IBlueprintBuilder CreateBlueprintBuilder(Coordinate size)
+        private IBlueprintBuilder CreateBlueprintBuilder(
+            Coordinate size,
+            DetailsCollection<IShipComponent> shipComponentDetails,
+            DetailsCollection<IBlock> blockComponentDetails)
         {
             return new BlueprintBuilder(
                 new Blueprint(new IBlock[size.Y, size.X]),
                 new BlockFactory(2.0),
-                new BatteryFactory(),
-                new EmptyShipComponentFactory());
+                new RegisterDetailFactory<IShipComponent, IConstBlock>(new BatteryFactory(), shipComponentDetails, 1),
+                new RegisterDetailFactory<IShipComponent, IConstBlock>(new EmptyShipComponentFactory(), shipComponentDetails, 0));
         }
 
         private AspectRatioRectangleSection CreateViewRectangle(

@@ -1,4 +1,5 @@
-﻿using Game.Enums;
+﻿using Algorithms;
+using Game.Enums;
 using Game.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Game
 {
-    public class JetEngineFactory : IShipComponentFactory
+    public class JetEngineFactory : IFactory<IShipComponent, IConstBlock>
     {
         private IConstBlock block;
         private EdgeType edgeType;

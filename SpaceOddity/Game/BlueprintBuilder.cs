@@ -13,8 +13,8 @@ namespace Game
     {
         private IBlueprint blueprint;
         private IBlockFactory blockFactory;
-        private IShipComponentFactory shipComponentFactory;
-        private IShipComponentFactory emptyShipComponentFactory;
+        private IFactory<IShipComponent, IConstBlock> shipComponentFactory;
+        private IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory;
         private List<IBlockRestrictor> blockRestrictors;
 
         public Coordinate Dimensions
@@ -25,7 +25,11 @@ namespace Game
             }
         }
 
-        public BlueprintBuilder(IBlueprint blueprint, IBlockFactory blockFactory, IShipComponentFactory shipComponentFactory, IShipComponentFactory emptyShipComponentFactory)
+        public BlueprintBuilder(
+            IBlueprint blueprint, 
+            IBlockFactory blockFactory,
+            IFactory<IShipComponent, IConstBlock> shipComponentFactory,
+            IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory)
         {
             this.blueprint = blueprint;
             this.blockFactory = blockFactory;

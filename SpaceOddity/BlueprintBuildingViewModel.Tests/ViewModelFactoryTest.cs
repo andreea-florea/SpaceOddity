@@ -10,6 +10,7 @@ using BlueprintBuildingViewModel.Actions;
 using BlueprintBuildingViewModel.Controller;
 using ViewModel;
 using Algorithms;
+using ViewModel.ModelDetailsConnection;
 
 namespace BlueprintBuildingViewModel.Tests
 {
@@ -50,13 +51,15 @@ namespace BlueprintBuildingViewModel.Tests
             mockTileFactory.Setup(factory => 
                 factory.CreateTiles(It.IsAny<Coordinate>(), It.IsAny<IRectangleSection>())).Returns(tiles);
 
+            var stubDetailsCollection = new DetailsCollection<IShipComponent>();
             viewModelFactory = new ViewModelFactory(
                 mockTileFactory.Object,
                 mockBlockFactory.Object, 
                 mockBatteryFactory.Object,
                 mockEmptyComponentsFactory.Object,
                 mockPipeLinkFactory.Object,
-                mockPipeFactory.Object);
+                mockPipeFactory.Object,
+                stubDetailsCollection);
         }
 
         [TestMethod]

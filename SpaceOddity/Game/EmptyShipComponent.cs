@@ -10,14 +10,6 @@ namespace Game
 {
     public class EmptyShipComponent : IShipComponent
     {
-        public BlueprintShipComponentType Type 
-        { 
-            get
-            {
-                return BlueprintShipComponentType.Empty;
-            }
-        }
-
         public void AdditionalSetups(IBlueprintBuilder blueprintBuilder)
         {
             return;

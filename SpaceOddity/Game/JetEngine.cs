@@ -13,14 +13,6 @@ namespace Game
         public IConstBlock Block { get; private set; }
         public EdgeType FacingDirection { get; private set; }
 
-        public BlueprintShipComponentType Type
-        {
-            get
-            {
-                return BlueprintShipComponentType.JetEngine;
-            }
-        }
-
         public JetEngine(IConstBlock block, EdgeType facingDirection)
         {
             Block = block;

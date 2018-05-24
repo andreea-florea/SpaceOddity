@@ -23,7 +23,7 @@ namespace BlueprintBuildingViewModel.Tests
         private Mock<IActivateableWorldObject> mockShipComponent;
         private Mock<IActivateableWorldObject> mockPipeLink;
         private Mock<IFactory<IActivateableWorldObject>> mockBlockFactory;
-        private Mock<IFactory<IActivateableWorldObject, BlueprintShipComponentType>> mockShipComponentFactory;
+        private Mock<IFactory<IActivateableWorldObject, IShipComponent>> mockShipComponentFactory;
         private Mock<IFactory<IActivateableWorldObject>> mockPipeLinkFactory;
         private Mock<IFactory<IWorldObject, ICurve>> mockPipeFactory;
         private Mock<IBlueprint> mockBlueprint;
@@ -50,7 +50,7 @@ namespace BlueprintBuildingViewModel.Tests
             mockPipe.SetupAllProperties();
 
             mockBlockFactory = new Mock<IFactory<IActivateableWorldObject>>();
-            mockShipComponentFactory = new Mock<IFactory<IActivateableWorldObject, BlueprintShipComponentType>>();
+            mockShipComponentFactory = new Mock<IFactory<IActivateableWorldObject, IShipComponent>>();
             mockPipeLinkFactory = new Mock<IFactory<IActivateableWorldObject>>();
             mockPipeFactory = new Mock<IFactory<IWorldObject, ICurve>>();
             mockBlueprint = new Mock<IBlueprint>();
@@ -133,11 +133,9 @@ namespace BlueprintBuildingViewModel.Tests
             tiles.Set(position, mockTile.Object);
             mockTile.SetupGet(tile => tile.Position).Returns(translation);
             mockTile.SetupGet(tile => tile.Scale).Returns(scale);
-            mockShipComponentFactory.Setup(factory => factory.Create(BlueprintShipComponentType.Battery)).Returns(mockShipComponent.Object);
 
             var mockComponent = new Mock<IShipComponent>();
-            mockComponent.SetupAllProperties();
-            mockComponent.Setup(component => component.Type).Returns(BlueprintShipComponentType.Battery);
+            mockShipComponentFactory.Setup(factory => factory.Create(mockComponent.Object)).Returns(mockShipComponent.Object);
 
             var mockConstBlock = new Mock<IBlock>();
             mockConstBlock.SetupAllProperties();
@@ -146,7 +144,7 @@ namespace BlueprintBuildingViewModel.Tests
 
             blueprintBuilderViewModel.ShipComponentAdded(mockBlueprint.Object, position);
 
-            mockShipComponentFactory.Verify(factory => factory.Create(BlueprintShipComponentType.Battery), Times.Once());
+            mockShipComponentFactory.Verify(factory => factory.Create(mockComponent.Object), Times.Once());
             mockController.Verify(controller => controller.AssignShipComponentControl(shipComponents[position], position), Times.Once());
             Assert.AreEqual(translation, shipComponents[position].Position);
             Assert.AreEqual(scale, shipComponents[position].Scale);
