@@ -56,7 +56,6 @@
     <Compile Include="ConnectingPipe.cs" />
     <Compile Include="DoubleEdgedPipe.cs" />
     <Compile Include="EmptyShipComponentFactory.cs" />
-    <Compile Include="Enums\BlueprintShipComponentType.cs" />
     <Compile Include="Enums\EdgeType.cs" />
     <Compile Include="EmptyShipComponent.cs" />
     <Compile Include="Interfaces\IBlock.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="Interfaces\IBlueprintObserver.cs" />
     <Compile Include="Interfaces\IConstBlock.cs" />
     <Compile Include="Interfaces\IShipComponent.cs" />
-    <Compile Include="Interfaces\IShipComponentFactory.cs" />
     <Compile Include="JetEngine.cs" />
     <Compile Include="JetEngineFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

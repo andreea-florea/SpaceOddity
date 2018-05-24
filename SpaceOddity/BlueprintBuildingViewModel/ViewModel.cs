@@ -22,7 +22,7 @@ namespace BlueprintBuildingViewModel
         private ObjectTable objectTable;
 
         private IFactory<IActivateableWorldObject> blockFactory;
-        private IFactory<IActivateableWorldObject, BlueprintShipComponentType> shipComponentFactory;
+        private IFactory<IActivateableWorldObject, IShipComponent> shipComponentFactory;
         private IFactory<IActivateableWorldObject> pipeLinkFactory;
         private IFactory<IWorldObject, ICurve> pipeFactory;
 
@@ -30,7 +30,7 @@ namespace BlueprintBuildingViewModel
 
         public ViewModel(ObjectTable objectTable,
             IFactory<IActivateableWorldObject> blockFactory,
-            IFactory<IActivateableWorldObject, BlueprintShipComponentType> shipComponentFactory,
+            IFactory<IActivateableWorldObject, IShipComponent> shipComponentFactory,
             IFactory<IActivateableWorldObject> pipeLinkFactory,
             IFactory<IWorldObject, ICurve> pipeFactory,
             IControlAssigner controller)
@@ -114,7 +114,7 @@ namespace BlueprintBuildingViewModel
         public void ShipComponentAdded(IBlueprint blueprint, Coordinate position)
         {
             var shipComponent = blueprint.GetBlock(position).ShipComponent;
-            objectTable.SetShipComponent(position, shipComponentFactory.Create(shipComponent.Type));
+            objectTable.SetShipComponent(position, shipComponentFactory.Create(shipComponent));
             objectTable.GetShipComponent(position).Position = objectTable.GetTile(position).Position;
             objectTable.GetShipComponent(position).Scale = objectTable.GetTile(position).Scale;
             controller.AssignShipComponentControl(objectTable.GetShipComponent(position), position);

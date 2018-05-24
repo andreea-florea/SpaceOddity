@@ -5,6 +5,7 @@ using Moq;
 using NaturalNumbersMath;
 using System.Linq;
 using Game.Enums;
+using Algorithms;
 
 namespace Game.Tests
 {
@@ -15,8 +16,8 @@ namespace Game.Tests
         private Blueprint blueprint;
         private BlueprintBuilder blueprintBuilder;
         private Mock<IBlockFactory> mockBlockFactory;
-        private Mock<IShipComponentFactory> mockShipComponentFactory;
-        private Mock<IShipComponentFactory> mockEmptyShipComponentFactory;
+        private Mock<IFactory<IShipComponent, IConstBlock>> mockShipComponentFactory;
+        private Mock<IFactory<IShipComponent, IConstBlock>> mockEmptyShipComponentFactory;
         private Mock<IBlock> mockBlock;
         private Mock<IShipComponent> mockShipComponent;
         private List<DoubleEdgedPipe> doubleEdgedPipes;
@@ -31,8 +32,8 @@ namespace Game.Tests
             mockBlock = new Mock<IBlock>();
             mockShipComponent = new Mock<IShipComponent>();
             mockBlockFactory = new Mock<IBlockFactory>();
-            mockShipComponentFactory = new Mock<IShipComponentFactory>();
-            mockEmptyShipComponentFactory = new Mock<IShipComponentFactory>();
+            mockShipComponentFactory = new Mock<IFactory<IShipComponent, IConstBlock>>();
+            mockEmptyShipComponentFactory = new Mock<IFactory<IShipComponent, IConstBlock>>();
             blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object, mockEmptyShipComponentFactory.Object);
             doubleEdgedPipes = new List<DoubleEdgedPipe>();
             oneEdgedPipes = new List<ConnectingPipe>();

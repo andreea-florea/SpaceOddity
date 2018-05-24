@@ -11,6 +11,7 @@ using BlueprintBuildingViewModel.DataStructures;
 using ViewModel;
 using Algorithms;
 using Game.Enums;
+using ViewModel.ModelDetailsConnection;
 
 namespace BlueprintBuildingViewModel
 {
@@ -22,13 +23,15 @@ namespace BlueprintBuildingViewModel
         private IFactory<IRenderable> emptyComponentFactory;
         private IFactory<IRenderable> pipeLinkFactory;
         private IFactory<IRenderable, ICurve> pipeFactory;
+        private DetailsCollection<IShipComponent> componentDetails;
 
         public ViewModelFactory(IViewModelTilesFactory tilesFactory,
             IFactory<IRenderable> blockFactory,
             IFactory<IRenderable> batteryFactory,
             IFactory<IRenderable> emptyComponentFactory,
             IFactory<IRenderable> pipeLinkFactory,
-            IFactory<IRenderable, ICurve> pipeFactory)
+            IFactory<IRenderable, ICurve> pipeFactory,
+            DetailsCollection<IShipComponent> shipComponentDetails)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;
@@ -36,6 +39,7 @@ namespace BlueprintBuildingViewModel
             this.emptyComponentFactory = emptyComponentFactory;
             this.pipeLinkFactory = pipeLinkFactory;
             this.pipeFactory = pipeFactory;
+            this.componentDetails = shipComponentDetails;
         }
 
         public ViewModel CreateViewModel(IBlueprintBuilder builder, IRectangleSection fittingRectangle)
@@ -70,27 +74,23 @@ namespace BlueprintBuildingViewModel
             }
         }
 
-        private Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>> 
-            CreateShipComponentsFactories()
+        private IFactory<IActivateableWorldObject>[] CreateShipComponentsFactories()
         {
-            var shipComponentsFactories =
-                new Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>>();
-            shipComponentsFactories.Add(
-                BlueprintShipComponentType.Empty, new ActivateableWorldObjectFactory(emptyComponentFactory));
-            shipComponentsFactories.Add(
-                BlueprintShipComponentType.Battery, new ActivateableWorldObjectFactory(batteryFactory));
+            var shipComponentsFactories = new IFactory<IActivateableWorldObject>[2];
+            shipComponentsFactories[0] = new ActivateableWorldObjectFactory(emptyComponentFactory);
+            shipComponentsFactories[1] = new ActivateableWorldObjectFactory(batteryFactory);
             return shipComponentsFactories;
         }
 
         private ViewModel CreateViewModel(
             ObjectTable objectTable, 
             ControlAssigner controlAssigner, 
-            Dictionary<BlueprintShipComponentType, IFactory<IActivateableWorldObject>> shipComponentsFactories)
+            IFactory<IActivateableWorldObject>[] shipComponentsFactories)
         {
             var viewModel = new ViewModel(
                 objectTable,
                 new ActivateableWorldObjectFactory(blockFactory),
-                new FactoryPicker<BlueprintShipComponentType, IActivateableWorldObject>(shipComponentsFactories),
+                new ViewDetailsFactory<IActivateableWorldObject, IShipComponent>(componentDetails, shipComponentsFactories),
                 new ActivateableWorldObjectFactory(pipeLinkFactory),
                 new CurveWorldObjectFactory(pipeFactory),
                 controlAssigner);
