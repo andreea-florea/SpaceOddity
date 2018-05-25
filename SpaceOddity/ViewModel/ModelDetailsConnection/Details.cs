@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ViewModel.ModelDetailsConnection
 {
-    public class DetailsCollection<T>
+    public class Details<T> : IDetails<T>
     {
         private Dictionary<T, int> factoryIndex;
 
@@ -17,7 +17,7 @@ namespace ViewModel.ModelDetailsConnection
             }
         }
 
-        public DetailsCollection()
+        public Details()
         {
             factoryIndex = new Dictionary<T, int>();
         }

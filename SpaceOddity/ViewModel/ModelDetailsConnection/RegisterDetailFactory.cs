@@ -9,10 +9,10 @@ namespace ViewModel.ModelDetailsConnection
     public class RegisterDetailFactory<T> : IFactory<T>
     {
         private IFactory<T> factory;
-        private DetailsCollection<T> details;
+        private IDetails<T> details;
         private int index;
 
-        public RegisterDetailFactory(IFactory<T> factory, DetailsCollection<T> details, int index)
+        public RegisterDetailFactory(IFactory<T> factory, IDetails<T> details, int index)
         {
             this.factory = factory;
             this.details = details;
@@ -30,10 +30,10 @@ namespace ViewModel.ModelDetailsConnection
     public class RegisterDetailFactory<T, TContext> : IFactory<T, TContext>
     {
         private IFactory<T, TContext> factory;
-        private DetailsCollection<T> details;
+        private IDetails<T> details;
         private int index;
 
-        public RegisterDetailFactory(IFactory<T, TContext> factory, DetailsCollection<T> details, int index)
+        public RegisterDetailFactory(IFactory<T, TContext> factory, IDetails<T> details, int index)
         {
             this.factory = factory;
             this.details = details;

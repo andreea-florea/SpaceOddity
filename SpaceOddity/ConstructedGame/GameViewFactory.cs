@@ -37,8 +37,8 @@ namespace ConstructedGame
             IEnumerable<IFactory<IRenderable>> blockIconRenderableFactories,
             IRectangleSection fullRectangle)
         {
-            var shipComponentDetails = new DetailsCollection<IShipComponent>();
-            var blockDetails = new DetailsCollection<IBlock>();
+            var shipComponentDetails = new Details<IShipComponent>();
+            var blockDetails = new Details<IBlock>();
             var observableBlueprintBuilder = CreateBlueprintBuilder(boardSize, shipComponentDetails, blockDetails);
             var fittingRectangle = CreateViewRectangle(observableBlueprintBuilder, fullRectangle);
 
@@ -66,8 +66,8 @@ namespace ConstructedGame
 
         private IBlueprintBuilder CreateBlueprintBuilder(
             Coordinate size,
-            DetailsCollection<IShipComponent> shipComponentDetails,
-            DetailsCollection<IBlock> blockComponentDetails)
+            Details<IShipComponent> shipComponentDetails,
+            Details<IBlock> blockComponentDetails)
         {
             return new BlueprintBuilder(
                 new Blueprint(new IBlock[size.Y, size.X]),

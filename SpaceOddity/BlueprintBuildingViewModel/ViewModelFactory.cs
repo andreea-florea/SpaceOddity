@@ -23,7 +23,7 @@ namespace BlueprintBuildingViewModel
         private IFactory<IRenderable> emptyComponentFactory;
         private IFactory<IRenderable> pipeLinkFactory;
         private IFactory<IRenderable, ICurve> pipeFactory;
-        private DetailsCollection<IShipComponent> componentDetails;
+        private IDetails<IShipComponent> componentDetails;
 
         public ViewModelFactory(IViewModelTilesFactory tilesFactory,
             IFactory<IRenderable> blockFactory,
@@ -31,7 +31,7 @@ namespace BlueprintBuildingViewModel
             IFactory<IRenderable> emptyComponentFactory,
             IFactory<IRenderable> pipeLinkFactory,
             IFactory<IRenderable, ICurve> pipeFactory,
-            DetailsCollection<IShipComponent> shipComponentDetails)
+            IDetails<IShipComponent> shipComponentDetails)
         {
             this.tilesFactory = tilesFactory;
             this.blockFactory = blockFactory;

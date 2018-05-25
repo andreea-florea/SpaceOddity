@@ -51,7 +51,7 @@ namespace BlueprintBuildingViewModel.Tests
             mockTileFactory.Setup(factory => 
                 factory.CreateTiles(It.IsAny<Coordinate>(), It.IsAny<IRectangleSection>())).Returns(tiles);
 
-            var stubDetailsCollection = new DetailsCollection<IShipComponent>();
+            var mockDetails = new Mock<IDetails<IShipComponent>>();
             viewModelFactory = new ViewModelFactory(
                 mockTileFactory.Object,
                 mockBlockFactory.Object, 
@@ -59,7 +59,7 @@ namespace BlueprintBuildingViewModel.Tests
                 mockEmptyComponentsFactory.Object,
                 mockPipeLinkFactory.Object,
                 mockPipeFactory.Object,
-                stubDetailsCollection);
+                mockDetails.Object);
         }
 
         [TestMethod]
