@@ -15,7 +15,7 @@ namespace Game.Tests
         private IBlock[,] blocks;
         private Blueprint blueprint;
         private BlueprintBuilder blueprintBuilder;
-        private Mock<IBlockFactory> mockBlockFactory;
+        private Mock<IFactory<IBlock>> mockBlockFactory;
         private Mock<IFactory<IShipComponent, IConstBlock>> mockShipComponentFactory;
         private Mock<IFactory<IShipComponent, IConstBlock>> mockEmptyShipComponentFactory;
         private Mock<IBlock> mockBlock;
@@ -31,7 +31,7 @@ namespace Game.Tests
             blueprint = new Blueprint(blocks);
             mockBlock = new Mock<IBlock>();
             mockShipComponent = new Mock<IShipComponent>();
-            mockBlockFactory = new Mock<IBlockFactory>();
+            mockBlockFactory = new Mock<IFactory<IBlock>>();
             mockShipComponentFactory = new Mock<IFactory<IShipComponent, IConstBlock>>();
             mockEmptyShipComponentFactory = new Mock<IFactory<IShipComponent, IConstBlock>>();
             blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object, mockEmptyShipComponentFactory.Object);
@@ -127,7 +127,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
 
-            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
 
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
         }
@@ -139,7 +139,7 @@ namespace Game.Tests
 
             blueprintBuilder.AddRestrictor(mockBlockRestrictor.Object);
             mockBlockRestrictor.Setup(x => x.CanCreateBlock(position)).Returns(false);
-            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
 
             Assert.IsFalse(blueprintBuilder.CreateBlock(position));
         }
@@ -148,7 +148,7 @@ namespace Game.Tests
         public void CheckIfBlockFactoryIsUsedToCreateOtherBlocks()
         {
             var position = new Coordinate(5, 4);
-            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
             Assert.AreEqual(mockBlock.Object, blueprintBuilder.GetBlock(position));
         }
@@ -158,7 +158,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
 
-            mockBlockFactory.Setup(x => x.CreateBlock()).Returns(mockBlock.Object);
+            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
             mockShipComponentFactory.Setup(x => x.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
