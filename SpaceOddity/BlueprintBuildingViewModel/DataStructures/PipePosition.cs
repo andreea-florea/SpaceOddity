@@ -12,20 +12,6 @@ namespace BlueprintBuildingViewModel.DataStructures
     {
         public Coordinate Position { get; private set; }
         private InterchangeablePair<EdgeType> edges;
-        public EdgeType FirstEdge
-        {
-            get
-            {
-                return edges.First;
-            }
-        }
-        public EdgeType SecondEdge
-        {
-            get
-            {
-                return edges.Second;
-            }
-        }
 
         public PipePosition(Coordinate position, EdgeType firstEdge, EdgeType secondEdge) : this()
         {

@@ -50,12 +50,12 @@ namespace BlueprintBuildingViewModel
 
             AssignTileControls(builder, tiles, controlAssigner);
 
-            var viewModel = CreateViewModel(objectTable, controlAssigner, CreateShipComponentsFactories());
+            var viewModel = CreateViewModel(builder, objectTable, controlAssigner, CreateShipComponentsFactories());
             builder.AttachObserver(viewModel);
             return viewModel;
         }
 
-        private static ObjectTable CreateObjectTable(IActivateableWorldObject[,] tiles)
+        private ObjectTable CreateObjectTable(IActivateableWorldObject[,] tiles)
         {
             var blocks = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
             var shipComponents = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
@@ -65,10 +65,9 @@ namespace BlueprintBuildingViewModel
             return new ObjectTable(tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
         }
 
-        private static void AssignTileControls(IBlueprintBuilder builder, IActivateableWorldObject[,] tiles, ControlAssigner controlAssigner)
+        private void AssignTileControls(IBlueprintBuilder builder, IActivateableWorldObject[,] tiles, ControlAssigner controlAssigner)
         {
-            var tileRectanle = new CoordinateRectangle(Coordinates.Zero, builder.Dimensions);
-            foreach (var coordinate in tileRectanle.Points)
+            foreach (var coordinate in tiles.GetCoordinates())
             {
                 controlAssigner.AssignTileControl(tiles.Get(coordinate), coordinate);
             }
@@ -83,11 +82,13 @@ namespace BlueprintBuildingViewModel
         }
 
         private ViewModel CreateViewModel(
+            IBlueprintBuilder builder,
             ObjectTable objectTable, 
             ControlAssigner controlAssigner, 
             IFactory<IActivateableWorldObject>[] shipComponentsFactories)
         {
             var viewModel = new ViewModel(
+                builder,
                 objectTable,
                 new ActivateableWorldObjectFactory(blockFactory),
                 new ViewDetailsFactory<IActivateableWorldObject, IShipComponent>(componentDetails, shipComponentsFactories),

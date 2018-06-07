@@ -9,5 +9,7 @@ namespace ViewModel
     {
         void Deactivate();
         void Activate();
+        void Disable();
+        void SetState(ActiveState state);
     }
 }

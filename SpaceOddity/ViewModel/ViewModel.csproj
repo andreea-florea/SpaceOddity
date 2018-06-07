@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ActivateableWorldObject.cs" />
     <Compile Include="ActivateableWorldObjectFactory.cs" />
+    <Compile Include="ActiveState.cs" />
     <Compile Include="CurveWorldObjectFactory.cs" />
     <Compile Include="ModelDetailsConnection\Details.cs" />
     <Compile Include="MenuControls\DropDownList.cs" />
@@ -69,10 +70,6 @@
     <ProjectReference Include="..\Algorithm\Algorithms.csproj">
       <Project>{32a175be-a3af-4020-9de4-345fba697103}</Project>
       <Name>Algorithms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Game\Game.csproj">
-      <Project>{017cbef2-ad71-4d14-a04f-ddd57c27a98f}</Project>
-      <Name>Game</Name>
     </ProjectReference>
     <ProjectReference Include="..\Geometry\Geometry.csproj">
       <Project>{9093d621-8382-4390-8bae-2157f8f9b267}</Project>

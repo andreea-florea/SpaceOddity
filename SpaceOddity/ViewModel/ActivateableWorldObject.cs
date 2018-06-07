@@ -9,12 +9,6 @@ namespace ViewModel
 {
     public class ActivateableWorldObject : IActivateableWorldObject
     {
-        private enum ActiveState
-        {
-            Normal,
-            Activated
-        }
-
         private IWorldObject baseObject;
         private IRenderable renderable;
 
@@ -83,12 +77,22 @@ namespace ViewModel
 
         public void Deactivate()
         {
-            renderable.SetState((int)ActiveState.Normal);
+            SetState(ActiveState.Normal);
         }
 
         public void Activate()
         {
-            renderable.SetState((int)ActiveState.Activated);
+            SetState(ActiveState.Activated);
+        }
+
+        public void Disable()
+        {
+            SetState(ActiveState.Disabled);            
+        }
+
+        public void SetState(ActiveState state)
+        {
+            renderable.SetState((int)state);
         }
     }
 }

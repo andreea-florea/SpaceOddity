@@ -113,8 +113,8 @@ namespace Game
 
                 if (component.CanBePlaced(blueprint, position))
                 {
-                    blueprint.PlaceShipComponent(position, component);
                     component.AdditionalSetups(this);
+                    blueprint.PlaceShipComponent(position, component);
 
                     foreach (var pipe in block.PipesWithBothEdges)
                     {
@@ -165,8 +165,8 @@ namespace Game
             {
                 var block = GetBlock(position);
 
-                var component = blueprint.RemoveShipComponent(position);
-                component.RemoveAdditionalSetups(this);
+                block.ShipComponent.RemoveAdditionalSetups(this);
+                blueprint.RemoveShipComponent(position);
 
                 var pipes = block.PipesWithOneEdge.Select(pipe => pipe.Edge).ToList();
                 ClearPipes(position, block.PipesWithOneEdge);

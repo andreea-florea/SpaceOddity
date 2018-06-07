@@ -32,6 +32,11 @@ namespace BlueprintBuildingViewModel
             this.doubleEdgedPipes = doubleEdgedPipes;
         }
 
+        public IEnumerable<Coordinate> GetCoordinates()
+        {
+            return tiles.GetCoordinates();
+        }
+
         public IActivateableWorldObject GetTile(Coordinate position)
         {
             return tiles.Get(position);

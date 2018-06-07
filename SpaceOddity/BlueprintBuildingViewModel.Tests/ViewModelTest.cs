@@ -26,6 +26,7 @@ namespace BlueprintBuildingViewModel.Tests
         private Mock<IFactory<IActivateableWorldObject, IShipComponent>> mockShipComponentFactory;
         private Mock<IFactory<IActivateableWorldObject>> mockPipeLinkFactory;
         private Mock<IFactory<IWorldObject, ICurve>> mockPipeFactory;
+        private Mock<IBlueprintBuilder> mockBuilder;
         private Mock<IBlueprint> mockBlueprint;
         private Mock<IControlAssigner> mockController;
         private Mock<IActivateableWorldObject> mockTile;
@@ -53,11 +54,17 @@ namespace BlueprintBuildingViewModel.Tests
             mockShipComponentFactory = new Mock<IFactory<IActivateableWorldObject, IShipComponent>>();
             mockPipeLinkFactory = new Mock<IFactory<IActivateableWorldObject>>();
             mockPipeFactory = new Mock<IFactory<IWorldObject, ICurve>>();
+            mockBuilder = new Mock<IBlueprintBuilder>();
             mockBlueprint = new Mock<IBlueprint>();
             mockController = new Mock<IControlAssigner>();
 
             mockTile = new Mock<IActivateableWorldObject>();
             tiles = new IActivateableWorldObject[5, 6];
+            foreach (var coordinate in tiles.GetCoordinates())
+            {
+                tiles.Set(coordinate, new Mock<IActivateableWorldObject>().Object);
+            }
+
             blocks = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
             shipComponents = new WorldObjectDictionary<Coordinate, IActivateableWorldObject>();
             pipeLinks = new WorldObjectDictionary<CoordinatePair, IActivateableWorldObject>();
@@ -65,12 +72,14 @@ namespace BlueprintBuildingViewModel.Tests
             var objectTable = new ObjectTable(
                 tiles, blocks, shipComponents, pipeLinks, doubleEdgedPipes);
 
-            blueprintBuilderViewModel = new ViewModel(objectTable,
-                    mockBlockFactory.Object, 
-                    mockShipComponentFactory.Object, 
-                    mockPipeLinkFactory.Object,
-                    mockPipeFactory.Object,
-                    mockController.Object);
+            blueprintBuilderViewModel = new ViewModel(
+                mockBuilder.Object,
+                objectTable,
+                mockBlockFactory.Object, 
+                mockShipComponentFactory.Object, 
+                mockPipeLinkFactory.Object,
+                mockPipeFactory.Object,
+                mockController.Object);
         }
 
         [TestMethod]

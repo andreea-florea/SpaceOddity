@@ -19,6 +19,7 @@ namespace BlueprintBuildingViewModel
 {
     public class ViewModel : IBlueprintObserver
     {
+        private IBlueprintBuilder builder;
         private ObjectTable objectTable;
 
         private IFactory<IActivateableWorldObject> blockFactory;
@@ -28,13 +29,15 @@ namespace BlueprintBuildingViewModel
 
         private IControlAssigner controller;
 
-        public ViewModel(ObjectTable objectTable,
+        public ViewModel(IBlueprintBuilder builder,
+            ObjectTable objectTable,
             IFactory<IActivateableWorldObject> blockFactory,
             IFactory<IActivateableWorldObject, IShipComponent> shipComponentFactory,
             IFactory<IActivateableWorldObject> pipeLinkFactory,
             IFactory<IWorldObject, ICurve> pipeFactory,
             IControlAssigner controller)
         {
+            this.builder = builder;
             this.objectTable = objectTable;
             this.blockFactory = blockFactory;
             this.shipComponentFactory = shipComponentFactory;
@@ -71,6 +74,7 @@ namespace BlueprintBuildingViewModel
         {
             objectTable.DeleteBlock(position);
             UpdatePipeLinks(blueprint, position);
+            UpdateTiles();
         }
 
         private void UpdatePipeLinks(IBlueprint blueprint, Coordinate position)
@@ -118,11 +122,13 @@ namespace BlueprintBuildingViewModel
             objectTable.GetShipComponent(position).Position = objectTable.GetTile(position).Position;
             objectTable.GetShipComponent(position).Scale = objectTable.GetTile(position).Scale;
             controller.AssignShipComponentControl(objectTable.GetShipComponent(position), position);
+            UpdateTiles();
         }
 
         public void ShipComponentDeleted(IBlueprint blueprint, Coordinate position)
         {
             objectTable.DeleteShipComponent(position);
+            UpdateTiles();
         }
 
         public void DoubleEdgePipeAdded(IBlueprint blueprint, Coordinate position, DoubleEdgedPipe pipe)
@@ -179,6 +185,15 @@ namespace BlueprintBuildingViewModel
         public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)
         {
             objectTable.DeletePipe(position, pipe.Edge, EdgeType.COUNT);
+        }
+
+        public void UpdateTiles()
+        {
+            foreach (var coordinate in objectTable.GetCoordinates())
+            {
+                 objectTable.GetTile(coordinate).SetState(
+                    builder.CanCreateBlock(coordinate) ? ActiveState.Normal : ActiveState.Disabled);
+            }
         }
     }
 }

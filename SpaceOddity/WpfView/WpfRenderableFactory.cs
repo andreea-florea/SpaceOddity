@@ -15,7 +15,9 @@ namespace WpfView
         private BuilderWorldObjectState[] states;
 
         public WpfRenderableFactory(
-            Canvas parentCanvas, IFactory<IFrameworkElementWrapper> elementFactory, BuilderWorldObjectState[] states)
+            Canvas parentCanvas, 
+            IFactory<IFrameworkElementWrapper> elementFactory, 
+            BuilderWorldObjectState[] states)
         {
             this.parentCanvas = parentCanvas;
             this.elementFactory = elementFactory;

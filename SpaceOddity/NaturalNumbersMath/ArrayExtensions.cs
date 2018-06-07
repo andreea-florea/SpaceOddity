@@ -17,6 +17,11 @@ namespace NaturalNumbersMath
             return array.GetLength(0);
         }
 
+        public static Coordinate Dimensions<T>(this T[,] array)
+        {
+            return new Coordinate(array.Width(), array.Height());
+        }
+
         public static T Get<T>(this T[,] array, Coordinate coordinate)
         {
             return array[coordinate.Y, coordinate.X];
@@ -31,6 +36,15 @@ namespace NaturalNumbersMath
         {
             return coordinate.Y >= 0 && coordinate.X >= 0 &&
                 coordinate.Y < array.Height() && coordinate.X < array.Width();
+        }
+
+        public static IEnumerable<Coordinate> GetCoordinates<T>(this T[,] array)
+        {
+            var rectangle = new CoordinateRectangle(Coordinates.Zero, array.Dimensions());
+            foreach (var coordinate in rectangle.Points)
+            {
+                yield return coordinate;
+            }
         }
 
         public static int ToInt(this bool[] bits)

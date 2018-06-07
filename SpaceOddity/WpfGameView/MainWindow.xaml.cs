@@ -43,9 +43,11 @@ namespace WpfGameView
 
         private WpfRenderableFactory CreateTileFactory()
         {
-            var tileStates = new BuilderWorldObjectState[1];
-            tileStates[0] =
+            var tileStates = new BuilderWorldObjectState[3];
+            tileStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(new ColorVector(0.8, 0.9, 0.9), new ColorVector(0.5, 0.6, 0.6));
+            tileStates[(int)ActiveState.Disabled] =
+                new BuilderWorldObjectState(new ColorVector(1.0, 0.8, 0.8), new ColorVector(0.7, 0.5, 0.5));
             var frameworkElementFactory = new RectangleFrameworkElementFactory(1);
             var tileObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkElementFactory, tileStates);
             return tileObjectFactory;
@@ -54,7 +56,7 @@ namespace WpfGameView
         private WpfRenderableFactory CreateBlocksFactory()
         {
             var blockStates = new BuilderWorldObjectState[1];
-            blockStates[0] =
+            blockStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(new ColorVector(0.1, 0.8, 0.9), new ColorVector(0.1, 0.8, 0.9));
             var frameworkBlockFactory = new RectangleFrameworkElementFactory(2);
             var blockObjectFactory = new WpfRenderableFactory(mainCanvas, frameworkBlockFactory, blockStates);
@@ -64,7 +66,7 @@ namespace WpfGameView
         private WpfRenderableFactory CreateShipComponentFactory()
         {
             var shipComponentStates = new BuilderWorldObjectState[1];
-            shipComponentStates[0] =
+            shipComponentStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(new ColorVector(1.0, 0.9, 0.0), new ColorVector(1.0, 0.9, 0.0));
             var frameworkShipComponentFactory =
                 new GridParentFrameworkElementFactory(new CircleFrameworkElementFactory(5), new Vector2(20, 20), 5);
@@ -79,7 +81,7 @@ namespace WpfGameView
                 new GridParentFrameworkElementFactory(new CircleFrameworkElementFactory(5), new Vector2(20, 20), 5);
 
             var emptyShipComponentStates = new BuilderWorldObjectState[1];
-            emptyShipComponentStates[0] =
+            emptyShipComponentStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(new ColorVector(0.1, 0.9, 1.0), new ColorVector(0.1, 0.9, 1.0));
             var frameworkEmptyShipComponentFactory =
                 new GridParentFrameworkElementFactory(new CircleFrameworkElementFactory(5), new Vector2(20, 20), 5);
@@ -92,9 +94,9 @@ namespace WpfGameView
         private WpfRenderableFactory CreatePipeLinkFactory()
         {
             var pipeLinkStates = new BuilderWorldObjectState[2];
-            pipeLinkStates[0] =
+            pipeLinkStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(new ColorVector(0.15, 0.55, 0.9), new ColorVector(0.15, 0.55, 0.9));
-            pipeLinkStates[1] =
+            pipeLinkStates[(int)ActiveState.Activated] =
                 new BuilderWorldObjectState(new ColorVector(1.0, 0.5, 0.0), new ColorVector(1.0, 0.5, 0.0));
             var frameworkPipeLinkFactory =
                 new FixedSizeFrameworkElementFactory(new RectangleFrameworkElementFactory(4), new Vector2(10, 10), 4);
@@ -106,7 +108,7 @@ namespace WpfGameView
         private WpfCurveRenderableFactory CreatePipeFactory()
         {
             var pipeStates = new BuilderWorldObjectState[1];
-            pipeStates[0] =
+            pipeStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(new ColorVector(0.8, 0.9, 1.0), new ColorVector(0.8, 0.9, 1.0));
             var pipeObjectFactory = new WpfCurveRenderableFactory(mainCanvas, pipeStates, 3, 8);
             return pipeObjectFactory;
@@ -121,7 +123,7 @@ namespace WpfGameView
         private IFactory<IRenderable> CreateBlockIconFactory(ColorVector fill, ColorVector border)
         {
             var blockIconStates = new BuilderWorldObjectState[1];
-            blockIconStates[0] =
+            blockIconStates[(int)ActiveState.Normal] =
                 new BuilderWorldObjectState(fill, border);
             var frameworkElementFactory = new RectangleFrameworkElementFactory(1);
             var blockIconFactory = new WpfRenderableFactory(mainCanvas, frameworkElementFactory, blockIconStates);

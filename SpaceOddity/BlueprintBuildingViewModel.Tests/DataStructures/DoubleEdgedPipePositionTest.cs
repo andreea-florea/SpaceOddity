@@ -10,17 +10,6 @@ namespace BlueprintBuildingViewModel.Tests.DataStructures
     public class DoubleEdgedPipePositionTest
     {
         [TestMethod]
-        public void DoubleEdgePipePositionIsCreatedCorrectly()
-        {
-            var position = new Coordinate(1, 2);
-            var doubleEdgePipePosition = new PipePosition(position, EdgeType.RIGHT, EdgeType.UP);
-
-            Assert.AreEqual(position, doubleEdgePipePosition.Position);
-            Assert.AreEqual(EdgeType.RIGHT, doubleEdgePipePosition.FirstEdge);
-            Assert.AreEqual(EdgeType.UP, doubleEdgePipePosition.SecondEdge);
-        }
-
-        [TestMethod]
         public void CheckDoubleEdgedPipePositionEqualities()
         {
             var pipe = new PipePosition(new Coordinate(1, 2), EdgeType.LEFT, EdgeType.RIGHT);

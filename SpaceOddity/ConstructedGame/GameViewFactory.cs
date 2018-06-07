@@ -15,6 +15,7 @@ using ViewModel.MenuControls;
 using Algorithms;
 using Algorithm;
 using ViewModel.ModelDetailsConnection;
+using Game.Enums;
 
 namespace ConstructedGame
 {
@@ -72,7 +73,7 @@ namespace ConstructedGame
             return new BlueprintBuilder(
                 new Blueprint(new IBlock[size.Y, size.X]),
                 new BlockFactory(2.0),
-                new RegisterDetailFactory<IShipComponent, IConstBlock>(new BatteryFactory(), shipComponentDetails, 1),
+                new RegisterDetailFactory<IShipComponent, IConstBlock>(new JetEngineFactory(EdgeType.DOWN), shipComponentDetails, 1),
                 new RegisterDetailFactory<IShipComponent, IConstBlock>(new EmptyShipComponentFactory(), shipComponentDetails, 0));
         }
 
