@@ -11,11 +11,11 @@ namespace Game.Tests
         public void CheckIfBlockFactoryCreatesBlocksWithCorrectWeight()
         {
             var blockFactory = new BlockFactory(5.2);
-            var block = blockFactory.CreateBlock();
+            var block = blockFactory.Create();
             Assert.AreEqual(block.Weight, 5.2);
 
             blockFactory = new BlockFactory(5);
-            block = blockFactory.CreateBlock();
+            block = blockFactory.Create();
             Assert.AreEqual(block.Weight, 5);
         }
     }

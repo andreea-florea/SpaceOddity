@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Algorithms;
 using Game.Interfaces;
 
 namespace Game
 {
-    public class BlockFactory : IBlockFactory
+    public class BlockFactory : IFactory<IBlock>
     {
         private double weight;
 
@@ -16,7 +16,7 @@ namespace Game
             this.weight = weight;
         }
 
-        public IBlock CreateBlock()
+        public IBlock Create()
         {
             return new Block(weight, new List<DoubleEdgedPipe>(), new List<ConnectingPipe>());
         }

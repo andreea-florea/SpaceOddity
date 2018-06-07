@@ -12,7 +12,7 @@ namespace Game
     public class BlueprintBuilder : IBlueprintBuilder
     {
         private IBlueprint blueprint;
-        private IBlockFactory blockFactory;
+        private IFactory<IBlock> blockFactory;
         private IFactory<IShipComponent, IConstBlock> shipComponentFactory;
         private IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory;
         private List<IBlockRestrictor> blockRestrictors;
@@ -26,8 +26,8 @@ namespace Game
         }
 
         public BlueprintBuilder(
-            IBlueprint blueprint, 
-            IBlockFactory blockFactory,
+            IBlueprint blueprint,
+            IFactory<IBlock> blockFactory,
             IFactory<IShipComponent, IConstBlock> shipComponentFactory,
             IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory)
         {
@@ -66,7 +66,7 @@ namespace Game
         {
             if (CanCreateBlock(position))
             {
-                blueprint.PlaceBlock(position, blockFactory.CreateBlock());
+                blueprint.PlaceBlock(position, blockFactory.Create());
                 return true;
             }
 
