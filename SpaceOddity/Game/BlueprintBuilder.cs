@@ -12,10 +12,11 @@ namespace Game
     public class BlueprintBuilder : IBlueprintBuilder
     {
         private IBlueprint blueprint;
-        private IFactory<IBlock> blockFactory;
+        private IList<IFactory<IBlock>> blockFactories;
         private IFactory<IShipComponent, IConstBlock> shipComponentFactory;
         private IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory;
         private List<IBlockRestrictor> blockRestrictors;
+        private int blockFactoriesIndex;
 
         public Coordinate Dimensions
         {
@@ -27,22 +28,25 @@ namespace Game
 
         public BlueprintBuilder(
             IBlueprint blueprint,
-            IFactory<IBlock> blockFactory,
+            IList<IFactory<IBlock>> blockFactories,
             IFactory<IShipComponent, IConstBlock> shipComponentFactory,
             IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory)
         {
             this.blueprint = blueprint;
-            this.blockFactory = blockFactory;
+            this.blockFactories = blockFactories;
             this.shipComponentFactory = shipComponentFactory;
             this.emptyShipComponentFactory = emptyShipComponentFactory;
             blockRestrictors = new List<IBlockRestrictor>();
+            blockFactoriesIndex = 0;
         }
 
         public BlueprintBuilder(Coordinate dimensions)
         {
             var blocks = new IBlock[dimensions.X, dimensions.Y];
-            blueprint = new Blueprint(blocks);
-            blockFactory = new BlockFactory(5);
+            blueprint = new Blueprint(blocks);            
+            blockFactoriesIndex = 0;
+            blockFactories = new List<IFactory<IBlock>>();
+            blockFactories.Add(new BlockFactory(5));
             shipComponentFactory = new BatteryFactory();
             blockRestrictors = new List<IBlockRestrictor>();
         }
@@ -66,7 +70,7 @@ namespace Game
         {
             if (CanCreateBlock(position))
             {
-                blueprint.PlaceBlock(position, blockFactory.Create());
+                blueprint.PlaceBlock(position, blockFactories[blockFactoriesIndex].Create());
                 return true;
             }
 
@@ -395,6 +399,11 @@ namespace Game
         public void RemoveRestrictor(IBlockRestrictor restrictor)
         {
             blockRestrictors.Remove(restrictor);
+        }
+
+        public void ChangeBlockFactoryIndex(int index)
+        {
+            blockFactoriesIndex = index;
         }
     }
 }

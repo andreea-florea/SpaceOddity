@@ -15,7 +15,7 @@ namespace Game.Tests
         private IBlock[,] blocks;
         private Blueprint blueprint;
         private BlueprintBuilder blueprintBuilder;
-        private Mock<IFactory<IBlock>> mockBlockFactory;
+        private Mock<IList<IFactory<IBlock>>> mockBlockFactories;
         private Mock<IFactory<IShipComponent, IConstBlock>> mockShipComponentFactory;
         private Mock<IFactory<IShipComponent, IConstBlock>> mockEmptyShipComponentFactory;
         private Mock<IBlock> mockBlock;
@@ -31,10 +31,15 @@ namespace Game.Tests
             blueprint = new Blueprint(blocks);
             mockBlock = new Mock<IBlock>();
             mockShipComponent = new Mock<IShipComponent>();
-            mockBlockFactory = new Mock<IFactory<IBlock>>();
+
+            mockBlockFactories = new Mock<IList<IFactory<IBlock>>>();
+            Mock<IFactory<IBlock>> mockBlockFactory = new Mock<IFactory<IBlock>>();
+            mockBlockFactory.Setup(b => b.Create()).Returns(mockBlock.Object);
+            mockBlockFactories.SetupGet(m => m[0]).Returns(mockBlockFactory.Object);
+
             mockShipComponentFactory = new Mock<IFactory<IShipComponent, IConstBlock>>();
             mockEmptyShipComponentFactory = new Mock<IFactory<IShipComponent, IConstBlock>>();
-            blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactory.Object, mockShipComponentFactory.Object, mockEmptyShipComponentFactory.Object);
+            blueprintBuilder = new BlueprintBuilder(blueprint, mockBlockFactories.Object, mockShipComponentFactory.Object, mockEmptyShipComponentFactory.Object);
             doubleEdgedPipes = new List<DoubleEdgedPipe>();
             oneEdgedPipes = new List<ConnectingPipe>();
             mockBlockRestrictor = new Mock<IBlockRestrictor>();
@@ -127,7 +132,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
 
-            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
+            //mockBlockFactories.Setup(x => x.Create()).Returns(mockBlock.Object);
 
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
         }
@@ -139,7 +144,7 @@ namespace Game.Tests
 
             blueprintBuilder.AddRestrictor(mockBlockRestrictor.Object);
             mockBlockRestrictor.Setup(x => x.CanCreateBlock(position)).Returns(false);
-            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
+            //mockBlockFactories.Setup(x => x.Create()).Returns(mockBlock.Object);
 
             Assert.IsFalse(blueprintBuilder.CreateBlock(position));
         }
@@ -148,7 +153,7 @@ namespace Game.Tests
         public void CheckIfBlockFactoryIsUsedToCreateOtherBlocks()
         {
             var position = new Coordinate(5, 4);
-            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
+            //mockBlockFactories.Setup(x => x.Create()).Returns(mockBlock.Object);
             Assert.IsTrue(blueprintBuilder.CreateBlock(position));
             Assert.AreEqual(mockBlock.Object, blueprintBuilder.GetBlock(position));
         }
@@ -158,7 +163,7 @@ namespace Game.Tests
         {
             var position = new Coordinate(5, 4);
 
-            mockBlockFactory.Setup(x => x.Create()).Returns(mockBlock.Object);
+            //mockBlockFactories.Setup(x => x.Create()).Returns(mockBlock.Object);
             mockShipComponentFactory.Setup(x => x.Create(mockBlock.Object)).Returns(mockShipComponent.Object);
             mockShipComponent.Setup(m => m.CanBePlaced(blueprint, position)).Returns(true);
 
@@ -694,6 +699,29 @@ namespace Game.Tests
             blueprintBuilder.AttachObserver(mockObserver.Object);
             blueprint.PlaceBlock(new Coordinate(2, 3), mockBlock.Object);
             mockObserver.Verify(observer => observer.BlockCreated(blueprint, new Coordinate(2, 3)));
+        }
+
+        [TestMethod]
+        public void CheckThatChangingBlockFactoriesIndexUsesNewBlockFactory()
+        {
+            var mockBlockFactory = new Mock<IFactory<IBlock>>();
+            var position = new Coordinate(3, 4);
+
+            //var 1
+            //mockBlockFactory.Setup(b => b.Create()).Returns(mockBlock.Object);
+
+            //var 2
+            mockBlockFactories.SetupGet(m => m[1]).Returns(mockBlockFactory.Object);
+            mockBlockFactories.Setup(m => m[1].Create()).Returns(mockBlock.Object);
+
+            blueprintBuilder.ChangeBlockFactoryIndex(1);
+            blueprintBuilder.CreateBlock(position);
+
+            //var 1
+            //mockBlockFactory.Verify(m => m.Create(), Times.Once());
+
+            //var 2
+            mockBlockFactories.Verify(m => m[1].Create(), Times.Once());
         }
     }
 }

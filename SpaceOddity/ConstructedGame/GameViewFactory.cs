@@ -72,7 +72,7 @@ namespace ConstructedGame
         {
             return new BlueprintBuilder(
                 new Blueprint(new IBlock[size.Y, size.X]),
-                new BlockFactory(2.0),
+                new List<IFactory<IBlock>> { new BlockFactory(2.0) },
                 new RegisterDetailFactory<IShipComponent, IConstBlock>(new JetEngineFactory(EdgeType.DOWN), shipComponentDetails, 1),
                 new RegisterDetailFactory<IShipComponent, IConstBlock>(new EmptyShipComponentFactory(), shipComponentDetails, 0));
         }

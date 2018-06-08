@@ -26,5 +26,6 @@ namespace Game.Interfaces
         void AttachObserver(IBlueprintObserver observer);
         void AddRestrictor(IBlockRestrictor restrictor);
         void RemoveRestrictor(IBlockRestrictor restrictor);
+        void ChangeBlockFactoryIndex(int index);
     }
 }
