@@ -51,7 +51,7 @@ namespace BlueprintBuildingViewModel.Tests.Controller
         {
             var position = new Coordinate(4, 2);
             controller.SelectBlock(position);
-            mockBlueprintBuilder.Verify(builder => builder.AddShipComponent(position));
+            mockBlueprintBuilder.Verify(builder => builder.CreateShipComponent(position));
         }
 
         [TestMethod]

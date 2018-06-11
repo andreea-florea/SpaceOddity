@@ -31,7 +31,7 @@ namespace BlueprintBuildingViewModel.Controller
 
         public void SelectBlock(Coordinate position)
         {
-            blueprintBuilder.AddShipComponent(position);
+            blueprintBuilder.CreateShipComponent(position);
         }
 
         public void CancelBlock(Coordinate position)

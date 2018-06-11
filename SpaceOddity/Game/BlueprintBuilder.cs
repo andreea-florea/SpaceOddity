@@ -112,7 +112,7 @@ namespace Game
             return true;
         }
 
-        public bool AddShipComponent(Coordinate position)
+        public bool CreateShipComponent(Coordinate position)
         {
             var block = GetBlock(position);
             if (CanAddShipComponent(position))

@@ -16,7 +16,7 @@ namespace Game.Interfaces
         bool CanCreateBlock(Coordinate position);
         bool CreateBlock(Coordinate position);
         bool DeleteBlock(Coordinate position);
-        bool AddShipComponent(Coordinate position);
+        bool CreateShipComponent(Coordinate position);
         bool CanAddShipComponent(Coordinate position);
         bool DeleteShipComponent(Coordinate position);
         bool AddDoubleEdgedPipe(Coordinate position, EdgeType firstEdge, EdgeType secondEdge);
