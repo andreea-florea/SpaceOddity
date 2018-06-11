@@ -23,6 +23,7 @@ namespace Game.Tests
         private List<DoubleEdgedPipe> doubleEdgedPipes;
         private List<ConnectingPipe> oneEdgedPipes;
         private Mock<IBlockRestrictor> mockBlockRestrictor;
+        private Mock<IBlueprintBuilderObserver> mockBlueprintBuilderObserver;
 
         [TestInitialize]
         public void Init()
@@ -43,6 +44,8 @@ namespace Game.Tests
             doubleEdgedPipes = new List<DoubleEdgedPipe>();
             oneEdgedPipes = new List<ConnectingPipe>();
             mockBlockRestrictor = new Mock<IBlockRestrictor>();
+            mockBlueprintBuilderObserver = new Mock<IBlueprintBuilderObserver>();
+            blueprintBuilder.AttachObserver(mockBlueprintBuilderObserver.Object);
 
             mockBlock.SetupGet(x => x.PipesWithBothEdges).Returns(doubleEdgedPipes);
             mockBlock.SetupGet(x => x.PipesWithOneEdge).Returns(oneEdgedPipes);
@@ -722,6 +725,40 @@ namespace Game.Tests
 
             //var 2
             mockBlockFactories.Verify(m => m[1].Create(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatAddingRestrictorCallsObserver()
+        {
+            var restrictor = new JetEngine(mockBlock.Object, EdgeType.LEFT);
+
+            blueprintBuilder.AddRestrictor(restrictor);
+
+            mockBlueprintBuilderObserver.Verify(obs => obs.RestrictorAdded(It.IsAny<IBlueprintBuilder>(), restrictor), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatRemovingRestrictorCallsObserver()
+        {
+            var restrictor = new JetEngine(mockBlock.Object, EdgeType.LEFT);
+
+            blueprintBuilder.AddRestrictor(restrictor);
+            blueprintBuilder.RemoveRestrictor(restrictor);
+
+            mockBlueprintBuilderObserver.Verify(obs => obs.RestrictorAdded(It.IsAny<IBlueprintBuilder>(), restrictor), Times.Once());
+            mockBlueprintBuilderObserver.Verify(obs => obs.RestrictorRemoved(It.IsAny<IBlueprintBuilder>(), restrictor), Times.Once());
+        }
+
+        [TestMethod]
+        public void CheckThatModifyingBlockFactoryIndexCallsObserver()
+        {
+            int index = 1;
+
+            blueprintBuilder.ChangeBlockFactoryIndex(index);
+            blueprintBuilder.ChangeBlockFactoryIndex(2);
+
+            mockBlueprintBuilderObserver.Verify(obs => obs.BlockFactoryIndexChanged(It.IsAny<IBlueprintBuilder>(), index), Times.Once());
+            mockBlueprintBuilderObserver.Verify(obs => obs.BlockFactoryIndexChanged(It.IsAny<IBlueprintBuilder>(), 2), Times.Once());
         }
     }
 }

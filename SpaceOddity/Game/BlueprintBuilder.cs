@@ -57,7 +57,7 @@ namespace Game
         public void AttachObserver(IBlueprintBuilderObserver observer)
         {
             blueprint.AttachObserver(observer);
-            
+            observers.Add(observer);
         }
 
         public IConstBlock GetBlock(Coordinate position)
@@ -392,22 +392,35 @@ namespace Game
 
             return false;
         }
-
-        //todo: test
+        
         public void AddRestrictor(IBlockRestrictor restrictor)
         {
             blockRestrictors.Add(restrictor);
+
+            foreach (var observer in observers)
+            {
+                observer.RestrictorAdded(this, restrictor);
+            }
         }
 
-        //todo: test
         public void RemoveRestrictor(IBlockRestrictor restrictor)
         {
             blockRestrictors.Remove(restrictor);
+
+            foreach (var observer in observers)
+            {
+                observer.RestrictorRemoved(this, restrictor);
+            }
         }
 
         public void ChangeBlockFactoryIndex(int index)
         {
             blockFactoriesIndex = index;
+
+            foreach (var observer in observers)
+            {
+                observer.BlockFactoryIndexChanged(this, index);
+            }
         }
     }
 }

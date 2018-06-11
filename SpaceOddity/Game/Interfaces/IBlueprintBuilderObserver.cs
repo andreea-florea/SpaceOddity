@@ -8,8 +8,8 @@ namespace Game.Interfaces
 {
     public interface IBlueprintBuilderObserver : IBlueprintObserver
     {
-        void RestrictorAdded(IBlueprintBuilder blueprintBuilder, Coordinate position);
-        void RestrictorRemoved(IBlueprintBuilder blueprintBuilder, Coordinate position);
+        void RestrictorAdded(IBlueprintBuilder blueprintBuilder, IBlockRestrictor restrictor);
+        void RestrictorRemoved(IBlueprintBuilder blueprintBuilder, IBlockRestrictor restrictor);
         void BlockFactoryIndexChanged(IBlueprintBuilder blueprintBuilder, int index);
     }
 }

@@ -67,12 +67,12 @@ namespace BlueprintBuildingViewModel.Fancy
             throw new NotImplementedException();
         }
 
-        public void RestrictorAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void RestrictorAdded(IBlueprintBuilder blueprintBuilder, IBlockRestrictor restrictor)
         {
             throw new NotImplementedException();
         }
 
-        public void RestrictorRemoved(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        public void RestrictorRemoved(IBlueprintBuilder blueprintBuilder, IBlockRestrictor restrictor)
         {
             throw new NotImplementedException();
         }
