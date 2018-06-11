@@ -17,7 +17,7 @@ using ViewModel;
 
 namespace BlueprintBuildingViewModel
 {
-    public class ViewModel : IBlueprintObserver
+    public class ViewModel : IBlueprintBuilderObserver
     {
         private IBlueprintBuilder builder;
         private ObjectTable objectTable;
@@ -194,6 +194,21 @@ namespace BlueprintBuildingViewModel
                  objectTable.GetTile(coordinate).SetState(
                     builder.CanCreateBlock(coordinate) ? ActiveState.Normal : ActiveState.Disabled);
             }
+        }
+
+        public void RestrictorAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RestrictorRemoved(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BlockFactoryIndexChanged(IBlueprintBuilder blueprintBuilder, int index)
+        {
+            throw new NotImplementedException();
         }
     }
 }

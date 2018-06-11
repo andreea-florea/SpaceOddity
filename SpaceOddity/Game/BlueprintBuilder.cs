@@ -16,6 +16,7 @@ namespace Game
         private IFactory<IShipComponent, IConstBlock> shipComponentFactory;
         private IFactory<IShipComponent, IConstBlock> emptyShipComponentFactory;
         private List<IBlockRestrictor> blockRestrictors;
+        private List<IBlueprintBuilderObserver> observers;
         private int blockFactoriesIndex;
 
         public Coordinate Dimensions
@@ -38,6 +39,7 @@ namespace Game
             this.emptyShipComponentFactory = emptyShipComponentFactory;
             blockRestrictors = new List<IBlockRestrictor>();
             blockFactoriesIndex = 0;
+            observers = new List<IBlueprintBuilderObserver>();
         }
 
         public BlueprintBuilder(Coordinate dimensions)
@@ -49,11 +51,13 @@ namespace Game
             blockFactories.Add(new BlockFactory(5));
             shipComponentFactory = new BatteryFactory();
             blockRestrictors = new List<IBlockRestrictor>();
+            observers = new List<IBlueprintBuilderObserver>();
         }
 
-        public void AttachObserver(IBlueprintObserver observer)
+        public void AttachObserver(IBlueprintBuilderObserver observer)
         {
             blueprint.AttachObserver(observer);
+            
         }
 
         public IConstBlock GetBlock(Coordinate position)

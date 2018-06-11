@@ -695,7 +695,7 @@ namespace Game.Tests
         [TestMethod]
         public void CanAttachObserverToBuilderThroughBlueprintBuilder()
         {
-            var mockObserver = new Mock<IBlueprintObserver>();
+            var mockObserver = new Mock<IBlueprintBuilderObserver>();
             blueprintBuilder.AttachObserver(mockObserver.Object);
             blueprint.PlaceBlock(new Coordinate(2, 3), mockBlock.Object);
             mockObserver.Verify(observer => observer.BlockCreated(blueprint, new Coordinate(2, 3)));

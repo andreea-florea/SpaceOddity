@@ -10,7 +10,7 @@ using ViewInterface;
 
 namespace BlueprintBuildingViewModel.Fancy
 {
-    public class FancyViewModel : IBlueprintObserver
+    public class FancyViewModel : IBlueprintBuilderObserver
     {
         private IEnumerable<IDetailsViewUpdater> detailsUpdaters;
 
@@ -63,6 +63,21 @@ namespace BlueprintBuildingViewModel.Fancy
         }
 
         public void ConnectingPipeDeleted(IBlueprint blueprint, Coordinate position, ConnectingPipe pipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RestrictorAdded(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RestrictorRemoved(IBlueprintBuilder blueprintBuilder, Coordinate position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BlockFactoryIndexChanged(IBlueprintBuilder blueprintBuilder, int index)
         {
             throw new NotImplementedException();
         }

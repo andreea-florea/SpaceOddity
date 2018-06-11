@@ -62,6 +62,7 @@
     <Compile Include="Interfaces\IBlockRestrictor.cs" />
     <Compile Include="Interfaces\IBlueprint.cs" />
     <Compile Include="Interfaces\IBlueprintBuilder.cs" />
+    <Compile Include="Interfaces\IBlueprintBuilderObserver.cs" />
     <Compile Include="Interfaces\IBlueprintObserver.cs" />
     <Compile Include="Interfaces\IConstBlock.cs" />
     <Compile Include="Interfaces\IShipComponent.cs" />

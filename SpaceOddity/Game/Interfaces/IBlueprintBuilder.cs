@@ -23,7 +23,7 @@ namespace Game.Interfaces
         bool AddConnectingPipe(Coordinate position, EdgeType edge);
         bool DeleteDoubleEdgedPipe(Coordinate position, DoubleEdgedPipe pipe);
         bool DeleteConnectingPipe(Coordinate position, ConnectingPipe pipe);
-        void AttachObserver(IBlueprintObserver observer);
+        void AttachObserver(IBlueprintBuilderObserver observer);
         void AddRestrictor(IBlockRestrictor restrictor);
         void RemoveRestrictor(IBlockRestrictor restrictor);
         void ChangeBlockFactoryIndex(int index);
